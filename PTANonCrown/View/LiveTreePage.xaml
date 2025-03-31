@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+    
+   
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PTANonCrown.LiveTreePage"
+             xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
+             xmlns:behaviours="clr-namespace:PTANonCrown.Behaviours"
+             BackgroundColor="#F0F0F0"
+             Title="">
+<!--
+        <ContentPage.BindingContext>
+            <viewModels:MainViewModel />
+        </ContentPage.BindingContext>
+-->
+
+    <VerticalStackLayout VerticalOptions="Start" >
+        <HorizontalStackLayout Margin="0, 20, 0, 20">
+            <Label Text="Include Biodiversity" />
+            <CheckBox x:Name="IncludeBiodiversity" />
+        </HorizontalStackLayout>
+        <ScrollView>
+        <CollectionView ItemsSource="{Binding LiveTrees}"
+                        x:Name="collectionViewLiveTrees"
+                        BackgroundColor="LightGrey"
+                        HorizontalOptions="Center">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions="50,100,70,100,60,60,60,60"
+                          BackgroundColor="DarkGray">
+                    <Label Text="Tree ID"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="0" />
+                    <Label Text="Species"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="1" />
+                    <Label Text="DBH (cm)"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="2" />
+                    <Label Text="Height (m)"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="3" />
+                    <Label Text="AGS"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="4" />
+                    <Label Text="LIT"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="5" />
+                    <Label Text="Cavity"
+                           IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="6" />
+                    <Label Text="Diversity"
+                           IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="7" />
+                </Grid>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="50,100,70,100,60,60,60,60" BackgroundColor="LightGrey">
+                        <Label Grid.Column="0"
+                               Text="{Binding TreeID}" 
+                                VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+
+                        <Entry Grid.Column="1"
+                                Text="{Binding Species}"
+                            Style="{StaticResource GridEntry}"
+                                ReturnType="Next"/>
+                        <Entry Grid.Column="2"
+                               Text="{Binding DBH_cm}"
+                               Style="{StaticResource GridEntry}" />
+                        <Entry Grid.Column="3"
+                               Style="{StaticResource GridEntry}"
+                               Text="{Binding Height_m}" />
+                        <CheckBox Grid.Column="4"
+                                  IsChecked="{Binding AGS}" />
+                        <CheckBox Grid.Column="5"
+                                  IsChecked="{Binding LIT}"/>
+                        <CheckBox Grid.Column="6"
+                                  IsChecked="{Binding Cavity}"
+                                  IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}" />
+                        <CheckBox Grid.Column="7"
+                                  IsChecked="{Binding Diversity}"
+                                  IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        </ScrollView>
+    </VerticalStackLayout>
+
+</ContentPage>

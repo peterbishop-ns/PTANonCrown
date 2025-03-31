@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:PTANonCrown"
+             xmlsns:views="clr-namespace:PTANonCrown.View"
+             x:Class="PTANonCrown.PlotPage"
+             BackgroundColor="#F0F0F0"
+             xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
+             Title="">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="a"></ToolbarItem>
+        <ToolbarItem Text="b"></ToolbarItem>
+        <ToolbarItem Text="c"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <toolkit:TabView>
+        <toolkit:TabView.TabItems>
+            <toolkit:TabViewItem Header="Overview">
+                <views:PlotOverviewView />
+            </toolkit:TabViewItem>
+              <
+            <toolkit:TabViewItem Header="Live">
+                <views:LiveTreeView />
+            </toolkit:TabViewItem>
+
+            <toolkit:TabViewItem Header="Dead">
+                <loviewscal:DeadTreeView />
+            </toolkit:TabViewItem>
+        </toolkit:TabView.TabItems>
+    </toolkit:TabView>
+        <ScrollView>
+
+        <VerticalStackLayout>
+
+            <Border Padding="10"
+                    MaximumWidthRequest="300"
+                    HorizontalOptions="Start"
+                    Margin="20,20,0,0">
+                <VerticalStackLayout>
+                    <Label Text="Select Plot"
+                           Style="{StaticResource LabelPlot}" />
+                    <Picker Background="White"
+                            WidthRequest="200"
+                            HorizontalOptions="Start">
+                        <Picker.Items>
+                            <x:String>Plot 1</x:String>
+                            <x:String>Plot 2</x:String>
+                            <x:String>Plot 3</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                    <HorizontalStackLayout Margin="0,20,0,0">
+                        <Entry Text="{Binding NewPlotNumber}"
+                               Style="{StaticResource LabelPlot}" />
+                        <Button Text="Add New Plot"
+                                Style="{StaticResource LabelPlot}"
+                                Margin="20,0,0,0" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+            </Border>
+
+
+            <ScrollView>
+                <VerticalStackLayout Padding="20"
+                                     Spacing="5">
+
+
+
+                    <!--  0  -->
+                    <Label Text="Plot ID"
+                           Style="{StaticResource LabelPlot}"
+                           Grid.Row="0" />
+                    <Entry Text="{Binding PlotID}"
+                           Style="{StaticResource EntryPlot}"
+                           Grid.Row="0"
+                           Grid.Column="1" />
+                    <VerticalStackLayout>
+                        <Label Text="Regeneration"
+                               Style="{StaticResource SubHeadline}" />
+                        <!-- REGEN BORDER -->
+                        <Border>
+                            <VerticalStackLayout>
+
+                                <!-- TITLE Regen Toggles x3 -->
+                                <HorizontalStackLayout>
+                                    <Label Text="Height (2 – 6m)"
+                                           Style="{StaticResource LabelPlot}" />
+                                    <ImageButton Source="info.png"
+                                                 Style="{StaticResource ImageButtonHelper}"
+                                                 Margin="10,0,0,0"
+                                                 Command="{Binding ShowHelperTextCommand}"
+                                                 CommandParameter="RegenHeightGeneral" />
+
+                                </HorizontalStackLayout>
+
+                                <!--  Regen Toggles x3 -->
+                                <Border>
+
+                                    <VerticalStackLayout  Grid.Row="2">
+                                        <HorizontalStackLayout>
+
+                                            <Label Text="Softwood"
+                                                   Style="{StaticResource LabelSubheading}" />
+                                            <ImageButton Source="info.png"
+                                                         Style="{StaticResource ImageButtonHelper}"
+                                                         Margin="10,0,0,0"
+                                                         Command="{Binding ShowHelperTextCommand}"
+                                                         CommandParameter="SWLITRegen" />
+                                            <Switch IsToggled="{Binding SWLITRegen}" />
+
+                                        </HorizontalStackLayout>
+
+                                        <!--  3  -->
+                                        <HorizontalStackLayout>
+
+                                            <Label Text="Hardwood"
+                                                   Style="{StaticResource LabelSubheading}" />
+                                            <ImageButton Source="info.png"
+                                                         Style="{StaticResource ImageButtonHelper}"
+                                                         Margin="10,0,0,0"
+                                                         Command="{Binding ShowHelperTextCommand}"
+                                                         CommandParameter="HWLITRegen" />
+                                            <Switch IsToggled="{Binding HWLITRegen}" />
+                                        </HorizontalStackLayout>
+
+                                        <!--  1  -->
+                                        <HorizontalStackLayout>
+                                            <Label Text="Beech &gt;25%"
+                                                   Style="{StaticResource LabelSubheading}" />
+                                            <ImageButton Source="info.png"
+                                                         Style="{StaticResource ImageButtonHelper}"
+                                                         Margin="10,0,0,0"
+                                                         Command="{Binding ShowHelperTextCommand}"
+                                                         CommandParameter="BeechRegeneration25perc" />
+                                            <Switch IsToggled="{Binding BeechRegeneration25perc}"
+                                                    Style="{StaticResource EntryPlot}" />
+
+                                        </HorizontalStackLayout>
+
+
+                                    </VerticalStackLayout>
+
+                                </Border>
+
+                                <!-- TITLE Stocking -->
+                                <HorizontalStackLayout>
+                                    <Label Text="Stocking (%) at 2.44 m"
+                                           Style="{StaticResource LabelStand}" />
+                                    <ImageButton Source="info.png"
+                                                 Style="{StaticResource ImageButtonHelper}"
+                                                 Margin="10,0,0,0"
+                                                 Command="{Binding ShowHelperTextCommand}"
+                                                 CommandParameter="RegenGeneral" />
+                                </HorizontalStackLayout>
+                                <Border>
+
+                                    <VerticalStackLayout>
+
+                                        <HorizontalStackLayout>
+                                            <Label Text="All Commercial Species"
+                                                   WidthRequest="150"
+                                                   Style="{StaticResource LabelSubheading}"
+                                                   Grid.Row="4" />
+                                            <Picker Background="White"
+                                                    WidthRequest="70"
+                                                    HorizontalOptions="Start">
+                                                <Picker.Items>
+                                                    <x:String>0</x:String>
+                                                    <x:String>10</x:String>
+                                                    <x:String>20</x:String>
+                                                    <x:String>30</x:String>
+                                                </Picker.Items>
+                                            </Picker>
+                                        </HorizontalStackLayout>
+
+                                        <!--  4  -->
+                                        <HorizontalStackLayout>
+                                            <!--  RegenStockingLITSpecies  -->
+                                            <Label Text="LIT Species"
+                                                   WidthRequest="150"
+                                                   Style="{StaticResource LabelSubheading}"
+                                                   Grid.Row="5" />
+
+                                            <Picker Background="White"
+                                                    WidthRequest="70"
+                                                    HorizontalOptions="Start">
+                                                <Picker.Items>
+                                                    <x:String>0</x:String>
+                                                    <x:String>10</x:String>
+                                                    <x:String>20</x:String>
+                                                    <x:String>30</x:String>
+                                                </Picker.Items>
+                                            </Picker>
+
+                                        </HorizontalStackLayout>
+
+
+
+                                    </VerticalStackLayout>
+
+                                </Border>
+                            </VerticalStackLayout>
+
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+
+
+
+
+
+                    <VerticalStackLayout>
+                        <Label Text="Forest Structure"
+                               Style="{StaticResource SubHeadline}" />
+                        <Border>
+                            <VerticalStackLayout>
+
+                                <VerticalStackLayout  Grid.Row="4">
+                                    <!--  7  -->
+                                    <Label Text="LIT Seed Tree Stocking (%)"
+                                           Style="{StaticResource LabelSubheading}" />
+                                    <Picker Background="White"
+                                            WidthRequest="70"
+                                            HorizontalOptions="Start">
+                                        <Picker.Items>
+                                            <x:String>0</x:String>
+                                            <x:String>10</x:String>
+                                            <x:String>20</x:String>
+                                            <x:String>30</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+
+                                </VerticalStackLayout>
+                                <HorizontalStackLayout>
+                                    <!--  6  -->
+                                    <Label Text="Blowdown (%)"
+                                           Style="{StaticResource LabelSubheading}"
+                                           Grid.Row="6" />
+
+
+                                    <Picker Background="White"
+                                            WidthRequest="70"
+                                            HorizontalOptions="Start">
+                                        <Picker.Items>
+                                            <x:String>0</x:String>
+                                            <x:String>10</x:String>
+                                            <x:String>20</x:String>
+                                            <x:String>30</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+
+                                </HorizontalStackLayout>
+                                <!--  UnderstoryStrata  -->
+                                <HorizontalStackLayout>
+                                    <Label Text="Understory Strata (%)"
+                                           Style="{StaticResource LabelSubheading}" />
+
+                                    <Picker Background="White"
+                                            WidthRequest="70"
+                                            HorizontalOptions="Start">
+                                        <Picker.Items>
+                                            <x:String>0</x:String>
+                                            <x:String>10</x:String>
+                                            <x:String>20</x:String>
+                                            <x:String>30</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+
+
+                                </HorizontalStackLayout>
+
+                                <!--  8  -->
+                                <HorizontalStackLayout>
+                                    <Label Text="Uneven Aged"
+                                           Style="{StaticResource LabelSubheading}" />
+                                    <Switch IsToggled="{Binding UnevenAged}"
+                                            Style="{StaticResource LabelSubheading}"
+                                            Grid.Column="1" />
+                                </HorizontalStackLayout>
+
+
+                                <!--  9  -->
+                                <HorizontalStackLayout>
+
+                                    <Label Text="One Cohort Senescent"
+                                           Style="{StaticResource LabelSubheading}" />
+                                    <Switch IsToggled="{Binding OneCohortSenescent}"
+                                            Grid.Column="1" />
+                                </HorizontalStackLayout>
+
+                                
+                               
+
+                                <!--  11  -->
+                                <Label Text="Understory Dominated By"
+                                       Style="{StaticResource LabelPlot}"
+                                       Grid.Row="11" />
+
+                                <Border>
+                                    <HorizontalStackLayout>
+
+                                        <RadioButton Content="Trees"
+                                                     GroupName="UnderstoryDominatedGroup"
+                                                     IsChecked="{Binding IsTreesSelected}" />
+
+                                        <RadioButton Content="Woody Shrubs"
+                                                     GroupName="UnderstoryDominatedGroup"
+                                                     IsChecked="{Binding IsWoodyShrubsSelected}" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                               
+
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+
+
+
+
+
+                </VerticalStackLayout>
+
+            </ScrollView>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+</ContentPage>

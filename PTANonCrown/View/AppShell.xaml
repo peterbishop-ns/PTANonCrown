@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell x:Class="PTANonCrown.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:PTANonCrown"
+       Shell.FlyoutBehavior="Flyout"
+       Title="PTANonCrown">
+
+    <Shell.ToolbarItems>
+        <ToolbarItem Text="Save"
+                     Priority="0"
+                     IconImageSource="save_icon.png"
+                     Command="{Binding SaveCommand}">
+        </ToolbarItem>
+        <ToolbarItem Text="Load"
+                     Priority="1"
+                     IconImageSource="load_icon.png"
+                     Command="{Binding LoadCommand}" />
+    </Shell.ToolbarItems>
+    <TabBar>
+        <Tab Title="Home">
+
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}"
+                          Route="MainPage" />
+        </Tab>
+        <Tab Title="Stand">
+
+            <ShellContent Title="Stand"
+                          ContentTemplate="{DataTemplate local:StandPage}"
+                          Route="StandPage" />
+        </Tab>
+
+        <Tab Title="Plot">
+            <ShellContent Title="Overview"
+                          ContentTemplate="{DataTemplate local:PlotPage}" />
+
+
+            <ShellContent Title="Live"
+                          ContentTemplate="{DataTemplate local:LiveTreePage}" />
+
+            <ShellContent Title="Dead"
+                          ContentTemplate="{DataTemplate local:DeadTreePage}"/>
+             
+         </Tab>
+        <Tab Title="Summary">
+            <ShellContent Title="Summary"
+                          ContentTemplate="{DataTemplate local:SummaryPage}"
+                          Route="SummaryPage" />
+
+        </Tab>
+      
+    </TabBar>
+</Shell>

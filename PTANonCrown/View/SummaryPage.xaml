@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PTANonCrown.SummaryPage"
+             BackgroundColor="#F0F0F0"
+             Title="Summary Page">
+    <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Button Text="Refresh"
+                    Command="{Binding RefreshSummaryResult}"
+                    Style="{StaticResource ButtonSummary}"/>
+            <Button Text="Export To Excel"
+                    Command="{Binding ExportSummaryCommand}"
+                    CommandParameter="xlsx"
+                    Style="{StaticResource ButtonSummary}" />
+            <Button Text="Export To CSV"
+                    Command="{Binding ExportSummaryCommand}"
+                    CommandParameter="csv"
+                    Style="{StaticResource ButtonSummary}" />
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout Margin="0,20,0,0">
+            
+        <HorizontalStackLayout>
+            <Label Text="Total Basal Area (m2/ha)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.TotalBasalArea_m2ha}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="Merch Basal Area (m2/ha)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.MerchantableBasalArea_m2ha}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="LIT Basal Area (m2/ha)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.LITBasalArea_m2ha}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="LT Basal Area (m2/ha)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.LTBasalArea_m2ha}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="QMD Merch Trees (cm)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.QMDMerchTrees_count}" />
+
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Label Text="AGS (m2/ha)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.AGS_m2ha}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="AGS LIT (m2/ha)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.AGS_LIT_m2ha}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Basal Area >25 cm (m2/ha)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.BasalArea_gt25cm_m2ha}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Average Height"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.AverageHeight}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="% Planted Trees InSitu " MinimumWidthRequest="400"/>
+            <Label Text="{Binding SummaryResult.PlantedTreesInSitu_perc }" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="%  Planted Trees ExSitu"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.PlantedTreesExSitu_perc }" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="%  Merch Conifer"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.MerchConifer_perc}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="% Decidious LIT"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.DeciduousLIT_perc}" />
+
+            
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="%Basal Area of WP +RO"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.BasalArea_WP_RO}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="% Basal Area of EH +RS + BF"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.BasalArea_EH_RS_BF}" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="% Lit +ns +ws+ rp"
+                   MinimumWidthRequest="400" />
+            <Label Text="TO ADD!!!" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout >
+            <Label Text="AGS sM+yB+wP+rO+rS(15–20 cm Dbh)"
+                   MinimumWidthRequest="400" />
+            <Label Text="{Binding SummaryResult.LIT_sM_yB_wP_rO_rS_10to25_cm}" />
+
+        </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>

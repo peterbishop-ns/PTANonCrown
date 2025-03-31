@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundColor="#F0F0F0"
+             x:Class="PTANonCrown.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+         
+
+            <Label
+                Text="Pre-Treatment Assessment"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+         
+            
+            <Label Text="Pre-treatment assessment (PTA) is a system designed to collect site, stand and biodiversity conditions in order to produce an ecosystem-based treatment. Recommendation using the Silvicultural Guide for the Ecological Matrix (SGEM McGrath et al., 2025)..."
+                   SemanticProperties.HeadingLevel="Level3"
+                   SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
