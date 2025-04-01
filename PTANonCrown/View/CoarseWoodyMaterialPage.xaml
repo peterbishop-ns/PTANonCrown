@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.CoarseWoodyMaterialPage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
+             xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
              Title="">
     <!--<ContentPage.BindingContext>
@@ -66,35 +67,51 @@
                                    Grid.Column="0" />
                             <HorizontalStackLayout Grid.Column="1">
 
-                                <Entry Text="{Binding Tally_Softwood}"
-                                       WidthRequest="10"
-                                       HorizontalOptions="Start"
-                                       Style="{StaticResource GridEntry}" />
-                                <Stepper Value="{Binding Tally_Softwood}" />
+                            <Entry Text="{Binding Tally_Softwood}"
+                                   WidthRequest="10"
+                                   HorizontalOptions="Start"
+                                   Style="{StaticResource GridEntry}">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Stepper Value="{Binding Tally_Softwood}" />
 
 
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Grid.Column="2"
                                                    HorizontalOptions="Start">
-                                <Entry Text="{Binding Tally_Hardwood}"
-                                       WidthRequest="10"
-                                       Style="{StaticResource GridEntry}" />
-                                <Stepper Value="{Binding Tally_Hardwood}" />
+                            <Entry Text="{Binding Tally_Hardwood}"
+                                   WidthRequest="10"
+                                   Style="{StaticResource GridEntry}">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Stepper Value="{Binding Tally_Hardwood}" />
 
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Grid.Column="3">
-                                <Entry Text="{Binding Tally_Unknown}"
-                                       WidthRequest="10"
-                                       Style="{StaticResource GridEntry}" />
-                                <Stepper Value="{Binding Tally_Unknown}" />
+                            <Entry Text="{Binding Tally_Unknown}"
+                                   WidthRequest="10"
+                                   Style="{StaticResource GridEntry}">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Stepper Value="{Binding Tally_Unknown}" />
 
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Grid.Column="4">
 
-                                <Entry Text="{Binding Tally_Cavity}"
-                                       WidthRequest="10"
-                                       Style="{StaticResource GridEntry}" />
-                                <Stepper Value="{Binding Tally_Cavity}" />
+                            <Entry Text="{Binding Tally_Cavity}"
+                                   WidthRequest="10"
+                                   Style="{StaticResource GridEntry}">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Stepper Value="{Binding Tally_Cavity}" />
 
                             </HorizontalStackLayout>
 

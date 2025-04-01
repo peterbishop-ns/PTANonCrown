@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Vml;
+using Microsoft.Maui.Controls.Internals;
 using PTANonCrown.Models;
 using PTANonCrown.ViewModel;
 
@@ -65,7 +67,32 @@ namespace PTANonCrown.Behaviours
             if (currentIndex >= 0 && currentIndex < entries.Count - 1)
             {
                 entries[currentIndex + 1].Focus();
+                entries[currentIndex + 1].SelectionLength = entries[currentIndex + 1].Text?.Length ?? 0;
+
             }
+
+            else if (currentIndex == entries.Count - 1){
+                // Assuming your collection is a list, for example
+                var collection = parentCollection.ItemsSource as ObservableCollection<TreeLive>;
+                if (collection != null)
+                {
+
+                    
+                    int maxTreeNumber = collection.Max(t => t.ID);
+                    // Add a new item to the collection
+                    collection.Add(new TreeLive() {ID = maxTreeNumber + 1 });
+
+                    // Optionally, you could focus the newly added entry here as well
+                    var newEntry = entries.Last(); // or get the new entry dynamically
+
+                    newEntry.Focus();
+                    newEntry.SelectionLength = newEntry.Text?.Length ?? 0;
+                    parentCollection.ScrollTo(collection.Last(), position:ScrollToPosition.End);
+
+                }
+            }
+
+
         }
     }
 }

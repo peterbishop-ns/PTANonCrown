@@ -51,7 +51,10 @@ namespace PTANonCrown.ViewModel
 
         private Plot CreateNewPlot(Stand stand)
         {
-            Plot _newPlot = new Plot() { StandID = stand.ID };
+
+            int newPlotNumber = (stand.Plots != null && stand.Plots.Any())
+                ? stand.Plots.Max(p => p.PlotNumber) + 1
+                : 1; Plot _newPlot = new Plot() { StandID = stand.ID, PlotNumber = newPlotNumber};
             stand.Plots.Add(_newPlot);
             SetCurrentPlot(_newPlot);
             return _newPlot;

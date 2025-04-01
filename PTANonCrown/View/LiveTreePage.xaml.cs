@@ -14,9 +14,6 @@ public partial class LiveTreePage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
         
+
     }
-
-
-
-
 }

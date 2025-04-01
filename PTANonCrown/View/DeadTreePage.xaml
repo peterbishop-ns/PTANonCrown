@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.DeadTreePage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
+             xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
              Title="">
     <!--
@@ -47,11 +48,15 @@
                         <Label Text="{Binding DBH_range}"
                                Grid.Column="0" />
                         <HorizontalStackLayout Grid.Column="1" >
-                            
+
                             <Entry Text="{Binding Tally_Softwood, Mode=TwoWay}"
                                    WidthRequest="10"
                                    HorizontalOptions="Start"
-                                   Style="{StaticResource GridEntry}"/>
+                                   Style="{StaticResource GridEntry}">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
                             <Stepper Value="{Binding Tally_Softwood}"/>
                            
                             
@@ -60,14 +65,22 @@
                                                HorizontalOptions="Start">
                             <Entry Text="{Binding Tally_Hardwood, Mode=TwoWay}"
                                    WidthRequest="10"
-                                   Style="{StaticResource GridEntry}" />
+                                   Style="{StaticResource GridEntry}">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
                             <Stepper Value="{Binding Tally_Hardwood}" />
 
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="3">
                             <Entry Text="{Binding Tally_Unknown, Mode=TwoWay}"
                                    WidthRequest="10"
-                                   Style="{StaticResource GridEntry}" />
+                                   Style="{StaticResource GridEntry}">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
                             <Stepper Value="{Binding Tally_Unknown}" />
 
                         </HorizontalStackLayout>
@@ -75,7 +88,11 @@
 
                             <Entry Text="{Binding Tally_Cavity, Mode=TwoWay }"
                                    WidthRequest="10"
-                                   Style="{StaticResource GridEntry}" />
+                                   Style="{StaticResource GridEntry}">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
                             <Stepper Value="{Binding Tally_Cavity}" />
 
                         </HorizontalStackLayout>
