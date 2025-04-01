@@ -10,15 +10,11 @@ namespace PTANonCrown.ViewModel
 {
     class AppShellViewModel
     {
-        public ICommand LoadCommand { get; }
 
         public AppShellViewModel()
         {
-            LoadCommand = new Command(Load);
         }
 
-        private async void Load()
-        {
-        }
+
     }
 }

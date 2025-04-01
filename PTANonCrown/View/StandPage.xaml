@@ -13,9 +13,11 @@
               Padding="10"
               HorizontalOptions="StartAndExpand">
 
-
+        
         <VerticalStackLayout Grid.Row="0"
                              Style="{StaticResource VerticalStackLayoutStand}">
+
+            <Label Text="Stand" Style="{StaticResource Headline}"/>
             <HorizontalStackLayout >
                 <Label Text="Cruise ID"
                        Style="{StaticResource LabelStand}" />

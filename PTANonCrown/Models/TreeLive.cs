@@ -9,7 +9,7 @@ namespace PTANonCrown.Models
 {
     public class TreeLive : BaseModel
     {
-        public int TreeID { get; set; }
+        public int ID { get; set; }
         public int PlotID { get; set; }
         public int Species { get; set; }
 
@@ -45,5 +45,8 @@ namespace PTANonCrown.Models
         public bool IsMerchantable => DBH_cm > 9 ? true : false;
         public double BasalArea => DBH_cm == 0 ? 0 : (DBH_cm * DBH_cm) * 0.00007854;
         public double TreesPerHectare => BasalArea == 0 ? 0 : 2 / BasalArea; // todo confirm; is the "2" constant? Isn't this plot area 
+
+        public Plot Plot { get; set; }
+    
     }
 }

@@ -9,6 +9,9 @@
         <viewModels:MainViewModel />
     </ContentPage.BindingContext>-->
     <VerticalStackLayout>
+        <Label Text="Coarse Woody Material"
+               Style="{StaticResource Headline}" />
+
         <VerticalStackLayout HorizontalOptions="Start">
             <HorizontalStackLayout>
                 <Label Text="Transect Length (m)" WidthRequest="150"/>

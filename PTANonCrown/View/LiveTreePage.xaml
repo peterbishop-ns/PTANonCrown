@@ -8,18 +8,16 @@
              xmlns:behaviours="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
              Title="">
-<!--
-        <ContentPage.BindingContext>
-            <viewModels:MainViewModel />
-        </ContentPage.BindingContext>
--->
+    <ScrollView>
 
-    <VerticalStackLayout VerticalOptions="Start" >
-        <HorizontalStackLayout Margin="0, 20, 0, 20">
+        <VerticalStackLayout VerticalOptions="Start" >
+            <Label Text="Live Trees"
+                   Style="{StaticResource Headline}" />
+
+            <HorizontalStackLayout Margin="0, 20, 0, 20">
             <Label Text="Include Biodiversity" />
             <CheckBox x:Name="IncludeBiodiversity" />
         </HorizontalStackLayout>
-        <ScrollView>
         <CollectionView ItemsSource="{Binding LiveTrees}"
                         x:Name="collectionViewLiveTrees"
                         BackgroundColor="LightGrey"
@@ -60,7 +58,7 @@
                 <DataTemplate>
                     <Grid ColumnDefinitions="50,100,70,100,60,60,60,60" BackgroundColor="LightGrey">
                         <Label Grid.Column="0"
-                               Text="{Binding TreeID}" 
+                               Text="{Binding ID}" 
                                 VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center"/>
 
@@ -88,7 +86,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        </ScrollView>
     </VerticalStackLayout>
+        </ScrollView>
 
 </ContentPage>

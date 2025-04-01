@@ -68,7 +68,7 @@ namespace PTANonCrown.Behaviours
             if (currentIndex == Items.Count - 1)
             {
                 // Create a new item if it's the last row
-                Items.Add(new TreeLive { TreeID = 999 });
+                Items.Add(new TreeLive { ID = 999 });
             }
 
             // Move focus to the next item

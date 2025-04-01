@@ -10,6 +10,9 @@
         <viewModels:MainViewModel />
     </ContentPage.BindingContext>-->
     <VerticalStackLayout >
+        <Label Text="Dead Trees"
+               Style="{StaticResource Headline}" />
+
         <CollectionView ItemsSource="{Binding DeadTrees}"
                         BackgroundColor="LightGrey"
                         VerticalOptions="FillAndExpand"
@@ -45,7 +48,7 @@
                                Grid.Column="0" />
                         <HorizontalStackLayout Grid.Column="1" >
                             
-                            <Entry Text="{Binding Tally_Softwood}"
+                            <Entry Text="{Binding Tally_Softwood, Mode=TwoWay}"
                                    WidthRequest="10"
                                    HorizontalOptions="Start"
                                    Style="{StaticResource GridEntry}"/>
@@ -55,14 +58,14 @@
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="2"
                                                HorizontalOptions="Start">
-                            <Entry Text="{Binding Tally_Hardwood}"
+                            <Entry Text="{Binding Tally_Hardwood, Mode=TwoWay}"
                                    WidthRequest="10"
                                    Style="{StaticResource GridEntry}" />
                             <Stepper Value="{Binding Tally_Hardwood}" />
 
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="3">
-                            <Entry Text="{Binding Tally_Unknown}"
+                            <Entry Text="{Binding Tally_Unknown, Mode=TwoWay}"
                                    WidthRequest="10"
                                    Style="{StaticResource GridEntry}" />
                             <Stepper Value="{Binding Tally_Unknown}" />
@@ -70,7 +73,7 @@
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="4">
 
-                            <Entry Text="{Binding Tally_Cavity}"
+                            <Entry Text="{Binding Tally_Cavity, Mode=TwoWay }"
                                    WidthRequest="10"
                                    Style="{StaticResource GridEntry}" />
                             <Stepper Value="{Binding Tally_Cavity}" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PTANonCrown.Models
 {
-    public class ItemTally
+    public class ItemTally : BaseModel
     {
         public int ID { get; set; }
         public int PlotID { get; set; }
@@ -18,9 +18,66 @@ namespace PTANonCrown.Models
                 return $"{DBH_start} - {DBH_end}";
             } 
         }
-        public int Tally_Softwood { get; set; }
-        public int Tally_Hardwood { get; set; }
-        public int Tally_Unknown { get; set; }
-        public int Tally_Cavity { get; set; }
+
+        private int _tally_Softwood;
+        public int Tally_Softwood
+        {
+            get => _tally_Softwood;
+            set
+            {
+                if (_tally_Softwood != value)
+                {
+                    _tally_Softwood = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
+        private int _tally_Hardwood;
+        public int Tally_Hardwood
+        {
+            get => _tally_Hardwood;
+            set
+            {
+                if (_tally_Softwood != value)
+                {
+                    _tally_Hardwood = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+        private int _tally_Unknown;
+        public int Tally_Unknown
+        {
+            get => _tally_Unknown;
+            set
+            {
+                if (_tally_Unknown != value)
+                {
+                    _tally_Unknown = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
+        private int _tally_Cavity;
+        public int Tally_Cavity
+        {
+            get => _tally_Cavity;
+            set
+            {
+                if (_tally_Cavity != value)
+                {
+                    _tally_Cavity = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+        public Plot Plot { get; set; }
+
     }
 }

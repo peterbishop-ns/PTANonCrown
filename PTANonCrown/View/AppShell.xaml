@@ -10,7 +10,7 @@
         <ToolbarItem Text="Save"
                      Priority="0"
                      IconImageSource="save_icon.png"
-                     Command="{Binding SaveCommand}">
+                     Command="{Binding SaveAllCommand}">
         </ToolbarItem>
         <ToolbarItem Text="Load"
                      Priority="1"
@@ -40,8 +40,12 @@
 
             <ShellContent Title="Dead"
                           ContentTemplate="{DataTemplate local:DeadTreePage}"/>
-             
-         </Tab>
+            
+            <ShellContent Title="Coarse Woody Material"
+                          ContentTemplate="{DataTemplate local:CoarseWoodyMaterialPage}" />
+
+        </Tab>
+        
         <Tab Title="Summary">
             <ShellContent Title="Summary"
                           ContentTemplate="{DataTemplate local:SummaryPage}"

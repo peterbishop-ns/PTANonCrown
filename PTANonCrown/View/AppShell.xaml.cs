@@ -4,10 +4,10 @@ namespace PTANonCrown
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        public AppShell(MainViewModel mainViewModel)
         {
             InitializeComponent();
-            BindingContext = new AppShellViewModel();
+            BindingContext = mainViewModel;
         }
     }
 }

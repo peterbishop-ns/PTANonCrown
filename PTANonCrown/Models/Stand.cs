@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PTANonCrown.Models
 {
-    public class Stand
+    public class Stand : BaseModel
     {
-        public int StandID { get; set; }
+        public int ID { get; set; }
+        public int StandNumber { get; set; }
         public int CruiseID { get; set; }
         public int PlannerID { get; set; }
         public string Organization { get; set; }
@@ -17,5 +19,20 @@ namespace PTANonCrown.Models
         public int Ecodistrict { get; set; }
         public string Location { get; set; }
 
+        private ObservableCollection<Plot> _plots;
+
+        public ObservableCollection<Plot> Plots
+        {
+            get => _plots;
+            set
+            {
+                if (_plots != value)
+                {
+                    _plots = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        } 
     }
 }

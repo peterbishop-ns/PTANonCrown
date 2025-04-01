@@ -5,7 +5,8 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
-
+using PTANonCrown.Context;
+using PTANonCrown.Repository;
 namespace PTANonCrown
 {
     public static class MauiProgram
@@ -31,12 +32,27 @@ namespace PTANonCrown
                 builder.Services.AddSingleton<DeadTreePage>();
                 builder.Services.AddSingleton<CoarseWoodyMaterialPage>();
                 builder.Services.AddSingleton<SummaryPage>();
+                builder.Services.AddSingleton<StandRepository>();
 
                 builder.Services.AddSingleton<MainViewModel>();
 
             builder.Logging.AddDebug();
 
-                return builder.Build();
+            // Register DbContext
+            builder.Services.AddDbContext<AppDbContext>();
+
+            var app = builder.Build();
+            
+            // Ensure database is created
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.EnsureCreated();  // Creates the database if it doesn't exist
+            }
+
+
+
+            return app;
 
         }
     }

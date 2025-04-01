@@ -14,7 +14,10 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <MauiXaml Update="View\CoarseWoodyPage.xaml">
+    <MauiXaml Update="Resources\Styles\Converters.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="View\CoarseWoodyMaterialPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="View\DeadTreePage.xaml">

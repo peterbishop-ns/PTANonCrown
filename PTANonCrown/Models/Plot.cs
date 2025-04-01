@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +10,25 @@ using static PTANonCrown.Services.HelpService;
 
 namespace PTANonCrown.Models
 {
-    class Plot
+    public class Plot :BaseModel
     {
-        [HelpText("WOOHOO.")] 
-        public int PlotID { get; set; }
+        public int ID { get; set; }
+
+
+        private int _plotNumber;
+        public int PlotNumber
+        {
+            get => _plotNumber;
+            set
+            {
+                if (_plotNumber != value)
+                {
+                    _plotNumber = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
 
 
         public int StandID { get; set; }
@@ -38,6 +54,15 @@ namespace PTANonCrown.Models
         public int OGFSampleTreeSpecies { get; set; }
         public int OGFSampleTreeAge { get; set; }
         public int OGFSampleTreeDBH_cm { get; set; }
+
+
+        public ObservableCollection<TreeLive> TreeLive { get; set; } = new ObservableCollection<TreeLive>();   
+        public ObservableCollection<TreeDead> TreeDead { get; set; } = new ObservableCollection<TreeDead>();   
+        public ObservableCollection<CoarseWoody> CoarseWoody { get; set; } = new ObservableCollection<CoarseWoody>();
+
+        public Stand Stand { get; set; }
+
+
         //public int PreviousTreatments { get; set; } 
         //TODO - one-to-many? 
 
