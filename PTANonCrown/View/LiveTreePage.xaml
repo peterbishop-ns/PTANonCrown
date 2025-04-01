@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-    
-   
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.LiveTreePage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
-             xmlns:behaviours="clr-namespace:PTANonCrown.Behaviours"
+             xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
              Title="">
-    <ScrollView>
+    <ScrollView >
 
         <VerticalStackLayout VerticalOptions="Start" >
             <Label Text="Live Trees"
@@ -62,17 +60,33 @@
                                 VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center"/>
 
-                        <Entry Grid.Column="1"
-                                Text="{Binding Species}"
-                            Style="{StaticResource GridEntry}"
-                                ReturnType="Next"/>
-                        <Entry Grid.Column="2"
-                               Text="{Binding DBH_cm}"
-                               Style="{StaticResource GridEntry}" />
-                        <Entry Grid.Column="3"
-                               Style="{StaticResource GridEntry}"
-                               Text="{Binding Height_m}" />
-                        <CheckBox Grid.Column="4"
+                            <Entry Grid.Column="1"
+                                   Text="{Binding Species}"
+                                   Style="{StaticResource GridEntry}"
+                                   ReturnType="Next">
+
+                                <!-- Bind the behavior -->
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="2"
+                                   Text="{Binding DBH_cm}"
+                                   Style="{StaticResource GridEntry}">
+                                <!-- Bind the behavior -->
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="3"
+                                   Style="{StaticResource GridEntry}"
+                                   Text="{Binding Height_m}">
+                                <!-- Bind the behavior -->
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <CheckBox Grid.Column="4"
                                   IsChecked="{Binding AGS}" />
                         <CheckBox Grid.Column="5"
                                   IsChecked="{Binding LIT}"/>
