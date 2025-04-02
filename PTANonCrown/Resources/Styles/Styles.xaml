@@ -124,11 +124,13 @@
     <Style TargetType="Button"
            x:Key="ButtonSummary"
            BasedOn="{StaticResource ButtonParent}">
-        <Setter Property="Margin"
-                Value="10,10,10,0" />
+        
         <Setter Property="HorizontalOptions"
                 Value="Center" />
-
+        <Setter Property="HeightRequest"
+                Value="50" />
+        <Setter Property="WidthRequest"
+                Value="150" />
 
     </Style>
     <Style TargetType="CheckBox">

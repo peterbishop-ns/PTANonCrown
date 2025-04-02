@@ -12,6 +12,8 @@ using OfficeOpenXml;
 using ClosedXML.Excel;
 using System.Runtime.CompilerServices;
 using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 namespace PTANonCrown.ViewModel
 {
     public class MainViewModel : BaseViewModel
@@ -54,7 +56,7 @@ namespace PTANonCrown.ViewModel
 
 
         public ICommand ExportSummaryCommand =>
-            new Command<string>(method => ExportSummary(99, SummaryResult, method?.ToString()));
+            new Command<string>(method => ExportSummary());
         public ICommand NewPlotCommand =>
             new Command<string>(method => CreateNewPlot(CurrentStand));
 
@@ -150,11 +152,10 @@ namespace PTANonCrown.ViewModel
             } }
 
 
-        private void ExportToExcel(int plotID, SummaryResult summaryResult)
+        private void ExportToExcel(XLWorkbook workBook, string tabName, SummaryResult summaryResult)
         {
-            // Create a new Excel workbook
-            var workbook = new XLWorkbook();
-            var worksheet = workbook.Worksheets.Add("Summary");
+
+            var worksheet = workBook.Worksheets.Add(tabName);
 
             // Get the properties of the SummaryResult object
             var properties = summaryResult.GetType().GetProperties();
@@ -167,31 +168,98 @@ namespace PTANonCrown.ViewModel
 
 
             }
+            worksheet.Columns().AdjustToContents();
+
             // Save the workbook to a file
-            workbook.SaveAs("C://temp//summary.xlsx");
+            workBook.SaveAs("C://temp//summary.xlsx");
 
 
         }
 
-        private void ExportSummary(int plotID, SummaryResult summaryResult, string method)
+        private bool _isSelectedExportSelectedOnly;
+        public bool IsSelectedExportSelectedOnly
         {
-            switch (method)
+            get => _isSelectedExportSelectedOnly;
+
+            set
             {
+                if (_isSelectedExportSelectedOnly != value)
+                {
+                    _isSelectedExportSelectedOnly = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-                case "csv":
-                    ExportToCSV(plotID, summaryResult);
-                    ExportSuccessMessage("CSV");
-                    break;
-                case "xlsx":
-                    ExportToExcel(plotID, summaryResult);
-                    ExportSuccessMessage("Excel");
-                    break;
-                default:
-                    throw new NotImplementedException("Only csv and xlsx are supported.");
+        private bool _isSelectedExportAll;
+        public bool IsSelectedExportAll
+        {
+            get => _isSelectedExportAll;
+
+            set
+            {
+                if (_isSelectedExportAll != value)
+                {
+                    _isSelectedExportAll = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
 
+        private void ExportSummary()
+        {
+
+            SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand);
+            SummaryResult summaryResult = null;
+            IEnumerable<TreeLive> trees = null;
+            string tabName = null;
+            if (IsSelectedExportSelectedOnly)
+            {
+                if (SummaryPlot is not null && !StandOnlySummary)
+                {
+                    trees = SummaryPlot.TreeLive;
+                    summaryResult = new SummaryResult(trees);
+                    tabName = "Plot " + SummaryPlot.PlotNumber.ToString();
+
+                    // Create a new Excel workbook
+                    var workbook = new XLWorkbook();
+                    ExportToExcel(workbook, tabName, summaryResult);
+                } 
+                else if (SummaryPlot is null && StandOnlySummary)
+                {
+                    trees = CurrentStand.Plots.SelectMany(p => p.TreeLive);
+                    summaryResult = new SummaryResult(trees);
+                    tabName = "Stand " + CurrentStand.StandNumber.ToString();
+
+                    // Create a new Excel workbook
+                    var workbook = new XLWorkbook();
+                    ExportToExcel(workbook, tabName, summaryResult);
+                }
             }
 
+            else
+            {
+                // Create a new Excel workbook
+                var workbook = new XLWorkbook();
+
+                // Export Stand 
+                trees = CurrentStand.Plots.SelectMany(p => p.TreeLive);
+                summaryResult = new SummaryResult(trees);
+                tabName = "Stand " + CurrentStand.StandNumber.ToString();
+                ExportToExcel(workbook, tabName, summaryResult);
+
+                //Export all Plots
+                foreach (Plot plot in CurrentStand.Plots)
+                {
+                    trees = plot.TreeLive;
+                    summaryResult = new SummaryResult(trees);
+                    tabName = "Plot " + plot.PlotNumber.ToString();
+                    ExportToExcel(workbook, tabName, summaryResult);
+                }
+
+            }
+            ExportSuccessMessage("Excel");
         }
 
         private void ExportSuccessMessage(string method) {
@@ -363,6 +431,24 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+
+
+        private ObservableCollection<SummaryResultTreeSpecies> _speciesSummary;
+        public ObservableCollection<SummaryResultTreeSpecies> SpeciesSummary
+        {
+            get => _speciesSummary;
+
+            set
+            {
+                if (_speciesSummary != value)
+                {
+                    _speciesSummary = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
         private Plot _currentPlot;
         public Plot CurrentPlot
         {
@@ -378,6 +464,25 @@ namespace PTANonCrown.ViewModel
             }
         }
         
+        private ObservableCollection<SummaryResultTreeSpecies> GenerateTreeSpeciesSummary(Stand stand)
+        {
+            var summary = stand.Plots
+             .SelectMany(plot => plot.TreeLive.Select(tree => new { plot.PlotNumber, tree.Species }))
+             .GroupBy(t => new { t.PlotNumber, t.Species })
+             .Select(g => new SummaryResultTreeSpecies
+             {
+                 PlotNumber = g.Key.PlotNumber,
+                 Species = g.Key.Species,
+                 Count = g.Count()
+             })
+             .OrderBy(x => x.PlotNumber)
+             .ThenBy(x => x.Species)
+             .ToList();
+
+            return new ObservableCollection<SummaryResultTreeSpecies>(summary);
+
+        }
+
 
         private Stand CreateNewStand()
         {

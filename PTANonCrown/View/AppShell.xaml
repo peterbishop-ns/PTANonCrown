@@ -34,17 +34,21 @@
             <ShellContent Title="Overview"
                           ContentTemplate="{DataTemplate local:PlotPage}" />
 
-
+        </Tab>
+        <Tab Title="Live">
             <ShellContent Title="Live"
                           ContentTemplate="{DataTemplate local:LiveTreePage}" />
-
+        </Tab>
+        <Tab Title="Dead">
             <ShellContent Title="Dead"
-                          ContentTemplate="{DataTemplate local:DeadTreePage}"/>
-            
+                          ContentTemplate="{DataTemplate local:DeadTreePage}" />
+        </Tab>
+        <Tab Title="Coarse Woody Material">
             <ShellContent Title="Coarse Woody Material"
                           ContentTemplate="{DataTemplate local:CoarseWoodyMaterialPage}" />
-
         </Tab>
+
+   
         
         <Tab Title="Summary">
             <ShellContent Title="Summary"

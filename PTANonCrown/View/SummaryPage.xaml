@@ -5,26 +5,36 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              BackgroundColor="#F0F0F0"
              Title="Summary Page">
-    <VerticalStackLayout>
+    <VerticalStackLayout Margin="20,0,0,0">
+        <Button Text="Stand"
+                HeightRequest="50"
+                WidthRequest="85"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                BackgroundColor="LightGoldenrodYellow"
+                Command="{Binding SetStandOnlyCommand}" />
         <CollectionView ItemsSource="{Binding CurrentStand.Plots}"
                         HorizontalOptions="Start"
                         VerticalOptions="Start"
-                        Margin="0,0,0,10"
-                        WidthRequest="300">
+                        Margin="0,0,0,0"
+                        WidthRequest="400">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical"
+                                 VerticalItemSpacing="0"
                                  Span="4" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <!-- Create a button for each plot in the collection     BackgroundColor="{Binding ., 
 Converter={StaticResource PlotToBackgroundColorConverter}}"-->
-                    <Button Text="{Binding PlotNumber}"
-                            WidthRequest="75"
-                            HeightRequest="25"
+                    <Button Text="{Binding PlotNumber, StringFormat='Plot {0}'}"
+                            WidthRequest="85"
+                            HeightRequest="45"
                             HorizontalOptions="Start"
+                            BackgroundColor="LightGoldenrodYellow"
                             VerticalOptions="Start"
-                            Margin="0,10,0,10"
+                            
+                            Margin="0,20,0,20"
                             Command="{Binding Source={RelativeSource 
                                             AncestorType={x:Type viewModels:MainViewModel}}, 
                                             Path=SetPlotSummaryCommand}"
@@ -32,27 +42,37 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Text="Entire Stand"
-                WidthRequest="75"
-                HeightRequest="25"
-                HorizontalOptions="Center"
-                VerticalOptions="Center" 
-                Command="{Binding SetStandOnlyCommand}"
-                />
-        <HorizontalStackLayout>
-            <Button Text="Refresh"
-                    Command="{Binding RefreshSummaryResult}"
-                    Style="{StaticResource ButtonSummary}"/>
-            <Button Text="Export To Excel"
-                    Command="{Binding ExportSummaryCommand}"
-                    CommandParameter="xlsx"
-                    Style="{StaticResource ButtonSummary}" />
-            <Button Text="Export To CSV"
-                    Command="{Binding ExportSummaryCommand}"
-                    CommandParameter="csv"
-                    Style="{StaticResource ButtonSummary}" />
-        </HorizontalStackLayout>
+       
+        <Border Margin="0,20,0,0" WidthRequest="250">
+            <Grid RowDefinitions="Auto,Auto" HorizontalOptions="Center">
+                <HorizontalStackLayout Grid.Row="0"
+                                       Spacing="10"
+                                       HorizontalOptions="Center">
+                    <Button Text="Export"
+                            Command="{Binding ExportSummaryCommand}"                            
+                            Style="{StaticResource ButtonSummary}" />
+                    
+                </HorizontalStackLayout>
+           
 
+                <HorizontalStackLayout Grid.Row="1"
+                                       Margin="0,0,0,0">
+
+                    <RadioButton Content="Currently Selected"
+                                     GroupName="WhatToExport"
+                                     IsChecked="{Binding IsSelectedExportSelectedOnly}" />
+
+                        <RadioButton Content="All"
+                                     GroupName="WhatToExport"
+                                     IsChecked="{Binding IsSelectedExportAll}" />
+
+
+                    </HorizontalStackLayout>
+            </Grid>
+       
+        </Border>
+
+        <ScrollView>
         <VerticalStackLayout Margin="0,20,0,0">
             
         <HorizontalStackLayout>
@@ -157,7 +177,52 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
             <Label Text="{Binding SummaryResult.LIT_sM_yB_wP_rO_rS_10to25_cm, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
-        </VerticalStackLayout>
+                <CollectionView ItemsSource="{Binding SpeciesSummary}"
+                                x:Name="collectionSpeciesSummary"
+                                BackgroundColor="LightGrey"
+                                HorizontalOptions="Center">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="100,100,100"
+                              BackgroundColor="DarkGray">
+                            <Label Text="Plot Number"
+                                   Style="{StaticResource GridHeader}"
+                                   Grid.Column="0" />
+                            <Label Text="Species"
+                                   Style="{StaticResource GridHeader}"
+                                   Grid.Column="1" />
+                            <Label Text="Count"
+                                   Style="{StaticResource GridHeader}"
+                                   Grid.Column="2" />
 
+                        </Grid>
+                    </CollectionView.Header>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="100,100,100"
+                                  BackgroundColor="LightGrey">
+                                <Label Grid.Column="0"
+                                       Text="{Binding PlotNumber}"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding Species}"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="2"
+                                       Text="{Binding Count}"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Center" />
+
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+        
     </VerticalStackLayout>
 </ContentPage>
