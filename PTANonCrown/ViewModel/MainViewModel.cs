@@ -19,21 +19,38 @@ namespace PTANonCrown.ViewModel
 
         private MainService _mainService { get; set; }
         private StandRepository _standRepository { get; set; }
-        public SummaryResult SummaryResult { get; set; }
+
+        private SummaryResult _summaryResult;
+        public SummaryResult SummaryResult
+        {
+            get => _summaryResult;
+
+            set
+            {
+                if (_summaryResult != value)
+                {
+                    _summaryResult = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public MainViewModel(MainService mainService, StandRepository standRepository)
         {
             _mainService = mainService;
             _standRepository = standRepository;
 
-            GetOrCreateStand();
-            CurrentPlot = GetOrCreatePlot(CurrentStand);
+           GetOrCreateStand();
+           GetOrCreatePlot(CurrentStand);
 
             InitializeCollections();
-            SummaryResult = new SummaryResult(trees: LiveTrees);
         }
 
 
         public ICommand SetCurrentPlotCommand => new Command<Plot>(plot => SetCurrentPlot(plot));
+        public ICommand SetPlotSummaryCommand => new Command<Plot>(plot => SetSummaryPlot(plot));
+        public ICommand DeletePlotCommand => new Command<Plot>(plot => DeletePlot(plot));
+        public ICommand SetStandOnlyCommand => new Command<Plot>(plot => SetStandOnly());
 
 
         public ICommand ExportSummaryCommand =>
@@ -55,6 +72,11 @@ namespace PTANonCrown.ViewModel
             int newPlotNumber = (stand.Plots != null && stand.Plots.Any())
                 ? stand.Plots.Max(p => p.PlotNumber) + 1
                 : 1; Plot _newPlot = new Plot() { StandID = stand.ID, PlotNumber = newPlotNumber};
+
+            _newPlot.TreeLive = new ObservableCollection<TreeLive>();
+            _newPlot.TreeLive.Add(new TreeLive() {TreeNumber = 1,  PlotID = _newPlot.ID});
+
+
             stand.Plots.Add(_newPlot);
             SetCurrentPlot(_newPlot);
             return _newPlot;
@@ -63,6 +85,39 @@ namespace PTANonCrown.ViewModel
         private void SetCurrentPlot(Plot plot)
         {
             CurrentPlot = plot;
+        }    
+
+        public bool StandOnlySummary {  get; set; }
+        
+        private void SetSummaryPlot(Plot plot)
+        {
+            SummaryPlot = plot;
+            StandOnlySummary = false;
+            SummaryResult = GenerateSummaryResult(plot.TreeLive);
+        }
+        private void DeletePlot(Plot plot)
+        {
+            CurrentStand.Plots.Remove(plot);
+            GetOrCreatePlot(CurrentStand);
+            SaveAll();
+        }
+
+        private SummaryResult? GenerateSummaryResult(IEnumerable<TreeLive> trees)
+        {
+            if (trees.ToList().Count == 0)
+            {
+                Application.Current.MainPage.DisplayAlert("No trees", "No trees available for selection.", "OK");
+                return null;
+            }
+            return new SummaryResult(trees: trees); 
+        }
+        private void SetStandOnly()
+        {
+            StandOnlySummary = true;
+            SummaryPlot = null;
+
+            var trees = CurrentStand.Plots.SelectMany(p => p.TreeLive);
+            SummaryResult = GenerateSummaryResult(trees);
         }
 
         private void ExportToCSV(int plotID, SummaryResult summaryResult)
@@ -275,7 +330,7 @@ namespace PTANonCrown.ViewModel
         }
         private void InitializeCollections()
         {
-            LiveTrees = LoadLiveTrees(plotID: 2);
+            //LiveTrees = LoadLiveTrees(plotID: 2);
             DeadTrees = LoadDeadTrees(plotID: 2);
             CoarseWoody = LoadCoarseWoody(plotID: 2);
         }
@@ -289,6 +344,20 @@ namespace PTANonCrown.ViewModel
                 if (_currentStand != value)
                 {
                     _currentStand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private Plot _summaryPlot;
+        public Plot SummaryPlot
+        {
+            get => _summaryPlot;
+
+            set
+            {
+                if (_summaryPlot != value)
+                {
+                    _summaryPlot = value;
                     OnPropertyChanged();
                 }
             }
@@ -316,35 +385,36 @@ namespace PTANonCrown.ViewModel
             {
             };
 
-            _stand.Plots.Add(new Plot() {  });
+            Plot _newPlot = CreateNewPlot(_stand);
+
             return _stand;
 
         }
 
-
-        private void GetOrCreateStand()
-
-
+        private void SetCurrentStand(Stand stand)
         {
+            CurrentStand = stand;
+        }
+        private Stand GetOrCreateStand()
+        {
+            Stand _stand;
             AllStands = new ObservableCollection<Stand>(_standRepository.GetAll());
 
             // Get first stand if any exist
             if (AllStands.Count > 0) {
 
-                CurrentStand = AllStands[0];
+                _stand = AllStands[0];
 
                     }
             // Otherwise create a new one (Stand #1)
             else
             {
-                CurrentStand = CreateNewStand();
+                _stand = CreateNewStand();
             }
 
-            if (CurrentStand.Plots is null)
-            {
-                CurrentStand.Plots = new ObservableCollection<Plot>();
-            }
+            SetCurrentStand(_stand);
 
+            return _stand;
 
         }
     }

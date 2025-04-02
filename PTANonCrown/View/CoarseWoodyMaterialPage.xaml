@@ -10,6 +10,24 @@
         <viewModels:MainViewModel />
     </ContentPage.BindingContext>-->
     <VerticalStackLayout>
+        <Border BackgroundColor="LightGoldenrodYellow"
+                StrokeShape="RoundRectangle 2,2,2,2"
+                WidthRequest="200">
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="Stand"
+                       FontAttributes="Bold"
+                       Margin="10,0,0,0" />
+                <Label Text="{Binding CurrentStand.StandNumber}"
+                       Margin="3,0,0,0" />
+                <Label Text="Plot"
+                       FontAttributes="Bold"
+                       Margin="10,0,0,0" />
+                <Label Text="{Binding CurrentPlot.PlotNumber}"
+                       Margin="3,0,0,0" />
+            </HorizontalStackLayout>
+
+        </Border>
+
         <Label Text="Coarse Woody Material"
                Style="{StaticResource Headline}" />
 

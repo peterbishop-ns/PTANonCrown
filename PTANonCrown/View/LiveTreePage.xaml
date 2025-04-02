@@ -9,6 +9,24 @@
     <ScrollView >
 
         <VerticalStackLayout VerticalOptions="Start" >
+            <Border BackgroundColor="LightGoldenrodYellow"
+                    StrokeShape="RoundRectangle 2,2,2,2"
+                    WidthRequest="200">
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Stand"
+                           FontAttributes="Bold"
+                           Margin="10,0,0,0" />
+                    <Label Text="{Binding CurrentStand.StandNumber}"
+                           Margin="3,0,0,0" />
+                    <Label Text="Plot"
+                           FontAttributes="Bold"
+                           Margin="10,0,0,0" />
+                    <Label Text="{Binding CurrentPlot.PlotNumber}"
+                           Margin="3,0,0,0" />
+                </HorizontalStackLayout>
+
+            </Border>
+
             <Label Text="Live Trees"
                    Style="{StaticResource Headline}" />
 
@@ -16,14 +34,14 @@
             <Label Text="Include Biodiversity" />
             <CheckBox x:Name="IncludeBiodiversity" />
         </HorizontalStackLayout>
-        <CollectionView ItemsSource="{Binding LiveTrees}"
+        <CollectionView ItemsSource="{Binding CurrentPlot.TreeLive}"
                         x:Name="collectionViewLiveTrees"
                         BackgroundColor="LightGrey"
                         HorizontalOptions="Center">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="50,100,70,100,60,60,60,60"
+                    <Grid ColumnDefinitions="70,100,70,100,60,60,60,60"
                           BackgroundColor="DarkGray">
-                    <Label Text="Tree ID"
+                    <Label Text="Tree Number"
                            Style="{StaticResource GridHeader}"
                            Grid.Column="0" />
                     <Label Text="Species"
@@ -54,9 +72,9 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="50,100,70,100,60,60,60,60" BackgroundColor="LightGrey">
+                    <Grid ColumnDefinitions="70,100,70,100,60,60,60,60" BackgroundColor="LightGrey">
                         <Label Grid.Column="0"
-                               Text="{Binding ID}" 
+                               Text="{Binding TreeNumber}" 
                                 VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center"/>
 

@@ -78,9 +78,9 @@ namespace PTANonCrown.Behaviours
                 {
 
                     
-                    int maxTreeNumber = collection.Max(t => t.ID);
+                    int maxTreeNumber = collection.Max(t => t.TreeNumber);
                     // Add a new item to the collection
-                    collection.Add(new TreeLive() {ID = maxTreeNumber + 1 });
+                    collection.Add(new TreeLive() {TreeNumber = maxTreeNumber + 1 });
 
                     // Optionally, you could focus the newly added entry here as well
                     var newEntry = entries.Last(); // or get the new entry dynamically

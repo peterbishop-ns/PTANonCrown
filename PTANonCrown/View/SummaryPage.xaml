@@ -2,9 +2,43 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.SummaryPage"
+             xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              BackgroundColor="#F0F0F0"
              Title="Summary Page">
     <VerticalStackLayout>
+        <CollectionView ItemsSource="{Binding CurrentStand.Plots}"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        Margin="0,0,0,10"
+                        WidthRequest="300">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                                 Span="4" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!-- Create a button for each plot in the collection     BackgroundColor="{Binding ., 
+Converter={StaticResource PlotToBackgroundColorConverter}}"-->
+                    <Button Text="{Binding PlotNumber}"
+                            WidthRequest="75"
+                            HeightRequest="25"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Start"
+                            Margin="0,10,0,10"
+                            Command="{Binding Source={RelativeSource 
+                                            AncestorType={x:Type viewModels:MainViewModel}}, 
+                                            Path=SetPlotSummaryCommand}"
+                            CommandParameter="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Entire Stand"
+                WidthRequest="75"
+                HeightRequest="25"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" 
+                Command="{Binding SetStandOnlyCommand}"
+                />
         <HorizontalStackLayout>
             <Button Text="Refresh"
                     Command="{Binding RefreshSummaryResult}"
@@ -24,91 +58,91 @@
         <HorizontalStackLayout>
             <Label Text="Total Basal Area (m2/ha)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.TotalBasalArea_m2ha}" />
+            <Label Text="{Binding SummaryResult.TotalBasalArea_m2ha, Mode=TwoWay}" />
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="Merch Basal Area (m2/ha)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.MerchantableBasalArea_m2ha}" />
+                <Label Text="{Binding SummaryResult.MerchantableBasalArea_m2ha, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="LIT Basal Area (m2/ha)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.LITBasalArea_m2ha}" />
+                <Label Text="{Binding SummaryResult.LITBasalArea_m2ha, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout>
             <Label Text="LT Basal Area (m2/ha)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.LTBasalArea_m2ha}" />
+                <Label Text="{Binding SummaryResult.LTBasalArea_m2ha, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="QMD Merch Trees (cm)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.QMDMerchTrees_count}" />
+                <Label Text="{Binding SummaryResult.QMDMerchTrees_count, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
 
         <HorizontalStackLayout>
             <Label Text="AGS (m2/ha)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.AGS_m2ha}" />
+                <Label Text="{Binding SummaryResult.AGS_m2ha, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="AGS LIT (m2/ha)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.AGS_LIT_m2ha}" />
+                <Label Text="{Binding SummaryResult.AGS_LIT_m2ha, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout>
             <Label Text="Basal Area >25 cm (m2/ha)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.BasalArea_gt25cm_m2ha}" />
+                <Label Text="{Binding SummaryResult.BasalArea_gt25cm_m2ha, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout>
             <Label Text="Average Height"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.AverageHeight}" />
+                <Label Text="{Binding SummaryResult.AverageHeight, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="% Planted Trees InSitu " MinimumWidthRequest="400"/>
-            <Label Text="{Binding SummaryResult.PlantedTreesInSitu_perc }" />
+                <Label Text="{Binding SummaryResult.PlantedTreesInSitu_perc , Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="%  Planted Trees ExSitu"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.PlantedTreesExSitu_perc }" />
+                <Label Text="{Binding SummaryResult.PlantedTreesExSitu_perc, Mode=TwoWay }" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="%  Merch Conifer"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.MerchConifer_perc}" />
+                <Label Text="{Binding SummaryResult.MerchConifer_perc, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="% Decidious LIT"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.DeciduousLIT_perc}" />
+                <Label Text="{Binding SummaryResult.DeciduousLIT_perc, Mode=TwoWay}" />
 
             
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="%Basal Area of WP +RO"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.BasalArea_WP_RO}" />
+                <Label Text="{Binding SummaryResult.BasalArea_WP_RO, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
             <Label Text="% Basal Area of EH +RS + BF"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.BasalArea_EH_RS_BF}" />
+                <Label Text="{Binding SummaryResult.BasalArea_EH_RS_BF, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         <HorizontalStackLayout >
@@ -120,7 +154,7 @@
         <HorizontalStackLayout >
             <Label Text="AGS sM+yB+wP+rO+rS(15–20 cm Dbh)"
                    MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.LIT_sM_yB_wP_rO_rS_10to25_cm}" />
+            <Label Text="{Binding SummaryResult.LIT_sM_yB_wP_rO_rS_10to25_cm, Mode=TwoWay}" />
 
         </HorizontalStackLayout>
         </VerticalStackLayout>

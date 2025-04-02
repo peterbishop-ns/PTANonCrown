@@ -56,11 +56,61 @@ namespace PTANonCrown.Models
         public int OGFSampleTreeDBH_cm { get; set; }
 
 
-        public ObservableCollection<TreeLive> TreeLive { get; set; } = new ObservableCollection<TreeLive>();   
-        public ObservableCollection<TreeDead> TreeDead { get; set; } = new ObservableCollection<TreeDead>();   
-        public ObservableCollection<CoarseWoody> CoarseWoody { get; set; } = new ObservableCollection<CoarseWoody>();
+        private ObservableCollection<TreeLive> _treeLive;
+        private ObservableCollection<TreeDead> _treeDead;
+        private ObservableCollection<CoarseWoody> _coarseWoody;
+
+
+        public ObservableCollection<TreeLive> TreeLive
+        {
+            get => _treeLive;
+            set
+            {
+                if (_treeLive != value)
+                {
+                    _treeLive = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
+        public ObservableCollection<TreeDead> TreeDead
+        {
+            get => _treeDead;
+            set
+            {
+                if (_treeDead != value)
+                {
+                    _treeDead = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
+        public ObservableCollection<CoarseWoody> CoarseWoody
+        {
+            get => _coarseWoody;
+            set
+            {
+                if (_coarseWoody != value)
+                {
+                    _coarseWoody = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
 
         public Stand Stand { get; set; }
+
+        public Plot()
+        {
+            TreeLive = new ObservableCollection<TreeLive>();
+            TreeDead = new ObservableCollection<TreeDead>();
+            CoarseWoody = new ObservableCollection<CoarseWoody>();
+        }
 
 
         //public int PreviousTreatments { get; set; } 

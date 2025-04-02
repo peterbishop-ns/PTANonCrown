@@ -7,17 +7,34 @@
              Title="">
     
 
-    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto"
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
               ColumnDefinitions="Auto, *"
               MaximumWidthRequest="500"
               Padding="10"
               HorizontalOptions="StartAndExpand">
-
-        
         <VerticalStackLayout Grid.Row="0"
                              Style="{StaticResource VerticalStackLayoutStand}">
 
-            <Label Text="Stand" Style="{StaticResource Headline}"/>
+            <Label Text="Stand"
+                   Style="{StaticResource Headline}" />
+
+            <HorizontalStackLayout>
+                <Label Text="Stand Number"
+                       Style="{StaticResource LabelStand}" />
+                <ImageButton Source="info.png"
+                             Style="{StaticResource ImageButtonHelper}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="StandNumber" />
+
+            </HorizontalStackLayout>
+
+            <Entry Text="{Binding CurrentStand.StandNumber}"
+                   Style="{StaticResource EntryStand}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1"
+                             Style="{StaticResource VerticalStackLayoutStand}">
+
             <HorizontalStackLayout >
                 <Label Text="Cruise ID"
                        Style="{StaticResource LabelStand}" />
@@ -33,7 +50,7 @@
         </VerticalStackLayout>
 
 
-        <VerticalStackLayout Grid.Row="1"
+        <VerticalStackLayout Grid.Row="2"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Planner ID"
@@ -48,7 +65,7 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="2"
+        <VerticalStackLayout Grid.Row="3"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Easting"
@@ -63,7 +80,7 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="3"
+        <VerticalStackLayout Grid.Row="4"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Northing"
@@ -78,7 +95,7 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="4"
+        <VerticalStackLayout Grid.Row="5"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Organization"
@@ -94,7 +111,7 @@
         </VerticalStackLayout>
 
 
-        <VerticalStackLayout Grid.Row="5"
+        <VerticalStackLayout Grid.Row="6"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Location"

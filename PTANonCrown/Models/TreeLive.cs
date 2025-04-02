@@ -10,6 +10,7 @@ namespace PTANonCrown.Models
     public class TreeLive : BaseModel
     {
         public int ID { get; set; }
+        public int TreeNumber { get; set; }
         public int PlotID { get; set; }
         public int Species { get; set; }
 

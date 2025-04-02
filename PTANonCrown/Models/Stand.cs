@@ -9,15 +9,36 @@ namespace PTANonCrown.Models
 {
     public class Stand : BaseModel
     {
+        
+        public Stand()
+        {
+            Plots = new ObservableCollection<Plot>();
+        }
         public int ID { get; set; }
-        public int StandNumber { get; set; }
+        private int _standNumber;
+
+        public int StandNumber
+        {
+            get => _standNumber;
+            set
+            {
+                if (_standNumber != value)
+                {
+                    _standNumber = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
+
         public int CruiseID { get; set; }
         public int PlannerID { get; set; }
-        public string Organization { get; set; }
-        public float Easting { get; set; }
-        public float Northing { get; set; }
+        public string? Organization { get; set; }
+        public float? Easting { get; set; }
+        public float? Northing { get; set; }
         public int Ecodistrict { get; set; }
-        public string Location { get; set; }
+        public string? Location { get; set; }
 
         private ObservableCollection<Plot> _plots;
 
