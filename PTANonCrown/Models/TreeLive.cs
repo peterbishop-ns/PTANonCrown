@@ -41,6 +41,21 @@ namespace PTANonCrown.Models
             }
         }
 
+        private string _searchSpecies;
+
+        public string SearchSpecies
+        {
+            get => _searchSpecies;
+            set
+            {
+                if (_searchSpecies != value)
+                {
+                    _searchSpecies = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private int _dbh_cm;
         public int DBH_cm
         {

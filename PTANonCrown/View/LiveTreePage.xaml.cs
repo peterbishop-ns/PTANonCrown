@@ -16,4 +16,17 @@ public partial class LiveTreePage : ContentPage
         
 
     }
+
+    private void OnSuggestionSelected(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is TreeLive itemToUpdate && sender is Label label)
+        {
+            var selectedSpecies = label.BindingContext as TreeLookup;
+            if (selectedSpecies != null)
+            {
+                itemToUpdate.TreeLookup = selectedSpecies;
+                OnPropertyChanged(nameof(itemToUpdate));
+            }
+        }
+    }
 }

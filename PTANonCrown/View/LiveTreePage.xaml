@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.LiveTreePage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
+             xmlns:models="clr-namespace:PTANonCrown.Models"
              xmlns:converter="clr-namespace:PTANonCrown.Converter"
              xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
@@ -162,25 +163,47 @@
         ItemDisplayBinding="{Binding Name}"
         WidthRequest="200"/>
                             -->
-                            <HorizontalStackLayout Grid.Column="1">
+                            <VerticalStackLayout Grid.Column="1">
 
                                 <Entry x:Name="treeShortCodeEntry"
                                        Placeholder="Enter Species ID"
-                                       Text="{Binding TreeLookup, Mode=TwoWay, Converter={StaticResource SpeciesConverter},  
-                                        ConverterParameter={Binding Source={RelativeSource 
-                                                                      AncestorType={x:Type viewModels:MainViewModel}}, 
-                                                                      Path=LookupTrees}}" />
+                                       Text="{Binding Source={RelativeSource 
+                                          AncestorType={x:Type viewModels:MainViewModel}}, 
+                                          Path=SearchString}" />
+                                <!-- Suggestion List IsVisible="{Binding Source={RelativeSource 
+  AncestorType={x:Type viewModels:MainViewModel}}, 
+  Path=TreeLookupFilteredList.Count, 
+  Converter={StaticResource ListVisibilityConverter}}"-->
+                                <CollectionView ItemsSource="{Binding Source={RelativeSource 
+                                          AncestorType={x:Type viewModels:MainViewModel}}, 
+                                          Path=TreeLookupFilteredList}"
+                                                SelectionMode="Single"
+                                                >  
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="5">
+                                                <Label Text="{Binding ShortCode}"
+                                                       FontSize="16">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="OnSuggestionSelected"
+                                                                              CommandParameter="{Binding ., 
+                                                            Source={RelativeSource AncestorType={x:Type models:TreeLive}}}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
 
-                                <!-- Picker for Tree Names -->
+                                <!-- Picker for Tree Names 
                                 <Picker ItemsSource="{Binding Source={RelativeSource 
                                                       AncestorType={x:Type viewModels:MainViewModel}}, 
                                                       Path=LookupTrees}"
                                         ItemDisplayBinding="{Binding DisplayName}"
                                         WidthRequest="200"
                                         SelectedItem="{Binding TreeLookup, Mode=TwoWay}">
-                                </Picker>
-                                
-                            </HorizontalStackLayout>
+                                </Picker>-->
+                            </VerticalStackLayout>
                             <Entry Grid.Column="2"
                                    Text="{Binding DBH_cm}"
                                    Style="{StaticResource GridEntry}">

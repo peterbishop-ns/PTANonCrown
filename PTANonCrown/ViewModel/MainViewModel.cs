@@ -7,15 +7,9 @@ using System.Windows.Input;
 using System.ComponentModel.Design;
 using System.Globalization;
 using CsvHelper;
-using Microsoft.VisualBasic;
-using OfficeOpenXml;
+using PTANonCrown.Models;
 using ClosedXML.Excel;
-using System.Runtime.CompilerServices;
-using DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System.Reflection;
-using PTANonCrown.Context;
+
 namespace PTANonCrown.ViewModel
 {
     public class MainViewModel : BaseViewModel
@@ -40,6 +34,21 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+        private ObservableCollection<TreeLookup> _treeLookupFilteredList;
+        public ObservableCollection<TreeLookup> TreeLookupFilteredList
+        {
+            get => _treeLookupFilteredList;
+
+            set
+            {
+                if (_treeLookupFilteredList != value)
+                {
+                    _treeLookupFilteredList = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public MainViewModel(MainService mainService, StandRepository standRepository, LookupRepository lookupRepository)
         {
             _mainService = mainService;
@@ -49,14 +58,41 @@ namespace PTANonCrown.ViewModel
            GetOrCreateStand();
            GetOrCreatePlot(CurrentStand);
             LoadLookupTables();
+
            InitializeCollections();
         }
 
+        private string _searchString;
+        public string SearchString
+        {
+            get => _searchString;
+
+            set
+            {
+                if (_searchString != value)
+                {
+                    _searchString = value;
+                    OnPropertyChanged();
+                    ApplyFilter();
+                }
+            }
+        }
+
+        public void ApplyFilter()
+        {
+            TreeLookupFilteredList.Clear();
+            TreeLookupFilteredList = new ObservableCollection<TreeLookup>(LookupTrees.
+                Where(t => t.ShortCode.Contains(SearchString, StringComparison.OrdinalIgnoreCase))) { };
+
+
+
+        }
         public List<TreeLookup> LookupTrees {  get; set; }
 
         private void LoadLookupTables()
         {
             LookupTrees = _lookupRepository.GetTreeLookups();
+            TreeLookupFilteredList = new ObservableCollection<TreeLookup>(LookupTrees) { };
         }
 
         public ICommand SetCurrentPlotCommand => new Command<Plot>(plot => SetCurrentPlot(plot));
@@ -71,7 +107,7 @@ namespace PTANonCrown.ViewModel
             new Command<string>(method => CreateNewPlot(CurrentStand));
 
         public ICommand SaveAllCommand =>
-    new Command<string>(method => SaveAll());
+        new Command<string>(method => SaveAll());
 
         private void SaveAll()
         {
@@ -363,28 +399,7 @@ namespace PTANonCrown.ViewModel
             _coarseWoody.Add(new CoarseWoody() { PlotID = plotID, DBH_start = 60, DBH_end = 1000 });
             return _coarseWoody;
         }
-        private ObservableCollection<TreeLive>? LoadLiveTrees(int plotID)
-        {
-            _LiveTrees = new ObservableCollection<TreeLive>();
-            _LiveTrees.Add(new TreeLive() { ID = 1, PlotID = plotID, Species = 33, DBH_cm = 14, Height_m = 7, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 2, PlotID = plotID, Species = 44, DBH_cm = 20, Height_m = 10, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 3, PlotID = plotID, Species = 44, DBH_cm = 14, Height_m = 10, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 4, PlotID = plotID, Species = 44, DBH_cm = 10, Height_m = 13, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 5, PlotID = plotID, Species = 44, DBH_cm = 12, Height_m = 14, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 6, PlotID = plotID, Species = 44, DBH_cm = 10, Height_m = 5, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 7, PlotID = plotID, Species = 44, DBH_cm = 16, Height_m = 5, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 8, PlotID = plotID, Species = 44, DBH_cm = 8, Height_m = 5, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 9, PlotID = plotID, Species = 44, DBH_cm = 16, Height_m = 5, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 10, PlotID = plotID, Species = 44, DBH_cm = 2, Height_m = 8, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 11, PlotID = plotID, Species = 44, DBH_cm = 2, Height_m = 9, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 12, PlotID = plotID, Species = 44, DBH_cm = 2, Height_m = 8, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 13, PlotID = plotID, Species = 44, DBH_cm = 2, Height_m = 7, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 14, PlotID = plotID, Species = 44, DBH_cm = 8, Height_m = 9, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 15, PlotID = plotID, Species = 44, DBH_cm = 6, Height_m = 9, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 16, PlotID = plotID, Species = 44, DBH_cm = 10, Height_m = 8, AGS = false, LIT = true });
-            _LiveTrees.Add(new TreeLive() { ID = 17, PlotID = plotID, Species = 44, DBH_cm = 8, Height_m = 13, AGS = false, LIT = true });
-            return _LiveTrees;
-        }
+      
 
         private Plot GetOrCreatePlot(Stand stand)
         {   
