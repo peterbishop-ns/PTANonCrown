@@ -43,8 +43,8 @@
             <ShellContent Title="Dead"
                           ContentTemplate="{DataTemplate local:DeadTreePage}" />
         </Tab>
-        <Tab Title="Coarse Woody Material">
-            <ShellContent Title="Coarse Woody Material"
+        <Tab Title="Coarse Woody">
+            <ShellContent Title="Coarse Woody"
                           ContentTemplate="{DataTemplate local:CoarseWoodyMaterialPage}" />
         </Tab>
 

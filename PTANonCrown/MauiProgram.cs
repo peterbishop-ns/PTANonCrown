@@ -32,7 +32,10 @@ namespace PTANonCrown
                 builder.Services.AddSingleton<DeadTreePage>();
                 builder.Services.AddSingleton<CoarseWoodyMaterialPage>();
                 builder.Services.AddSingleton<SummaryPage>();
+
+            //Repository
                 builder.Services.AddSingleton<StandRepository>();
+                builder.Services.AddSingleton<LookupRepository>();
 
                 builder.Services.AddSingleton<MainViewModel>();
 
@@ -40,6 +43,7 @@ namespace PTANonCrown
 
             // Register DbContext
             builder.Services.AddDbContext<AppDbContext>();
+            builder.Services.AddDbContext<LookupDbContext>();
 
             var app = builder.Build();
             
@@ -50,6 +54,11 @@ namespace PTANonCrown
                 db.Database.EnsureCreated();  // Creates the database if it doesn't exist
             }
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<LookupDbContext>();
+                db.Database.EnsureCreated();  // Creates the database if it doesn't exist
+            }
 
 
             return app;

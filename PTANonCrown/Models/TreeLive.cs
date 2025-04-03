@@ -12,7 +12,34 @@ namespace PTANonCrown.Models
         public int ID { get; set; }
         public int TreeNumber { get; set; }
         public int PlotID { get; set; }
-        public int Species { get; set; }
+        private int _species;
+        public int Species
+        {
+            get => _species;
+            set
+            {
+                if (_species != value)
+                {
+                    _species = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private TreeLookup _treeLookup;
+
+        public TreeLookup TreeLookup
+        {
+            get => _treeLookup;
+            set
+            {
+                if (_treeLookup != value)
+                {
+                    _treeLookup = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private int _dbh_cm;
         public int DBH_cm

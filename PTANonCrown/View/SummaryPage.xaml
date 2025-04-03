@@ -4,225 +4,150 @@
              x:Class="PTANonCrown.SummaryPage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              BackgroundColor="#F0F0F0"
-             Title="Summary Page">
-    <VerticalStackLayout Margin="20,0,0,0">
-        <Button Text="Stand"
-                HeightRequest="50"
-                WidthRequest="85"
-                HorizontalOptions="Start"
-                VerticalOptions="Start"
-                BackgroundColor="LightGoldenrodYellow"
-                Command="{Binding SetStandOnlyCommand}" />
-        <CollectionView ItemsSource="{Binding CurrentStand.Plots}"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        Margin="0,0,0,0"
-                        WidthRequest="400">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical"
-                                 VerticalItemSpacing="0"
-                                 Span="4" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <!-- Create a button for each plot in the collection     BackgroundColor="{Binding ., 
-Converter={StaticResource PlotToBackgroundColorConverter}}"-->
-                    <Button Text="{Binding PlotNumber, StringFormat='Plot {0}'}"
-                            WidthRequest="85"
-                            HeightRequest="45"
+             Title="Summary">
+
+    <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+        <HorizontalStackLayout Grid.Row="0"
+                               Grid.Column="0"
+                               Margin="20,0,0,0">
+            <Button Text="Stand"
+                    WidthRequest="85"
+                    HeightRequest="45"
+                    Margin="0,40,0,0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    BackgroundColor="LightGoldenrodYellow"
+                    Command="{Binding SetStandOnlyCommand}" />
+
+            <CollectionView ItemsSource="{Binding CurrentStand.Plots}"
                             HorizontalOptions="Start"
-                            BackgroundColor="LightGoldenrodYellow"
                             VerticalOptions="Start"
-                            
-                            Margin="0,20,0,20"
-                            Command="{Binding Source={RelativeSource 
+                            Margin="0,0,0,0"
+                            WidthRequest="400">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     VerticalItemSpacing="0"
+                                     Span="4" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Create a button for each plot in the collection     BackgroundColor="{Binding ., 
+Converter={StaticResource PlotToBackgroundColorConverter}}"-->
+                        <Button Text="{Binding PlotNumber, StringFormat='Plot {0}'}"
+                                WidthRequest="85"
+                                HeightRequest="45"
+                                HorizontalOptions="Start"
+                                BackgroundColor="LightGoldenrodYellow"
+                                VerticalOptions="Start"
+                                Margin="0,20,0,20"
+                                Command="{Binding Source={RelativeSource 
                                             AncestorType={x:Type viewModels:MainViewModel}}, 
                                             Path=SetPlotSummaryCommand}"
-                            CommandParameter="{Binding .}" />
+                                CommandParameter="{Binding .}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+         </HorizontalStackLayout>
+        <Button Text="Export"
+                Grid.Row="0" Grid.Column="1"
+                Command="{Binding ExportSummaryCommand}"
+                Style="{StaticResource ButtonSummary}" />
+        <CollectionView ItemsSource="{Binding SummaryItems}"
+                        Grid.Row="1" Grid.Column="0"
+                        Margin="0,20,0,0"
+                        x:Name="collectionSummaryItems"
+                        BackgroundColor="LightGrey"
+                        HorizontalOptions="Center">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="300,100,100"
+                      BackgroundColor="DarkGray">
+                    <Label Text="Result Name"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="0" />
+                    <Label Text="Value"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="1" />
+                    <Label Text="Units"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="2" />
+
+                </Grid>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="300,100,100"
+                          BackgroundColor="LightGrey">
+                        <Label Grid.Column="0"
+                               Text="{Binding DisplayName}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start" />
+                        <Label Grid.Column="1"
+                               Text="{Binding Value}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="2"
+                               Text="{Binding Units}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center" />
+
+
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-       
-        <Border Margin="0,20,0,0" WidthRequest="250">
-            <Grid RowDefinitions="Auto,Auto" HorizontalOptions="Center">
-                <HorizontalStackLayout Grid.Row="0"
-                                       Spacing="10"
-                                       HorizontalOptions="Center">
-                    <Button Text="Export"
-                            Command="{Binding ExportSummaryCommand}"                            
-                            Style="{StaticResource ButtonSummary}" />
-                    
-                </HorizontalStackLayout>
-           
 
-                <HorizontalStackLayout Grid.Row="1"
-                                       Margin="0,0,0,0">
+        <CollectionView ItemsSource="{Binding SpeciesSummary}"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="20,20,0,0"
+                        x:Name="collectionSpeciesSummary"
+                        BackgroundColor="LightGrey"
+                        HorizontalOptions="Center">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="100,100,100"
+                      BackgroundColor="DarkGray">
+                    <Label Text="Plot Number"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="0" />
+                    <Label Text="Species"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="1" />
+                    <Label Text="Count"
+                           Style="{StaticResource GridHeader}"
+                           Grid.Column="2" />
 
-                    <RadioButton Content="Currently Selected"
-                                     GroupName="WhatToExport"
-                                     IsChecked="{Binding IsSelectedExportSelectedOnly}" />
+                </Grid>
+            </CollectionView.Header>
 
-                        <RadioButton Content="All"
-                                     GroupName="WhatToExport"
-                                     IsChecked="{Binding IsSelectedExportAll}" />
-
-
-                    </HorizontalStackLayout>
-            </Grid>
-       
-        </Border>
-
-        <ScrollView>
-        <VerticalStackLayout Margin="0,20,0,0">
-            
-        <HorizontalStackLayout>
-            <Label Text="Total Basal Area (m2/ha)"
-                   MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.TotalBasalArea_m2ha, Mode=TwoWay}" />
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="Merch Basal Area (m2/ha)"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.MerchantableBasalArea_m2ha, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="LIT Basal Area (m2/ha)"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.LITBasalArea_m2ha, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout>
-            <Label Text="LT Basal Area (m2/ha)"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.LTBasalArea_m2ha, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="QMD Merch Trees (cm)"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.QMDMerchTrees_count, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-
-        <HorizontalStackLayout>
-            <Label Text="AGS (m2/ha)"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.AGS_m2ha, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="AGS LIT (m2/ha)"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.AGS_LIT_m2ha, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout>
-            <Label Text="Basal Area >25 cm (m2/ha)"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.BasalArea_gt25cm_m2ha, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout>
-            <Label Text="Average Height"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.AverageHeight, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="% Planted Trees InSitu " MinimumWidthRequest="400"/>
-                <Label Text="{Binding SummaryResult.PlantedTreesInSitu_perc , Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="%  Planted Trees ExSitu"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.PlantedTreesExSitu_perc, Mode=TwoWay }" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="%  Merch Conifer"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.MerchConifer_perc, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="% Decidious LIT"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.DeciduousLIT_perc, Mode=TwoWay}" />
-
-            
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="%Basal Area of WP +RO"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.BasalArea_WP_RO, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="% Basal Area of EH +RS + BF"
-                   MinimumWidthRequest="400" />
-                <Label Text="{Binding SummaryResult.BasalArea_EH_RS_BF, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="% Lit +ns +ws+ rp"
-                   MinimumWidthRequest="400" />
-            <Label Text="TO ADD!!!" />
-
-        </HorizontalStackLayout>
-        <HorizontalStackLayout >
-            <Label Text="AGS sM+yB+wP+rO+rS(15–20 cm Dbh)"
-                   MinimumWidthRequest="400" />
-            <Label Text="{Binding SummaryResult.LIT_sM_yB_wP_rO_rS_10to25_cm, Mode=TwoWay}" />
-
-        </HorizontalStackLayout>
-                <CollectionView ItemsSource="{Binding SpeciesSummary}"
-                                x:Name="collectionSpeciesSummary"
-                                BackgroundColor="LightGrey"
-                                HorizontalOptions="Center">
-                    <CollectionView.Header>
-                        <Grid ColumnDefinitions="100,100,100"
-                              BackgroundColor="DarkGray">
-                            <Label Text="Plot Number"
-                                   Style="{StaticResource GridHeader}"
-                                   Grid.Column="0" />
-                            <Label Text="Species"
-                                   Style="{StaticResource GridHeader}"
-                                   Grid.Column="1" />
-                            <Label Text="Count"
-                                   Style="{StaticResource GridHeader}"
-                                   Grid.Column="2" />
-
-                        </Grid>
-                    </CollectionView.Header>
-
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions="100,100,100"
-                                  BackgroundColor="LightGrey">
-                                <Label Grid.Column="0"
-                                       Text="{Binding PlotNumber}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Center" />
-                                <Label Grid.Column="1"
-                                       Text="{Binding Species}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Center" />
-                                <Label Grid.Column="2"
-                                       Text="{Binding Count}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Center" />
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="100,100,100"
+                          BackgroundColor="LightGrey">
+                        <Label Grid.Column="0"
+                               Text="{Binding PlotNumber}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="1"
+                               Text="{Binding Species}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="2"
+                               Text="{Binding Count}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center" />
 
 
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-            </VerticalStackLayout>
+    </Grid>
+    
 
-        </ScrollView>
+
+
+
         
-    </VerticalStackLayout>
 </ContentPage>

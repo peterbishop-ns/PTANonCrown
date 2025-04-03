@@ -5,11 +5,8 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
-             Title="">
-    <!--
-    <ContentPage.BindingContext>
-        <viewModels:MainViewModel />
-    </ContentPage.BindingContext>-->
+             Title="Dead Trees">
+
     <VerticalStackLayout >
         <Border BackgroundColor="LightGoldenrodYellow"
                  StrokeShape="RoundRectangle 2,2,2,2" 
@@ -27,8 +24,6 @@
             </HorizontalStackLayout>
 
         </Border>
-        <Label Text="Dead Trees"
-               Style="{StaticResource Headline}" />
 
         <CollectionView ItemsSource="{Binding DeadTrees}"
                         BackgroundColor="LightGrey"

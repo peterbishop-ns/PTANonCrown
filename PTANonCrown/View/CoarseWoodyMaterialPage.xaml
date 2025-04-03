@@ -5,10 +5,8 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
-             Title="">
-    <!--<ContentPage.BindingContext>
-        <viewModels:MainViewModel />
-    </ContentPage.BindingContext>-->
+             Title="Coarse Woody Material">
+
     <VerticalStackLayout>
         <Border BackgroundColor="LightGoldenrodYellow"
                 StrokeShape="RoundRectangle 2,2,2,2"
@@ -27,9 +25,6 @@
             </HorizontalStackLayout>
 
         </Border>
-
-        <Label Text="Coarse Woody Material"
-               Style="{StaticResource Headline}" />
 
         <VerticalStackLayout HorizontalOptions="Start">
             <HorizontalStackLayout>

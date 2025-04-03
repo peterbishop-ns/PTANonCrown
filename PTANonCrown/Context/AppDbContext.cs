@@ -14,6 +14,11 @@ public class AppDbContext : DbContext
     public DbSet<TreeDead> TreesDead { get; set; } 
     public DbSet<TreeLive> TreesLive { get; set; } 
 
+    public AppDbContext()
+    {
+
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");

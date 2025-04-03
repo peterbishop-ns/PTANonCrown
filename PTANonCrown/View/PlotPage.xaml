@@ -7,7 +7,7 @@
              xmlns:mvvm="http://schemas.microsoft.com/xaml/behaviors"
              BackgroundColor="#F0F0F0"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
-             Title="">
+             Title="Plot">
         <ScrollView>
 
         <VerticalStackLayout>
@@ -62,8 +62,7 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                     BackgroundColor="LightGreen"
                     Command="{Binding NewPlotCommand}"
                     HorizontalOptions="Start" />
-            <Label Text="Plot Overview"
-                   Style="{StaticResource Headline}" />
+          
             <ScrollView>
                 <VerticalStackLayout Padding="5"
                                      Spacing="5">

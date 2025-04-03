@@ -14,6 +14,8 @@ using System.Runtime.CompilerServices;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
+using System.Reflection;
+using PTANonCrown.Context;
 namespace PTANonCrown.ViewModel
 {
     public class MainViewModel : BaseViewModel
@@ -21,33 +23,41 @@ namespace PTANonCrown.ViewModel
 
         private MainService _mainService { get; set; }
         private StandRepository _standRepository { get; set; }
+        private LookupRepository _lookupRepository { get; set; }
 
-        private SummaryResult _summaryResult;
-        public SummaryResult SummaryResult
+        private ObservableCollection<SummaryItem> _summaryItems;
+        public ObservableCollection<SummaryItem> SummaryItems
         {
-            get => _summaryResult;
+            get => _summaryItems;
 
             set
             {
-                if (_summaryResult != value)
+                if (_summaryItems != value)
                 {
-                    _summaryResult = value;
+                    _summaryItems = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public MainViewModel(MainService mainService, StandRepository standRepository)
+        public MainViewModel(MainService mainService, StandRepository standRepository, LookupRepository lookupRepository)
         {
             _mainService = mainService;
             _standRepository = standRepository;
+            _lookupRepository = lookupRepository;
 
            GetOrCreateStand();
            GetOrCreatePlot(CurrentStand);
-
-            InitializeCollections();
+            LoadLookupTables();
+           InitializeCollections();
         }
 
+        public List<TreeLookup> LookupTrees {  get; set; }
+
+        private void LoadLookupTables()
+        {
+            LookupTrees = _lookupRepository.GetTreeLookups();
+        }
 
         public ICommand SetCurrentPlotCommand => new Command<Plot>(plot => SetCurrentPlot(plot));
         public ICommand SetPlotSummaryCommand => new Command<Plot>(plot => SetSummaryPlot(plot));
@@ -95,7 +105,8 @@ namespace PTANonCrown.ViewModel
         {
             SummaryPlot = plot;
             StandOnlySummary = false;
-            SummaryResult = GenerateSummaryResult(plot.TreeLive);
+            SummaryItems = TreeSummaryHelper.GenerateSummaryResult(plot.TreeLive);
+            SpeciesSummary =  GenerateTreeSpeciesSummary(new List<Plot>{ plot });
         }
         private void DeletePlot(Plot plot)
         {
@@ -104,22 +115,15 @@ namespace PTANonCrown.ViewModel
             SaveAll();
         }
 
-        private SummaryResult? GenerateSummaryResult(IEnumerable<TreeLive> trees)
-        {
-            if (trees.ToList().Count == 0)
-            {
-                Application.Current.MainPage.DisplayAlert("No trees", "No trees available for selection.", "OK");
-                return null;
-            }
-            return new SummaryResult(trees: trees); 
-        }
+ 
         private void SetStandOnly()
         {
             StandOnlySummary = true;
             SummaryPlot = null;
 
             var trees = CurrentStand.Plots.SelectMany(p => p.TreeLive);
-            SummaryResult = GenerateSummaryResult(trees);
+            SummaryItems = TreeSummaryHelper.GenerateSummaryResult(trees);
+            SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
         }
 
         private void ExportToCSV(int plotID, SummaryResult summaryResult)
@@ -137,7 +141,7 @@ namespace PTANonCrown.ViewModel
                 csv.WriteField("Field Value");
                 csv.NextRecord();
 
-                // Get the properties of the SummaryResult object
+                // Get the properties of the SummaryItems object
                 var properties = summaryResult.GetType().GetProperties();
 
                 foreach (var property in properties)
@@ -152,27 +156,34 @@ namespace PTANonCrown.ViewModel
             } }
 
 
-        private void ExportToExcel(XLWorkbook workBook, string tabName, SummaryResult summaryResult)
+        private void ExportToExcel<T>(XLWorkbook workBook, string tabName, ObservableCollection<T> items)
         {
 
-            var worksheet = workBook.Worksheets.Add(tabName);
+                // Add a worksheet
+                var worksheet = workBook.Worksheets.Add(tabName);
 
-            // Get the properties of the SummaryResult object
-            var properties = summaryResult.GetType().GetProperties();
+                // Get the properties of the generic type T (column names)
+                var properties = typeof(T).GetProperties();
 
-            for (int i = 0; i < properties.Length; i++)
-            {
-                // Write headers (property names)
-                worksheet.Cell(i + 1, 1).Value = properties[i].Name;
-                worksheet.Cell(i + 1, 2).Value = properties[i].GetValue(summaryResult)?.ToString() ?? string.Empty;
+                // Add headers (column names) to the first row
+                for (int col = 0; col < properties.Length; col++)
+                {
+                    worksheet.Cell(1, col + 1).Value = properties[col].Name; // Column headers are property names
+                }
 
+                // Add the data (values from the ObservableCollection)
+                for (int row = 0; row < items.Count; row++)
+                {
+                    for (int col = 0; col < properties.Length; col++)
+                    {
+                        var propertyValue = properties[col].GetValue(items[row]);
+                        worksheet.Cell(row + 2, col + 1).Value = propertyValue.ToString();
+                    }
+                }
 
-            }
-            worksheet.Columns().AdjustToContents();
-
-            // Save the workbook to a file
-            workBook.SaveAs("C://temp//summary.xlsx");
-
+            // Save the workbook to the specified file path
+            workBook.SaveAs("C://temp//Summary.xlsx");
+  
 
         }
 
@@ -210,8 +221,8 @@ namespace PTANonCrown.ViewModel
         private void ExportSummary()
         {
 
-            SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand);
-            SummaryResult summaryResult = null;
+            SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
+            ObservableCollection<SummaryItem> summaryResult = null;
             IEnumerable<TreeLive> trees = null;
             string tabName = null;
             if (IsSelectedExportSelectedOnly)
@@ -219,7 +230,7 @@ namespace PTANonCrown.ViewModel
                 if (SummaryPlot is not null && !StandOnlySummary)
                 {
                     trees = SummaryPlot.TreeLive;
-                    summaryResult = new SummaryResult(trees);
+                    summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
                     tabName = "Plot " + SummaryPlot.PlotNumber.ToString();
 
                     // Create a new Excel workbook
@@ -229,7 +240,7 @@ namespace PTANonCrown.ViewModel
                 else if (SummaryPlot is null && StandOnlySummary)
                 {
                     trees = CurrentStand.Plots.SelectMany(p => p.TreeLive);
-                    summaryResult = new SummaryResult(trees);
+                    summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
                     tabName = "Stand " + CurrentStand.StandNumber.ToString();
 
                     // Create a new Excel workbook
@@ -245,7 +256,7 @@ namespace PTANonCrown.ViewModel
 
                 // Export Stand 
                 trees = CurrentStand.Plots.SelectMany(p => p.TreeLive);
-                summaryResult = new SummaryResult(trees);
+                summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
                 tabName = "Stand " + CurrentStand.StandNumber.ToString();
                 ExportToExcel(workbook, tabName, summaryResult);
 
@@ -253,7 +264,7 @@ namespace PTANonCrown.ViewModel
                 foreach (Plot plot in CurrentStand.Plots)
                 {
                     trees = plot.TreeLive;
-                    summaryResult = new SummaryResult(trees);
+                    summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
                     tabName = "Plot " + plot.PlotNumber.ToString();
                     ExportToExcel(workbook, tabName, summaryResult);
                 }
@@ -464,9 +475,9 @@ namespace PTANonCrown.ViewModel
             }
         }
         
-        private ObservableCollection<SummaryResultTreeSpecies> GenerateTreeSpeciesSummary(Stand stand)
+        private ObservableCollection<SummaryResultTreeSpecies> GenerateTreeSpeciesSummary(IEnumerable<Plot> plots)
         {
-            var summary = stand.Plots
+            var summary = plots
              .SelectMany(plot => plot.TreeLive.Select(tree => new { plot.PlotNumber, tree.Species }))
              .GroupBy(t => new { t.PlotNumber, t.Species })
              .Select(g => new SummaryResultTreeSpecies
