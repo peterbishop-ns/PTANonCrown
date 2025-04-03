@@ -135,45 +135,14 @@
                                 VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center"/>
             
-                            
-                            <!--
-                            <Entry Grid.Column="1"
-                                   Text="{Binding Species}"
-                                   Style="{StaticResource GridEntry}"
-                                   ReturnType="Next">
-
-                                <Entry.Behaviors>
-                                    <behav:EntryFormBehaviour />
-                                </Entry.Behaviors>
-                            </Entry>
-                            <Entry Text="{Binding Species}"
-       Style="{StaticResource GridEntry}"
-       ReturnType="Next">
-
-    <Entry.Behaviors>
-        <behav:EntryFormBehaviour />
-    </Entry.Behaviors>
-</Entry>
-<Picker ItemsSource="{Binding Source={RelativeSource 
-              AncestorType={x:Type viewModels:MainViewModel}}, 
-              Path=LookupTrees}"
-        SelectedItem="{Binding Species}"
-        BackgroundColor="White"
-        HeightRequest="10"
-        ItemDisplayBinding="{Binding Name}"
-        WidthRequest="200"/>
-                            -->
+   
                             <VerticalStackLayout Grid.Column="1">
 
                                 <Entry x:Name="treeShortCodeEntry"
                                        Placeholder="Enter Species ID"
-                                       Text="{Binding Source={RelativeSource 
-                                          AncestorType={x:Type viewModels:MainViewModel}}, 
-                                          Path=SearchString}" />
-                                <!-- Suggestion List IsVisible="{Binding Source={RelativeSource 
-  AncestorType={x:Type viewModels:MainViewModel}}, 
-  Path=TreeLookupFilteredList.Count, 
-  Converter={StaticResource ListVisibilityConverter}}"-->
+                                       Text="{Binding SearchSpecies}"
+                                       TextChanged="Entry_TextChanged" />
+
                                 <CollectionView ItemsSource="{Binding Source={RelativeSource 
                                           AncestorType={x:Type viewModels:MainViewModel}}, 
                                           Path=TreeLookupFilteredList}"
@@ -182,7 +151,7 @@
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Padding="5">
-                                                <Label Text="{Binding ShortCode}"
+                                                <Label Text="{Binding DisplayName   }"
                                                        FontSize="16">
                                                     <Label.GestureRecognizers>
                                                         <TapGestureRecognizer Tapped="OnSuggestionSelected"

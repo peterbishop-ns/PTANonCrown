@@ -62,37 +62,21 @@ namespace PTANonCrown.ViewModel
            InitializeCollections();
         }
 
-        private string _searchString;
-        public string SearchString
-        {
-            get => _searchString;
-
-            set
-            {
-                if (_searchString != value)
-                {
-                    _searchString = value;
-                    OnPropertyChanged();
-                    ApplyFilter();
-                }
-            }
-        }
-
+        
+        /*
         public void ApplyFilter()
         {
             TreeLookupFilteredList.Clear();
             TreeLookupFilteredList = new ObservableCollection<TreeLookup>(LookupTrees.
                 Where(t => t.ShortCode.Contains(SearchString, StringComparison.OrdinalIgnoreCase))) { };
 
-
-
-        }
+        }*/
         public List<TreeLookup> LookupTrees {  get; set; }
 
         private void LoadLookupTables()
         {
             LookupTrees = _lookupRepository.GetTreeLookups();
-            TreeLookupFilteredList = new ObservableCollection<TreeLookup>(LookupTrees) { };
+            TreeLookupFilteredList = new ObservableCollection<TreeLookup>() { };
         }
 
         public ICommand SetCurrentPlotCommand => new Command<Plot>(plot => SetCurrentPlot(plot));

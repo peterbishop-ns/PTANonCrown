@@ -16,6 +16,29 @@ public partial class LiveTreePage : ContentPage
         
 
     }
+    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is Entry entry && entry.BindingContext is TreeLive treeRow)
+        {
+            // Get ViewModel
+            var vm = BindingContext as MainViewModel;
+            if (vm != null)
+            {
+                // Filter lookup list based on user input
+                var filteredResults = vm.LookupTrees
+                    .Where(t => t.ShortCode.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                // Update the ViewModel (or another property) with the filtered list
+                vm.TreeLookupFilteredList.Clear();
+                foreach (var item in filteredResults)
+                {
+                    vm.TreeLookupFilteredList.Add(item);
+                }
+            }
+        }
+    }
+
 
     private void OnSuggestionSelected(object sender, TappedEventArgs e)
     {
@@ -25,6 +48,7 @@ public partial class LiveTreePage : ContentPage
             if (selectedSpecies != null)
             {
                 itemToUpdate.TreeLookup = selectedSpecies;
+                itemToUpdate.SearchSpecies = $"{selectedSpecies.ShortCode} - {selectedSpecies.Name}";
                 OnPropertyChanged(nameof(itemToUpdate));
             }
         }
