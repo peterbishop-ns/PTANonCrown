@@ -26,14 +26,23 @@ public partial class LiveTreePage : ContentPage
             {
                 // Filter lookup list based on user input
                 var filteredResults = vm.LookupTrees
-                    .Where(t => t.ShortCode.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                        .Where(t => t.ShortCode.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
+                            t.Name.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
+                       .ToList();
 
                 // Update the ViewModel (or another property) with the filtered list
-                vm.TreeLookupFilteredList.Clear();
+                treeRow.TreeLookupFilteredList.Clear();
                 foreach (var item in filteredResults)
                 {
-                    vm.TreeLookupFilteredList.Add(item);
+                    treeRow.TreeLookupFilteredList.Add(item);
+                }
+
+               if (filteredResults.Count == 1)
+                {
+                    treeRow.TreeLookup = filteredResults.First();
+                    treeRow.SearchSpecies = $"{treeRow.TreeLookup.ShortCode} - {treeRow.TreeLookup.Name}";
+
+                    treeRow.TreeLookupFilteredList.Clear();
                 }
             }
         }

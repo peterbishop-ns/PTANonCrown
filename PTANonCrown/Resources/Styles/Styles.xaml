@@ -29,6 +29,8 @@
            x:Key="GridEntry">
         <Setter Property="HorizontalOptions"
                 Value="Start" />
+        <Setter Property="VerticalOptions"
+                Value="Start" />
         <Setter Property="HorizontalTextAlignment"
                 Value="End" />
         <Setter Property="HeightRequest"

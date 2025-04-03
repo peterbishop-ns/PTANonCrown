@@ -38,7 +38,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "Total Basal Area",
                 Value = result,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -51,7 +51,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "Merchantable Basal Area",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -61,7 +61,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "LIT Basal Area",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -71,7 +71,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "LT Basal Area",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -81,7 +81,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "QMD Merchantable Trees",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -91,7 +91,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "AGS",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -101,7 +101,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "AGS LIT",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -111,7 +111,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "Basal Area > 25cm",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -171,7 +171,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "Basal Area (WP / RO)",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -181,7 +181,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "Basal Area (EH / RS / BF)",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }
@@ -191,7 +191,7 @@ namespace PTANonCrown.Services
             {
                 DisplayName = "LIT 10 - 25 cm (sM / yB / wP / rO / rS)",
                 Value = 0,
-                Units = "m2ha"
+                Units = "m²/ha"
             };
             return summaryItem;
         }

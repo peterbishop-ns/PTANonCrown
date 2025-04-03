@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -41,6 +42,12 @@ namespace PTANonCrown.Models
             }
         }
 
+
+        public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; } = new ObservableCollection<TreeLookup>();
+
+
+
+
         private string _searchSpecies;
 
         public string SearchSpecies
@@ -72,6 +79,10 @@ namespace PTANonCrown.Models
             }
         }
 
+        public TreeLive()
+        {
+            TreeLookupFilteredList = new ObservableCollection<TreeLookup>();
+        }
         public decimal Height_m { get; set; }
         public bool AGS { get; set; }
         public bool LIT { get; set; }

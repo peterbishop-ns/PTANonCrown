@@ -59,7 +59,7 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                         BackgroundColor="LightGrey"
                         HorizontalOptions="Center">
             <CollectionView.Header>
-                <Grid ColumnDefinitions="300,100,100"
+                <Grid ColumnDefinitions="300,100"
                       BackgroundColor="DarkGray">
                     <Label Text="Result Name"
                            Style="{StaticResource GridHeader}"
@@ -67,29 +67,23 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                     <Label Text="Value"
                            Style="{StaticResource GridHeader}"
                            Grid.Column="1" />
-                    <Label Text="Units"
-                           Style="{StaticResource GridHeader}"
-                           Grid.Column="2" />
 
                 </Grid>
             </CollectionView.Header>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="300,100,100"
+                    <Grid ColumnDefinitions="300,100"
                           BackgroundColor="LightGrey">
                         <Label Grid.Column="0"
                                Text="{Binding DisplayName}"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Start" />
                         <Label Grid.Column="1"
-                               Text="{Binding Value}"
+                               Text="{Binding DisplayValue}"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center" />
-                        <Label Grid.Column="2"
-                               Text="{Binding Units}"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center" />
+
 
 
                     </Grid>

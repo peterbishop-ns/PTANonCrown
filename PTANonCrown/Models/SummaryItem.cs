@@ -15,5 +15,7 @@ namespace PTANonCrown.Models
         public object Value { get; set; }
         public string Units { get; set; }
 
+        public string DisplayValue => $"{Value} {Units}";
+
     }
 }
