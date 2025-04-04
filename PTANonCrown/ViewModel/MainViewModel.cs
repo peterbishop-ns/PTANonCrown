@@ -4,6 +4,7 @@ using PTANonCrown.Models;
 using PTANonCrown.Repository;
 using PTANonCrown.Services;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -16,7 +17,12 @@ namespace PTANonCrown.ViewModel
         private Stand _currentStand;
         private bool _isSelectedExportAll;
         private bool _isSelectedExportSelectedOnly;
+        private bool _isValidationError;
+        private ObservableCollection<SummaryResultTreeSpecies> _speciesSummary;
+        private ObservableCollection<SummaryItem> _summaryItems;
         private Plot _summaryPlot;
+
+        private string _validationMessage;
 
         public MainViewModel(MainService mainService, StandRepository standRepository, LookupRepository lookupRepository)
         {
@@ -27,26 +33,123 @@ namespace PTANonCrown.ViewModel
             GetOrCreateStand();
             GetOrCreatePlot(CurrentStand);
             LoadLookupTables();
+            ValidationMessage = string.Empty;
 
         }
+        private void CurrentPlot_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Check if the changed property is StandNumber (or any other property you care about)
+            if (e.PropertyName == nameof(Plot.PlotNumber))
+            {
+                // Handle the update accordingly
+                Console.WriteLine($"StandNumber changed: {(sender as Stand)?.StandNumber}");
+                // For example, if you want to update CurrentStand or do any other logic:
+                // UpdateCurrentStand();
+            }
+        }
+        private void Stand_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Check if the changed property is StandNumber (or any other property you care about)
+            if (e.PropertyName == nameof(Stand.StandNumber))
+            {
+                // Handle the update accordingly
+                Console.WriteLine($"StandNumber changed: {(sender as Stand)?.StandNumber}");
+                RefreshAllStands();// For example, if you want to update CurrentStand or do any other logic:
+                // UpdateCurrentStand();
+            }
+        }
+        public void RefreshAllStands()
+        {
 
-        public ObservableCollection<Stand> AllStands { get; set; }
+            // Store the existing collection in a temporary list
+            var tempList = AllStands.ToList();
+            var tempCurrentStand = CurrentStand; //store CurrentStand; this gets wiped
 
+            // Clear the existing ObservableCollection
+            AllStands.Clear();
+
+            // Re-add the same items from the temporary list
+            foreach (var stand in tempList)
+            {
+                AllStands.Add(stand);
+            }
+
+            //reset the Current stand
+            SetCurrentStand(tempCurrentStand); 
+
+
+        }
+        public ObservableCollection<Stand> _allStands { get; set; }
+        public ObservableCollection<Stand> AllStands
+        {
+            get => _allStands;
+            set
+            {
+                if (_allStands != value)
+                {
+                    _allStands = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public Plot CurrentPlot
         {
             get => _currentPlot;
-            set => SetProperty(ref _currentPlot, value);
+            set
+            {
+                if (_currentPlot != value)
+                {
+                    // Unsubscribe from the old collection's property change notifications
+                    if (_currentPlot != null)
+                    {
+
+                        _currentPlot.PropertyChanged -= CurrentPlot_PropertyChanged;
+
+                    }
+
+                    _currentPlot = value;
+
+                    // Subscribe to the new collection's property change notifications
+                    if (_currentPlot != null)
+                    {
+                            _currentPlot.PropertyChanged += CurrentPlot_PropertyChanged;
+                    }
+
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public Stand CurrentStand
         {
             get => _currentStand;
-            set => SetProperty(ref _currentStand, value);
+            set
+            {
+                if (_currentStand != value)
+                {
+                    if (_currentStand != null)
+                    {
+                        // Unsubscribe from old CurrentPlot's property changes
+                        _currentStand.PropertyChanged -= Stand_PropertyChanged;
+                    }
+
+                    _currentStand = value;
+                    OnPropertyChanged();
+
+                    if (_currentStand != null)
+                    {
+                        // Subscribe to new CurrentPlot's property changes
+                        _currentStand.PropertyChanged += Stand_PropertyChanged;
+                    }
+
+                    ValidateStand(); // Run validation in case a new object is assigned
+                }
+            }
 
         }
 
         public ICommand DeletePlotCommand => new Command<Plot>(plot => DeletePlot(plot));
-        public ICommand SpecifyTreeCountInPlotCommand => new Command(SpecifyTreeCountInPlot);
+        public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
 
         public ICommand ExportSummaryCommand =>
             new Command<string>(method => ExportSummary());
@@ -62,6 +165,12 @@ namespace PTANonCrown.ViewModel
         {
             get => _isSelectedExportSelectedOnly;
             set => SetProperty(ref _isSelectedExportSelectedOnly, value);
+        }
+
+        public bool IsValidationError
+        {
+            get => _isValidationError;
+            set => SetProperty(ref _isValidationError, value);
         }
 
         public ObservableCollection<TreeLive> LiveTrees { get; set; }
@@ -80,11 +189,35 @@ namespace PTANonCrown.ViewModel
 
         public ICommand SetStandOnlyCommand => new Command<Plot>(plot => SetStandOnly());
 
-        public ObservableCollection<SummaryResultTreeSpecies> SpeciesSummary { get; set; }
+        public ObservableCollection<SummaryResultTreeSpecies> SpeciesSummary
+        {
+            get => _speciesSummary;
+            set
+            {
+                if (_speciesSummary != value)
+                {
+                    _speciesSummary = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ICommand SpecifyTreeCountInPlotCommand => new Command(SpecifyTreeCountInPlot);
 
         public bool StandOnlySummary { get; set; }
 
-        public ObservableCollection<SummaryItem> SummaryItems { get; set; }
+        public ObservableCollection<SummaryItem> SummaryItems
+        {
+            get => _summaryItems;
+            set
+            {
+                if (_summaryItems != value)
+                {
+                    _summaryItems = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public Plot SummaryPlot
         {
@@ -95,13 +228,50 @@ namespace PTANonCrown.ViewModel
 
         public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; }
 
+        public string ValidationMessage
+        {
+            get => _validationMessage;
+            set => SetProperty(ref _validationMessage, value);
+        }
+
         private LookupRepository _lookupRepository { get; set; }
 
         private MainService _mainService { get; set; }
 
         private StandRepository _standRepository { get; set; }
 
-      
+        public void ValidateStand()
+        {
+
+            // StandNumber
+            if (CurrentStand?.StandNumber != 2000)
+            {
+                ValidationMessage = "Wrong stand!";
+                IsValidationError = true;
+            }
+            else
+            {
+                ValidationMessage = string.Empty;
+                IsValidationError = false;
+            }
+
+        }
+
+        private void AddTrees(int currentTreeCount)
+        {
+            int treesToAdd = CurrentPlot.TreeCount - currentTreeCount;
+
+            // Get max tree number
+            int currentMaxTreeNumber = GetMaxTreeNumber();
+
+            // Add the trees
+            for (int i = 0; i < treesToAdd; i++)
+            {
+                TreeLive _treeLive = new TreeLive() { TreeNumber = currentMaxTreeNumber + 1 };
+                CurrentPlot.PlotTreeLive.Add(_treeLive);
+                currentMaxTreeNumber++;
+            }
+        }
 
         private Plot CreateNewPlot(Stand stand)
         {
@@ -125,76 +295,17 @@ namespace PTANonCrown.ViewModel
             };
 
             Plot _newPlot = CreateNewPlot(_stand);
-
+            AllStands.Add(_stand);
+            SetCurrentStand(_stand);
             return _stand;
 
         }
 
-        private void SpecifyTreeCountInPlot()
+        private void DeletePlot(Plot plot)
         {
-            int currentTreeCount = CurrentPlot.PlotTreeLive.Count;
-
-            // Add Trees if necessary
-            if (CurrentPlot.TreeCount > currentTreeCount)
-            {
-                AddTrees(currentTreeCount);
-            }
-            // Remove Trees if necessary
-            else if (CurrentPlot.TreeCount < currentTreeCount)
-            {
-                RemoveTrees(currentTreeCount);
-            }
-        }
-
-        private void AddTrees(int currentTreeCount)
-        {
-            int treesToAdd = CurrentPlot.TreeCount - currentTreeCount;
-
-            // Get max tree number
-            int currentMaxTreeNumber = GetMaxTreeNumber();
-
-            // Add the trees
-            for (int i = 0; i < treesToAdd; i++)
-            {
-                TreeLive _treeLive = new TreeLive() { TreeNumber = currentMaxTreeNumber + 1 };
-                CurrentPlot.PlotTreeLive.Add(_treeLive);
-                currentMaxTreeNumber++;
-            }
-        }
-
-        private async void RemoveTrees(int currentTreeCount)
-        {
-            int treesToSubtract = currentTreeCount - CurrentPlot.TreeCount;
-
-            int firstRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - treesToSubtract].TreeNumber; // First element to be removed
-            int lastRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - 1].TreeNumber; // Last element to be removed
-
-            string message = $"Do you want to set the tree count to {CurrentPlot.TreeCount}? Trees {firstRemoved} - {lastRemoved} will be removed. This cannot be undone.";
-
-            // Call the async DisplayAlert method
-            bool answer = await DisplayRemoveTreesConfirmation(message);
-
-            if (answer)
-            {
-                // Remove trees
-                for (int i = 0; i < treesToSubtract; i++)
-                {
-                    CurrentPlot.PlotTreeLive.RemoveAt(CurrentPlot.PlotTreeLive.Count - 1);
-                }
-            }
-            else
-            {
-                // Reset the count if user clicked "Cancel"
-                CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
-            }
-        }
-
-        // Method to get the max tree number
-        private int GetMaxTreeNumber()
-        {
-            return CurrentPlot.PlotTreeLive.Count > 0
-                ? CurrentPlot.PlotTreeLive.Max(t => t.TreeNumber)
-                : 0;
+            CurrentStand.Plots.Remove(plot);
+            GetOrCreatePlot(CurrentStand);
+            SaveAll();
         }
 
         // Async method to show the remove trees confirmation dialog
@@ -208,20 +319,11 @@ namespace PTANonCrown.ViewModel
             );
         }
 
-        private void DeletePlot(Plot plot)
-        {
-            CurrentStand.Plots.Remove(plot);
-            GetOrCreatePlot(CurrentStand);
-            SaveAll();
-        }
-
         private void ExportSuccessMessage(string method)
         {
             // Inform the user
             Application.Current.MainPage.DisplayAlert("Export Successful", $"Summary has been exported to {method}.", "OK");
         }
-
-        
 
         private void ExportSummary()
         {
@@ -310,12 +412,12 @@ namespace PTANonCrown.ViewModel
         private ObservableCollection<SummaryResultTreeSpecies> GenerateTreeSpeciesSummary(IEnumerable<Plot> plots)
         {
             var summary = plots
-             .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.Species }))
-             .GroupBy(t => new { t.PlotNumber, t.Species })
+             .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeLookup.DisplayName }))
+             .GroupBy(t => new { t.PlotNumber, t.DisplayName })
              .Select(g => new SummaryResultTreeSpecies
              {
                  PlotNumber = g.Key.PlotNumber,
-                 Species = g.Key.Species,
+                 Species = g.Key.DisplayName,
                  Count = g.Count()
              })
              .OrderBy(x => x.PlotNumber)
@@ -324,6 +426,14 @@ namespace PTANonCrown.ViewModel
 
             return new ObservableCollection<SummaryResultTreeSpecies>(summary);
 
+        }
+
+        // Method to get the max tree number
+        private int GetMaxTreeNumber()
+        {
+            return CurrentPlot.PlotTreeLive.Count > 0
+                ? CurrentPlot.PlotTreeLive.Max(t => t.TreeNumber)
+                : 0;
         }
 
         private Plot GetOrCreatePlot(Stand stand)
@@ -378,6 +488,34 @@ namespace PTANonCrown.ViewModel
             TreeLookupFilteredList = new ObservableCollection<TreeLookup>() { };
         }
 
+      
+        private async void RemoveTrees(int currentTreeCount)
+        {
+            int treesToSubtract = currentTreeCount - CurrentPlot.TreeCount;
+
+            int firstRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - treesToSubtract].TreeNumber; // First element to be removed
+            int lastRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - 1].TreeNumber; // Last element to be removed
+
+            string message = $"Do you want to set the tree count to {CurrentPlot.TreeCount}? Trees {firstRemoved} - {lastRemoved} will be removed. This cannot be undone.";
+
+            // Call the async DisplayAlert method
+            bool answer = await DisplayRemoveTreesConfirmation(message);
+
+            if (answer)
+            {
+                // Remove trees
+                for (int i = 0; i < treesToSubtract; i++)
+                {
+                    CurrentPlot.PlotTreeLive.RemoveAt(CurrentPlot.PlotTreeLive.Count - 1);
+                }
+            }
+            else
+            {
+                // Reset the count if user clicked "Cancel"
+                CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
+            }
+        }
+
         private void SaveAll()
         {
             _standRepository.Save(CurrentStand);
@@ -409,6 +547,22 @@ namespace PTANonCrown.ViewModel
             StandOnlySummary = false;
             SummaryItems = TreeSummaryHelper.GenerateSummaryResult(plot.PlotTreeLive);
             SpeciesSummary = GenerateTreeSpeciesSummary(new List<Plot> { plot });
+        }
+
+        private void SpecifyTreeCountInPlot()
+        {
+            int currentTreeCount = CurrentPlot.PlotTreeLive.Count;
+
+            // Add Trees if necessary
+            if (CurrentPlot.TreeCount > currentTreeCount)
+            {
+                AddTrees(currentTreeCount);
+            }
+            // Remove Trees if necessary
+            else if (CurrentPlot.TreeCount < currentTreeCount)
+            {
+                RemoveTrees(currentTreeCount);
+            }
         }
     }
 }

@@ -5,6 +5,6 @@
 
         public int Count { get; set; }
         public int PlotNumber { get; set; }
-        public int Species { get; set; }
+        public string Species { get; set; }
     }
 }

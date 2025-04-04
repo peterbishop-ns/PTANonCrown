@@ -45,7 +45,7 @@
                 <Button Text="Refresh"
                         Command="{Binding SpecifyTreeCountInPlotCommand}" />
             </HorizontalStackLayout>
-            <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive}"
+            <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive, Mode=TwoWay}"
                             x:Name="collectionViewLiveTrees"
                             BackgroundColor="LightGrey"
                             HorizontalOptions="Center">

@@ -54,7 +54,7 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                 Grid.Column="1"
                 Command="{Binding ExportSummaryCommand}"
                 Style="{StaticResource ButtonSummary}" />
-        <CollectionView ItemsSource="{Binding SummaryItems}"
+        <CollectionView ItemsSource="{Binding SummaryItems, Mode=TwoWay}"
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="0,20,0,0"

@@ -31,7 +31,7 @@ namespace PTANonCrown.ViewModel
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
                 field = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(propertyName));
                 return true;
             }
             return false;

@@ -4,6 +4,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:PTANonCrown"
        Shell.FlyoutBehavior="Flyout"
+       WidthRequest="600"
        Title="PTANonCrown">
 
     <Shell.ToolbarItems>

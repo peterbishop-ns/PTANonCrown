@@ -5,7 +5,7 @@
              BackgroundColor="#F0F0F0"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              Title="Stand">
-
+    <ScrollView>
     <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
           ColumnDefinitions="Auto, *"
           MaximumWidthRequest="500"
@@ -14,7 +14,10 @@
         <VerticalStackLayout Grid.Row="0"
                              Style="{StaticResource VerticalStackLayoutStand}">
 
-         
+            <Label Text="{Binding ValidationMessage, Mode=TwoWay}" 
+                   BackgroundColor="LightPink"
+                   TextColor="Red"
+                   FontAttributes="Bold"/>
             <HorizontalStackLayout>
                 <Label Text="Stand Number"
                        Style="{StaticResource LabelStand}" />
@@ -23,10 +26,17 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="StandNumber" />
             </HorizontalStackLayout>
-
-            <Entry Text="{Binding CurrentStand.StandNumber}"
-                   Style="{StaticResource EntryStand}" />
-        </VerticalStackLayout>
+            <HorizontalStackLayout>
+                <Entry Text="{Binding CurrentStand.StandNumber, Mode=TwoWay}"
+                        Style="{StaticResource EntryStand}" />
+                <Picker ItemsSource="{Binding AllStands, Mode=TwoWay}"
+                        SelectedItem="{Binding CurrentStand, Mode=TwoWay}"
+                        ItemDisplayBinding="{Binding StandNumber, Mode=TwoWay}" />
+                    <Button Text="New Stand"
+                            Command="{Binding CreateNewStandCommand}" />
+                </HorizontalStackLayout>
+          
+            </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="1"
                              Style="{StaticResource VerticalStackLayoutStand}">
@@ -114,4 +124,5 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
     </Grid>
+    </ScrollView>
 </ContentPage>

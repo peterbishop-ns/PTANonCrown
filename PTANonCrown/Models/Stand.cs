@@ -25,13 +25,19 @@ namespace PTANonCrown.Models
 
         public int PlannerID { get; set; }
 
-        public ObservableCollection<Plot> Plots { get; set; }
+        public virtual ObservableCollection<Plot> Plots { get; set; }
 
         public int StandNumber
         {
             get => _standNumber;
-            set => SetProperty(ref _standNumber, value);
-
+            set
+            {
+                if (_standNumber != value)
+                {
+                    _standNumber = value;
+                    OnPropertyChanged();
+                }
+            }
         }
     }
 }

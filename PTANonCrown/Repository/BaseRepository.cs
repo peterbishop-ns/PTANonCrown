@@ -52,13 +52,19 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 
     public List<T>? GetAll()
     {
-
         IQueryable<T> query = _context.Set<T>();
-        var entries = query.ToList();
-        return entries;
 
+        var entityType = _context.Model.FindEntityType(typeof(T));
+        if (entityType != null)  // Ensure entityType is not null
+        {
+            foreach (var navigation in entityType.GetNavigations()) // No need for ??
+            {
+                query = query.Include(navigation.Name);
+            }
+        }
+
+        return query.ToList();
     }
-
     public T? GetById(int id) => _dbSet.Find(id) ?? null;
 
     public List<T> GetBySearch(string searchString, string propertyNameToSearch)

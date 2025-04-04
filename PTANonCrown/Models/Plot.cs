@@ -20,7 +20,21 @@ namespace PTANonCrown.Models
         public int AverageSampleTreeSpecies { get; set; }
         public int Blowdown { get; set; }
 
-        public ObservableCollection<CoarseWoody> PlotCoarseWoody { get; set; }
+        public ObservableCollection<CoarseWoody> _plotCoarseWoody;
+
+        public ObservableCollection<CoarseWoody> PlotCoarseWoody
+        {
+            get => _plotCoarseWoody;
+            set
+            {
+                if (_plotCoarseWoody != value)
+                {
+                    _plotCoarseWoody = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         public int HorizontalStructure { get; set; }
         public int ID { get; set; }
@@ -49,13 +63,31 @@ namespace PTANonCrown.Models
         public int StockingRegenCommercialSpecies { get; set; }
         public int StockingRegenLITSpecies { get; set; }
 
-        public ObservableCollection<TreeDead> PlotTreeDead { get; set; }
+
+
+
+        private ObservableCollection<TreeDead> _plotTreeDead = new ObservableCollection<TreeDead>();
+
+        public virtual ObservableCollection<TreeDead> PlotTreeDead
+        {
+            get => _plotTreeDead;
+            set
+            {
+                if (_plotTreeDead != value)
+                {
+
+                    _plotTreeDead = value;
+                    OnPropertyChanged();
+
+                }
+            }
+        }
 
 
 
         private ObservableCollection<TreeLive> _plotTreeLive = new ObservableCollection<TreeLive>();
 
-        public ObservableCollection<TreeLive> PlotTreeLive
+        public virtual ObservableCollection<TreeLive> PlotTreeLive
         {
             get => _plotTreeLive;
             set
@@ -102,22 +134,33 @@ namespace PTANonCrown.Models
         }
         private void InitializeDeadTreeDefaults()
         {
-            PlotTreeDead = new ObservableCollection<TreeDead>();
-            PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
-            PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
-            PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
-            PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
-            PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 60, DBH_end = 1000 });
+            
+            if (PlotTreeDead is null)
+            {
+                PlotTreeDead = new ObservableCollection<TreeDead>();
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 60, DBH_end = 1000 });
+            }
+         
         }
         private void InitializeCoarseWoodyDefaults()
         {            // todo this should first check DB; if none exist, THEN initialize
 
-            PlotCoarseWoody = new ObservableCollection<CoarseWoody>();
-            PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
-            PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
-            PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
-            PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
-            PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 60, DBH_end = 1000 });
+            
+            if (PlotCoarseWoody is null)
+            {
+                PlotCoarseWoody = new ObservableCollection<CoarseWoody>();
+                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
+                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
+                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
+                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
+                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 60, DBH_end = 1000 });
+
+            }
+            
         }
         public int UnderstoryDominated { get; set; }
         public int UnderstoryStrata { get; set; }

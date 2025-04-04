@@ -20,5 +20,7 @@ public class AppDbContext : DbContext
     {
         string dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
         optionsBuilder.UseSqlite($"Data Source={dbPath}");
+
+
     }
 }
