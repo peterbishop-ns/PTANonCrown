@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace PTANonCrown.Models
 {
@@ -49,7 +50,36 @@ namespace PTANonCrown.Models
 
         public ObservableCollection<TreeDead> PlotTreeDead { get; set; }
 
-        public ObservableCollection<TreeLive> PlotTreeLive { get; set; }
+
+
+        private ObservableCollection<TreeLive> _plotTreeLive = new ObservableCollection<TreeLive>();
+
+        public ObservableCollection<TreeLive> PlotTreeLive
+        {
+            get => _plotTreeLive;
+            set
+            {
+                if (_plotTreeLive != value)
+                {
+                    if (_plotTreeLive != null)
+                        _plotTreeLive.CollectionChanged -= OnTreeLiveCollectionChanged;
+
+                    _plotTreeLive = value;
+
+                    if (_plotTreeLive != null)
+                        _plotTreeLive.CollectionChanged += OnTreeLiveCollectionChanged;
+
+                    OnPropertyChanged(nameof(PlotTreeLive));
+
+                }
+            }
+        }
+
+        private void OnTreeLiveCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // Update TreeCount when items are added or removed from the collection
+            TreeCount = _plotTreeLive?.Count ?? 0;
+        }
 
         private void InitializeLiveTree()
         {
@@ -59,6 +89,14 @@ namespace PTANonCrown.Models
 
         }
 
+        private int _treeCount;
+        public int TreeCount
+        {
+            get => _treeCount;
+            set {
+                SetProperty(ref _treeCount, value);
+            } 
+        }
         private void InitializeDeadTreeDefaults()
         {
             PlotTreeDead = new ObservableCollection<TreeDead>();

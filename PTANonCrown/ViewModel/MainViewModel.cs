@@ -46,6 +46,7 @@ namespace PTANonCrown.ViewModel
         }
 
         public ICommand DeletePlotCommand => new Command<Plot>(plot => DeletePlot(plot));
+        public ICommand SpecifyTreeCountInPlotCommand => new Command(SpecifyTreeCountInPlot);
 
         public ICommand ExportSummaryCommand =>
             new Command<string>(method => ExportSummary());
@@ -129,6 +130,66 @@ namespace PTANonCrown.ViewModel
 
         }
 
+
+
+        private async void SpecifyTreeCountInPlot() //async because we hae await in the display alert
+        {
+            int currentTreeCount = CurrentPlot.PlotTreeLive.Count;
+
+
+            // Adding Trees
+            if (CurrentPlot.TreeCount > currentTreeCount)
+            {
+
+                int treesToAdd = CurrentPlot.TreeCount - currentTreeCount;
+
+                // Get max tree number
+                int currentMaxTreeNumber = CurrentPlot.PlotTreeLive.Count > 0
+                    ? CurrentPlot.PlotTreeLive.Max(t => t.TreeNumber)
+                    : 0;
+                
+                // Add the trees
+                for (int i = 0; i < treesToAdd; i++)
+                {
+                    TreeLive _treeLive = new TreeLive() { TreeNumber = currentMaxTreeNumber + 1 };
+                    CurrentPlot.PlotTreeLive.Add(_treeLive);
+                    currentMaxTreeNumber++;
+                }
+            }
+
+
+            // Remove trees
+            else if (CurrentPlot.TreeCount < currentTreeCount)
+            {
+                int treesToSubtract = currentTreeCount - CurrentPlot.TreeCount;
+
+                int firstRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - treesToSubtract].TreeNumber; // First element to be removed
+                int lastRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - 1].TreeNumber; // Last element to be removed
+
+                string message = $"Do you want to set the tree count to {CurrentPlot.TreeCount}? Trees {firstRemoved} - {lastRemoved} will be removed. This cannot be undone.";
+
+                bool answer = await  Application.Current.MainPage.DisplayAlert(
+                        "Remove Trees?",   
+                        message, 
+                        "Continue",  
+                        "Cancel"    
+                    );
+
+                if (answer) {
+
+                    for (int i = 0; i < treesToSubtract; i++)
+                    {
+                        CurrentPlot.PlotTreeLive.RemoveAt(CurrentPlot.PlotTreeLive.Count - 1);
+                    } }
+                else
+                {
+                    //Reset the count
+                    CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
+                }
+
+            }
+
+        }
         private void DeletePlot(Plot plot)
         {
             CurrentStand.Plots.Remove(plot);
