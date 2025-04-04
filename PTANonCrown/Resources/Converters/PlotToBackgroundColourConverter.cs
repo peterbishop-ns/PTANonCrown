@@ -1,10 +1,5 @@
-﻿using System;
+﻿using PTANonCrown.Models;
 using System.Globalization;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PTANonCrown.Models;
 
 namespace PTANonCrown.Resources.Converters
 {
@@ -14,8 +9,8 @@ namespace PTANonCrown.Resources.Converters
         {
             if (value is Plot plot)
             {
-               //return plot.Equals(currentPlot) ? Color.FromRgb(20,20,20) : Color.FromRgb(100, 0, 0); // Set to green if it's the current plot
-                return Color.FromRgb(20,20,20); // Set to green if it's the current plot
+                //return plot.Equals(currentPlot) ? Color.FromRgb(20,20,20) : Color.FromRgb(100, 0, 0); // Set to green if it's the current plot
+                return Color.FromRgb(20, 20, 20); // Set to green if it's the current plot
             }
             return Color.FromRgb(100, 0, 0); // Default color if not
         }

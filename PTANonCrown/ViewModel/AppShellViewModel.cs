@@ -8,13 +8,12 @@ using CommunityToolkit.Maui;
 
 namespace PTANonCrown.ViewModel
 {
-    class AppShellViewModel
+    internal class AppShellViewModel
     {
 
         public AppShellViewModel()
         {
         }
-
 
     }
 }

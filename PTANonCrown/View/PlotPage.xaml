@@ -8,52 +8,47 @@
              BackgroundColor="#F0F0F0"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              Title="Plot">
-        <ScrollView>
+    <ScrollView>
 
         <VerticalStackLayout>
-            
+
+            <VerticalStackLayout HorizontalOptions="Start"
+                                 VerticalOptions="Start">
 
                 <VerticalStackLayout HorizontalOptions="Start"
                                      VerticalOptions="Start">
 
-                    <VerticalStackLayout HorizontalOptions="Start"
-                                         VerticalOptions="Start">
-                       
-                        <!-- Iterate over the observable collection of buttons -->
-                        <CollectionView ItemsSource="{Binding CurrentStand.Plots}"
-                                        HorizontalOptions="Start"
-                                        VerticalOptions="Start"
-                                        Margin="0,0,0,0"
-                                        WidthRequest="400">
-                            <CollectionView.ItemsLayout>
-                                <GridItemsLayout Orientation="Vertical"
-                                                 
-                                                 VerticalItemSpacing="0"
-                                                 Span="4" />
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <!-- Create a button for each plot in the collection     BackgroundColor="{Binding ., 
+                    <!-- Iterate over the observable collection of buttons -->
+                    <CollectionView ItemsSource="{Binding CurrentStand.Plots}"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Start"
+                                    Margin="0,0,0,0"
+                                    WidthRequest="400">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                             VerticalItemSpacing="0"
+                                             Span="4" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <!-- Create a button for each plot in the collection     BackgroundColor="{Binding .,
 Converter={StaticResource PlotToBackgroundColorConverter}}"-->
-                                    <Button Text="{Binding PlotNumber, StringFormat='Plot {0}'}"
-                                            WidthRequest="85"
-                                            HeightRequest="45"
-                                            HorizontalOptions="Start"
-                                            BackgroundColor="LightGoldenrodYellow"
-                                            VerticalOptions="Start"
-                                            Margin="0,20,0,20"
-                                            Command="{Binding Source={RelativeSource 
-                                            AncestorType={x:Type viewModels:MainViewModel}}, 
+                                <Button Text="{Binding PlotNumber, StringFormat='Plot {0}'}"
+                                        WidthRequest="85"
+                                        HeightRequest="45"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="LightGoldenrodYellow"
+                                        VerticalOptions="Start"
+                                        Margin="0,20,0,20"
+                                        Command="{Binding Source={RelativeSource
+                                            AncestorType={x:Type viewModels:MainViewModel}},
                                             Path=SetCurrentPlotCommand}"
-                                            CommandParameter="{Binding .}"/>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                       
-                    </VerticalStackLayout>
-                   
-  
+                                        CommandParameter="{Binding .}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
+            </VerticalStackLayout>
 
             <Button Text="Add Plot"
                     Margin="100,20,0  ,10"
@@ -62,7 +57,7 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                     BackgroundColor="LightGreen"
                     Command="{Binding NewPlotCommand}"
                     HorizontalOptions="Start" />
-          
+
             <ScrollView>
                 <VerticalStackLayout Padding="5"
                                      Spacing="5">
@@ -75,7 +70,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                BackgroundColor="Yellow"
                                HeightRequest="15"
                                WidthRequest="100">
-
                         </Entry>
                         <Button Text="Delete Plot"
                                 Command="{Binding DeletePlotCommand}"
@@ -99,7 +93,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                                  Margin="10,0,0,0"
                                                  Command="{Binding ShowHelperTextCommand}"
                                                  CommandParameter="RegenHeightGeneral" />
-
                                 </HorizontalStackLayout>
 
                                 <!--  Regen Toggles x3 -->
@@ -116,7 +109,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                                          Command="{Binding ShowHelperTextCommand}"
                                                          CommandParameter="SWLITRegen" />
                                             <Switch IsToggled="{Binding CurrentPlot.RegenHeightSWLIT}" />
-
                                         </HorizontalStackLayout>
 
                                         <!--  3  -->
@@ -143,12 +135,8 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                                          CommandParameter="BeechRegeneration25perc" />
                                             <Switch IsToggled="{Binding CurrentPlot.StockingBeechRegeneration}"
                                                     Style="{StaticResource EntryPlot}" />
-
                                         </HorizontalStackLayout>
-
-
                                     </VerticalStackLayout>
-
                                 </Border>
 
                                 <!-- TITLE Stocking -->
@@ -209,30 +197,17 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                                     <x:String>30</x:String>
                                                 </Picker.Items>
                                             </Picker>
-
                                         </HorizontalStackLayout>
-
-
-
                                     </VerticalStackLayout>
-
                                 </Border>
                             </VerticalStackLayout>
-
-
                         </Border>
-
                     </VerticalStackLayout>
-
-
-
-
-
 
                     <VerticalStackLayout>
                         <Label Text="Forest Structure"
                                Style="{StaticResource SubHeadline}" />
-                        
+
                         <Border>
                             <VerticalStackLayout>
 
@@ -258,7 +233,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                             <x:String>30</x:String>
                                         </Picker.Items>
                                     </Picker>
-
                                 </VerticalStackLayout>
                                 <HorizontalStackLayout>
                                     <!--  6  -->
@@ -272,7 +246,7 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                                      Command="{Binding ShowHelperTextCommand}"
                                                      CommandParameter="Blowdown" />
                                     </HorizontalStackLayout>
-                                 
+
                                     <Picker Background="White"
                                             WidthRequest="70"
                                             HorizontalOptions="Start">
@@ -283,7 +257,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                             <x:String>30</x:String>
                                         </Picker.Items>
                                     </Picker>
-
                                 </HorizontalStackLayout>
                                 <!--  UnderstoryStrata  -->
                                 <HorizontalStackLayout>
@@ -304,8 +277,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                             <x:String>30</x:String>
                                         </Picker.Items>
                                     </Picker>
-
-
                                 </HorizontalStackLayout>
 
                                 <!--  8  -->
@@ -322,7 +293,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                             Grid.Column="1" />
                                 </HorizontalStackLayout>
 
-
                                 <!--  9  -->
                                 <HorizontalStackLayout>
 
@@ -337,20 +307,17 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                             Grid.Column="1" />
                                 </HorizontalStackLayout>
 
-                                
-                               
-
                                 <!--  11  -->
                                 <HorizontalStackLayout>
-                                    
-                                <Label Text="Understory Dominated By"
-                                       Style="{StaticResource LabelPlot}"
-                                       Grid.Row="11" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="UnderStoryDominatedBy" />
+
+                                    <Label Text="Understory Dominated By"
+                                           Style="{StaticResource LabelPlot}"
+                                           Grid.Row="11" />
+                                    <ImageButton Source="info.png"
+                                                 Style="{StaticResource ImageButtonHelper}"
+                                                 Margin="10,0,0,0"
+                                                 Command="{Binding ShowHelperTextCommand}"
+                                                 CommandParameter="UnderStoryDominatedBy" />
                                 </HorizontalStackLayout>
 
                                 <Border>
@@ -365,27 +332,11 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                                      IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
                                     </HorizontalStackLayout>
                                 </Border>
-                               
-
-
                             </VerticalStackLayout>
-
                         </Border>
-
                     </VerticalStackLayout>
-
-
-
-
-
-
                 </VerticalStackLayout>
-
             </ScrollView>
-
-
         </VerticalStackLayout>
     </ScrollView>
-
-
 </ContentPage>

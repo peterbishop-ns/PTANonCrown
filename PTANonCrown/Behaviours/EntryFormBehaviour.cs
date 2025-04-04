@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PTANonCrown.Models;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DocumentFormat.OpenXml.Vml;
-using Microsoft.Maui.Controls.Internals;
-using PTANonCrown.Models;
-using PTANonCrown.ViewModel;
 
 namespace PTANonCrown.Behaviours
 {
@@ -30,22 +22,22 @@ namespace PTANonCrown.Behaviours
         private void OnHandlerChanged(object? sender, System.EventArgs e)
         {
 #if WINDOWS
-        if (sender is Entry entry && entry.Handler?.PlatformView is Microsoft.UI.Xaml.Controls.TextBox nativeEntry)
-        {
-            nativeEntry.KeyDown += (s, args) => OnKeyDown(entry, args);
-        }
+            if (sender is Entry entry && entry.Handler?.PlatformView is Microsoft.UI.Xaml.Controls.TextBox nativeEntry)
+            {
+                nativeEntry.KeyDown += (s, args) => OnKeyDown(entry, args);
+            }
 #endif
         }
 
 #if WINDOWS
-    private void OnKeyDown(Entry entry, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
-    {
-        if (e.Key == Windows.System.VirtualKey.Tab)
+        private void OnKeyDown(Entry entry, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            e.Handled = true;
-            MoveFocus(entry);
+            if (e.Key == Windows.System.VirtualKey.Tab)
+            {
+                e.Handled = true;
+                MoveFocus(entry);
+            }
         }
-    }
 #endif
 
         private void OnCompleted(object? sender, System.EventArgs e)
@@ -70,28 +62,26 @@ namespace PTANonCrown.Behaviours
                 entries[currentIndex + 1].SelectionLength = entries[currentIndex + 1].Text?.Length ?? 0;
 
             }
-
-            else if (currentIndex == entries.Count - 1){
+            else if (currentIndex == entries.Count - 1)
+            {
                 // Assuming your collection is a list, for example
                 var collection = parentCollection.ItemsSource as ObservableCollection<TreeLive>;
                 if (collection != null)
                 {
 
-                    
                     int maxTreeNumber = collection.Max(t => t.TreeNumber);
                     // Add a new item to the collection
-                    collection.Add(new TreeLive() {TreeNumber = maxTreeNumber + 1 });
+                    collection.Add(new TreeLive() { TreeNumber = maxTreeNumber + 1 });
 
                     // Optionally, you could focus the newly added entry here as well
                     var newEntry = entries.Last(); // or get the new entry dynamically
 
                     newEntry.Focus();
                     newEntry.SelectionLength = newEntry.Text?.Length ?? 0;
-                    parentCollection.ScrollTo(collection.Last(), position:ScrollToPosition.End);
+                    parentCollection.ScrollTo(collection.Last(), position: ScrollToPosition.End);
 
                 }
             }
-
 
         }
     }

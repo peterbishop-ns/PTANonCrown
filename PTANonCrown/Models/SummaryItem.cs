@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-
-namespace PTANonCrown.Models
+﻿namespace PTANonCrown.Models
 {
     public class SummaryItem
     {
 
         public string DisplayName { get; set; }
-        public object Value { get; set; }
-        public string Units { get; set; }
-
         public string DisplayValue => $"{Value} {Units}";
-
+        public string Units { get; set; }
+        public object Value { get; set; }
     }
 }

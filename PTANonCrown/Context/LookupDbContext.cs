@@ -5,13 +5,12 @@ namespace PTANonCrown.Context
 {
     public class LookupDbContext : DbContext
     {
-        public DbSet<TreeLookup> TreeLookup { get; set; }
-        
-        public LookupDbContext() {
-          
-        
+        public LookupDbContext()
+        {
+
         }
 
+        public DbSet<TreeLookup> TreeLookup { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

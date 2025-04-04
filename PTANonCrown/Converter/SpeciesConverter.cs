@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using PTANonCrown.Models;
+using System.Collections.ObjectModel;
 using System.Globalization;
-using PTANonCrown.Models;
 
 namespace PTANonCrown.Converter
 {
@@ -25,7 +25,7 @@ namespace PTANonCrown.Converter
             var treeSpecies = value as TreeLookup;
             return treeSpecies?.ShortCode; // Return the ShortCode of the selected TreeSpecies
                                            //
-            
+
         }
     }
 

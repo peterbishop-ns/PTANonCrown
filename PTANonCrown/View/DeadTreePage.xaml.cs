@@ -4,7 +4,7 @@ namespace PTANonCrown;
 
 public partial class DeadTreePage : ContentPage
 {
-	public DeadTreePage(MainViewModel viewModel)
+    public DeadTreePage(MainViewModel viewModel)
     {
         InitializeComponent();
 

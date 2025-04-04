@@ -1,59 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace PTANonCrown.Models
 {
     public class Stand : BaseModel
     {
-        
+
+
+        private int _standNumber;
+
         public Stand()
         {
             Plots = new ObservableCollection<Plot>();
         }
+
+        public int CruiseID { get; set; }
+        public float? Easting { get; set; }
+        public int Ecodistrict { get; set; }
         public int ID { get; set; }
-        private int _standNumber;
+        public string? Location { get; set; }
+
+        public float? Northing { get; set; }
+
+        public string? Organization { get; set; }
+
+        public int PlannerID { get; set; }
+
+        public ObservableCollection<Plot> Plots { get; set; }
 
         public int StandNumber
         {
             get => _standNumber;
-            set
-            {
-                if (_standNumber != value)
-                {
-                    _standNumber = value;
-                    OnPropertyChanged();
-                }
+            set => SetProperty(ref _standNumber, value);
 
-            }
         }
-
-
-        public int CruiseID { get; set; }
-        public int PlannerID { get; set; }
-        public string? Organization { get; set; }
-        public float? Easting { get; set; }
-        public float? Northing { get; set; }
-        public int Ecodistrict { get; set; }
-        public string? Location { get; set; }
-
-        private ObservableCollection<Plot> _plots;
-
-        public ObservableCollection<Plot> Plots
-        {
-            get => _plots;
-            set
-            {
-                if (_plots != value)
-                {
-                    _plots = value;
-                    OnPropertyChanged();
-                }
-
-            }
-        } 
     }
 }

@@ -13,11 +13,10 @@
             <converter:SpeciesConverter x:Key="SpeciesConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    
-    <ScrollView >
 
-        <VerticalStackLayout VerticalOptions="Start" >
+    <ScrollView>
+
+        <VerticalStackLayout VerticalOptions="Start">
             <Border BackgroundColor="LightGoldenrodYellow"
                     StrokeShape="RoundRectangle 2,2,2,2"
                     WidthRequest="200">
@@ -33,32 +32,30 @@
                     <Label Text="{Binding CurrentPlot.PlotNumber}"
                            Margin="3,0,0,0" />
                 </HorizontalStackLayout>
-
             </Border>
             <HorizontalStackLayout Margin="0, 20, 0, 20">
-            <Label Text="Include Biodiversity" />
-            <CheckBox x:Name="IncludeBiodiversity" />
-        </HorizontalStackLayout>
-        <CollectionView ItemsSource="{Binding CurrentPlot.TreeLive}"
-                        x:Name="collectionViewLiveTrees"
-                        BackgroundColor="LightGrey"
-                        HorizontalOptions="Center">
+                <Label Text="Include Biodiversity" />
+                <CheckBox x:Name="IncludeBiodiversity" />
+            </HorizontalStackLayout>
+            <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive}"
+                            x:Name="collectionViewLiveTrees"
+                            BackgroundColor="LightGrey"
+                            HorizontalOptions="Center">
                 <CollectionView.Header>
                     <Grid ColumnDefinitions="100,300,70,100,60,60,60,60"
                           BackgroundColor="DarkGray">
                         <VerticalStackLayout Grid.Column="0">
-                    <Label Text="Tree Number"
-                           
-                           Style="{StaticResource GridHeader}"/>
-                        <ImageButton Source="info.png"
-                                     HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="TreeNumber" />
+                            <Label Text="Tree Number"
+                                   Style="{StaticResource GridHeader}" />
+                            <ImageButton Source="info.png"
+                                         HorizontalOptions="Center"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="TreeNumber" />
                         </VerticalStackLayout>
                         <VerticalStackLayout Grid.Column="1">
                             <Label Text="Species"
-                                   Style="{StaticResource GridHeader}"/>
+                                   Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
                                          HorizontalOptions="Center"
                                          Style="{StaticResource ImageButtonHelper}"
@@ -67,7 +64,7 @@
                         </VerticalStackLayout>
                         <VerticalStackLayout Grid.Column="2">
                             <Label Text="DBH (cm)"
-                                   Style="{StaticResource GridHeader}"/>
+                                   Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
                                          HorizontalOptions="Center"
                                          Style="{StaticResource ImageButtonHelper}"
@@ -85,7 +82,7 @@
                         </VerticalStackLayout>
                         <VerticalStackLayout Grid.Column="4">
                             <Label Text="AGS"
-                                   Style="{StaticResource GridHeader}"/>
+                                   Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
                                          HorizontalOptions="Center"
                                          Style="{StaticResource ImageButtonHelper}"
@@ -104,7 +101,7 @@
                         <VerticalStackLayout Grid.Column="6"
                                              IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}">
                             <Label Text="Cavity"
-                                   Style="{StaticResource GridHeader}"/>
+                                   Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
                                          HorizontalOptions="Center"
                                          Style="{StaticResource ImageButtonHelper}"
@@ -122,22 +119,19 @@
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="IncludeBiodiversity" />
                         </VerticalStackLayout>
-                      
-                  
-                 
-                </Grid>
-            </CollectionView.Header>
+                    </Grid>
+                </CollectionView.Header>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                        <Grid ColumnDefinitions="100,300,70,100,60,60,60,60" BackgroundColor="LightGrey">
-                        <Label Grid.Column="0"
-                               Text="{Binding TreeNumber}"
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="100,300,70,100,60,60,60,60"
+                              BackgroundColor="LightGrey">
+                            <Label Grid.Column="0"
+                                   Text="{Binding TreeNumber}"
                                    VerticalOptions="Start"
                                    VerticalTextAlignment="Start"
-                                   HorizontalTextAlignment="Center"/>
-            
-   
+                                   HorizontalTextAlignment="Center" />
+
                             <VerticalStackLayout Grid.Column="1">
 
                                 <Entry x:Name="treeShortCodeEntry"
@@ -146,7 +140,7 @@
                                        TextChanged="Entry_TextChanged" />
 
                                 <CollectionView ItemsSource="{Binding TreeLookupFilteredList, Mode=TwoWay}"
-                                                SelectionMode="Single">  
+                                                SelectionMode="Single">
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Padding="5">
@@ -154,7 +148,7 @@
                                                        FontSize="14">
                                                     <Label.GestureRecognizers>
                                                         <TapGestureRecognizer Tapped="OnSuggestionSelected"
-                                                                              CommandParameter="{Binding ., 
+                                                                              CommandParameter="{Binding .,
                                                             Source={RelativeSource AncestorType={x:Type models:TreeLive}}}" />
                                                     </Label.GestureRecognizers>
                                                 </Label>
@@ -163,9 +157,9 @@
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
 
-                                <!-- Picker for Tree Names 
-                                <Picker ItemsSource="{Binding Source={RelativeSource 
-                                                      AncestorType={x:Type viewModels:MainViewModel}}, 
+                                <!-- Picker for Tree Names
+                                <Picker ItemsSource="{Binding Source={RelativeSource
+                                                      AncestorType={x:Type viewModels:MainViewModel}},
                                                       Path=LookupTrees}"
                                         ItemDisplayBinding="{Binding DisplayName}"
                                         WidthRequest="200"
@@ -174,8 +168,7 @@
                             </VerticalStackLayout>
                             <Entry Grid.Column="2"
                                    Text="{Binding DBH_cm}"
-                                   Style="{StaticResource GridEntry}"
-                                   >
+                                   Style="{StaticResource GridEntry}">
                                 <!-- Bind the behavior -->
                                 <Entry.Behaviors>
                                     <behav:EntryFormBehaviour />
@@ -192,22 +185,21 @@
                             <CheckBox Grid.Column="4"
                                       IsChecked="{Binding AGS}"
                                       VerticalOptions="Start" />
-                        <CheckBox Grid.Column="5"
+                            <CheckBox Grid.Column="5"
                                       IsChecked="{Binding LIT}"
                                       VerticalOptions="Start" />
-                        <CheckBox Grid.Column="6"
+                            <CheckBox Grid.Column="6"
                                       IsChecked="{Binding Cavity}"
                                       VerticalOptions="Start"
                                       IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}" />
-                        <CheckBox Grid.Column="7"
+                            <CheckBox Grid.Column="7"
                                       IsChecked="{Binding Diversity}"
                                       VerticalOptions="Start"
                                       IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
-        </ScrollView>
-
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

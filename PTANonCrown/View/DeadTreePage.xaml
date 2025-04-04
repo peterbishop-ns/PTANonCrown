@@ -7,25 +7,25 @@
              BackgroundColor="#F0F0F0"
              Title="Dead Trees">
 
-    <VerticalStackLayout >
+    <VerticalStackLayout>
         <Border BackgroundColor="LightGoldenrodYellow"
-                 StrokeShape="RoundRectangle 2,2,2,2" 
+                StrokeShape="RoundRectangle 2,2,2,2"
                 WidthRequest="200">
             <HorizontalStackLayout HorizontalOptions="Center">
                 <Label Text="Stand"
                        FontAttributes="Bold"
                        Margin="10,0,0,0" />
-                <Label Text="{Binding CurrentStand.StandNumber}" Margin="3,0,0,0"/>
+                <Label Text="{Binding CurrentStand.StandNumber}"
+                       Margin="3,0,0,0" />
                 <Label Text="Plot"
                        FontAttributes="Bold"
                        Margin="10,0,0,0" />
                 <Label Text="{Binding CurrentPlot.PlotNumber}"
                        Margin="3,0,0,0" />
             </HorizontalStackLayout>
-
         </Border>
 
-        <CollectionView ItemsSource="{Binding DeadTrees}"
+        <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeDead}"
                         BackgroundColor="LightGrey"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="StartAndExpand">
@@ -58,7 +58,7 @@
                           BackgroundColor="LightGrey">
                         <Label Text="{Binding DBH_range}"
                                Grid.Column="0" />
-                        <HorizontalStackLayout Grid.Column="1" >
+                        <HorizontalStackLayout Grid.Column="1">
 
                             <Entry Text="{Binding Tally_Softwood, Mode=TwoWay}"
                                    WidthRequest="10"
@@ -68,9 +68,7 @@
                                     <behav:EntryFormBehaviour />
                                 </Entry.Behaviors>
                             </Entry>
-                            <Stepper Value="{Binding Tally_Softwood}"/>
-                           
-                            
+                            <Stepper Value="{Binding Tally_Softwood}" />
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="2"
                                                HorizontalOptions="Start">
@@ -82,7 +80,6 @@
                                 </Entry.Behaviors>
                             </Entry>
                             <Stepper Value="{Binding Tally_Hardwood}" />
-
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="3">
                             <Entry Text="{Binding Tally_Unknown, Mode=TwoWay}"
@@ -93,7 +90,6 @@
                                 </Entry.Behaviors>
                             </Entry>
                             <Stepper Value="{Binding Tally_Unknown}" />
-
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="4">
 
@@ -105,9 +101,7 @@
                                 </Entry.Behaviors>
                             </Entry>
                             <Stepper Value="{Binding Tally_Cavity}" />
-
                         </HorizontalStackLayout>
-
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

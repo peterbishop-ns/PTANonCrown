@@ -6,7 +6,8 @@
              BackgroundColor="#F0F0F0"
              Title="Summary">
 
-    <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto"
+          ColumnDefinitions="Auto,Auto">
         <HorizontalStackLayout Grid.Row="0"
                                Grid.Column="0"
                                Margin="20,0,0,0">
@@ -31,7 +32,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <!-- Create a button for each plot in the collection     BackgroundColor="{Binding ., 
+                        <!-- Create a button for each plot in the collection     BackgroundColor="{Binding .,
 Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                         <Button Text="{Binding PlotNumber, StringFormat='Plot {0}'}"
                                 WidthRequest="85"
@@ -40,20 +41,22 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                 BackgroundColor="LightGoldenrodYellow"
                                 VerticalOptions="Start"
                                 Margin="0,20,0,20"
-                                Command="{Binding Source={RelativeSource 
-                                            AncestorType={x:Type viewModels:MainViewModel}}, 
+                                Command="{Binding Source={RelativeSource
+                                            AncestorType={x:Type viewModels:MainViewModel}},
                                             Path=SetPlotSummaryCommand}"
                                 CommandParameter="{Binding .}" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-         </HorizontalStackLayout>
+        </HorizontalStackLayout>
         <Button Text="Export"
-                Grid.Row="0" Grid.Column="1"
+                Grid.Row="0"
+                Grid.Column="1"
                 Command="{Binding ExportSummaryCommand}"
                 Style="{StaticResource ButtonSummary}" />
         <CollectionView ItemsSource="{Binding SummaryItems}"
-                        Grid.Row="1" Grid.Column="0"
+                        Grid.Row="1"
+                        Grid.Column="0"
                         Margin="0,20,0,0"
                         x:Name="collectionSummaryItems"
                         BackgroundColor="LightGrey"
@@ -67,7 +70,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                     <Label Text="Value"
                            Style="{StaticResource GridHeader}"
                            Grid.Column="1" />
-
                 </Grid>
             </CollectionView.Header>
 
@@ -83,9 +85,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                Text="{Binding DisplayValue}"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center" />
-
-
-
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -110,7 +109,6 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                     <Label Text="Count"
                            Style="{StaticResource GridHeader}"
                            Grid.Column="2" />
-
                 </Grid>
             </CollectionView.Header>
 
@@ -130,18 +128,9 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                                Text="{Binding Count}"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center" />
-
-
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </Grid>
-    
-
-
-
-
-        
 </ContentPage>

@@ -1,4 +1,5 @@
 ﻿using PTANonCrown.ViewModel;
+
 namespace PTANonCrown
 {
     public partial class App : Application

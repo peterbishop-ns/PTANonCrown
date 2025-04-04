@@ -1,21 +1,18 @@
-using PTANonCrown.ViewModel;
-using PTANonCrown.Services;
-using Microsoft.Maui.Controls;
 //using AndroidX.Lifecycle;
 using PTANonCrown.Models;
-using Syncfusion.Maui.Core.Internals;
+using PTANonCrown.ViewModel;
 
 namespace PTANonCrown;
 
 public partial class LiveTreePage : ContentPage
 {
-	public LiveTreePage(MainViewModel viewModel)
-	{
+    public LiveTreePage(MainViewModel viewModel)
+    {
         InitializeComponent();
         BindingContext = viewModel;
-        
 
     }
+
     private void Entry_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (sender is Entry entry && entry.BindingContext is TreeLive treeRow)
@@ -24,30 +21,42 @@ public partial class LiveTreePage : ContentPage
             var vm = BindingContext as MainViewModel;
             if (vm != null)
             {
-                // Filter lookup list based on user input
+                // Get the filtered list based on user input
                 var filteredResults = vm.LookupTrees
-                        .Where(t => t.ShortCode.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
-                            t.Name.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
+                        .Where(t => t.ShortCode.StartsWith(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
+                            t.Name.StartsWith(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
                        .ToList();
 
-                // Update the ViewModel (or another property) with the filtered list
+                // Refresh the list in the UI based on the filtered list
                 treeRow.TreeLookupFilteredList.Clear();
                 foreach (var item in filteredResults)
                 {
                     treeRow.TreeLookupFilteredList.Add(item);
                 }
 
-               if (filteredResults.Count == 1)
+                // If there is a single match, choose it automatically
+                if (filteredResults.Count == 1)
                 {
                     treeRow.TreeLookup = filteredResults.First();
                     treeRow.SearchSpecies = $"{treeRow.TreeLookup.ShortCode} - {treeRow.TreeLookup.Name}";
 
                     treeRow.TreeLookupFilteredList.Clear();
                 }
+
+                // If user accidentally keeps typing, provide feedbac
+                if (treeRow.SearchSpecies.Contains(treeRow.TreeLookup.Name) && 
+                    treeRow.SearchSpecies != $"{treeRow.TreeLookup.ShortCode} - {treeRow.TreeLookup.Name}")
+                {
+                    entry.BackgroundColor = Color.FromHex("F0AF87");
+                } else //reset
+                {
+                    entry.BackgroundColor = Color.Parse("White");
+
+                }
+
             }
         }
     }
-
 
     private void OnSuggestionSelected(object sender, TappedEventArgs e)
     {
@@ -59,6 +68,7 @@ public partial class LiveTreePage : ContentPage
                 itemToUpdate.TreeLookup = selectedSpecies;
                 itemToUpdate.SearchSpecies = $"{selectedSpecies.ShortCode} - {selectedSpecies.Name}";
                 OnPropertyChanged(nameof(itemToUpdate));
+
             }
         }
     }

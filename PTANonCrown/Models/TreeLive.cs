@@ -1,69 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace PTANonCrown.Models
 {
     public class TreeLive : BaseModel
     {
-        public int ID { get; set; }
-        public int TreeNumber { get; set; }
-        public int PlotID { get; set; }
+        private int _dbh_cm;
+        private string _searchSpecies;
         private int _species;
-        public int Species
-        {
-            get => _species;
-            set
-            {
-                if (_species != value)
-                {
-                    _species = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private TreeLookup _treeLookup;
 
-        public TreeLookup TreeLookup
+        public TreeLive()
         {
-            get => _treeLookup;
-            set
-            {
-                if (_treeLookup != value)
-                {
-                    _treeLookup = value;
-                    OnPropertyChanged();
-                }
-            }
+            TreeLookupFilteredList = new ObservableCollection<TreeLookup>();
         }
 
+        public bool AGS { get; set; }
+        public double BasalArea => DBH_cm == 0 ? 0 : (DBH_cm * DBH_cm) * 0.00007854;
+        public bool Cavity { get; set; }
 
-        public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; } = new ObservableCollection<TreeLookup>();
-
-
-
-
-        private string _searchSpecies;
-
-        public string SearchSpecies
-        {
-            get => _searchSpecies;
-            set
-            {
-                if (_searchSpecies != value)
-                {
-                    _searchSpecies = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private int _dbh_cm;
         public int DBH_cm
         {
             get => _dbh_cm;
@@ -79,28 +33,66 @@ namespace PTANonCrown.Models
             }
         }
 
-        public TreeLive()
-        {
-            TreeLookupFilteredList = new ObservableCollection<TreeLookup>();
-        }
-        public decimal Height_m { get; set; }
-        public bool AGS { get; set; }
-        public bool LIT { get; set; }
-        public bool Cavity { get; set; }
         public bool Diversity { get; set; }
-        public bool Legacy { get; set; }
-        public bool SCanopy { get; set; }
-        public bool Mast { get; set; }
-        public bool PLInSitu { get; set; }
-        public bool PLExSitu { get; set; }
+        public decimal Height_m { get; set; }
+        public int ID { get; set; }
 
-
-        // Calculated 
+        // Calculated
         public bool IsMerchantable => DBH_cm > 9 ? true : false;
-        public double BasalArea => DBH_cm == 0 ? 0 : (DBH_cm * DBH_cm) * 0.00007854;
-        public double TreesPerHectare => BasalArea == 0 ? 0 : 2 / BasalArea; // todo confirm; is the "2" constant? Isn't this plot area 
 
+        public bool Legacy { get; set; }
+        public bool LIT { get; set; }
+        public bool Mast { get; set; }
+        public bool PLExSitu { get; set; }
+        public bool PLInSitu { get; set; }
         public Plot Plot { get; set; }
-    
+        public int PlotID { get; set; }
+        public bool SCanopy { get; set; }
+
+        public string SearchSpecies
+        {
+            get => _searchSpecies;
+            set => SetProperty(ref _searchSpecies, value);
+
+            /*set
+            {
+                if (_searchSpecies != value)
+                {
+                    _searchSpecies = value;
+                    OnPropertyChanged();
+                }
+            }*/
+        }
+
+        public int Species
+        {
+            get => _species;
+            set
+            {
+                if (_species != value)
+                {
+                    _species = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public TreeLookup TreeLookup
+        {
+            get => _treeLookup;
+            set
+            {
+                if (_treeLookup != value)
+                {
+                    _treeLookup = value;
+                    OnPropertyChanged();
+                    Species = _treeLookup.ID;
+                }
+            }
+        }
+
+        public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; } = new ObservableCollection<TreeLookup>();
+        public int TreeNumber { get; set; }
+        public double TreesPerHectare => BasalArea == 0 ? 0 : 2 / BasalArea; // todo confirm; is the "2" constant? Isn't this plot area
     }
 }

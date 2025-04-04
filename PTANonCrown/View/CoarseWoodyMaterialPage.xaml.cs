@@ -4,7 +4,7 @@ namespace PTANonCrown;
 
 public partial class CoarseWoodyMaterialPage : ContentPage
 {
-	public CoarseWoodyMaterialPage(MainViewModel viewModel)
+    public CoarseWoodyMaterialPage(MainViewModel viewModel)
     {
         InitializeComponent();
 

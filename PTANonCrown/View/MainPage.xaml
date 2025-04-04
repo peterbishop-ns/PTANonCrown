@@ -5,23 +5,16 @@
              x:Class="PTANonCrown.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-         
+        <VerticalStackLayout Padding="30,0"
+                             Spacing="25">
 
-            <Label
-                Text="Pre-Treatment Assessment"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="Pre-Treatment Assessment"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
 
-         
-            
             <Label Text="Pre-treatment assessment (PTA) is a system designed to collect site, stand and biodiversity conditions in order to produce an ecosystem-based treatment. Recommendation using the Silvicultural Guide for the Ecological Matrix (SGEM McGrath et al., 2025)..."
                    SemanticProperties.HeadingLevel="Level3"
                    SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

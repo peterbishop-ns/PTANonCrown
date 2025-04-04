@@ -33,7 +33,6 @@
         <Tab Title="Plot">
             <ShellContent Title="Overview"
                           ContentTemplate="{DataTemplate local:PlotPage}" />
-
         </Tab>
         <Tab Title="Live">
             <ShellContent Title="Live"
@@ -48,14 +47,10 @@
                           ContentTemplate="{DataTemplate local:CoarseWoodyMaterialPage}" />
         </Tab>
 
-   
-        
         <Tab Title="Summary">
             <ShellContent Title="Summary"
                           ContentTemplate="{DataTemplate local:SummaryPage}"
                           Route="SummaryPage" />
-
         </Tab>
-      
     </TabBar>
 </Shell>
