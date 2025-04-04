@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PTANonCrown.Models
 {
@@ -90,6 +91,8 @@ namespace PTANonCrown.Models
         }
 
         private int _treeCount;
+
+        [NotMapped]
         public int TreeCount
         {
             get => _treeCount;

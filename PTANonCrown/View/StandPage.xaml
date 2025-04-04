@@ -14,9 +14,7 @@
         <VerticalStackLayout Grid.Row="0"
                              Style="{StaticResource VerticalStackLayoutStand}">
 
-            <Label Text="Stand"
-                   Style="{StaticResource Headline}" />
-
+         
             <HorizontalStackLayout>
                 <Label Text="Stand Number"
                        Style="{StaticResource LabelStand}" />

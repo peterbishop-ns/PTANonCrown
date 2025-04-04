@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PTANonCrown.Models
 {
@@ -54,15 +55,7 @@ namespace PTANonCrown.Models
             get => _searchSpecies;
             set => SetProperty(ref _searchSpecies, value);
 
-            /*set
-            {
-                if (_searchSpecies != value)
-                {
-                    _searchSpecies = value;
-                    OnPropertyChanged();
-                }
-            }*/
-        }
+                 }
 
         public int Species
         {
@@ -77,6 +70,7 @@ namespace PTANonCrown.Models
             }
         }
 
+        [NotMapped]
         public TreeLookup TreeLookup
         {
             get => _treeLookup;
