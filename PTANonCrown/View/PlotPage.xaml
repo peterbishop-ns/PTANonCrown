@@ -9,334 +9,317 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              Title="Plot">
     <ScrollView>
+        <VerticalStackLayout Padding="5"
+                             Spacing="5">
+            <!--  0  -->
+            <Grid RowDefinitions="Auto,Auto">
+                <VerticalStackLayout Grid.Row="0">
+                    <HorizontalStackLayout>
+                        <Label Text="Select Plot Number"
+                               Style="{StaticResource LabelPlot}" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="20">
+                        <Picker ItemsSource="{Binding AllPlots, Mode=TwoWay}"
+                                SelectedItem="{Binding CurrentPlot, Mode=TwoWay}"
+                                WidthRequest="150"
+                                ItemDisplayBinding="{Binding PlotNumber, Mode=TwoWay}"
+                                Margin="5,0,0,0" />
 
-        <VerticalStackLayout>
-
-            <VerticalStackLayout HorizontalOptions="Start"
-                                 VerticalOptions="Start">
-
-                <VerticalStackLayout HorizontalOptions="Start"
-                                     VerticalOptions="Start">
-
-                    <!-- Iterate over the observable collection of buttons -->
-                    <CollectionView ItemsSource="{Binding CurrentStand.Plots}"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="Start"
-                                    Margin="0,0,0,0"
-                                    WidthRequest="400">
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical"
-                                             VerticalItemSpacing="0"
-                                             Span="4" />
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <!-- Create a button for each plot in the collection     BackgroundColor="{Binding .,
-Converter={StaticResource PlotToBackgroundColorConverter}}"-->
-                                <Button Text="{Binding PlotNumber, StringFormat='Plot {0}'}"
-                                        WidthRequest="85"
-                                        HeightRequest="45"
-                                        HorizontalOptions="Start"
-                                        BackgroundColor="LightGoldenrodYellow"
-                                        VerticalOptions="Start"
-                                        Margin="0,20,0,20"
-                                        Command="{Binding Source={RelativeSource
-                                            AncestorType={x:Type viewModels:MainViewModel}},
-                                            Path=SetCurrentPlotCommand}"
-                                        CommandParameter="{Binding .}" />
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                        <Button Text="Delete"
+                                Command="{Binding DeletePlotCommand}"
+                                CommandParameter="{Binding CurrentPlot}"
+                                Style="{StaticResource ButtonRed}"/>
+                        <Button Text="New"
+                                Style="{StaticResource ButtonGreen}"
+                                Command="{Binding NewPlotCommand}" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="1">
+                    <HorizontalStackLayout>
+                        <Label Text="Edit Plot Number"
+                               Style="{StaticResource LabelPlot}" />
+                        <ImageButton Source="info.png"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="PlotNumber" />
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding CurrentPlot.PlotNumber}"
+                           Style="{StaticResource EntryStand}"
+                           HorizontalOptions="Start"
+                           WidthRequest="80" />
+
+                </VerticalStackLayout>
+            </Grid>
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
+                <Label Text="Regeneration"
+                       Grid.Row="0"
+                       Style="{StaticResource SubHeadline}" />
+
+                <Border Grid.Row="1">
+                    <VerticalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="Height (2 – 6m)"
+                                   Style="{StaticResource LabelPlot}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="RegenHeightGeneral" />
+                        </HorizontalStackLayout>
+                        <Grid RowDefinitions="Auto,Auto,Auto"
+                              ColumnDefinitions="Auto,Auto">
+                            
+                            
+                            
+                        </Grid>
+                        <!-- TITLE Regen Toggles x3 -->
+                      
+                        <!--  Regen Toggles x3 -->
+                        <Border>
+
+                            <VerticalStackLayout  Grid.Row="2">
+                                <HorizontalStackLayout>
+
+     <Label Text="Softwood"
+            Style="{StaticResource LabelSubheading}" />
+     <ImageButton Source="info.png"
+                  Style="{StaticResource ImageButtonHelper}"
+                  Margin="10,0,0,0"
+                  Command="{Binding ShowHelperTextCommand}"
+                  CommandParameter="SWLITRegen" />
+     <Switch IsToggled="{Binding CurrentPlot.RegenHeightSWLIT}" />
+ </HorizontalStackLayout>
+
+ <!--  3  -->
+ <HorizontalStackLayout>
+
+     <Label Text="Hardwood"
+            Style="{StaticResource LabelSubheading}" />
+     <ImageButton Source="info.png"
+                  Style="{StaticResource ImageButtonHelper}"
+                  Margin="10,0,0,0"
+                  Command="{Binding ShowHelperTextCommand}"
+                  CommandParameter="HWLITRegen" />
+     <Switch IsToggled="{Binding CurrentPlot.RegenHeightHWLIT}" />
+ </HorizontalStackLayout>
+
+ <!--  1  -->
+ <HorizontalStackLayout>
+     <Label Text="Beech &gt;25%"
+            Style="{StaticResource LabelSubheading}" />
+     <ImageButton Source="info.png"
+                  Style="{StaticResource ImageButtonHelper}"
+                  Margin="10,0,0,0"
+                  Command="{Binding ShowHelperTextCommand}"
+                  CommandParameter="BeechRegeneration25perc" />
+     <Switch IsToggled="{Binding CurrentPlot.StockingBeechRegeneration}"
+             Style="{StaticResource EntryPlot}" />
+ </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- TITLE Stocking -->
+                        <HorizontalStackLayout>
+                            <Label Text="Stocking (%) at 2.44 m"
+                                   Style="{StaticResource LabelStand}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="RegenGeneral" />
+                        </HorizontalStackLayout>
+                        <Border>
+
+                            <VerticalStackLayout>
+
+                                <HorizontalStackLayout>
+                                    <Label Text="All Commercial Species"
+                                           WidthRequest="150"
+                                           Style="{StaticResource LabelSubheading}"
+                                           Grid.Row="4" />
+                                    <ImageButton Source="info.png"
+                                                 Style="{StaticResource ImageButtonHelper}"
+                                                 Margin="10,0,0,0"
+                                                 Command="{Binding ShowHelperTextCommand}"
+                                                 CommandParameter="StockingRegenCommercialSpecies" />
+                                    <Picker Background="White"
+                                            WidthRequest="70"
+                                            HorizontalOptions="Start">
+                                        <Picker.Items>
+                                            <x:String>0</x:String>
+                                            <x:String>10</x:String>
+                                            <x:String>20</x:String>
+                                            <x:String>30</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </HorizontalStackLayout>
+
+                                <!--  4  -->
+                                <HorizontalStackLayout>
+                                    <!--  RegenStockingLITSpecies  -->
+                                    <Label Text="LIT Species"
+                                           WidthRequest="150"
+                                           Style="{StaticResource LabelSubheading}"
+                                           Grid.Row="5" />
+                                    <ImageButton Source="info.png"
+                                                 Style="{StaticResource ImageButtonHelper}"
+                                                 Margin="10,0,0,0"
+                                                 Command="{Binding ShowHelperTextCommand}"
+                                                 CommandParameter="StockingRegenLITSpecies" />
+                                    <Picker Background="White"
+                                            WidthRequest="70"
+                                            HorizontalOptions="Start">
+                                        <Picker.Items>
+                                            <x:String>0</x:String>
+                                            <x:String>10</x:String>
+                                            <x:String>20</x:String>
+                                            <x:String>30</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+
+
+            </Grid>
+            <VerticalStackLayout>
+                <!-- REGEN BORDER -->
             </VerticalStackLayout>
 
-            <Button Text="Add Plot"
-                    Margin="100,20,0  ,10"
-                    WidthRequest="85"
-                    HeightRequest="25"
-                    BackgroundColor="LightGreen"
-                    Command="{Binding NewPlotCommand}"
-                    HorizontalOptions="Start" />
+            <VerticalStackLayout>
+                <Label Text="Forest Structure"
+                       Style="{StaticResource SubHeadline}" />
 
-            <ScrollView>
-                <VerticalStackLayout Padding="5"
-                                     Spacing="5">
-                    <!--  0  -->
-                    <HorizontalStackLayout>
-                        <Label Text="Plot Number:"
-                               Style="{StaticResource LabelPlot}" />
-                        <Entry Text="{Binding CurrentPlot.PlotNumber, Mode=TwoWay}"
-                               Margin="5,0,0,0"
-                               BackgroundColor="Yellow"
-                               HeightRequest="15"
-                               WidthRequest="100">
-                        </Entry>
-                        <Button Text="Delete Plot"
-                                Command="{Binding DeletePlotCommand}"
-                                Margin="10,0,0,0"
-                                CommandParameter="{Binding CurrentPlot}"
-                                BackgroundColor="#FC6C85" />
-                    </HorizontalStackLayout>
+                <Border>
                     <VerticalStackLayout>
-                        <Label Text="Regeneration"
-                               Style="{StaticResource SubHeadline}" />
-                        <!-- REGEN BORDER -->
-                        <Border>
-                            <VerticalStackLayout>
 
-                                <!-- TITLE Regen Toggles x3 -->
-                                <HorizontalStackLayout>
-                                    <Label Text="Height (2 – 6m)"
-                                           Style="{StaticResource LabelPlot}" />
-                                    <ImageButton Source="info.png"
-                                                 Style="{StaticResource ImageButtonHelper}"
-                                                 Margin="10,0,0,0"
-                                                 Command="{Binding ShowHelperTextCommand}"
-                                                 CommandParameter="RegenHeightGeneral" />
-                                </HorizontalStackLayout>
+                        <VerticalStackLayout  Grid.Row="4">
+                            <!--  7  -->
+                            <HorizontalStackLayout>
+                                <Label Text="LIT Seed Tree Stocking (%)"
+                                       Style="{StaticResource LabelSubheading}" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="StockingLITSeedTree" />
+                            </HorizontalStackLayout>
 
-                                <!--  Regen Toggles x3 -->
-                                <Border>
+                            <Picker Background="White"
+                                    WidthRequest="70"
+                                    HorizontalOptions="Start">
+                                <Picker.Items>
+                                    <x:String>0</x:String>
+                                    <x:String>10</x:String>
+                                    <x:String>20</x:String>
+                                    <x:String>30</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </VerticalStackLayout>
+                        <HorizontalStackLayout>
+                            <!--  6  -->
+                            <HorizontalStackLayout>
+                                <Label Text="Blowdown (%)"
+                                       Style="{StaticResource LabelSubheading}"
+                                       Grid.Row="6" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="Blowdown" />
+                            </HorizontalStackLayout>
 
-                                    <VerticalStackLayout  Grid.Row="2">
-                                        <HorizontalStackLayout>
+                            <Picker Background="White"
+                                    WidthRequest="70"
+                                    HorizontalOptions="Start">
+                                <Picker.Items>
+                                    <x:String>0</x:String>
+                                    <x:String>10</x:String>
+                                    <x:String>20</x:String>
+                                    <x:String>30</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </HorizontalStackLayout>
+                        <!--  UnderstoryStrata  -->
+                        <HorizontalStackLayout>
+                            <Label Text="Understory Strata (%)"
+                                   Style="{StaticResource LabelSubheading}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="UnderstoryStrata" />
+                            <Picker Background="White"
+                                    WidthRequest="70"
+                                    HorizontalOptions="Start">
+                                <Picker.Items>
+                                    <x:String>0</x:String>
+                                    <x:String>10</x:String>
+                                    <x:String>20</x:String>
+                                    <x:String>30</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </HorizontalStackLayout>
 
-                                            <Label Text="Softwood"
-                                                   Style="{StaticResource LabelSubheading}" />
-                                            <ImageButton Source="info.png"
-                                                         Style="{StaticResource ImageButtonHelper}"
-                                                         Margin="10,0,0,0"
-                                                         Command="{Binding ShowHelperTextCommand}"
-                                                         CommandParameter="SWLITRegen" />
-                                            <Switch IsToggled="{Binding CurrentPlot.RegenHeightSWLIT}" />
-                                        </HorizontalStackLayout>
+                        <!--  8  -->
+                        <HorizontalStackLayout>
+                            <Label Text="Uneven Aged"
+                                   Style="{StaticResource LabelSubheading}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="UnevenAged" />
+                            <Switch IsToggled="{Binding CurrentPlot.UnevenAged}"
+                                    Style="{StaticResource LabelSubheading}"
+                                    Grid.Column="1" />
+                        </HorizontalStackLayout>
 
-                                        <!--  3  -->
-                                        <HorizontalStackLayout>
+                        <!--  9  -->
+                        <HorizontalStackLayout>
 
-                                            <Label Text="Hardwood"
-                                                   Style="{StaticResource LabelSubheading}" />
-                                            <ImageButton Source="info.png"
-                                                         Style="{StaticResource ImageButtonHelper}"
-                                                         Margin="10,0,0,0"
-                                                         Command="{Binding ShowHelperTextCommand}"
-                                                         CommandParameter="HWLITRegen" />
-                                            <Switch IsToggled="{Binding CurrentPlot.RegenHeightHWLIT}" />
-                                        </HorizontalStackLayout>
+                            <Label Text="One Cohort Senescent"
+                                   Style="{StaticResource LabelSubheading}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="OneCohortSenescent" />
+                            <Switch IsToggled="{Binding CurrentPlot.OneCohortSenescent}"
+                                    Grid.Column="1" />
+                        </HorizontalStackLayout>
 
-                                        <!--  1  -->
-                                        <HorizontalStackLayout>
-                                            <Label Text="Beech &gt;25%"
-                                                   Style="{StaticResource LabelSubheading}" />
-                                            <ImageButton Source="info.png"
-                                                         Style="{StaticResource ImageButtonHelper}"
-                                                         Margin="10,0,0,0"
-                                                         Command="{Binding ShowHelperTextCommand}"
-                                                         CommandParameter="BeechRegeneration25perc" />
-                                            <Switch IsToggled="{Binding CurrentPlot.StockingBeechRegeneration}"
-                                                    Style="{StaticResource EntryPlot}" />
-                                        </HorizontalStackLayout>
-                                    </VerticalStackLayout>
-                                </Border>
+                        <!--  11  -->
+                        <HorizontalStackLayout>
 
-                                <!-- TITLE Stocking -->
-                                <HorizontalStackLayout>
-                                    <Label Text="Stocking (%) at 2.44 m"
-                                           Style="{StaticResource LabelStand}" />
-                                    <ImageButton Source="info.png"
-                                                 Style="{StaticResource ImageButtonHelper}"
-                                                 Margin="10,0,0,0"
-                                                 Command="{Binding ShowHelperTextCommand}"
-                                                 CommandParameter="RegenGeneral" />
-                                </HorizontalStackLayout>
-                                <Border>
-
-                                    <VerticalStackLayout>
-
-                                        <HorizontalStackLayout>
-                                            <Label Text="All Commercial Species"
-                                                   WidthRequest="150"
-                                                   Style="{StaticResource LabelSubheading}"
-                                                   Grid.Row="4" />
-                                            <ImageButton Source="info.png"
-                                                         Style="{StaticResource ImageButtonHelper}"
-                                                         Margin="10,0,0,0"
-                                                         Command="{Binding ShowHelperTextCommand}"
-                                                         CommandParameter="StockingRegenCommercialSpecies" />
-                                            <Picker Background="White"
-                                                    WidthRequest="70"
-                                                    HorizontalOptions="Start">
-                                                <Picker.Items>
-                                                    <x:String>0</x:String>
-                                                    <x:String>10</x:String>
-                                                    <x:String>20</x:String>
-                                                    <x:String>30</x:String>
-                                                </Picker.Items>
-                                            </Picker>
-                                        </HorizontalStackLayout>
-
-                                        <!--  4  -->
-                                        <HorizontalStackLayout>
-                                            <!--  RegenStockingLITSpecies  -->
-                                            <Label Text="LIT Species"
-                                                   WidthRequest="150"
-                                                   Style="{StaticResource LabelSubheading}"
-                                                   Grid.Row="5" />
-                                            <ImageButton Source="info.png"
-                                                         Style="{StaticResource ImageButtonHelper}"
-                                                         Margin="10,0,0,0"
-                                                         Command="{Binding ShowHelperTextCommand}"
-                                                         CommandParameter="StockingRegenLITSpecies" />
-                                            <Picker Background="White"
-                                                    WidthRequest="70"
-                                                    HorizontalOptions="Start">
-                                                <Picker.Items>
-                                                    <x:String>0</x:String>
-                                                    <x:String>10</x:String>
-                                                    <x:String>20</x:String>
-                                                    <x:String>30</x:String>
-                                                </Picker.Items>
-                                            </Picker>
-                                        </HorizontalStackLayout>
-                                    </VerticalStackLayout>
-                                </Border>
-                            </VerticalStackLayout>
-                        </Border>
-                    </VerticalStackLayout>
-
-                    <VerticalStackLayout>
-                        <Label Text="Forest Structure"
-                               Style="{StaticResource SubHeadline}" />
+                            <Label Text="Understory Dominated By"
+                                   Style="{StaticResource LabelPlot}"
+                                   Grid.Row="11" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="UnderStoryDominatedBy" />
+                        </HorizontalStackLayout>
 
                         <Border>
-                            <VerticalStackLayout>
+                            <HorizontalStackLayout>
 
-                                <VerticalStackLayout  Grid.Row="4">
-                                    <!--  7  -->
-                                    <HorizontalStackLayout>
-                                        <Label Text="LIT Seed Tree Stocking (%)"
-                                               Style="{StaticResource LabelSubheading}" />
-                                        <ImageButton Source="info.png"
-                                                     Style="{StaticResource ImageButtonHelper}"
-                                                     Margin="10,0,0,0"
-                                                     Command="{Binding ShowHelperTextCommand}"
-                                                     CommandParameter="StockingLITSeedTree" />
-                                    </HorizontalStackLayout>
+                                <RadioButton Content="Trees"
+                                             GroupName="UnderstoryDominatedGroup"
+                                             IsChecked="{Binding CurrentPlot.IsTreesSelected}" />
 
-                                    <Picker Background="White"
-                                            WidthRequest="70"
-                                            HorizontalOptions="Start">
-                                        <Picker.Items>
-                                            <x:String>0</x:String>
-                                            <x:String>10</x:String>
-                                            <x:String>20</x:String>
-                                            <x:String>30</x:String>
-                                        </Picker.Items>
-                                    </Picker>
-                                </VerticalStackLayout>
-                                <HorizontalStackLayout>
-                                    <!--  6  -->
-                                    <HorizontalStackLayout>
-                                        <Label Text="Blowdown (%)"
-                                               Style="{StaticResource LabelSubheading}"
-                                               Grid.Row="6" />
-                                        <ImageButton Source="info.png"
-                                                     Style="{StaticResource ImageButtonHelper}"
-                                                     Margin="10,0,0,0"
-                                                     Command="{Binding ShowHelperTextCommand}"
-                                                     CommandParameter="Blowdown" />
-                                    </HorizontalStackLayout>
-
-                                    <Picker Background="White"
-                                            WidthRequest="70"
-                                            HorizontalOptions="Start">
-                                        <Picker.Items>
-                                            <x:String>0</x:String>
-                                            <x:String>10</x:String>
-                                            <x:String>20</x:String>
-                                            <x:String>30</x:String>
-                                        </Picker.Items>
-                                    </Picker>
-                                </HorizontalStackLayout>
-                                <!--  UnderstoryStrata  -->
-                                <HorizontalStackLayout>
-                                    <Label Text="Understory Strata (%)"
-                                           Style="{StaticResource LabelSubheading}" />
-                                    <ImageButton Source="info.png"
-                                                 Style="{StaticResource ImageButtonHelper}"
-                                                 Margin="10,0,0,0"
-                                                 Command="{Binding ShowHelperTextCommand}"
-                                                 CommandParameter="UnderstoryStrata" />
-                                    <Picker Background="White"
-                                            WidthRequest="70"
-                                            HorizontalOptions="Start">
-                                        <Picker.Items>
-                                            <x:String>0</x:String>
-                                            <x:String>10</x:String>
-                                            <x:String>20</x:String>
-                                            <x:String>30</x:String>
-                                        </Picker.Items>
-                                    </Picker>
-                                </HorizontalStackLayout>
-
-                                <!--  8  -->
-                                <HorizontalStackLayout>
-                                    <Label Text="Uneven Aged"
-                                           Style="{StaticResource LabelSubheading}" />
-                                    <ImageButton Source="info.png"
-                                                 Style="{StaticResource ImageButtonHelper}"
-                                                 Margin="10,0,0,0"
-                                                 Command="{Binding ShowHelperTextCommand}"
-                                                 CommandParameter="UnevenAged" />
-                                    <Switch IsToggled="{Binding CurrentPlot.UnevenAged}"
-                                            Style="{StaticResource LabelSubheading}"
-                                            Grid.Column="1" />
-                                </HorizontalStackLayout>
-
-                                <!--  9  -->
-                                <HorizontalStackLayout>
-
-                                    <Label Text="One Cohort Senescent"
-                                           Style="{StaticResource LabelSubheading}" />
-                                    <ImageButton Source="info.png"
-                                                 Style="{StaticResource ImageButtonHelper}"
-                                                 Margin="10,0,0,0"
-                                                 Command="{Binding ShowHelperTextCommand}"
-                                                 CommandParameter="OneCohortSenescent" />
-                                    <Switch IsToggled="{Binding CurrentPlot.OneCohortSenescent}"
-                                            Grid.Column="1" />
-                                </HorizontalStackLayout>
-
-                                <!--  11  -->
-                                <HorizontalStackLayout>
-
-                                    <Label Text="Understory Dominated By"
-                                           Style="{StaticResource LabelPlot}"
-                                           Grid.Row="11" />
-                                    <ImageButton Source="info.png"
-                                                 Style="{StaticResource ImageButtonHelper}"
-                                                 Margin="10,0,0,0"
-                                                 Command="{Binding ShowHelperTextCommand}"
-                                                 CommandParameter="UnderStoryDominatedBy" />
-                                </HorizontalStackLayout>
-
-                                <Border>
-                                    <HorizontalStackLayout>
-
-                                        <RadioButton Content="Trees"
-                                                     GroupName="UnderstoryDominatedGroup"
-                                                     IsChecked="{Binding CurrentPlot.IsTreesSelected}" />
-
-                                        <RadioButton Content="Woody Shrubs"
-                                                     GroupName="UnderstoryDominatedGroup"
-                                                     IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
-                                    </HorizontalStackLayout>
-                                </Border>
-                            </VerticalStackLayout>
+                                <RadioButton Content="Woody Shrubs"
+                                             GroupName="UnderstoryDominatedGroup"
+                                             IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
+                            </HorizontalStackLayout>
                         </Border>
                     </VerticalStackLayout>
-                </VerticalStackLayout>
-            </ScrollView>
+                </Border>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
