@@ -173,8 +173,6 @@ namespace PTANonCrown.ViewModel
             set => SetProperty(ref _isValidationError, value);
         }
 
-        public ObservableCollection<TreeLive> LiveTrees { get; set; }
-
         public List<TreeLookup> LookupTrees { get; set; }
 
         public ICommand NewPlotCommand =>
