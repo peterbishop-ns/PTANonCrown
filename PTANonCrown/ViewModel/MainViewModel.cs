@@ -21,6 +21,7 @@ namespace PTANonCrown.ViewModel
         private ObservableCollection<SummaryResultTreeSpecies> _speciesSummary;
         private ObservableCollection<SummaryItem> _summaryItems;
         private Plot _summaryPlot;
+        private string _summaryPageMessage;
 
         private string _validationMessage;
 
@@ -38,26 +39,44 @@ namespace PTANonCrown.ViewModel
         }
         private void CurrentPlot_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Check if the changed property is StandNumber (or any other property you care about)
+            // Check if the changed property is PlotNumber
             if (e.PropertyName == nameof(Plot.PlotNumber))
             {
-                // Handle the update accordingly
-                Console.WriteLine($"StandNumber changed: {(sender as Stand)?.StandNumber}");
-                // For example, if you want to update CurrentStand or do any other logic:
-                // UpdateCurrentStand();
+                Console.WriteLine($"PlotNumber changed: {(sender as Plot)?.PlotNumber}");
+                RefreshAllPlots();
             }
         }
         private void Stand_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Check if the changed property is StandNumber (or any other property you care about)
+            // Check if the changed property is StandNumber 
             if (e.PropertyName == nameof(Stand.StandNumber))
             {
                 // Handle the update accordingly
                 Console.WriteLine($"StandNumber changed: {(sender as Stand)?.StandNumber}");
-                RefreshAllStands();// For example, if you want to update CurrentStand or do any other logic:
-                // UpdateCurrentStand();
+                RefreshAllStands();
             }
         }
+        public void RefreshAllPlots()
+        {
+
+            // Store the existing collection in a temporary list
+            var tempList = AllPlots.ToList();
+            var tempCurrentPlot = CurrentPlot; //store ; this gets wiped
+
+            // Clear the existing ObservableCollection
+            AllPlots.Clear();
+
+            // Re-add the same items from the temporary list
+            foreach (var plot in tempList)
+            {
+                AllPlots.Add(plot);
+            }
+
+            //reset the Current stand
+            SetCurrentPlot(tempCurrentPlot);
+
+        }
+
         public void RefreshAllStands()
         {
 
@@ -77,7 +96,6 @@ namespace PTANonCrown.ViewModel
             //reset the Current stand
             SetCurrentStand(tempCurrentStand); 
 
-
         }
         public ObservableCollection<Stand> _allStands { get; set; }
         public ObservableCollection<Stand> AllStands
@@ -91,6 +109,22 @@ namespace PTANonCrown.ViewModel
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public ObservableCollection<Plot> _allPlots { get; set; }
+        public ObservableCollection<Plot> AllPlots
+        {
+            get => _allPlots;
+            set
+            {
+                if (_allPlots != value)
+                {
+                    _allPlots = value;
+                    OnPropertyChanged();
+                }
+            }
+
+
         }
         public Plot CurrentPlot
         {
@@ -108,6 +142,7 @@ namespace PTANonCrown.ViewModel
                     }
 
                     _currentPlot = value;
+                    OnPropertyChanged();
 
                     // Subscribe to the new collection's property change notifications
                     if (_currentPlot != null)
@@ -115,7 +150,6 @@ namespace PTANonCrown.ViewModel
                             _currentPlot.PropertyChanged += CurrentPlot_PropertyChanged;
                     }
 
-                    OnPropertyChanged();
                 }
             }
         }
@@ -159,6 +193,19 @@ namespace PTANonCrown.ViewModel
             get => _isSelectedExportAll;
             set => SetProperty(ref _isSelectedExportAll, value);
 
+        }       
+        
+        public string SummaryPageMessage
+        {
+            get => _summaryPageMessage;
+            set
+            {
+                if (_summaryPageMessage != value)
+                {
+                    _summaryPageMessage = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public bool IsSelectedExportSelectedOnly
@@ -203,6 +250,20 @@ namespace PTANonCrown.ViewModel
         public ICommand SpecifyTreeCountInPlotCommand => new Command(SpecifyTreeCountInPlot);
 
         public bool StandOnlySummary { get; set; }
+        private bool _summarySectionIsVisible;
+        public bool SummarySectionIsVisible
+        {
+            get => _summarySectionIsVisible;
+            set
+            {
+                if (_summarySectionIsVisible != value)
+                {
+                    _summarySectionIsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         public ObservableCollection<SummaryItem> SummaryItems
         {
@@ -279,9 +340,10 @@ namespace PTANonCrown.ViewModel
                 : 1; Plot _newPlot = new Plot() { StandID = stand.ID, PlotNumber = newPlotNumber };
 
             _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
-            _newPlot.PlotTreeLive.Add(new TreeLive() { TreeNumber = 1, PlotID = _newPlot.ID });
+            _newPlot.PlotTreeLive.Add(new TreeLive() { TreeNumber = 1, PlotID = _newPlot.ID});
 
             stand.Plots.Add(_newPlot);
+
             SetCurrentPlot(_newPlot);
             return _newPlot;
         }
@@ -301,9 +363,13 @@ namespace PTANonCrown.ViewModel
 
         private void DeletePlot(Plot plot)
         {
-            CurrentStand.Plots.Remove(plot);
-            GetOrCreatePlot(CurrentStand);
-            SaveAll();
+            if (plot is not null)
+            {
+                CurrentStand.Plots.Remove(plot);
+                GetOrCreatePlot(CurrentStand);
+                SaveAll();
+            }
+
         }
 
         // Async method to show the remove trees confirmation dialog
@@ -474,6 +540,8 @@ namespace PTANonCrown.ViewModel
                 _stand = CreateNewStand();
             }
 
+            AllPlots = _stand.Plots;
+
             SetCurrentStand(_stand);
 
             return _stand;
@@ -533,19 +601,28 @@ namespace PTANonCrown.ViewModel
         {
             StandOnlySummary = true;
             SummaryPlot = null;
-
+            SummarySectionIsVisible = true;
             var trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
             SummaryItems = TreeSummaryHelper.GenerateSummaryResult(trees);
             SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
+
+            SummaryPageMessage = $"Stand {CurrentStand.StandNumber} Summary";
         }
 
         private void SetSummaryPlot(Plot plot)
         {
-            SummaryPlot = plot;
-            StandOnlySummary = false;
-            SummaryItems = TreeSummaryHelper.GenerateSummaryResult(plot.PlotTreeLive);
-            SpeciesSummary = GenerateTreeSpeciesSummary(new List<Plot> { plot });
-        }
+            if (plot is not null)
+            {
+                SummaryPlot = plot;
+                StandOnlySummary = false;
+                SummarySectionIsVisible = true;
+
+                SummaryItems = TreeSummaryHelper.GenerateSummaryResult(plot.PlotTreeLive);
+                SpeciesSummary = GenerateTreeSpeciesSummary(new List<Plot> { plot });
+                SummaryPageMessage = $"Plot {CurrentPlot.PlotNumber} Summary";
+            }
+
+}
 
         private void SpecifyTreeCountInPlot()
         {

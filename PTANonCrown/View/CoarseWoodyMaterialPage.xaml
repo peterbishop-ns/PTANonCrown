@@ -7,7 +7,7 @@
              BackgroundColor="#F0F0F0"
              Title="Coarse Woody Material">
 
-    <VerticalStackLayout>
+    <VerticalStackLayout Spacing="20" Margin="10">
         <Border BackgroundColor="LightGoldenrodYellow"
                 StrokeShape="RoundRectangle 2,2,2,2"
                 WidthRequest="200">
@@ -28,11 +28,14 @@
         <VerticalStackLayout HorizontalOptions="Start">
             <HorizontalStackLayout>
                 <Label Text="Transect Length (m)"
+                       Style="{StaticResource LabelPlot}"
                        WidthRequest="150" />
-                <Entry Text="{Binding TransectLength}" />
+                <Entry Text="{Binding TransectLength}"
+                       Style="{StaticResource EntryStand}"
+                       WidthRequest="50" />
             </HorizontalStackLayout>
             <HorizontalStackLayout>
-                <Label Text="Transect Direction"
+                <Label Text="Transect Direction" Style="{StaticResource LabelPlot}"
                        WidthRequest="150" />
                 <Picker  WidthRequest="100"
                          SelectedItem="{Binding TransectDirection}"

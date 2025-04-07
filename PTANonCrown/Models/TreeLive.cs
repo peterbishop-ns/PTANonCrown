@@ -12,6 +12,7 @@ namespace PTANonCrown.Models
 
         public TreeLive()
         {
+            TreeLookup = new TreeLookup();
             TreeLookupFilteredList = new ObservableCollection<TreeLookup>();
         }
 

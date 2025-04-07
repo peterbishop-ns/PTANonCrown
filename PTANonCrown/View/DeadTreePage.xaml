@@ -7,7 +7,7 @@
              BackgroundColor="#F0F0F0"
              Title="Dead Trees">
 
-    <VerticalStackLayout>
+    <VerticalStackLayout Spacing="20" Margin="10">
         <Border BackgroundColor="LightGoldenrodYellow"
                 StrokeShape="RoundRectangle 2,2,2,2"
                 WidthRequest="200">

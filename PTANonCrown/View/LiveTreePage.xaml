@@ -16,35 +16,40 @@
 
     <ScrollView>
 
-        <VerticalStackLayout VerticalOptions="Start">
-            <Border BackgroundColor="LightGoldenrodYellow"
-                    StrokeShape="RoundRectangle 2,2,2,2"
-                    WidthRequest="200">
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Label Text="Stand"
-                           FontAttributes="Bold"
-                           Margin="10,0,0,0" />
-                    <Label Text="{Binding CurrentStand.StandNumber}"
-                           Margin="3,0,0,0" />
-                    <Label Text="Plot"
-                           FontAttributes="Bold"
-                           Margin="10,0,0,0" />
-                    <Label Text="{Binding CurrentPlot.PlotNumber}"
-                           Margin="3,0,0,0" />
+        <VerticalStackLayout VerticalOptions="Start" Spacing="20" Margin="10">
+            <Grid RowDefinitions="Auto,Auto,Auto">
+                <Border Grid.Row="0"
+                        BackgroundColor="LightGoldenrodYellow"
+                        StrokeShape="RoundRectangle 2,2,2,2"
+                        WidthRequest="200">
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Label Text="Stand"
+                               FontAttributes="Bold"
+                               Margin="10,0,0,0" />
+                        <Label Text="{Binding CurrentStand.StandNumber}"
+                               Margin="3,0,0,0" />
+                        <Label Text="Plot"
+                               FontAttributes="Bold"
+                               Margin="10,0,0,0" />
+                        <Label Text="{Binding CurrentPlot.PlotNumber}"
+                               Margin="3,0,0,0" />
+                    </HorizontalStackLayout>
+                </Border>
+                <HorizontalStackLayout Grid.Row="1">
+                    <Label Text="Include Biodiversity" Style="{StaticResource LabelPlot}"/>
+                    <CheckBox x:Name="IncludeBiodiversity" />
                 </HorizontalStackLayout>
-            </Border>
-            <HorizontalStackLayout Margin="0, 20, 0, 0  ">
-                <Label Text="Include Biodiversity" />
-                <CheckBox x:Name="IncludeBiodiversity" />
-            </HorizontalStackLayout>
-            <HorizontalStackLayout Spacing="10">
-                <Label Text="Number of Trees In Plot" />
-                <Entry Text="{Binding CurrentPlot.TreeCount, Mode=TwoWay}"
-                       WidthRequest="50"></Entry>
+                <HorizontalStackLayout Spacing="10"
+                                       Grid.Row="2">
+                    <Label Text="Number of Trees In Plot"
+                           Style="{StaticResource LabelPlot}" />
+                    <Entry Text="{Binding CurrentPlot.TreeCount, Mode=TwoWay}"
+                           WidthRequest="50"></Entry>
 
-                <Button Text="Refresh"
-                        Command="{Binding SpecifyTreeCountInPlotCommand}" />
-            </HorizontalStackLayout>
+                    <Button Text="Refresh"
+                            Command="{Binding SpecifyTreeCountInPlotCommand}" />
+                </HorizontalStackLayout>
+            </Grid>
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive, Mode=TwoWay}"
                             x:Name="collectionViewLiveTrees"
                             BackgroundColor="LightGrey"

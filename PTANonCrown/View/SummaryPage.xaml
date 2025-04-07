@@ -5,59 +5,81 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              BackgroundColor="#F0F0F0"
              Title="Summary">
+    <VerticalStackLayout Margin="20,20,0,0">
+        <Grid ColumnDefinitions="1*,1*,2*,3*"
+              WidthRequest="800"
+              HorizontalOptions="Start"
+              Margin="20,0,0,0"
+              RowDefinitions="Auto, Auto,Auto">
+            <Label Grid.Row="0" Grid.Column="0"
+                   Text="Stand Number" 
+                   Style="{StaticResource LabelPlot}" />
+            <Label Grid.Row="0"
+                   Grid.Column="1"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Text="{Binding CurrentStand.StandNumber}" />
+            <Button Text="Stand Summary"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Style="{StaticResource ButtonGreen}"
+                    Command="{Binding SetStandOnlyCommand}" />
+            
+            <Label Text="Plot Number"
+                    Grid.Row="1" Grid.Column="0"
+                   Style="{StaticResource LabelPlot}" />
+            <Picker  
+                     ItemsSource="{Binding AllPlots, Mode=TwoWay}"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    SelectedItem="{Binding CurrentPlot, Mode=TwoWay}"
+                    WidthRequest="100"
+                    HeightRequest="20"
+                    ItemDisplayBinding="{Binding PlotNumber, Mode=TwoWay}"/>
+
+            <Button Grid.Row="1"
+                    Grid.Column="2"
+                    Text="Plot Summary"
+                    Style="{StaticResource ButtonGreen}"
+                    Command="{Binding SetPlotSummaryCommand}"
+                    CommandParameter="{Binding CurrentPlot}"/>
+
+            <Button Text="Export All"
+                    Style="{StaticResource ButtonGreen}"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Command="{Binding ExportSummaryCommand}" />
+            <Border Grid.Column="0"
+                    Grid.Row="2"
+                    HorizontalOptions="CenterAndExpand"
+                    IsVisible="{Binding SummarySectionIsVisible}"
+                    BackgroundColor="PaleGoldenrod"
+                    Grid.ColumnSpan="4">
+                
+                
+            <Label 
+                   
+                   Text="{Binding SummaryPageMessage}"
+                       HorizontalOptions="Center"
+                       FontAttributes="Bold"/>
+            </Border>
+
+
+        </Grid>
+
 
     <Grid RowDefinitions="Auto,Auto,Auto"
-          ColumnDefinitions="Auto,Auto">
-        <HorizontalStackLayout Grid.Row="0"
-                               Grid.Column="0"
-                               Margin="20,0,0,0">
-            <Button Text="Stand"
-                    WidthRequest="85"
-                    HeightRequest="45"
-                    Margin="0,40,0,0"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    BackgroundColor="LightGoldenrodYellow"
-                    Command="{Binding SetStandOnlyCommand}" />
+          ColumnDefinitions="Auto,Auto"
+          IsVisible="{Binding SummarySectionIsVisible}"
+          >
 
-            <CollectionView ItemsSource="{Binding CurrentStand.Plots}"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Start"
-                            Margin="0,0,0,0"
-                            WidthRequest="400">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical"
-                                     VerticalItemSpacing="0"
-                                     Span="4" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <!-- Create a button for each plot in the collection     BackgroundColor="{Binding .,
-Converter={StaticResource PlotToBackgroundColorConverter}}"-->
-                        <Button Text="{Binding PlotNumber, StringFormat='Plot {0}'}"
-                                WidthRequest="85"
-                                HeightRequest="45"
-                                HorizontalOptions="Start"
-                                BackgroundColor="LightGoldenrodYellow"
-                                VerticalOptions="Start"
-                                Margin="0,20,0,20"
-                                Command="{Binding Source={RelativeSource
-                                            AncestorType={x:Type viewModels:MainViewModel}},
-                                            Path=SetPlotSummaryCommand}"
-                                CommandParameter="{Binding .}" />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </HorizontalStackLayout>
-        <Button Text="Export"
-                Grid.Row="0"
-                Grid.Column="1"
-                Command="{Binding ExportSummaryCommand}"
-                Style="{StaticResource ButtonSummary}" />
-        <CollectionView ItemsSource="{Binding SummaryItems, Mode=TwoWay}"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Margin="0,20,0,0"
+            <VerticalStackLayout  Grid.Row="1"
+                                  Grid.Column="0"
+                                  Margin="0,20,0,0">
+                <Label Text="Cruise Summary" Style="{StaticResource LabelParent}" Margin="0,0,0,20"/>
+                <CollectionView ItemsSource="{Binding SummaryItems, Mode=TwoWay}"
+                       
+                       
                         x:Name="collectionSummaryItems"
                         BackgroundColor="LightGrey"
                         HorizontalOptions="Center">
@@ -76,6 +98,7 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid ColumnDefinitions="300,100"
+                          Padding="12,0,0,0"
                           BackgroundColor="LightGrey">
                         <Label Grid.Column="0"
                                Text="{Binding DisplayName}"
@@ -89,48 +112,55 @@ Converter={StaticResource PlotToBackgroundColorConverter}}"-->
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+            </VerticalStackLayout>
+            <VerticalStackLayout  Grid.Row="1"
+                                  Grid.Column="1"
+                                  Margin="20,20,0,0">
+                <Label Text="Species Summary"
+                       Style="{StaticResource LabelParent}"
+                       Margin="0,0,0,20" />
+                <CollectionView ItemsSource="{Binding SpeciesSummary}"
+                               
+                                x:Name="collectionSpeciesSummary"
+                                BackgroundColor="LightGrey"
+                                HorizontalOptions="Center">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="100,100,100"
+                              BackgroundColor="DarkGray">
+                            <Label Text="Plot Number"
+                                   Style="{StaticResource GridHeader}"
+                                   Grid.Column="0" />
+                            <Label Text="Species"
+                                   Style="{StaticResource GridHeader}"
+                                   Grid.Column="1" />
+                            <Label Text="Count"
+                                   Style="{StaticResource GridHeader}"
+                                   Grid.Column="2" />
+                        </Grid>
+                    </CollectionView.Header>
 
-        <CollectionView ItemsSource="{Binding SpeciesSummary}"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Margin="20,20,0,0"
-                        x:Name="collectionSpeciesSummary"
-                        BackgroundColor="LightGrey"
-                        HorizontalOptions="Center">
-            <CollectionView.Header>
-                <Grid ColumnDefinitions="100,100,100"
-                      BackgroundColor="DarkGray">
-                    <Label Text="Plot Number"
-                           Style="{StaticResource GridHeader}"
-                           Grid.Column="0" />
-                    <Label Text="Species"
-                           Style="{StaticResource GridHeader}"
-                           Grid.Column="1" />
-                    <Label Text="Count"
-                           Style="{StaticResource GridHeader}"
-                           Grid.Column="2" />
-                </Grid>
-            </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="100,100,100"
+                                  BackgroundColor="LightGrey">
+                                <Label Grid.Column="0"
+                                       Text="{Binding PlotNumber}"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding Species}"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="2"
+                                       Text="{Binding Count}"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid ColumnDefinitions="100,100,100"
-                          BackgroundColor="LightGrey">
-                        <Label Grid.Column="0"
-                               Text="{Binding PlotNumber}"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Label Grid.Column="1"
-                               Text="{Binding Species}"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Label Grid.Column="2"
-                               Text="{Binding Count}"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </VerticalStackLayout>
     </Grid>
+    </VerticalStackLayout>
 </ContentPage>

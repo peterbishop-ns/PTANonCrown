@@ -6,20 +6,44 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              Title="Stand">
     <ScrollView>
-    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
           ColumnDefinitions="Auto, *"
           MaximumWidthRequest="500"
           Padding="10"
           HorizontalOptions="StartAndExpand">
-        <VerticalStackLayout Grid.Row="0"
+            <VerticalStackLayout Grid.Row="0"
+                                 Style="{StaticResource VerticalStackLayoutStand}">
+                <HorizontalStackLayout>
+                    <Label Text="Select Stand"
+                           Style="{StaticResource LabelStand}" />
+                    <ImageButton Source="info.png"
+                                 Style="{StaticResource ImageButtonHelper}"
+                                 Command="{Binding ShowHelperTextCommand}"
+                                 CommandParameter="StandNumber" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="20">
+                    <Picker ItemsSource="{Binding AllStands, Mode=TwoWay}"
+                            BackgroundColor="White"
+                            WidthRequest="150"
+                            SelectedItem="{Binding CurrentStand, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding StandNumber, Mode=TwoWay}" />
+                    <Button Text="Delete"
+                            Style="{StaticResource ButtonRed}"
+                            Command="{Binding CreateNewStandCommand}" />
+                    <Button Text="New"
+                            Style="{StaticResource ButtonGreen}"
+                            Command="{Binding CreateNewStandCommand}" />
+
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout Grid.Row="1"
                              Style="{StaticResource VerticalStackLayoutStand}">
 
-            <Label Text="{Binding ValidationMessage, Mode=TwoWay}" 
-                   BackgroundColor="LightPink"
-                   TextColor="Red"
-                   FontAttributes="Bold"/>
+         
             <HorizontalStackLayout>
-                <Label Text="Stand Number"
+                <Label Text="Edit Stand Number"
                        Style="{StaticResource LabelStand}" />
                 <ImageButton Source="info.png"
                              Style="{StaticResource ImageButtonHelper}"
@@ -27,18 +51,15 @@
                              CommandParameter="StandNumber" />
             </HorizontalStackLayout>
             <HorizontalStackLayout>
+
                 <Entry Text="{Binding CurrentStand.StandNumber, Mode=TwoWay}"
                         Style="{StaticResource EntryStand}" />
-                <Picker ItemsSource="{Binding AllStands, Mode=TwoWay}"
-                        SelectedItem="{Binding CurrentStand, Mode=TwoWay}"
-                        ItemDisplayBinding="{Binding StandNumber, Mode=TwoWay}" />
-                    <Button Text="New Stand"
-                            Command="{Binding CreateNewStandCommand}" />
+             
                 </HorizontalStackLayout>
           
             </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="1"
+        <VerticalStackLayout Grid.Row="2"
                              Style="{StaticResource VerticalStackLayoutStand}">
 
             <HorizontalStackLayout>
@@ -54,7 +75,7 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="2"
+        <VerticalStackLayout Grid.Row="3"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Planner ID"
@@ -68,7 +89,7 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="3"
+        <VerticalStackLayout Grid.Row="4"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Easting"
@@ -82,7 +103,7 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="4"
+        <VerticalStackLayout Grid.Row="5"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Northing"
@@ -96,7 +117,7 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="5"
+        <VerticalStackLayout Grid.Row="6"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Organization"
@@ -110,7 +131,7 @@
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="6"
+        <VerticalStackLayout Grid.Row="7"
                              Style="{StaticResource VerticalStackLayoutStand}">
             <HorizontalStackLayout>
                 <Label Text="Location"

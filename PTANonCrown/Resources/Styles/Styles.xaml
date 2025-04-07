@@ -75,20 +75,21 @@
                 Value="Start" />
         <Setter Property="VerticalOptions"
                 Value="Center" />
+        <Setter Property="FontAttributes"
+                Value="Bold" />
     </Style>
 
     <Style TargetType="Label"
            x:Key="LabelStand"
            BasedOn="{StaticResource LabelParent}">
-        <Setter Property="FontAttributes"
-                Value="Bold" />
+      
     </Style>
+
 
     <Style TargetType="Label"
            x:Key="LabelPlot"
            BasedOn="{StaticResource LabelParent}">
-        <Setter Property="FontAttributes"
-                Value="Bold" />
+       
     </Style>
 
     <Style TargetType="Label"
@@ -114,7 +115,14 @@
                 Value="0" />
         <Setter Property="CornerRadius"
                 Value="6" />
-
+        <Setter Property="HorizontalOptions"
+                Value="Start" />
+        <Setter Property="VerticalOptions"
+                Value="Center" />
+        <Setter Property="HeightRequest"
+                Value="35" />
+        <Setter Property="WidthRequest"
+                Value="150" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -128,21 +136,56 @@
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver" />
+                    <VisualState Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor"
+                                    Value="#F6CEFC" />
+                            <Setter Property="TextColor"
+                                    Value="Black" />
+                        </VisualState.Setters>
+                    </VisualState>
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
     </Style>
     <Style TargetType="Button"
-           x:Key="ButtonSummary"
+           x:Key="ButtonGreen"
            BasedOn="{StaticResource ButtonParent}">
-
-        <Setter Property="HorizontalOptions"
-                Value="Center" />
-        <Setter Property="HeightRequest"
-                Value="50" />
-        <Setter Property="WidthRequest"
-                Value="150" />
+      
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+                    <VisualState Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor"
+                                    Value="LightGreen" />
+                            <Setter Property="TextColor"
+                                    Value="Black" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
+    <Style TargetType="Button"
+           x:Key="ButtonRed"
+           BasedOn="{StaticResource ButtonParent}">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+                    <VisualState Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor"
+                                    Value="LightPink" />
+                            <Setter Property="TextColor"
+                                    Value="Black" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
     <Style TargetType="CheckBox">
         <Setter Property="Color"
                 Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -404,7 +447,7 @@
         <Setter Property="TitleColor"
                 Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor"
-                Value="Transparent" />
+                Value="White" />
         <Setter Property="FontFamily"
                 Value="OpenSansRegular" />
         <Setter Property="FontSize"
