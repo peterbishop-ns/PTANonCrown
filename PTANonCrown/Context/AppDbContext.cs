@@ -22,5 +22,23 @@ public class AppDbContext : DbContext
         optionsBuilder.UseSqlite($"Data Source={dbPath}");
 
 
+
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Stand → Plots
+        modelBuilder.Entity<Stand>()
+            .HasMany(s => s.Plots)
+            .WithOne(p => p.Stand)
+            .HasForeignKey(p => p.StandID)
+            .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete plots when stand is deleted
+
+        // Plot → PlotTreeLive
+        modelBuilder.Entity<Plot>()
+            .HasMany(p => p.PlotTreeLive)
+            .WithOne(t => t.Plot)
+            .HasForeignKey(t => t.PlotID)
+            .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete trees when plot is deleted
     }
 }

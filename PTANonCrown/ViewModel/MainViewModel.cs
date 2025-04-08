@@ -526,7 +526,6 @@ namespace PTANonCrown.ViewModel
         {
             Stand _stand;
             AllStands = new ObservableCollection<Stand>(_standRepository.GetAll());
-
             // Get first stand if any exist
             if (AllStands.Count > 0)
             {
@@ -558,11 +557,20 @@ namespace PTANonCrown.ViewModel
         private async void RemoveTrees(int currentTreeCount)
         {
             int treesToSubtract = currentTreeCount - CurrentPlot.TreeCount;
-
+            string message =string.Empty;
             int firstRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - treesToSubtract].TreeNumber; // First element to be removed
             int lastRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - 1].TreeNumber; // Last element to be removed
 
-            string message = $"Do you want to set the tree count to {CurrentPlot.TreeCount}? Trees {firstRemoved} - {lastRemoved} will be removed. This cannot be undone.";
+            if (firstRemoved == lastRemoved)
+            {
+                message = $"Do you want to set the tree count to {CurrentPlot.TreeCount}?" +
+                    $" Tree {firstRemoved} will be removed. This cannot be undone.";
+            }
+            else
+            {
+                 message = $"Do you want to set the tree count to {CurrentPlot.TreeCount}?" +
+                    $" Trees {firstRemoved} - {lastRemoved} will be removed. This cannot be undone.";
+            }
 
             // Call the async DisplayAlert method
             bool answer = await DisplayRemoveTreesConfirmation(message);

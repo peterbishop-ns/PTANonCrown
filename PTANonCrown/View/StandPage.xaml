@@ -12,13 +12,17 @@
           MaximumWidthRequest="500"
           Padding="10"
           HorizontalOptions="StartAndExpand">
+            
             <VerticalStackLayout Grid.Row="0"
                                  Style="{StaticResource VerticalStackLayoutStand}">
-
-                <controls:LabelWithInfoButton LabelText="Select Stand"
-                                              Command="{Binding ShowHelperTextCommand}" 
-                                              CommandParameter="StandID"/>
-
+                <HorizontalStackLayout>
+                    <Label Text="Select Stand"
+                           Style="{StaticResource LabelStand}" />
+                    <ImageButton Source="info.png"
+                                 Style="{StaticResource ImageButtonHelper}"
+                                 Command="{Binding ShowHelperTextCommand}"
+                                 CommandParameter="StandID" />
+                </HorizontalStackLayout>
                 <HorizontalStackLayout Spacing="20">
                     <Picker ItemsSource="{Binding AllStands, Mode=TwoWay}"
                             BackgroundColor="White"
