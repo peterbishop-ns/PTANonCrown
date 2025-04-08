@@ -391,6 +391,7 @@ namespace PTANonCrown.ViewModel
         {
             Stand _stand = new Stand()
             {
+                StandNumber = 1
             };
 
             Plot _newPlot = CreateNewPlot(_stand);

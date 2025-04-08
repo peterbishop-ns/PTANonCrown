@@ -316,7 +316,13 @@
         <Setter Property="MinimumWidthRequest"
                 Value="300" />
     </Style>
-
+    <Style TargetType="Entry"
+           x:Key="EntryShort"
+           BasedOn="{StaticResource EntryParent}">
+        <Setter Property="MinimumWidthRequest"
+                Value="100" />
+        
+    </Style>
     <Style TargetType="VerticalStackLayout"
            x:Key="VerticalStackLayoutParent">
     </Style>

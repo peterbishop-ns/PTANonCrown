@@ -24,7 +24,7 @@ public partial class LiveTreePage : ContentPage
                 // Get the filtered list based on user input
                 var filteredResults = vm.LookupTrees
                         .Where(t => t.ShortCode.StartsWith(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
-                            t.Name.StartsWith(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
+                            t.Name.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
                        .ToList();
 
                 // Refresh the list in the UI based on the filtered list
