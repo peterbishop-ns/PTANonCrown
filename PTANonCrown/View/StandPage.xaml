@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.StandPage"
              BackgroundColor="#F0F0F0"
+             xmlns:controls="clr-namespace:PTANonCrown.Controls"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              Title="Stand">
     <ScrollView>
@@ -13,14 +14,10 @@
           HorizontalOptions="StartAndExpand">
             <VerticalStackLayout Grid.Row="0"
                                  Style="{StaticResource VerticalStackLayoutStand}">
-                <HorizontalStackLayout>
-                    <Label Text="Select Stand"
-                           Style="{StaticResource LabelStand}" />
-                    <ImageButton Source="info.png"
-                                 Style="{StaticResource ImageButtonHelper}"
-                                 Command="{Binding ShowHelperTextCommand}"
-                                 CommandParameter="StandNumber" />
-                </HorizontalStackLayout>
+
+                <controls:LabelWithInfoButton LabelText="Select Stand"
+                                              Command="{Binding ShowHelperTextCommand}" />
+
                 <HorizontalStackLayout Spacing="20">
                     <Picker ItemsSource="{Binding AllStands, Mode=TwoWay}"
                             BackgroundColor="White"

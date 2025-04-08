@@ -28,7 +28,7 @@
                         <Button Text="Delete"
                                 Command="{Binding DeletePlotCommand}"
                                 CommandParameter="{Binding CurrentPlot}"
-                                Style="{StaticResource ButtonRed}"/>
+                                Style="{StaticResource ButtonRed}" />
                         <Button Text="New"
                                 Style="{StaticResource ButtonGreen}"
                                 Command="{Binding NewPlotCommand}" />
@@ -47,7 +47,6 @@
                            Style="{StaticResource EntryStand}"
                            HorizontalOptions="Start"
                            WidthRequest="80" />
-
                 </VerticalStackLayout>
             </Grid>
             <Grid RowDefinitions="Auto,Auto,Auto,Auto">
@@ -66,55 +65,45 @@
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="RegenHeightGeneral" />
                         </HorizontalStackLayout>
-                        <Grid RowDefinitions="Auto,Auto,Auto"
-                              ColumnDefinitions="Auto,Auto">
-                            
-                            
-                            
-                        </Grid>
-                        <!-- TITLE Regen Toggles x3 -->
-                      
-                        <!--  Regen Toggles x3 -->
                         <Border>
-
                             <VerticalStackLayout  Grid.Row="2">
                                 <HorizontalStackLayout>
 
-     <Label Text="Softwood"
-            Style="{StaticResource LabelSubheading}" />
-     <ImageButton Source="info.png"
-                  Style="{StaticResource ImageButtonHelper}"
-                  Margin="10,0,0,0"
-                  Command="{Binding ShowHelperTextCommand}"
-                  CommandParameter="SWLITRegen" />
-     <Switch IsToggled="{Binding CurrentPlot.RegenHeightSWLIT}" />
- </HorizontalStackLayout>
+                                    <Label Text="Softwood"
+                                           Style="{StaticResource LabelSubheading}" />
+                                    <ImageButton Source="info.png"
+                                                 Style="{StaticResource ImageButtonHelper}"
+                                                 Margin="10,0,0,0"
+                                                 Command="{Binding ShowHelperTextCommand}"
+                                                 CommandParameter="SWLITRegen" />
+                                    <Switch IsToggled="{Binding CurrentPlot.RegenHeightSWLIT}" />
+                                </HorizontalStackLayout>
 
- <!--  3  -->
- <HorizontalStackLayout>
+                                <!--  3  -->
+                                <HorizontalStackLayout>
 
-     <Label Text="Hardwood"
-            Style="{StaticResource LabelSubheading}" />
-     <ImageButton Source="info.png"
-                  Style="{StaticResource ImageButtonHelper}"
-                  Margin="10,0,0,0"
-                  Command="{Binding ShowHelperTextCommand}"
-                  CommandParameter="HWLITRegen" />
-     <Switch IsToggled="{Binding CurrentPlot.RegenHeightHWLIT}" />
- </HorizontalStackLayout>
+                                    <Label Text="Hardwood"
+                                           Style="{StaticResource LabelSubheading}" />
+                                    <ImageButton Source="info.png"
+                                                 Style="{StaticResource ImageButtonHelper}"
+                                                 Margin="10,0,0,0"
+                                                 Command="{Binding ShowHelperTextCommand}"
+                                                 CommandParameter="HWLITRegen" />
+                                    <Switch IsToggled="{Binding CurrentPlot.RegenHeightHWLIT}" />
+                                </HorizontalStackLayout>
 
- <!--  1  -->
- <HorizontalStackLayout>
-     <Label Text="Beech &gt;25%"
-            Style="{StaticResource LabelSubheading}" />
-     <ImageButton Source="info.png"
-                  Style="{StaticResource ImageButtonHelper}"
-                  Margin="10,0,0,0"
-                  Command="{Binding ShowHelperTextCommand}"
-                  CommandParameter="BeechRegeneration25perc" />
-     <Switch IsToggled="{Binding CurrentPlot.StockingBeechRegeneration}"
-             Style="{StaticResource EntryPlot}" />
- </HorizontalStackLayout>
+                                <!--  1  -->
+                                <HorizontalStackLayout>
+                                    <Label Text="Beech &gt;25%"
+                                           Style="{StaticResource LabelSubheading}" />
+                                    <ImageButton Source="info.png"
+                                                 Style="{StaticResource ImageButtonHelper}"
+                                                 Margin="10,0,0,0"
+                                                 Command="{Binding ShowHelperTextCommand}"
+                                                 CommandParameter="BeechRegeneration25perc" />
+                                    <Switch IsToggled="{Binding CurrentPlot.StockingBeechRegeneration}"
+                                            Style="{StaticResource EntryPlot}" />
+                                </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Border>
 
@@ -181,9 +170,6 @@
                         </Border>
                     </VerticalStackLayout>
                 </Border>
-
-
-
             </Grid>
             <VerticalStackLayout>
                 <!-- REGEN BORDER -->

@@ -14,6 +14,7 @@ namespace PTANonCrown.ViewModel
 
         public ICommand ShowHelperTextCommand => new Command<string>((fieldName) =>
         {
+            Debug.WriteLine("Info clicked");
             string helpText = _helpService.GetHelpText(fieldName);
 
             Application.Current.MainPage.DisplayAlert(fieldName, helpText, "OK");
