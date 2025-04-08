@@ -43,7 +43,7 @@ public partial class LiveTreePage : ContentPage
                     treeRow.TreeLookupFilteredList.Clear();
                 }
 
-                // If user accidentally keeps typing, provide feedbac
+                /* If user accidentally keeps typing, provide feedbac
                 if (treeRow.TreeLookup is null || treeRow.SearchSpecies.Contains(treeRow.TreeLookup.Name) && 
                     treeRow.SearchSpecies != $"{treeRow.TreeLookup.ShortCode} - {treeRow.TreeLookup.Name}")
                 {
@@ -52,7 +52,7 @@ public partial class LiveTreePage : ContentPage
                 {
                     entry.BackgroundColor = Color.Parse("White");
 
-                }
+                }*/
 
             }
         }

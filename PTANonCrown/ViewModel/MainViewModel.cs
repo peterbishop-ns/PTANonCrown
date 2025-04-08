@@ -30,10 +30,10 @@ namespace PTANonCrown.ViewModel
             _mainService = mainService;
             _standRepository = standRepository;
             _lookupRepository = lookupRepository;
+            LoadLookupTables();
 
             GetOrCreateStand();
             GetOrCreatePlot(CurrentStand);
-            LoadLookupTables();
             ValidationMessage = string.Empty;
 
         }
@@ -540,6 +540,21 @@ namespace PTANonCrown.ViewModel
             }
 
             AllPlots = _stand.Plots;
+
+
+            foreach (Plot plot in AllPlots)
+            {
+                foreach(TreeLive tree in plot.PlotTreeLive)
+                {
+                    //Populate some tree properties
+                    // todo - improve how this is done. Maybe in the PlotTreeLiveClass itself
+                    if (tree.Species > 0)
+                    {
+                        tree.TreeLookup = LookupTrees.Where(lu => lu.ID == tree.Species).FirstOrDefault();
+                        tree.SearchSpecies = $"{tree.TreeLookup.ShortCode} - {tree.TreeLookup.Name}";
+                    }
+                }
+            }
 
             SetCurrentStand(_stand);
 

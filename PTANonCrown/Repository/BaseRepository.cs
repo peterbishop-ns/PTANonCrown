@@ -102,7 +102,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 
 
     public void Save(T entity)
-    //Special
     {
         var entry = _context.Entry(entity);
 

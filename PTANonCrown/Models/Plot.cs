@@ -66,7 +66,7 @@ namespace PTANonCrown.Models
 
 
 
-        private ObservableCollection<TreeDead> _plotTreeDead = new ObservableCollection<TreeDead>();
+        private ObservableCollection<TreeDead> _plotTreeDead;
 
         public virtual ObservableCollection<TreeDead> PlotTreeDead
         {
@@ -117,7 +117,7 @@ namespace PTANonCrown.Models
         private void InitializeLiveTree()
         {
             PlotTreeLive = new ObservableCollection<TreeLive>();
-            PlotTreeLive.Add(new TreeLive() { PlotID = ID });
+            //PlotTreeLive.Add(new TreeLive() { PlotID = ID });
 
 
         }

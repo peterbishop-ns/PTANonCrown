@@ -40,5 +40,19 @@ public class AppDbContext : DbContext
             .WithOne(t => t.Plot)
             .HasForeignKey(t => t.PlotID)
             .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete trees when plot is deleted
+
+        // Plot → PlotCoarseWoody
+        modelBuilder.Entity<Plot>()
+            .HasMany(p => p.PlotCoarseWoody)
+            .WithOne(t => t.Plot)
+            .HasForeignKey(t => t.PlotID)
+            .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete trees when plot is deleted
+
+        // Plot → PlotTreeDead
+        modelBuilder.Entity<Plot>()
+            .HasMany(p => p.PlotTreeDead)
+            .WithOne(t => t.Plot)
+            .HasForeignKey(t => t.PlotID)
+            .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete trees when plot is deleted
     }
 }
