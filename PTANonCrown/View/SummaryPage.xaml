@@ -45,14 +45,12 @@
                     CommandParameter="{Binding CurrentPlot}"/>
 
 
-            <HorizontalStackLayout Grid.Column="0"
-                                   Grid.Row="3">
-                <Button Text="Click me"
-                        Clicked="OnButtonClicked" />
+
                 <Button Text="Export All"
+                        Grid.Column="3"
+                        Grid.Row="0"
                         Style="{StaticResource ButtonGreen}"
-                        Command="{Binding ExportSummaryCommand}" />
-            </HorizontalStackLayout>
+                        Command="{Binding PickFolderCommand}" />
 
             <Border Grid.Column="0"
                     Grid.Row="2"

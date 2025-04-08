@@ -1,5 +1,8 @@
 ﻿//using static Android.Renderscripts.Script;
 using ClosedXML.Excel;
+using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Storage;
+using DocumentFormat.OpenXml.Spreadsheet;
 using PTANonCrown.Models;
 using PTANonCrown.Repository;
 using PTANonCrown.Services;
@@ -185,8 +188,11 @@ namespace PTANonCrown.ViewModel
         public ICommand DeletePlotCommand => new Command<Plot>(plot => DeletePlot(plot));
         public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
 
+        public ICommand PickFolderCommand => new Command(async () => await ExecutePickFolderCommand());
+
+
         public ICommand ExportSummaryCommand =>
-            new Command<string>(method => ExportSummary());
+            new Command<string>(method => ExecutePickFolderCommand());
 
         public bool IsSelectedExportAll
         {
@@ -348,6 +354,39 @@ namespace PTANonCrown.ViewModel
             return _newPlot;
         }
 
+
+        private async Task ExecutePickFolderCommand()
+        {
+            try
+            {
+
+                // Pick a folder from the file system
+                var selectedFolder= await FolderPicker.PickAsync(default);
+
+                if (selectedFolder != null)
+                {
+                    // Extract folder information
+                    string folderPath = $"Folder Name: {selectedFolder.Folder}";
+
+                    ExportSummary(folder: selectedFolder.Folder);
+
+                  
+
+                    
+                }
+                else
+                {
+                    // Handle case when no folder is picked
+                    await Application.Current.MainPage.DisplayAlert("No Folder", "No folder was selected.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle potential errors, like permission issues
+                await Application.Current.MainPage.DisplayAlert("Error", "An error occurred: " + ex.Message, "OK");
+            }
+        }
+
         private Stand CreateNewStand()
         {
             Stand _stand = new Stand()
@@ -383,67 +422,44 @@ namespace PTANonCrown.ViewModel
             );
         }
 
-        private void ExportSuccessMessage(string method)
+        private void ExportSuccessMessage(string destination)
         {
             // Inform the user
-            Application.Current.MainPage.DisplayAlert("Export Successful", $"Summary has been exported to {method}.", "OK");
+            Application.Current.MainPage.DisplayAlert("Export Successful", $"Summary has been exported to {destination}.", "OK");
         }
 
-        private void ExportSummary()
+        private void ExportSummary(Folder folder)
         {
 
             SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
             ObservableCollection<SummaryItem> summaryResult = null;
             IEnumerable<TreeLive> trees = null;
             string tabName = null;
-            if (IsSelectedExportSelectedOnly)
+
+            // Create a new Excel workbook
+            var workbook = new XLWorkbook();
+            //DateTime now = DateTime.Now; _{ now.ToString("HHmmss")}
+            string exportFileName = Path.Combine(folder.Path, $"Summary_{CurrentStand.StandNumber}.xlsx");
+
+            // Export Stand
+            trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
+            summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
+            tabName = "Stand " + CurrentStand.StandNumber.ToString();
+            ExportToExcel(workbook, tabName, summaryResult, exportFileName);
+
+            //Export all Plots
+            foreach (Plot plot in CurrentStand.Plots)
             {
-                if (SummaryPlot is not null && !StandOnlySummary)
-                {
-                    trees = SummaryPlot.PlotTreeLive;
-                    summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
-                    tabName = "Plot " + SummaryPlot.PlotNumber.ToString();
-
-                    // Create a new Excel workbook
-                    var workbook = new XLWorkbook();
-                    ExportToExcel(workbook, tabName, summaryResult);
-                }
-                else if (SummaryPlot is null && StandOnlySummary)
-                {
-                    trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
-                    summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
-                    tabName = "Stand " + CurrentStand.StandNumber.ToString();
-
-                    // Create a new Excel workbook
-                    var workbook = new XLWorkbook();
-                    ExportToExcel(workbook, tabName, summaryResult);
-                }
-            }
-            else
-            {
-                // Create a new Excel workbook
-                var workbook = new XLWorkbook();
-
-                // Export Stand
-                trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
+                trees = plot.PlotTreeLive;
                 summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
-                tabName = "Stand " + CurrentStand.StandNumber.ToString();
-                ExportToExcel(workbook, tabName, summaryResult);
-
-                //Export all Plots
-                foreach (Plot plot in CurrentStand.Plots)
-                {
-                    trees = plot.PlotTreeLive;
-                    summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
-                    tabName = "Plot " + plot.PlotNumber.ToString();
-                    ExportToExcel(workbook, tabName, summaryResult);
-                }
-
+                tabName = "Plot " + plot.PlotNumber.ToString();
+                ExportToExcel(workbook, tabName, summaryResult, exportFileName);
             }
-            ExportSuccessMessage("Excel");
+
+            ExportSuccessMessage(exportFileName);
         }
 
-        private void ExportToExcel<T>(XLWorkbook workBook, string tabName, ObservableCollection<T> items)
+        private void ExportToExcel<T>(XLWorkbook workBook, string tabName, ObservableCollection<T> items, string exportFilePath)
         {
 
             // Add a worksheet
@@ -468,8 +484,9 @@ namespace PTANonCrown.ViewModel
                 }
             }
 
+            worksheet.Columns().AdjustToContents();
             // Save the workbook to the specified file path
-            workBook.SaveAs("C://temp//Summary.xlsx");
+            workBook.SaveAs(exportFilePath);
 
         }
 
