@@ -16,7 +16,8 @@
                                  Style="{StaticResource VerticalStackLayoutStand}">
 
                 <controls:LabelWithInfoButton LabelText="Select Stand"
-                                              Command="{Binding ShowHelperTextCommand}" />
+                                              Command="{Binding ShowHelperTextCommand}" 
+                                              CommandParameter="StandID"/>
 
                 <HorizontalStackLayout Spacing="20">
                     <Picker ItemsSource="{Binding AllStands, Mode=TwoWay}"

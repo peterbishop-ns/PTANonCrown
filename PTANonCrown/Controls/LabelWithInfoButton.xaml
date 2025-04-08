@@ -11,6 +11,8 @@
                Grid.Column="0" />
 
         <ImageButton Source="info.png"
+                     HeightRequest="10"
+                     WidthRequest="10"
                      VerticalOptions="Center"
                      BackgroundColor="Transparent"
                      Clicked="OnInfoClicked"

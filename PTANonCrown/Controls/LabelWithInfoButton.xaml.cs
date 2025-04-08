@@ -24,6 +24,19 @@ public partial class LabelWithInfoButton : ContentView
         set => SetValue(LabelTextProperty, value);
     }
 
+    public static readonly BindableProperty CommandParameterProperty =
+    BindableProperty.Create(
+        nameof(CommandParameter),
+        typeof(object),
+        typeof(LabelWithInfoButton),
+        null);
+
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+
     public static readonly BindableProperty CommandProperty =
         BindableProperty.Create(
             nameof(Command),
@@ -39,9 +52,11 @@ public partial class LabelWithInfoButton : ContentView
 
     private void OnInfoClicked(object sender, EventArgs e)
     {
-        if (Command?.CanExecute(null) == true)
+        if (Command?.CanExecute(CommandParameter) == true)
         {
-            Command.Execute(null);
+            Command.Execute(CommandParameter);
         }
     }
+
+
 }
