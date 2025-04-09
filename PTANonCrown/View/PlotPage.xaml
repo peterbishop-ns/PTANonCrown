@@ -12,7 +12,7 @@
         <VerticalStackLayout Padding="5"
                              Spacing="5">
             <!--  0  -->
-            <Grid RowDefinitions="Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto" Margin="10,0,0,0">
                 <VerticalStackLayout Grid.Row="0">
                     <HorizontalStackLayout>
                         <Label Text="Select Plot"
@@ -63,6 +63,85 @@
   />
                 </VerticalStackLayout>
             </Grid>
+
+                <VerticalStackLayout Margin="20,20,0,0">
+
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding CurrentPlot.WasTreated}" />
+                        <Label Text="Treated"  />
+                    </HorizontalStackLayout>
+                <CollectionView HorizontalOptions="Start"
+                                Margin="20,0,0,0"
+                    IsVisible="{Binding CurrentPlot.WasTreated}"
+                    ItemsSource="{Binding LookupTreatment, Mode=TwoWay}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout  HorizontalOptions="Start">
+                                <CheckBox IsChecked="{Binding IsActive}" />
+                                <Label Text="{Binding Name}" />
+
+                            </HorizontalStackLayout>
+                           
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                 
+                </VerticalStackLayout>
+            
+            <VerticalStackLayout Margin="20,20,0,0">
+
+                <HorizontalStackLayout>
+
+                    <CheckBox IsChecked="{Binding CurrentPlot.IsPlanted}" />
+                    <Label Text="Planted" />
+                </HorizontalStackLayout>
+                <VerticalStackLayout IsVisible="{Binding CurrentPlot.IsPlanted}"
+                                     Margin="20,0,0,0">
+                    <RadioButton Content="Acadian"
+                                 GroupName="PlantedType"
+                                 IsChecked="{Binding CurrentPlot.IsTreesSelected}" />
+
+                    <RadioButton Content="PlantedType"
+                                 GroupName="UnderstoryDominatedGroup"
+                                 IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
+                    <RadioButton Content="PlantedType"
+                                 GroupName="UnderstoryDominatedGroup"
+                                 IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+            <Label Style="{StaticResource LabelPlot}"
+                   Text="Forest Ecosystem Classification (FEC)" />
+            <Border>
+                <Grid RowDefinitions="Auto,Auto"
+                      ColumnDefinitions="Auto,Auto" ColumnSpacing="20">
+                
+                    
+
+                    <VerticalStackLayout Grid.Row="1" Grid.Column="0">
+                        <Label Grid.Row="0"
+                               Style="{StaticResource LabelPlot}"
+                               Text="Soil" />
+                        <Picker ItemsSource="{Binding LookupSoils}"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                WidthRequest="150"
+                                HorizontalOptions="Start" />
+                    </VerticalStackLayout >
+
+                    <VerticalStackLayout Grid.Row="1"
+                                         Grid.Column="1">
+                        <Label Grid.Row="0"
+                               Style="{StaticResource LabelPlot}"
+                               Text="Vegetation" />
+                        <Picker ItemsSource="{Binding LookupVeg}"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                WidthRequest="150"
+                                HorizontalOptions="Start" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
             <Grid RowDefinitions="Auto,Auto,Auto,Auto">
                 <Label Text="Regeneration"
                        Grid.Row="0"
@@ -147,15 +226,12 @@
                                                  CommandParameter="StockingRegenCommercialSpecies" />
                                     <Picker Background="White"
                                             WidthRequest="70"
+                                            SelectedItem="{Binding CurrentPlot.StockingRegenCommercialSpecies}"
+                                            ItemsSource="{Binding ListPercentage}"
                                             HorizontalOptions="Start">
-                                        <Picker.Items>
-                                            <x:String>0</x:String>
-                                            <x:String>10</x:String>
-                                            <x:String>20</x:String>
-                                            <x:String>30</x:String>
-                                        </Picker.Items>
                                     </Picker>
                                 </HorizontalStackLayout>
+
 
                                 <!--  4  -->
                                 <HorizontalStackLayout>
@@ -171,14 +247,11 @@
                                                  CommandParameter="StockingRegenLITSpecies" />
                                     <Picker Background="White"
                                             WidthRequest="70"
-                                            HorizontalOptions="Start">
-                                        <Picker.Items>
-                                            <x:String>0</x:String>
-                                            <x:String>10</x:String>
-                                            <x:String>20</x:String>
-                                            <x:String>30</x:String>
-                                        </Picker.Items>
-                                    </Picker>
+                                            SelectedItem="{Binding CurrentPlot.RegenStockingLITSpecies}"
+                                            ItemsSource="{Binding ListPercentage}"
+                                            HorizontalOptions="Start" />
+
+
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Border>
@@ -210,14 +283,9 @@
 
                             <Picker Background="White"
                                     WidthRequest="70"
-                                    HorizontalOptions="Start">
-                                <Picker.Items>
-                                    <x:String>0</x:String>
-                                    <x:String>10</x:String>
-                                    <x:String>20</x:String>
-                                    <x:String>30</x:String>
-                                </Picker.Items>
-                            </Picker>
+                                    ItemsSource="{Binding ListPercentage}"
+                                    SelectedItem="{Binding CurrentPlot.StockingLITSeedTree}"
+                                    HorizontalOptions="Start" />
                         </VerticalStackLayout>
                         <HorizontalStackLayout>
                             <!--  6  -->
@@ -234,14 +302,9 @@
 
                             <Picker Background="White"
                                     WidthRequest="70"
-                                    HorizontalOptions="Start">
-                                <Picker.Items>
-                                    <x:String>0</x:String>
-                                    <x:String>10</x:String>
-                                    <x:String>20</x:String>
-                                    <x:String>30</x:String>
-                                </Picker.Items>
-                            </Picker>
+                                    SelectedItem="{Binding CurrentPlot.Blowdown}"
+                                    ItemsSource="{Binding ListPercentage}"
+                                    HorizontalOptions="Start" />
                         </HorizontalStackLayout>
                         <!--  UnderstoryStrata  -->
                         <HorizontalStackLayout>
@@ -254,14 +317,9 @@
                                          CommandParameter="UnderstoryStrata" />
                             <Picker Background="White"
                                     WidthRequest="70"
-                                    HorizontalOptions="Start">
-                                <Picker.Items>
-                                    <x:String>0</x:String>
-                                    <x:String>10</x:String>
-                                    <x:String>20</x:String>
-                                    <x:String>30</x:String>
-                                </Picker.Items>
-                            </Picker>
+                                    ItemsSource="{Binding ListPercentage}"
+                                    SelectedItem="{Binding UnderstoryStrata}"
+                                    HorizontalOptions="Start" />
                         </HorizontalStackLayout>
 
                         <!--  8  -->

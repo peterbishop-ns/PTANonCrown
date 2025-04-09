@@ -20,6 +20,23 @@ namespace PTANonCrown.Models
         public int AverageSampleTreeSpecies { get; set; }
         public int Blowdown { get; set; }
 
+        /*
+        public bool _isPlanted;
+
+        public bool IsPlanted
+        {
+            get => _isPlanted;
+            set
+            {
+                if (_isPlanted != value)
+                {
+                    _isPlanted = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        */
+
         public ObservableCollection<CoarseWoody> _plotCoarseWoody;
 
         public ObservableCollection<CoarseWoody> PlotCoarseWoody

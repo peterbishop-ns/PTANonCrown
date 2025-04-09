@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Linq;
 
 namespace PTANonCrown.ViewModel
 {
@@ -10,6 +11,7 @@ namespace PTANonCrown.ViewModel
     {
         private readonly HelpService _helpService = new HelpService();
 
+    
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand ShowHelperTextCommand => new Command<string>((fieldName) =>

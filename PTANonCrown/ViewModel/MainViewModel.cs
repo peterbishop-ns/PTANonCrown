@@ -27,7 +27,7 @@ namespace PTANonCrown.ViewModel
         private string _summaryPageMessage;
 
         private string _validationMessage;
-
+        public List<int> ListPercentage { get; set; }
         public MainViewModel(MainService mainService, StandRepository standRepository, LookupRepository lookupRepository)
         {
             _mainService = mainService;
@@ -39,8 +39,9 @@ namespace PTANonCrown.ViewModel
             GetOrCreatePlot(CurrentStand);
             ValidationMessage = string.Empty;
 
-        }
-        private void CurrentPlot_PropertyChanged(object sender, PropertyChangedEventArgs e)
+
+    }
+    private void CurrentPlot_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Check if the changed property is PlotNumber
             if (e.PropertyName == nameof(Plot.PlotNumber))
@@ -227,6 +228,9 @@ namespace PTANonCrown.ViewModel
         }
 
         public List<TreeLookup> LookupTrees { get; set; }
+        public List<SoilLookup> LookupSoils { get; set; }
+        public List<VegLookup> LookupVeg { get; set; }
+        public List<TreatmentLookup> LookupTreatment { get; set; }
 
         public ICommand NewPlotCommand =>
             new Command<string>(method => CreateNewPlot(CurrentStand));
@@ -583,10 +587,19 @@ namespace PTANonCrown.ViewModel
         private void LoadLookupTables()
         {
             LookupTrees = _lookupRepository.GetTreeLookups();
+            LookupSoils = _lookupRepository.GetSoilLookups();
+            LookupVeg = _lookupRepository.GetVegLookups();
+            LookupTreatment = _lookupRepository.GetTreatmentLookups();
+            
             TreeLookupFilteredList = new ObservableCollection<TreeLookup>() { };
+
+            ListPercentage = new List<int> { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
+
+
+
         }
 
-      
+
         private async void RemoveTrees(int currentTreeCount)
         {
             int treesToSubtract = currentTreeCount - CurrentPlot.TreeCount;

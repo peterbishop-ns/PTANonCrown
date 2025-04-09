@@ -3,11 +3,11 @@ using PTANonCrown.Context;
 
 namespace PTANonCrown.Repository
 {
-    public interface ILookupRepository : IBaseRepository<TreeLookup>
+    public interface ILookupRepository : IBaseRepository<BaseLookup>
     {
     }
 
-    public class LookupRepository : BaseRepository<TreeLookup>, ILookupRepository
+    public class LookupRepository : BaseRepository<BaseLookup>, ILookupRepository
     {
         private readonly LookupDbContext _context;
 
@@ -19,6 +19,21 @@ namespace PTANonCrown.Repository
         public List<TreeLookup> GetTreeLookups()
         {
             return _context.TreeLookup.ToList();
+        }
+
+        public List<SoilLookup> GetSoilLookups()
+        {
+            return _context.SoilLookup.ToList();
+        }
+
+        public List<VegLookup> GetVegLookups()
+        {
+            return _context.VegLookup.ToList();
+        }        
+        
+        public List<TreatmentLookup> GetTreatmentLookups()
+        {
+            return _context.TreatmentLookup.OrderBy(i => i.Name).ToList();
         }
     }
 }
