@@ -142,7 +142,7 @@ namespace PTANonCrown.Models
                 PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
                 PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
                 PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 60, DBH_end = 1000 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 60, DBH_end = -1 });
             }
          
         }
@@ -157,7 +157,7 @@ namespace PTANonCrown.Models
                 PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
                 PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
                 PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
-                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 60, DBH_end = 1000 });
+                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 60, DBH_end = -1 });
 
             }
             

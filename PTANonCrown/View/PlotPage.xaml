@@ -12,10 +12,10 @@
         <VerticalStackLayout Padding="5"
                              Spacing="5">
             <!--  0  -->
-            <Grid RowDefinitions="Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto">
                 <VerticalStackLayout Grid.Row="0">
                     <HorizontalStackLayout>
-                        <Label Text="Select Plot Number"
+                        <Label Text="Select Plot"
                                Style="{StaticResource LabelPlot}" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Spacing="20">
@@ -47,6 +47,20 @@
                            Style="{StaticResource EntryStand}"
                            HorizontalOptions="Start"
                            WidthRequest="80" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="2">
+                    <HorizontalStackLayout>
+                        <Label Text="Comments"
+                               Style="{StaticResource LabelPlot}" />
+                        <ImageButton Source="info.png"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="PlotComments" />
+                    </HorizontalStackLayout>
+
+                    <Editor Placeholder="Comment"
+                            Style="{StaticResource EditorComment}"
+  />
                 </VerticalStackLayout>
             </Grid>
             <Grid RowDefinitions="Auto,Auto,Auto,Auto">

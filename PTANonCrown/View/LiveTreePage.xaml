@@ -148,7 +148,7 @@
                             <VerticalStackLayout Grid.Column="1">
 
                                 <Entry x:Name="treeShortCodeEntry"
-                                       Placeholder="Enter Species ID"
+                                       Placeholder="Species"
                                        Text="{Binding SearchSpecies}"
                                        TextChanged="Entry_TextChanged" />
 

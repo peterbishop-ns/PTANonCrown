@@ -4,8 +4,15 @@
              x:Class="PTANonCrown.StandPage"
              BackgroundColor="#F0F0F0"
              xmlns:controls="clr-namespace:PTANonCrown.Controls"
+             xmlns:converter="clr-namespace:PTANonCrown.Converter"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              Title="Stand">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:ZeroToEmptyStringConverter x:Key="ZeroToEmptyStringConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
           ColumnDefinitions="Auto, *"
@@ -55,13 +62,24 @@
             <HorizontalStackLayout>
 
                 <Entry Text="{Binding CurrentStand.StandNumber, Mode=TwoWay}"
-                        Style="{StaticResource EntryStand}" />
+                       Placeholder="Stand Number"
+                       Style="{StaticResource EntryStand}" />
              
                 </HorizontalStackLayout>
-          
+                <HorizontalStackLayout>
+                    <Label Text="Comment"
+                           Style="{StaticResource LabelStand}" />
+                    <ImageButton Source="info.png"
+                                 Style="{StaticResource ImageButtonHelper}"
+                                 Command="{Binding ShowHelperTextCommand}"
+                                 CommandParameter="StandComment" />
+                </HorizontalStackLayout>
+                <Editor Placeholder="Comment"
+                        Style="{StaticResource EditorComment}" />
             </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="2"
+            
+            <VerticalStackLayout Grid.Row="2"
                              Style="{StaticResource VerticalStackLayoutStand}">
 
             <HorizontalStackLayout>
@@ -73,7 +91,9 @@
                              CommandParameter="CruiseID" />
             </HorizontalStackLayout>
 
-            <Entry Text="{Binding CurrentStand.CruiseID}"
+                <Entry Text="{Binding CurrentStand.CruiseID, 
+                   Converter={StaticResource ZeroToEmptyStringConverter}}"
+                   Placeholder="Cruise ID"
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
@@ -87,8 +107,10 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="PlannerID" />
             </HorizontalStackLayout>
-            <Entry Text="{Binding CurrentStand.PlannerID}"
-                   Style="{StaticResource EntryStand}" />
+                <Entry Text="{Binding CurrentStand.PlannerID, 
+                   Converter={StaticResource ZeroToEmptyStringConverter}}"
+                       Placeholder="Planner ID"
+                       Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="4"
@@ -102,7 +124,8 @@
                              CommandParameter="Easting" />
             </HorizontalStackLayout>
             <Entry Text="{Binding CurrentStand.Easting}"
-                   Style="{StaticResource EntryStand}" />
+                       Placeholder="Easting"
+                       Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="5"
@@ -116,7 +139,8 @@
                              CommandParameter="Northing" />
             </HorizontalStackLayout>
             <Entry Text="{Binding CurrentStand.Northing}"
-                   Style="{StaticResource EntryStand}" />
+                       Placeholder="Northing"
+                       Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="6"
@@ -130,6 +154,7 @@
                              CommandParameter="Organization" />
             </HorizontalStackLayout>
             <Entry Text="{Binding CurrentStand.Organization}"
+                   Placeholder="Organization"
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
 
@@ -144,6 +169,7 @@
                              CommandParameter="Location" />
             </HorizontalStackLayout>
             <Entry Text="{Binding CurrentStand.Location}"
+                   Placeholder="Location"
                    Style="{StaticResource EntryStand}" />
         </VerticalStackLayout>
     </Grid>

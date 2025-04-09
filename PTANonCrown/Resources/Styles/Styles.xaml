@@ -304,6 +304,30 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
+    <Style TargetType="Editor"
+           x:Key="EditorComment">
+        <Setter Property="MinimumWidthRequest"
+                Value="300" />
+        <Setter Property="HeightRequest"
+                Value="75" />
+        <Setter Property="HorizontalOptions"
+                Value="Start" />
+        <Setter Property="VerticalOptions"
+                Value="Start" />
+        <Setter Property="MaxLength"
+                Value="1000" />
+        <Setter Property="BackgroundColor"
+                Value="White" />
+
+        <Setter Property="WidthRequest"
+                Value="300" />
+        <Setter Property="HeightRequest"
+                Value="75" />
+        <Setter Property="AutoSize"
+                Value="TextChanges" />
+
+
+    </Style>
     <Style TargetType="Entry"
            x:Key="EntryStand"
            BasedOn="{StaticResource EntryParent}">

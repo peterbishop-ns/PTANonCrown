@@ -12,7 +12,14 @@
         {
             get
             {
-                return $"{DBH_start} - {DBH_end}";
+                if (DBH_end > 0)
+                {
+                    return $"{DBH_start} - {DBH_end}";
+                }
+                else
+                {
+                    return $"> {DBH_start}";
+                }
             }
         }
 
