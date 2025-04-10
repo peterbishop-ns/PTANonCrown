@@ -44,7 +44,7 @@ public partial class LiveTreePage : ContentPage
                 }
 
                 /* If user accidentally keeps typing, provide feedbac
-                if (treeRow.TreeLookup is null || treeRow.SearchSpecies.Contains(treeRow.TreeLookup.Name) && 
+                if (treeRow.TreeLookup is null || treeRow.SearchSpecies.Contains(treeRow.TreeLookup.Name) &&
                     treeRow.SearchSpecies != $"{treeRow.TreeLookup.ShortCode} - {treeRow.TreeLookup.Name}")
                 {
                     entry.BackgroundColor = Color.FromHex("F0AF87");

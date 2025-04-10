@@ -1,5 +1,5 @@
-﻿using PTANonCrown.Models;
-using PTANonCrown.Context;
+﻿using PTANonCrown.Context;
+using PTANonCrown.Models;
 
 namespace PTANonCrown.Repository
 {
@@ -16,24 +16,24 @@ namespace PTANonCrown.Repository
             _context = context;
         }
 
-        public List<TreeLookup> GetTreeLookups()
-        {
-            return _context.TreeLookup.ToList();
-        }
-
         public List<SoilLookup> GetSoilLookups()
         {
             return _context.SoilLookup.ToList();
         }
 
-        public List<VegLookup> GetVegLookups()
-        {
-            return _context.VegLookup.ToList();
-        }        
-        
         public List<TreatmentLookup> GetTreatmentLookups()
         {
             return _context.TreatmentLookup.OrderBy(i => i.Name).ToList();
+        }
+
+        public List<TreeLookup> GetTreeLookups()
+        {
+            return _context.TreeLookup.OrderBy(i => i.Name).ToList();
+        }
+
+        public List<VegLookup> GetVegLookups()
+        {
+            return _context.VegLookup.ToList();
         }
     }
 }

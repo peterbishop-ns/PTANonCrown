@@ -16,7 +16,9 @@
 
     <ScrollView>
 
-        <VerticalStackLayout VerticalOptions="Start" Spacing="20" Margin="10">
+        <VerticalStackLayout VerticalOptions="Start"
+                             Spacing="20"
+                             Margin="10">
             <Grid RowDefinitions="Auto,Auto,Auto">
                 <Border Grid.Row="0"
                         BackgroundColor="LightGoldenrodYellow"
@@ -36,7 +38,8 @@
                     </HorizontalStackLayout>
                 </Border>
                 <HorizontalStackLayout Grid.Row="1">
-                    <Label Text="Include Biodiversity" Style="{StaticResource LabelPlot}"/>
+                    <Label Text="Include Biodiversity"
+                           Style="{StaticResource LabelPlot}" />
                     <CheckBox x:Name="IncludeBiodiversity" />
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Spacing="10"
@@ -213,7 +216,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

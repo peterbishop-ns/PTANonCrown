@@ -1,14 +1,13 @@
-﻿//using static Android.Renderscripts.Script;
+﻿//using static
+//.Renderscripts.Script;
 using ClosedXML.Excel;
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Storage;
-using DocumentFormat.OpenXml.Spreadsheet;
 using PTANonCrown.Models;
 using PTANonCrown.Repository;
 using PTANonCrown.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace PTANonCrown.ViewModel
@@ -23,11 +22,11 @@ namespace PTANonCrown.ViewModel
         private bool _isValidationError;
         private ObservableCollection<SummaryResultTreeSpecies> _speciesSummary;
         private ObservableCollection<SummaryItem> _summaryItems;
-        private Plot _summaryPlot;
         private string _summaryPageMessage;
-
+        private Plot _summaryPlot;
+        private bool _summarySectionIsVisible;
         private string _validationMessage;
-        public List<int> ListPercentage { get; set; }
+
         public MainViewModel(MainService mainService, StandRepository standRepository, LookupRepository lookupRepository)
         {
             _mainService = mainService;
@@ -39,27 +38,220 @@ namespace PTANonCrown.ViewModel
             GetOrCreatePlot(CurrentStand);
             ValidationMessage = string.Empty;
 
+        }
 
-    }
-    private void CurrentPlot_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        public ObservableCollection<Plot> _allPlots { get; set; }
+        public ObservableCollection<Stand> _allStands { get; set; }
+
+        public ObservableCollection<Plot> AllPlots
         {
-            // Check if the changed property is PlotNumber
-            if (e.PropertyName == nameof(Plot.PlotNumber))
+            get => _allPlots;
+            set
             {
-                Console.WriteLine($"PlotNumber changed: {(sender as Plot)?.PlotNumber}");
-                RefreshAllPlots();
+                if (_allPlots != value)
+                {
+                    _allPlots = value;
+                    OnPropertyChanged();
+                }
+            }
+
+        }
+
+        public ObservableCollection<Stand> AllStands
+        {
+            get => _allStands;
+            set
+            {
+                if (_allStands != value)
+                {
+                    _allStands = value;
+                    OnPropertyChanged();
+                }
             }
         }
-        private void Stand_PropertyChanged(object sender, PropertyChangedEventArgs e)
+
+        public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
+
+        public Plot CurrentPlot
         {
-            // Check if the changed property is StandNumber 
-            if (e.PropertyName == nameof(Stand.StandNumber))
+            get => _currentPlot;
+            set
             {
-                // Handle the update accordingly
-                Console.WriteLine($"StandNumber changed: {(sender as Stand)?.StandNumber}");
-                RefreshAllStands();
+                if (_currentPlot != value)
+                {
+                    // Unsubscribe from the old collection's property change notifications
+                    if (_currentPlot != null)
+                    {
+
+                        _currentPlot.PropertyChanged -= CurrentPlot_PropertyChanged;
+
+                    }
+
+                    _currentPlot = value;
+                    OnPropertyChanged();
+
+                    // Subscribe to the new collection's property change notifications
+                    if (_currentPlot != null)
+                    {
+                        _currentPlot.PropertyChanged += CurrentPlot_PropertyChanged;
+                    }
+
+                }
             }
         }
+
+        public Stand CurrentStand
+        {
+            get => _currentStand;
+            set
+            {
+                if (_currentStand != value)
+                {
+                    if (_currentStand != null)
+                    {
+                        // Unsubscribe from old CurrentPlot's property changes
+                        _currentStand.PropertyChanged -= Stand_PropertyChanged;
+                    }
+
+                    _currentStand = value;
+                    OnPropertyChanged();
+
+                    if (_currentStand != null)
+                    {
+                        // Subscribe to new CurrentPlot's property changes
+                        _currentStand.PropertyChanged += Stand_PropertyChanged;
+                    }
+
+                    ValidateStand(); // Run validation in case a new object is assigned
+                }
+            }
+
+        }
+
+        public ICommand DeletePlotCommand => new Command<Plot>(plot => DeletePlot(plot));
+
+        public ICommand ExportSummaryCommand =>
+            new Command<string>(method => ExecutePickFolderCommand());
+
+        public bool IsSelectedExportAll
+        {
+            get => _isSelectedExportAll;
+            set => SetProperty(ref _isSelectedExportAll, value);
+
+        }
+
+        public bool IsSelectedExportSelectedOnly
+        {
+            get => _isSelectedExportSelectedOnly;
+            set => SetProperty(ref _isSelectedExportSelectedOnly, value);
+        }
+
+        public bool IsValidationError
+        {
+            get => _isValidationError;
+            set => SetProperty(ref _isValidationError, value);
+        }
+
+        public List<int> ListPercentage { get; set; }
+        public List<SoilLookup> LookupSoils { get; set; }
+
+        public List<TreatmentLookup> LookupTreatment { get; set; }
+
+        public List<TreeLookup> LookupTrees { get; set; }
+
+        public List<VegLookup> LookupVeg { get; set; }
+
+        public ICommand NewPlotCommand =>
+            new Command<string>(method => CreateNewPlot(CurrentStand));
+
+        public ICommand PickFolderCommand => new Command(async () => await ExecutePickFolderCommand());
+
+        public ICommand SaveAllCommand =>
+        new Command<string>(method => SaveAll());
+
+        public ICommand SetCurrentPlotCommand => new Command<Plot>(plot => SetCurrentPlot(plot));
+
+        public ICommand SetPlotSummaryCommand => new Command<Plot>(plot => SetSummaryPlot(plot));
+
+        public ICommand SetStandOnlyCommand => new Command<Plot>(plot => SetStandOnly());
+
+        public ObservableCollection<SummaryResultTreeSpecies> SpeciesSummary
+        {
+            get => _speciesSummary;
+            set
+            {
+                if (_speciesSummary != value)
+                {
+                    _speciesSummary = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ICommand SpecifyTreeCountInPlotCommand => new Command(SpecifyTreeCountInPlot);
+
+        public bool StandOnlySummary { get; set; }
+
+        public ObservableCollection<SummaryItem> SummaryItems
+        {
+            get => _summaryItems;
+            set
+            {
+                if (_summaryItems != value)
+                {
+                    _summaryItems = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string SummaryPageMessage
+        {
+            get => _summaryPageMessage;
+            set
+            {
+                if (_summaryPageMessage != value)
+                {
+                    _summaryPageMessage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Plot SummaryPlot
+        {
+            get => _summaryPlot;
+            set => SetProperty(ref _summaryPlot, value);
+
+        }
+
+        public bool SummarySectionIsVisible
+        {
+            get => _summarySectionIsVisible;
+            set
+            {
+                if (_summarySectionIsVisible != value)
+                {
+                    _summarySectionIsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; }
+
+        public string ValidationMessage
+        {
+            get => _validationMessage;
+            set => SetProperty(ref _validationMessage, value);
+        }
+
+        private LookupRepository _lookupRepository { get; set; }
+
+        private MainService _mainService { get; set; }
+
+        private StandRepository _standRepository { get; set; }
+
         public void RefreshAllPlots()
         {
 
@@ -98,216 +290,9 @@ namespace PTANonCrown.ViewModel
             }
 
             //reset the Current stand
-            SetCurrentStand(tempCurrentStand); 
+            SetCurrentStand(tempCurrentStand);
 
         }
-        public ObservableCollection<Stand> _allStands { get; set; }
-        public ObservableCollection<Stand> AllStands
-        {
-            get => _allStands;
-            set
-            {
-                if (_allStands != value)
-                {
-                    _allStands = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public ObservableCollection<Plot> _allPlots { get; set; }
-        public ObservableCollection<Plot> AllPlots
-        {
-            get => _allPlots;
-            set
-            {
-                if (_allPlots != value)
-                {
-                    _allPlots = value;
-                    OnPropertyChanged();
-                }
-            }
-
-
-        }
-        public Plot CurrentPlot
-        {
-            get => _currentPlot;
-            set
-            {
-                if (_currentPlot != value)
-                {
-                    // Unsubscribe from the old collection's property change notifications
-                    if (_currentPlot != null)
-                    {
-
-                        _currentPlot.PropertyChanged -= CurrentPlot_PropertyChanged;
-
-                    }
-
-                    _currentPlot = value;
-                    OnPropertyChanged();
-
-                    // Subscribe to the new collection's property change notifications
-                    if (_currentPlot != null)
-                    {
-                            _currentPlot.PropertyChanged += CurrentPlot_PropertyChanged;
-                    }
-
-                }
-            }
-        }
-
-        public Stand CurrentStand
-        {
-            get => _currentStand;
-            set
-            {
-                if (_currentStand != value)
-                {
-                    if (_currentStand != null)
-                    {
-                        // Unsubscribe from old CurrentPlot's property changes
-                        _currentStand.PropertyChanged -= Stand_PropertyChanged;
-                    }
-
-                    _currentStand = value;
-                    OnPropertyChanged();
-
-                    if (_currentStand != null)
-                    {
-                        // Subscribe to new CurrentPlot's property changes
-                        _currentStand.PropertyChanged += Stand_PropertyChanged;
-                    }
-
-                    ValidateStand(); // Run validation in case a new object is assigned
-                }
-            }
-
-        }
-
-        public ICommand DeletePlotCommand => new Command<Plot>(plot => DeletePlot(plot));
-        public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
-
-        public ICommand PickFolderCommand => new Command(async () => await ExecutePickFolderCommand());
-
-
-        public ICommand ExportSummaryCommand =>
-            new Command<string>(method => ExecutePickFolderCommand());
-
-        public bool IsSelectedExportAll
-        {
-            get => _isSelectedExportAll;
-            set => SetProperty(ref _isSelectedExportAll, value);
-
-        }       
-        
-        public string SummaryPageMessage
-        {
-            get => _summaryPageMessage;
-            set
-            {
-                if (_summaryPageMessage != value)
-                {
-                    _summaryPageMessage = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool IsSelectedExportSelectedOnly
-        {
-            get => _isSelectedExportSelectedOnly;
-            set => SetProperty(ref _isSelectedExportSelectedOnly, value);
-        }
-
-        public bool IsValidationError
-        {
-            get => _isValidationError;
-            set => SetProperty(ref _isValidationError, value);
-        }
-
-        public List<TreeLookup> LookupTrees { get; set; }
-        public List<SoilLookup> LookupSoils { get; set; }
-        public List<VegLookup> LookupVeg { get; set; }
-        public List<TreatmentLookup> LookupTreatment { get; set; }
-
-        public ICommand NewPlotCommand =>
-            new Command<string>(method => CreateNewPlot(CurrentStand));
-
-        public ICommand SaveAllCommand =>
-        new Command<string>(method => SaveAll());
-
-        public ICommand SetCurrentPlotCommand => new Command<Plot>(plot => SetCurrentPlot(plot));
-
-        public ICommand SetPlotSummaryCommand => new Command<Plot>(plot => SetSummaryPlot(plot));
-
-        public ICommand SetStandOnlyCommand => new Command<Plot>(plot => SetStandOnly());
-
-        public ObservableCollection<SummaryResultTreeSpecies> SpeciesSummary
-        {
-            get => _speciesSummary;
-            set
-            {
-                if (_speciesSummary != value)
-                {
-                    _speciesSummary = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public ICommand SpecifyTreeCountInPlotCommand => new Command(SpecifyTreeCountInPlot);
-
-        public bool StandOnlySummary { get; set; }
-        private bool _summarySectionIsVisible;
-        public bool SummarySectionIsVisible
-        {
-            get => _summarySectionIsVisible;
-            set
-            {
-                if (_summarySectionIsVisible != value)
-                {
-                    _summarySectionIsVisible = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        public ObservableCollection<SummaryItem> SummaryItems
-        {
-            get => _summaryItems;
-            set
-            {
-                if (_summaryItems != value)
-                {
-                    _summaryItems = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public Plot SummaryPlot
-        {
-            get => _summaryPlot;
-            set => SetProperty(ref _summaryPlot, value);
-
-        }
-
-        public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; }
-
-        public string ValidationMessage
-        {
-            get => _validationMessage;
-            set => SetProperty(ref _validationMessage, value);
-        }
-
-        private LookupRepository _lookupRepository { get; set; }
-
-        private MainService _mainService { get; set; }
-
-        private StandRepository _standRepository { get; set; }
 
         public void ValidateStand()
         {
@@ -350,45 +335,12 @@ namespace PTANonCrown.ViewModel
                 : 1; Plot _newPlot = new Plot() { StandID = stand.ID, PlotNumber = newPlotNumber };
 
             _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
-            _newPlot.PlotTreeLive.Add(new TreeLive() { TreeNumber = 1, PlotID = _newPlot.ID});
+            _newPlot.PlotTreeLive.Add(new TreeLive() { TreeNumber = 1, PlotID = _newPlot.ID });
 
             stand.Plots.Add(_newPlot);
 
             SetCurrentPlot(_newPlot);
             return _newPlot;
-        }
-
-
-        private async Task ExecutePickFolderCommand()
-        {
-            try
-            {
-
-                // Pick a folder from the file system
-                var selectedFolder= await FolderPicker.PickAsync(default);
-
-                if (selectedFolder != null)
-                {
-                    // Extract folder information
-                    string folderPath = $"Folder Name: {selectedFolder.Folder}";
-
-                    ExportSummary(folder: selectedFolder.Folder);
-
-                  
-
-                    
-                }
-                else
-                {
-                    // Handle case when no folder is picked
-                    await Application.Current.MainPage.DisplayAlert("No Folder", "No folder was selected.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle potential errors, like permission issues
-                await Application.Current.MainPage.DisplayAlert("Error", "An error occurred: " + ex.Message, "OK");
-            }
         }
 
         private Stand CreateNewStand()
@@ -403,6 +355,16 @@ namespace PTANonCrown.ViewModel
             SetCurrentStand(_stand);
             return _stand;
 
+        }
+
+        private void CurrentPlot_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Check if the changed property is PlotNumber
+            if (e.PropertyName == nameof(Plot.PlotNumber))
+            {
+                Console.WriteLine($"PlotNumber changed: {(sender as Plot)?.PlotNumber}");
+                RefreshAllPlots();
+            }
         }
 
         private void DeletePlot(Plot plot)
@@ -425,6 +387,35 @@ namespace PTANonCrown.ViewModel
                 "Continue",
                 "Cancel"
             );
+        }
+
+        private async Task ExecutePickFolderCommand()
+        {
+            try
+            {
+
+                // Pick a folder from the file system
+                var selectedFolder = await FolderPicker.PickAsync(default);
+
+                if (selectedFolder != null)
+                {
+                    // Extract folder information
+                    string folderPath = $"Folder Name: {selectedFolder.Folder}";
+
+                    ExportSummary(folder: selectedFolder.Folder);
+
+                }
+                else
+                {
+                    // Handle case when no folder is picked
+                    await Application.Current.MainPage.DisplayAlert("No Folder", "No folder was selected.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle potential errors, like permission issues
+                await Application.Current.MainPage.DisplayAlert("Error", "An error occurred: " + ex.Message, "OK");
+            }
         }
 
         private void ExportSuccessMessage(string destination)
@@ -497,14 +488,20 @@ namespace PTANonCrown.ViewModel
 
         private ObservableCollection<SummaryResultTreeSpecies> GenerateTreeSpeciesSummary(IEnumerable<Plot> plots)
         {
-            var summary = plots
-             .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeLookup.DisplayName }))
-             .GroupBy(t => new { t.PlotNumber, t.DisplayName })
+            var filtered = plots
+             .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeLookup.DisplayName }));
+
+            int total = filtered.Count();
+
+
+            var summary = filtered.GroupBy(t => new { t.PlotNumber, t.DisplayName })
              .Select(g => new SummaryResultTreeSpecies
              {
                  PlotNumber = g.Key.PlotNumber,
                  Species = g.Key.DisplayName,
-                 Count = g.Count()
+                 Count = g.Count(),
+                 Percentage = Math.Round(100 * (double)g.Count() / total, 1)
+
              })
              .OrderBy(x => x.PlotNumber)
              .ThenBy(x => x.Species)
@@ -563,10 +560,9 @@ namespace PTANonCrown.ViewModel
 
             AllPlots = _stand.Plots;
 
-
             foreach (Plot plot in AllPlots)
             {
-                foreach(TreeLive tree in plot.PlotTreeLive)
+                foreach (TreeLive tree in plot.PlotTreeLive)
                 {
                     //Populate some tree properties
                     // todo - improve how this is done. Maybe in the PlotTreeLiveClass itself
@@ -590,20 +586,17 @@ namespace PTANonCrown.ViewModel
             LookupSoils = _lookupRepository.GetSoilLookups();
             LookupVeg = _lookupRepository.GetVegLookups();
             LookupTreatment = _lookupRepository.GetTreatmentLookups();
-            
+
             TreeLookupFilteredList = new ObservableCollection<TreeLookup>() { };
 
             ListPercentage = new List<int> { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
 
-
-
         }
-
 
         private async void RemoveTrees(int currentTreeCount)
         {
             int treesToSubtract = currentTreeCount - CurrentPlot.TreeCount;
-            string message =string.Empty;
+            string message = string.Empty;
             int firstRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - treesToSubtract].TreeNumber; // First element to be removed
             int lastRemoved = CurrentPlot.PlotTreeLive[CurrentPlot.PlotTreeLive.Count - 1].TreeNumber; // Last element to be removed
 
@@ -614,8 +607,8 @@ namespace PTANonCrown.ViewModel
             }
             else
             {
-                 message = $"Do you want to set the tree count to {CurrentPlot.TreeCount}?" +
-                    $" Trees {firstRemoved} - {lastRemoved} will be removed. This cannot be undone.";
+                message = $"Do you want to set the tree count to {CurrentPlot.TreeCount}?" +
+                   $" Trees {firstRemoved} - {lastRemoved} will be removed. This cannot be undone.";
             }
 
             // Call the async DisplayAlert method
@@ -676,7 +669,7 @@ namespace PTANonCrown.ViewModel
                 SummaryPageMessage = $"Plot {CurrentPlot.PlotNumber} Summary";
             }
 
-}
+        }
 
         private void SpecifyTreeCountInPlot()
         {
@@ -691,6 +684,17 @@ namespace PTANonCrown.ViewModel
             else if (CurrentPlot.TreeCount < currentTreeCount)
             {
                 RemoveTrees(currentTreeCount);
+            }
+        }
+
+        private void Stand_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Check if the changed property is StandNumber
+            if (e.PropertyName == nameof(Stand.StandNumber))
+            {
+                // Handle the update accordingly
+                Console.WriteLine($"StandNumber changed: {(sender as Stand)?.StandNumber}");
+                RefreshAllStands();
             }
         }
     }

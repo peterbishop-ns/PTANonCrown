@@ -6,7 +6,14 @@ namespace PTANonCrown.Models
 {
     public class Plot : BaseModel
     {
+        public ObservableCollection<CoarseWoody> _plotCoarseWoody;
         private int _plotNumber;
+
+        private ObservableCollection<TreeDead> _plotTreeDead;
+
+        private ObservableCollection<TreeLive> _plotTreeLive = new ObservableCollection<TreeLive>();
+
+        private int _treeCount;
 
         public Plot()
         {
@@ -36,8 +43,17 @@ namespace PTANonCrown.Models
             }
         }
         */
+        public int HorizontalStructure { get; set; }
 
-        public ObservableCollection<CoarseWoody> _plotCoarseWoody;
+        public int ID { get; set; }
+
+        public int OGFSampleTreeAge { get; set; }
+
+        public int OGFSampleTreeDBH_cm { get; set; }
+
+        public int OGFSampleTreeSpecies { get; set; }
+
+        public bool OneCohortSenescent { get; set; }
 
         public ObservableCollection<CoarseWoody> PlotCoarseWoody
         {
@@ -52,38 +68,12 @@ namespace PTANonCrown.Models
             }
         }
 
-
-        public int HorizontalStructure { get; set; }
-        public int ID { get; set; }
-        public int OGFSampleTreeAge { get; set; }
-
-        public int OGFSampleTreeDBH_cm { get; set; }
-
-        public int OGFSampleTreeSpecies { get; set; }
-
-        public bool OneCohortSenescent { get; set; }
-
         public int PlotNumber
         {
             get => _plotNumber;
             set => SetProperty(ref _plotNumber, value);
 
         }
-
-        public bool RegenHeightHWLIT { get; set; }
-        public bool RegenHeightSWLIT { get; set; }
-        public Stand Stand { get; set; }
-        public int StandID { get; set; }
-
-        public int StockingBeechRegeneration { get; set; }
-        public int StockingLITSeedTree { get; set; }
-        public int StockingRegenCommercialSpecies { get; set; }
-        public int StockingRegenLITSpecies { get; set; }
-
-
-
-
-        private ObservableCollection<TreeDead> _plotTreeDead;
 
         public virtual ObservableCollection<TreeDead> PlotTreeDead
         {
@@ -99,10 +89,6 @@ namespace PTANonCrown.Models
                 }
             }
         }
-
-
-
-        private ObservableCollection<TreeLive> _plotTreeLive = new ObservableCollection<TreeLive>();
 
         public virtual ObservableCollection<TreeLive> PlotTreeLive
         {
@@ -125,48 +111,35 @@ namespace PTANonCrown.Models
             }
         }
 
-        private void OnTreeLiveCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            // Update TreeCount when items are added or removed from the collection
-            TreeCount = _plotTreeLive?.Count ?? 0;
-        }
+        public bool RegenHeightHWLIT { get; set; }
+        public bool RegenHeightSWLIT { get; set; }
+        public Stand Stand { get; set; }
+        public int StandID { get; set; }
 
-        private void InitializeLiveTree()
-        {
-            PlotTreeLive = new ObservableCollection<TreeLive>();
-            //PlotTreeLive.Add(new TreeLive() { PlotID = ID });
-
-
-        }
-
-        private int _treeCount;
+        public int StockingBeechRegeneration { get; set; }
+        public int StockingLITSeedTree { get; set; }
+        public int StockingRegenCommercialSpecies { get; set; }
+        public int StockingRegenLITSpecies { get; set; }
 
         [NotMapped]
         public int TreeCount
         {
             get => _treeCount;
-            set {
-                SetProperty(ref _treeCount, value);
-            } 
-        }
-        private void InitializeDeadTreeDefaults()
-        {
-            
-            if (PlotTreeDead is null)
+            set
             {
-                PlotTreeDead = new ObservableCollection<TreeDead>();
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 60, DBH_end = -1 });
+                SetProperty(ref _treeCount, value);
             }
-         
         }
+
+        public int UnderstoryDominated { get; set; }
+
+        public int UnderstoryStrata { get; set; }
+
+        public bool UnevenAged { get; set; }
+
         private void InitializeCoarseWoodyDefaults()
         {            // todo this should first check DB; if none exist, THEN initialize
 
-            
             if (PlotCoarseWoody is null)
             {
                 PlotCoarseWoody = new ObservableCollection<CoarseWoody>();
@@ -177,11 +150,35 @@ namespace PTANonCrown.Models
                 PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 60, DBH_end = -1 });
 
             }
-            
-        }
-        public int UnderstoryDominated { get; set; }
-        public int UnderstoryStrata { get; set; }
-        public bool UnevenAged { get; set; }
 
+        }
+
+        private void InitializeDeadTreeDefaults()
+        {
+
+            if (PlotTreeDead is null)
+            {
+                PlotTreeDead = new ObservableCollection<TreeDead>();
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
+                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 60, DBH_end = -1 });
+            }
+
+        }
+
+        private void InitializeLiveTree()
+        {
+            PlotTreeLive = new ObservableCollection<TreeLive>();
+            //PlotTreeLive.Add(new TreeLive() { PlotID = ID });
+
+        }
+
+        private void OnTreeLiveCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // Update TreeCount when items are added or removed from the collection
+            TreeCount = _plotTreeLive?.Count ?? 0;
+        }
     }
 }

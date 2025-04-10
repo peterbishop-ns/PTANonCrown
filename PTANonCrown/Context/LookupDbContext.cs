@@ -10,11 +10,10 @@ namespace PTANonCrown.Context
 
         }
 
-        public DbSet<TreeLookup> TreeLookup { get; set; }
         public DbSet<SoilLookup> SoilLookup { get; set; }
-        public DbSet<VegLookup> VegLookup { get; set; }
         public DbSet<TreatmentLookup> TreatmentLookup { get; set; }
-
+        public DbSet<TreeLookup> TreeLookup { get; set; }
+        public DbSet<VegLookup> VegLookup { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

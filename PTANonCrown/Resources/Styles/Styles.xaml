@@ -82,14 +82,11 @@
     <Style TargetType="Label"
            x:Key="LabelStand"
            BasedOn="{StaticResource LabelParent}">
-      
     </Style>
-
 
     <Style TargetType="Label"
            x:Key="LabelPlot"
            BasedOn="{StaticResource LabelParent}">
-       
     </Style>
 
     <Style TargetType="Label"
@@ -151,7 +148,7 @@
     <Style TargetType="Button"
            x:Key="ButtonGreen"
            BasedOn="{StaticResource ButtonParent}">
-      
+
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup Name="CommonStates">
@@ -325,8 +322,6 @@
                 Value="75" />
         <Setter Property="AutoSize"
                 Value="TextChanges" />
-
-
     </Style>
     <Style TargetType="Entry"
            x:Key="EntryStand"
@@ -345,7 +340,6 @@
            BasedOn="{StaticResource EntryParent}">
         <Setter Property="MinimumWidthRequest"
                 Value="100" />
-        
     </Style>
     <Style TargetType="VerticalStackLayout"
            x:Key="VerticalStackLayoutParent">

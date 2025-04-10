@@ -57,7 +57,7 @@ namespace PTANonCrown.Models
             get => _searchSpecies;
             set => SetProperty(ref _searchSpecies, value);
 
-                 }
+        }
 
         public int Species
         {
@@ -89,6 +89,7 @@ namespace PTANonCrown.Models
 
         [NotMapped]
         public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; } = new ObservableCollection<TreeLookup>();
+
         public int TreeNumber { get; set; }
         public double TreesPerHectare => BasalArea == 0 ? 0 : 2 / BasalArea; // todo confirm; is the "2" constant? Isn't this plot area
     }

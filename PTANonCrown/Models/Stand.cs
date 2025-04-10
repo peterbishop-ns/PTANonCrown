@@ -5,7 +5,6 @@ namespace PTANonCrown.Models
     public class Stand : BaseModel
     {
 
-
         private int _standNumber;
 
         public Stand()

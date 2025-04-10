@@ -66,6 +66,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 
         return query.ToList();
     }
+
     public T? GetById(int id) => _dbSet.Find(id) ?? null;
 
     public List<T> GetBySearch(string searchString, string propertyNameToSearch)
@@ -99,7 +100,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 
         }
     }
-
 
     public void Save(T entity)
     {

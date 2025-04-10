@@ -10,11 +10,9 @@
     <Shell.ToolbarItems>
         <ToolbarItem Text="Save"
                      Priority="0"
-                     
                      IconImageSource="save_icon.png"
                      Command="{Binding SaveAllCommand}">
         </ToolbarItem>
-        
     </Shell.ToolbarItems>
     <TabBar>
         <Tab Title="Home">
