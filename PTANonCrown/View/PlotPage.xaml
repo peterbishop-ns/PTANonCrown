@@ -64,99 +64,105 @@
                 </VerticalStackLayout>
             </Grid>
 
+            <!-- PLOT HISTORY-->
             <VerticalStackLayout>
-                
-            <Border>
-                <VerticalStackLayout>
-                    
-                <!-- TREATED -->
-            <VerticalStackLayout Margin="20,10,0,0"
-                                 HorizontalOptions="Start">
-                <HorizontalStackLayout>
-                    <CheckBox x:Name="WasTreated" />
-                    <!--TODO bind this-->
-                    <Label Text="Treated"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center" />
-                </HorizontalStackLayout>
-                <CollectionView HorizontalOptions="StartAndExpand"
-                                Margin="20,0,0,0"
-                                IsVisible="{Binding Source={x:Reference WasTreated}, Path=IsChecked}"
-                                ItemsSource="{Binding LookupTreatment, Mode=TwoWay}">
+                <Label Text="Plot History"
+                       Style="{StaticResource LabelPlot}" />
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions="50,Auto">
-                                <CheckBox IsChecked="{Binding IsActive}"
-                                          Grid.Column="0" />
-                                <Label Text="{Binding Name}"
-                                       Grid.Column="1" />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <Border Padding="10,10,10,10">
+                    <Grid RowDefinitions="Auto,Auto">
+                        <!-- TREATED -->
+                        <VerticalStackLayout Grid.Row="0"
+                                             HorizontalOptions="Start">
+                            <HorizontalStackLayout>
+                                <CheckBox x:Name="WasTreated" />
+                                
+                                <!-- TODO: bind this and add logic to turn off any treatment if this is disabled -->
+                                <Label Text="Treated"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <CollectionView HorizontalOptions="StartAndExpand"
+                                            Margin="20,0,0,0"
+                                            IsVisible="{Binding Source={x:Reference WasTreated}, Path=IsChecked}"
+                                            ItemsSource="{Binding LookupTreatment, Mode=TwoWay}">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="50,Auto">
+                                            <CheckBox IsChecked="{Binding IsActive}"
+                                                      Grid.Column="0" />
+                                            <Label Text="{Binding Name}"
+                                                   Grid.Column="1" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+
+                        <!-- PLANTING -->
+                        <VerticalStackLayout Grid.Row="1">
+                            <HorizontalStackLayout>
+                                <CheckBox x:Name="WasPlanted"
+                                          IsChecked="{Binding CurrentPlot.IsPlanted}" />
+                                <Label Text="Planted"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <VerticalStackLayout  IsVisible="{Binding Source={x:Reference WasPlanted}, Path=IsChecked}"
+                                                  Margin="20,0,0,0"
+                                                  Spacing="0">
+                                <RadioButton Content="Acadian"
+                                             GroupName="PlantedType"
+                                             Margin="0"
+                                             IsChecked="{Binding CurrentPlot.IsTreesSelected}" />
+
+                                <RadioButton Content="Maritime Boreal"
+                                             Margin="0"
+                                             GroupName="UnderstoryDominatedGroup"
+                                             IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
+                                <RadioButton Content="Coastal"
+                                             Margin="0"
+                                             GroupName="UnderstoryDominatedGroup"
+                                             IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
             </VerticalStackLayout>
 
-            <!-- PLANTING -->
-            <VerticalStackLayout Margin="20,0,0,0">
-                <HorizontalStackLayout>
-                    <CheckBox x:Name="WasPlanted"
-                              IsChecked="{Binding CurrentPlot.IsPlanted}" />
-                    <Label Text="Planted" 
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center"/>
-                </HorizontalStackLayout>
-                <VerticalStackLayout  IsVisible="{Binding Source={x:Reference WasPlanted}, Path=IsChecked}"
-                                      Margin="20,0,0,0"
-                                      Spacing="0">
-                    <RadioButton Content="Acadian"
-                                 GroupName="PlantedType"
-                                 Margin="0"
-                                 IsChecked="{Binding CurrentPlot.IsTreesSelected}" />
+            <!-- FEC -->
+            <VerticalStackLayout>
+                <Label Style="{StaticResource LabelPlot}"
+                       Text="Forest Ecosystem Classification (FEC)" />
+                <Border>
+                    <Grid RowDefinitions="Auto,Auto"
+                          ColumnDefinitions="75,Auto"
+                          ColumnSpacing="20">
+                        <Label Grid.Row="0"
+                               Grid.Column="0"
+                               Text="Soil" />
+                        <Picker  Grid.Row="0"
+                                 Grid.Column="1"
+                                 ItemsSource="{Binding LookupSoils}"
+                                 ItemDisplayBinding="{Binding DisplayName}"
+                                 WidthRequest="350"
+                                 HorizontalOptions="Start" />
 
-                    <RadioButton Content="Maritime Boreal"
-                                 Margin="0"
-                                 GroupName="UnderstoryDominatedGroup"
-                                 IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
-                    <RadioButton Content="Coastal"
-                                 Margin="0"
-                                 GroupName="UnderstoryDominatedGroup"
-                                 IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
-                </VerticalStackLayout>
+                        <Label Grid.Row="1"
+                               Grid.Column="0"
+                               Text="Vegetation" />
+                        <Picker Grid.Row="1"
+                                Grid.Column="1"
+                                ItemsSource="{Binding LookupVeg}"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                WidthRequest="350"
+                                HorizontalOptions="Start" />
+                    </Grid>
+                </Border>
             </VerticalStackLayout>
-                </VerticalStackLayout>
-            </Border>
-            </VerticalStackLayout>
 
-            
-            <Label Style="{StaticResource LabelPlot}"
-                   Text="Forest Ecosystem Classification (FEC)" />
-
-            <Border>
-                <Grid RowDefinitions="Auto,Auto"
-                      ColumnDefinitions="75,Auto"
-                      ColumnSpacing="20">
-                    <Label Grid.Row="0" Grid.Column="0"
-                           Text="Soil" />
-                    <Picker  Grid.Row="0"
-                             Grid.Column="1"
-                             ItemsSource="{Binding LookupSoils}"
-                             ItemDisplayBinding="{Binding DisplayName}"
-                             WidthRequest="350"
-                             HorizontalOptions="Start" />
-                    
-                    <Label Grid.Row="1"
-                           Grid.Column="0"
-                           Text="Vegetation" />
-                    <Picker Grid.Row="1"
-                            Grid.Column="1"
-                            ItemsSource="{Binding LookupVeg}"
-                            ItemDisplayBinding="{Binding DisplayName}"
-                            WidthRequest="350"
-                            HorizontalOptions="Start" />
-                </Grid>
-            </Border>
-
+            <!-- FOREST STRUCTURE-->
             <VerticalStackLayout>
                 <Label Text="Forest Structure"
                        Style="{StaticResource SubHeadline}" />
@@ -194,15 +200,15 @@
                         </HorizontalStackLayout>
 
                         <CheckBox Grid.Row="0"
-                                Grid.Column="1"
-                                IsChecked="{Binding CurrentPlot.RegenHeightSWLIT}" />
+                                  Grid.Column="1"
+                                  IsChecked="{Binding CurrentPlot.RegenHeightSWLIT}" />
                         <CheckBox Grid.Row="1"
-                                Grid.Column="1"
-                                IsChecked="{Binding CurrentPlot.RegenHeightHWLIT}" />
+                                  Grid.Column="1"
+                                  IsChecked="{Binding CurrentPlot.RegenHeightHWLIT}" />
                         <CheckBox Grid.Row="2"
-                                Grid.Column="1"
-                                IsChecked="{Binding CurrentPlot.StockingBeechRegeneration}"
-                                Style="{StaticResource EntryPlot}" />
+                                  Grid.Column="1"
+                                  IsChecked="{Binding CurrentPlot.StockingBeechRegeneration}"
+                                  Style="{StaticResource EntryPlot}" />
                     </Grid>
                 </Border>
             </VerticalStackLayout>
@@ -219,50 +225,50 @@
                                  CommandParameter="RegenGeneral" />
                 </HorizontalStackLayout>
                 <Border>
-                    
-                <Grid ColumnDefinitions="250,Auto"
-                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                      ColumnSpacing="20">
-                    <HorizontalStackLayout Grid.Row="0">
-                        <Label Text="All Commercial Species"
-                               Style="{StaticResource LabelSubheading}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Margin="10,0,0,0"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StockingRegenCommercialSpecies" />
-                    </HorizontalStackLayout>
 
-                    <HorizontalStackLayout Grid.Row="1">
-                        <Label Text="LIT Species"
-                               Style="{StaticResource LabelSubheading}"
-                               Grid.Row="5" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Margin="10,0,0,0"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StockingRegenLITSpecies" />
-                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="250,Auto"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                          ColumnSpacing="20">
+                        <HorizontalStackLayout Grid.Row="0">
+                            <Label Text="All Commercial Species"
+                                   Style="{StaticResource LabelSubheading}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="StockingRegenCommercialSpecies" />
+                        </HorizontalStackLayout>
 
-                    <Picker Grid.Row="0"
-                            Grid.Column="1"
-                            Background="White"
-                            WidthRequest="70"
-                            SelectedItem="{Binding CurrentPlot.StockingRegenCommercialSpecies}"
-                            ItemsSource="{Binding ListPercentage}"
-                            HorizontalOptions="Start" />
+                        <HorizontalStackLayout Grid.Row="1">
+                            <Label Text="LIT Species"
+                                   Style="{StaticResource LabelSubheading}"
+                                   Grid.Row="5" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="StockingRegenLITSpecies" />
+                        </HorizontalStackLayout>
 
-                    <Picker Grid.Row="1"
-                            Grid.Column="1"
-                            Background="White"
-                            WidthRequest="70"
-                            SelectedItem="{Binding CurrentPlot.RegenStockingLITSpecies}"
-                            ItemsSource="{Binding ListPercentage}"
-                            HorizontalOptions="Start" />
-                </Grid>
+                        <Picker Grid.Row="0"
+                                Grid.Column="1"
+                                Background="White"
+                                WidthRequest="70"
+                                SelectedItem="{Binding CurrentPlot.StockingRegenCommercialSpecies}"
+                                ItemsSource="{Binding ListPercentage}"
+                                HorizontalOptions="Start" />
+
+                        <Picker Grid.Row="1"
+                                Grid.Column="1"
+                                Background="White"
+                                WidthRequest="70"
+                                SelectedItem="{Binding CurrentPlot.RegenStockingLITSpecies}"
+                                ItemsSource="{Binding ListPercentage}"
+                                HorizontalOptions="Start" />
+                    </Grid>
                 </Border>
-
             </VerticalStackLayout>
+            
             <!-- FOREST STRUCTURE -->
             <VerticalStackLayout>
                 <Label Text="Forest Structure"
@@ -359,12 +365,12 @@
                                 HorizontalOptions="Start" />
 
                         <CheckBox Grid.Row="3"
-                                Grid.Column="1"
-                                IsChecked="{Binding CurrentPlot.UnevenAged}"
-                                Style="{StaticResource LabelSubheading}" />
+                                  Grid.Column="1"
+                                  IsChecked="{Binding CurrentPlot.UnevenAged}"
+                                  Style="{StaticResource LabelSubheading}" />
 
                         <CheckBox Grid.Row="4"
-                                Grid.Column="1"
+                                  Grid.Column="1"
                                   IsChecked="{Binding CurrentPlot.OneCohortSenescent}" />
                         <VerticalStackLayout Grid.Row="6"
                                              Grid.Column="0"
@@ -381,10 +387,8 @@
                                          Margin="0"
                                          GroupName="UnderstoryDominatedGroup"
                                          IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
-
-
                         </VerticalStackLayout>
-     </Grid>
+                    </Grid>
                 </Border>
             </VerticalStackLayout>
 
@@ -393,9 +397,9 @@
                 <Label Text="Age"
                        Style="{StaticResource LabelPlot}" />
                 <Border>
-                    <Grid RowDefinitions="Auto,Auto,Auto"
+                    <Grid RowDefinitions="*,*,*"
                           ColumnSpacing="5"
-                          ColumnDefinitions="100,Auto,Auto">
+                          ColumnDefinitions="150,Auto,Auto">
 
                         <Label Grid.Row="0"
                                Grid.Column="0"
@@ -410,12 +414,16 @@
                                Grid.Column="0"
                                Text="Age" />
                         <Entry Grid.Row="1"
+                               WidthRequest="50"
+                               HorizontalOptions="End"
                                Grid.Column="1" />
 
                         <Label Grid.Row="2"
                                Grid.Column="0"
-                               Text="DBH (cm)"/>
+                               Text="DBH (cm)" />
                         <Entry Grid.Row="2"
+                               WidthRequest="50"
+                               HorizontalOptions="End"
                                Grid.Column="1" />
                     </Grid>
                 </Border>

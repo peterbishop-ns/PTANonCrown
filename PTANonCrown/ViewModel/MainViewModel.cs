@@ -339,6 +339,7 @@ namespace PTANonCrown.ViewModel
 
             stand.Plots.Add(_newPlot);
 
+
             SetCurrentPlot(_newPlot);
             return _newPlot;
         }
@@ -565,7 +566,8 @@ namespace PTANonCrown.ViewModel
                 foreach (TreeLive tree in plot.PlotTreeLive)
                 {
                     //Populate some tree properties
-                    // todo - improve how this is done. Maybe in the PlotTreeLiveClass itself
+                    //hack - SearchSpecies is getting populated in a for loop in the ViewModel. Better would likely be to build this in the model? But would need access to the Lookup in the model... 
+                    
                     if (tree.Species > 0)
                     {
                         tree.TreeLookup = LookupTrees.Where(lu => lu.ID == tree.Species).FirstOrDefault();

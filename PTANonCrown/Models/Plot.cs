@@ -138,7 +138,7 @@ namespace PTANonCrown.Models
         public bool UnevenAged { get; set; }
 
         private void InitializeCoarseWoodyDefaults()
-        {            // todo this should first check DB; if none exist, THEN initialize
+        {            // todo test; will this load existing values? 
 
             if (PlotCoarseWoody is null)
             {
@@ -148,15 +148,14 @@ namespace PTANonCrown.Models
                 PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
                 PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
                 PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 60, DBH_end = -1 });
-
             }
-
         }
 
         private void InitializeDeadTreeDefaults()
         {
+              // todo test; will this load existing values? 
 
-            if (PlotTreeDead is null)
+                if (PlotTreeDead is null)
             {
                 PlotTreeDead = new ObservableCollection<TreeDead>();
                 PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 21, DBH_end = 30 });

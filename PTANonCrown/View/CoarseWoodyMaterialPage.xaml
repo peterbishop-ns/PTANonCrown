@@ -29,7 +29,6 @@
         <VerticalStackLayout HorizontalOptions="Start">
             <HorizontalStackLayout>
                 <Label Text="Transect Length (m)"
-                       Style="{StaticResource LabelPlot}"
                        WidthRequest="150" />
                 <Entry Text="{Binding TransectLength}"
                        Style="{StaticResource EntryShort}"
@@ -37,7 +36,6 @@
             </HorizontalStackLayout>
             <HorizontalStackLayout>
                 <Label Text="Transect Direction"
-                       Style="{StaticResource LabelPlot}"
                        WidthRequest="150" />
                 <Picker  WidthRequest="100"
                          SelectedItem="{Binding TransectDirection}">

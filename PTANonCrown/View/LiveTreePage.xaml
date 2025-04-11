@@ -19,7 +19,9 @@
         <VerticalStackLayout VerticalOptions="Start"
                              Spacing="20"
                              Margin="10">
-            <Grid RowDefinitions="Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="10">
+                
+                <!-- STAND/PLOT -->
                 <Border Grid.Row="0"
                         BackgroundColor="LightGoldenrodYellow"
                         StrokeShape="RoundRectangle 2,2,2,2"
@@ -37,21 +39,33 @@
                                Margin="3,0,0,0" />
                     </HorizontalStackLayout>
                 </Border>
-                <HorizontalStackLayout Grid.Row="1">
+
+
+
+                <Grid Grid.Row="1"
+                    RowDefinitions="Auto,Auto"
+                      ColumnDefinitions="200,Auto,Auto">
                     <Label Text="Include Biodiversity"
-                           Style="{StaticResource LabelPlot}" />
-                    <CheckBox x:Name="IncludeBiodiversity" />
-                </HorizontalStackLayout>
-                <HorizontalStackLayout Spacing="10"
-                                       Grid.Row="2">
+                           Grid.Row="0" Grid.Column="0"/>
+                    <CheckBox x:Name="IncludeBiodiversity"
+                              Grid.Row="0"
+                              Grid.Column="1" />
+                    
+                    
                     <Label Text="Number of Trees In Plot"
-                           Style="{StaticResource LabelPlot}" />
+                           Grid.Row="1"
+                           Grid.Column="0"/>
                     <Entry Text="{Binding CurrentPlot.TreeCount, Mode=TwoWay}"
+                           Grid.Row="1"
+                           Grid.Column="1"
                            WidthRequest="50"></Entry>
 
                     <Button Text="Refresh"
+                            Grid.Row="1"
+                            Grid.Column="2"
                             Command="{Binding SpecifyTreeCountInPlotCommand}" />
-                </HorizontalStackLayout>
+                </Grid>
+              
             </Grid>
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive, Mode=TwoWay}"
                             x:Name="collectionViewLiveTrees"
