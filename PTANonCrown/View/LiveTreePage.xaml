@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.LiveTreePage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
-             xmlns:models="clr-namespace:PTANonCrown.Models"
+             xmlns:models="clr-namespace:PTANonCrown.Data.Models;assembly=PTANonCrown.Data"
              xmlns:converter="clr-namespace:PTANonCrown.Converter"
              xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"

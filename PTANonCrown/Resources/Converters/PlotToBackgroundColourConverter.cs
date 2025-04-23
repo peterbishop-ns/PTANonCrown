@@ -1,4 +1,4 @@
-﻿using PTANonCrown.Models;
+﻿using PTANonCrown.Data.Models;
 using System.Globalization;
 
 namespace PTANonCrown.Resources.Converters

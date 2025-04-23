@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using PTANonCrown.Context;
-using PTANonCrown.Repository;
+using PTANonCrown.Data.Context;
+using PTANonCrown.Data.Repository;
 using PTANonCrown.Services;
 using PTANonCrown.ViewModel;
 

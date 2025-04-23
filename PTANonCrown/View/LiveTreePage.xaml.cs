@@ -1,5 +1,5 @@
 
-using PTANonCrown.Models;
+using PTANonCrown.Data.Models;
 using PTANonCrown.ViewModel;
 
 namespace PTANonCrown;
