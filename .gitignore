@@ -2,3 +2,9 @@
 /PTANonCrown/bin
 /PTANonCrown/.vs
 /PTANonCrown/obj
+/PTANonCrown.Data/bin
+/PTANonCrown.Data/obj
+/PTANonCrown.Data/obj
+PTANonCrown.Data/obj/PTANonCrown.Data.csproj.nuget.g.props
+PTANonCrown.Data/obj/project.nuget.cache
+/PTANonCrown.Data/obj

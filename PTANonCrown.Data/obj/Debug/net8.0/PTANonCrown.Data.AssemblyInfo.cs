@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PTANonCrown.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+854c65a846da2a31969284c5d3fb3dea6d78bf1d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+395d2296c98efbcf293771edc9638cd6ddcafd19")]
 [assembly: System.Reflection.AssemblyProductAttribute("PTANonCrown.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PTANonCrown.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

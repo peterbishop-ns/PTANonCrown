@@ -119,11 +119,11 @@
 
                                 <RadioButton Content="Maritime Boreal"
                                              Margin="0"
-                                             GroupName="UnderstoryDominatedGroup"
+                                             GroupName="PlantedType"
                                              IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
                                 <RadioButton Content="Coastal"
                                              Margin="0"
-                                             GroupName="UnderstoryDominatedGroup"
+                                             GroupName="PlantedType"
                                              IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>

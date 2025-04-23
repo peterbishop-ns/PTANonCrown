@@ -27,7 +27,7 @@ namespace PTANonCrown.Data.Models
         public int AverageSampleTreeSpecies { get; set; }
         public int Blowdown { get; set; }
 
-        /*
+ 
         public bool _isPlanted;
 
         public bool IsPlanted
@@ -42,7 +42,7 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
-        */
+        
         public int HorizontalStructure { get; set; }
 
         public int ID { get; set; }

@@ -72,7 +72,7 @@
                             BackgroundColor="LightGrey"
                             HorizontalOptions="Center">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="100,300,70,100,60,60,60,60"
+                    <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,200"
                           BackgroundColor="DarkGray">
                         <VerticalStackLayout Grid.Column="0">
                             <Label Text="Tree Number"
@@ -149,12 +149,34 @@
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="IncludeBiodiversity" />
                         </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="8"
+                                             HorizontalOptions="Center"
+                                             IsVisible="{Binding CurrentPlot.IsPlanted}">
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                                <Label Text="Planted"
+                                       Margin="0"
+                                       Style="{StaticResource GridHeader}" />
+                                <ImageButton Source="info.png"
+                                             HorizontalOptions="Center"
+                                             Margin="0"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="PlantedInSitu" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10" WidthRequest="100">
+                                <Label Text="In Situ"
+                                       Style="{StaticResource GridHeader}" />
+                                <Label Text="Ex Situ"
+                                       Style="{StaticResource GridHeader}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        
                     </Grid>
                 </CollectionView.Header>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="100,300,70,100,60,60,60,60"
+                        <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,60,60"
                               BackgroundColor="LightGrey">
                             <Label Grid.Column="0"
                                    Text="{Binding TreeNumber}"
@@ -226,6 +248,18 @@
                                       IsChecked="{Binding Diversity}"
                                       VerticalOptions="Start"
                                       IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}" />
+                            <HorizontalStackLayout Grid.Column="8"
+                                                   Spacing="20"
+                                                   WidthRequest="200"
+                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
+Path=CurrentPlot.IsPlanted}" />
+                            <CheckBox IsChecked="{Binding PlantedInSitu}"
+                                      VerticalOptions="Start" />
+
+                            <CheckBox IsChecked="{Binding PlantedExSitu}"
+                                      VerticalOptions="Start" />
+
+
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

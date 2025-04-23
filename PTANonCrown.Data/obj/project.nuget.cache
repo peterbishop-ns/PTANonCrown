@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WxleLPdU3gs=",
+  "dgSpecHash": "sbEYqos0odQ=",
   "success": true,
   "projectFilePath": "C:\\Code\\MAUI\\PTANonCrown\\PTANonCrown.Data\\PTANonCrown.Data.csproj",
   "expectedPackageFiles": [
@@ -52,7 +52,10 @@
     "C:\\Users\\PETER21\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\PETER21\\.nuget\\packages\\system.text.encodings.web\\9.0.4\\system.text.encodings.web.9.0.4.nupkg.sha512",
     "C:\\Users\\PETER21\\.nuget\\packages\\system.text.json\\9.0.4\\system.text.json.9.0.4.nupkg.sha512",
-    "C:\\Users\\PETER21\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
+    "C:\\Users\\PETER21\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512",
+    "C:\\Users\\PETER21\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.14\\microsoft.netcore.app.ref.8.0.14.nupkg.sha512",
+    "C:\\Users\\PETER21\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.14\\microsoft.windowsdesktop.app.ref.8.0.14.nupkg.sha512",
+    "C:\\Users\\PETER21\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.14\\microsoft.aspnetcore.app.ref.8.0.14.nupkg.sha512"
   ],
   "logs": []
 }
