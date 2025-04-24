@@ -48,6 +48,7 @@
                     <Label Text="Include Biodiversity"
                            Grid.Row="0" Grid.Column="0"/>
                     <CheckBox x:Name="IncludeBiodiversity"
+                              IsChecked="{Binding IsCheckedBiodiversity, Mode=TwoWay}"
                               Grid.Row="0"
                               Grid.Column="1" />
                     
@@ -72,7 +73,7 @@
                             BackgroundColor="LightGrey"
                             HorizontalOptions="Center">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,200"
+                    <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,60,60,110"
                           BackgroundColor="DarkGray">
                         <VerticalStackLayout Grid.Column="0">
                             <Label Text="Tree Number"
@@ -114,7 +115,7 @@
                             <Label Text="AGS"
                                    Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
+                                         HorizontalOptions="Start"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="AGS" />
@@ -123,13 +124,27 @@
                             <Label Text="LIT"
                                    Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
+                                         HorizontalOptions="Start"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="LIT" />
                         </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="6"
-                                             IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}">
+                        <VerticalStackLayout Grid.Column="6">
+                            <Label Text="LT"
+                                   Style="{StaticResource GridHeader}" />
+                            <ImageButton Source="info.png"
+                                         HorizontalOptions="Start"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="LT" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout  Grid.Column="7">
+                            
+                            
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="7">
                             <Label Text="Cavity"
                                    Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
@@ -139,17 +154,25 @@
                                          CommandParameter="IncludeBiodiversity" />
                         </VerticalStackLayout>
 
-                        <VerticalStackLayout Grid.Column="7"
-                                             IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}">
+                        <VerticalStackLayout Grid.Column="8">
                             <Label Text="Diversity"
                                    Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
                                          HorizontalOptions="Center"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="IncludeBiodiversity" />
+                                         CommandParameter="Diversity" />
                         </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="8"
+                        <VerticalStackLayout Grid.Column="9">
+                            <Label Text="Mast"
+                                   Style="{StaticResource GridHeader}" />
+                            <ImageButton Source="info.png"
+                                         HorizontalOptions="Center"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="Mast" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="10"
                                              HorizontalOptions="Center"
                                              IsVisible="{Binding CurrentPlot.IsPlanted}">
                             <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
@@ -176,7 +199,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,60,60"
+                        <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,60,60,110"
                               BackgroundColor="LightGrey">
                             <Label Grid.Column="0"
                                    Text="{Binding TreeNumber}"
@@ -209,14 +232,7 @@
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
 
-                                <!-- Picker for Tree Names
-                                <Picker ItemsSource="{Binding Source={RelativeSource
-                                                      AncestorType={x:Type viewModels:MainViewModel}},
-                                                      Path=LookupTrees}"
-                                        ItemDisplayBinding="{Binding DisplayName}"
-                                        WidthRequest="200"
-                                        SelectedItem="{Binding TreeLookup, Mode=TwoWay}">
-                                </Picker>-->
+                             
                             </VerticalStackLayout>
                             <Entry Grid.Column="2"
                                    Text="{Binding DBH_cm}"
@@ -235,30 +251,48 @@
                                 </Entry.Behaviors>
                             </Entry>
                             <CheckBox Grid.Column="4"
+                                      HorizontalOptions="Center"
                                       IsChecked="{Binding AGS}"
                                       VerticalOptions="Start" />
                             <CheckBox Grid.Column="5"
-                                      IsChecked="{Binding LIT}"
+                                      IsEnabled="False"
+                                      HorizontalOptions="Center"
+                                      IsChecked="{Binding TreeLookup.LIT}"
                                       VerticalOptions="Start" />
                             <CheckBox Grid.Column="6"
+                                      IsEnabled="False"
+                                      HorizontalOptions="Center"
+                                      IsChecked="{Binding TreeLookup.LT}"
+                                      VerticalOptions="Start" />
+                            <CheckBox Grid.Column="7"
+                                      HorizontalOptions="Center"
                                       IsChecked="{Binding Cavity}"
                                       VerticalOptions="Start"
-                                      IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}" />
-                            <CheckBox Grid.Column="7"
+                                      IsEnabled="{Binding Source={RelativeSource  AncestorType={x:Type viewModels:MainViewModel}}, 
+                                Path=IsCheckedBiodiversity}" />
+                            <CheckBox Grid.Column="8"   
+                                      HorizontalOptions="Center"
                                       IsChecked="{Binding Diversity}"
                                       VerticalOptions="Start"
-                                      IsVisible="{Binding IsChecked, Source={x:Reference IncludeBiodiversity}}" />
-                            <HorizontalStackLayout Grid.Column="8"
+                                      IsEnabled="{Binding Source={RelativeSource  AncestorType={x:Type viewModels:MainViewModel}}, 
+                                Path=IsCheckedBiodiversity}" />
+                            <CheckBox Grid.Column="9"
+                                      HorizontalOptions="Center"
+                                      IsChecked="{Binding Mast}"
+                                      VerticalOptions="Start"
+                                      IsEnabled="{Binding Source={RelativeSource  AncestorType={x:Type viewModels:MainViewModel}}, 
+                                Path=IsCheckedBiodiversity}" />                            
+                            <HorizontalStackLayout Grid.Column="10"
                                                    Spacing="20"
-                                                   WidthRequest="200"
+                                                   WidthRequest="110"
                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
-Path=CurrentPlot.IsPlanted}" />
-                            <CheckBox IsChecked="{Binding PlantedInSitu}"
-                                      VerticalOptions="Start" />
+Path=CurrentPlot.IsPlanted}">
+                                <CheckBox IsChecked="{Binding PLInSitu, Mode=TwoWay}"
+                                          HorizontalOptions="Start" />
 
-                            <CheckBox IsChecked="{Binding PlantedExSitu}"
-                                      VerticalOptions="Start" />
-
+                                <CheckBox IsChecked="{Binding PLExSitu, Mode=TwoWay}"
+                                          HorizontalOptions="Start" />
+                            </HorizontalStackLayout>
 
                         </Grid>
                     </DataTemplate>

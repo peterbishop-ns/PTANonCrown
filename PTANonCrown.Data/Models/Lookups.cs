@@ -17,7 +17,13 @@
     }
 
     public class TreeLookup : BaseLookup
-    { }
+    { 
+    public int HardwoodSoftwood { get; set; }
+    public bool LIT { get; set; }
+        public bool LIT_planted { get; set; }
+        public bool LT { get; set; }
+
+    }
 
     public class VegLookup : BaseLookup
     { }

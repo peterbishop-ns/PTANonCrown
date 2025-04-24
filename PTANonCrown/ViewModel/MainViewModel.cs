@@ -646,6 +646,21 @@ namespace PTANonCrown.ViewModel
             CurrentStand = stand;
         }
 
+        private bool _isCheckedBiodiversity;
+        public bool IsCheckedBiodiversity
+        {
+            get => _isCheckedBiodiversity;
+            set
+            {
+                if (_isCheckedBiodiversity != value)
+                {
+                    _isCheckedBiodiversity = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
         private void SetStandOnly()
         {
             StandOnlySummary = true;
@@ -654,8 +669,8 @@ namespace PTANonCrown.ViewModel
             var trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
             SummaryItems = TreeSummaryHelper.GenerateSummaryResult(trees);
             SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
-
             SummaryPageMessage = $"Stand {CurrentStand.StandNumber} Summary";
+
         }
 
         private void SetSummaryPlot(Plot plot)

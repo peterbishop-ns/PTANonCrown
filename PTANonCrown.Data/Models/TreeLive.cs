@@ -45,11 +45,41 @@ namespace PTANonCrown.Data.Models
         public bool Legacy { get; set; }
         public bool LIT { get; set; }
         public bool Mast { get; set; }
-        public bool PLExSitu { get; set; }
-        public bool PLInSitu { get; set; }
+
         public Plot Plot { get; set; }
         public int PlotID { get; set; }
         public bool SCanopy { get; set; }
+
+
+        private bool _pLInSitu;
+        private bool _pLExSitu;
+
+        public bool PLInSitu
+        {
+            get => _pLInSitu;
+            set
+            {
+                if (_pLInSitu != value)
+                {
+                    _pLInSitu = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+
+        public bool PLExSitu
+        {
+            get => _pLExSitu;
+            set
+            {
+                if (_pLExSitu != value)
+                {
+                    _pLExSitu = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         [NotMapped]
         public string SearchSpecies
