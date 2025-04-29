@@ -64,11 +64,12 @@
             </Border>
         </Grid>
 
-        <Grid RowDefinitions="Auto,Auto,Auto"
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto"
               ColumnDefinitions="Auto,Auto"
               IsVisible="{Binding SummarySectionIsVisible}">
 
             <VerticalStackLayout  Grid.Row="1"
+                                  Grid.RowSpan="2"
                                   Grid.Column="0"
                                   Margin="0,20,0,0">
                 <Label Text="Cruise Summary"
@@ -92,18 +93,25 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid ColumnDefinitions="300,100"
-                                  Padding="12,0,0,0"
-                                  BackgroundColor="LightGrey">
-                                <Label Grid.Column="0"
-                                       Text="{Binding DisplayName}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Start" />
-                                <Label Grid.Column="1"
-                                       Text="{Binding DisplayValue}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Center" />
-                            </Grid>
+                            <VerticalStackLayout Spacing="0">
+
+                                <!-- Line Above -->
+                                <BoxView HeightRequest="1"
+                                         Color="DarkGray"
+                                         HorizontalOptions="Fill" />
+                                <Grid ColumnDefinitions="300,100"
+                                      Padding="12,0,0,0"
+                                      BackgroundColor="LightGrey">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding DisplayName}"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalTextAlignment="Start" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding DisplayValue}"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalTextAlignment="Center" />
+                                </Grid>
+                            </VerticalStackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -114,6 +122,55 @@
                 <Label Text="Species Summary"
                        Style="{StaticResource LabelParent}"
                        Margin="0,0,0,20" />
+            
+                <CollectionView ItemsSource="{Binding TreatmentSummary}"
+                                x:Name="collectionTreatmentSummary"
+                                BackgroundColor="LightGrey"
+                                HorizontalOptions="Center">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="100,300"
+                              BackgroundColor="DarkGray">
+                            <Label Text="Plot Number"
+                                   Style="{StaticResource GridHeader}"
+                                   Grid.Column="0" />
+                            <Label Text="Treatments"
+                                   Style="{StaticResource GridHeader}"
+                                   Grid.Column="1" />
+                        </Grid>
+                    </CollectionView.Header>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout>
+
+                                <!-- Line Above -->
+                                <BoxView HeightRequest="1"
+                                         Color="DarkGray"
+                                         HorizontalOptions="Fill" />
+                                <Grid ColumnDefinitions="100,300"
+                                      BackgroundColor="LightGrey">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding PlotNumber}"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalTextAlignment="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Treatments}"
+                                           VerticalTextAlignment="Start"
+                                           HorizontalTextAlignment="Start" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout  Grid.Row="2"
+                                  Grid.Column="1"
+                                  Margin="20,20,0,0">
+                <Label Text="Species Summary"
+                       Style="{StaticResource LabelParent}"
+                       Margin="0,0,0,20" />
+               
                 <CollectionView ItemsSource="{Binding SpeciesSummary}"
                                 x:Name="collectionSpeciesSummary"
                                 BackgroundColor="LightGrey"
@@ -138,25 +195,32 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid ColumnDefinitions="100,100,100,100"
-                                  BackgroundColor="LightGrey">
-                                <Label Grid.Column="0"
-                                       Text="{Binding PlotNumber}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Center" />
-                                <Label Grid.Column="1"
-                                       Text="{Binding Species}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Center" />
-                                <Label Grid.Column="2"
-                                       Text="{Binding Count}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Center" />
-                                <Label Grid.Column="3"
-                                       Text="{Binding Percentage, StringFormat='{0:F1}'}"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Center" />
-                            </Grid>
+                            <VerticalStackLayout>
+
+                                    <!-- Line Above -->
+                                    <BoxView HeightRequest="1"
+                                             Color="DarkGray"
+                                             HorizontalOptions="Fill" />
+                                    <Grid ColumnDefinitions="100,100,100,100"
+                                          BackgroundColor="LightGrey">
+                                        <Label Grid.Column="0"
+                                               Text="{Binding PlotNumber}"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Center" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Species}"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Center" />
+                                        <Label Grid.Column="2"
+                                               Text="{Binding Count}"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Center" />
+                                        <Label Grid.Column="3"
+                                               Text="{Binding Percentage, StringFormat='{0:F1}'}"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Center" />
+                                    </Grid>
+                                </VerticalStackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

@@ -75,7 +75,7 @@
                         <VerticalStackLayout Grid.Row="0"
                                              HorizontalOptions="Start">
                             <HorizontalStackLayout>
-                                <CheckBox x:Name="WasTreated" />
+                                <CheckBox IsChecked="{Binding PlotWasTreated}" />
                                 
                                 <!-- TODO: bind this and add logic to turn off any treatment if this is disabled -->
                                 <Label Text="Treated"
@@ -84,15 +84,15 @@
                             </HorizontalStackLayout>
                             <CollectionView HorizontalOptions="StartAndExpand"
                                             Margin="20,0,0,0"
-                                            IsVisible="{Binding Source={x:Reference WasTreated}, Path=IsChecked}"
-                                            ItemsSource="{Binding LookupTreatment, Mode=TwoWay}">
+                                            IsVisible="{Binding PlotWasTreated}"
+                                            ItemsSource="{Binding CurrentPlot.PlotTreatments, Mode=TwoWay}">
 
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid ColumnDefinitions="50,Auto">
                                             <CheckBox IsChecked="{Binding IsActive}"
                                                       Grid.Column="0" />
-                                            <Label Text="{Binding Name}"
+                                            <Label Text="{Binding Treatment.Name}"
                                                    Grid.Column="1" />
                                         </Grid>
                                     </DataTemplate>

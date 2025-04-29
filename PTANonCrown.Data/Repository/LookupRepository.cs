@@ -21,10 +21,7 @@ namespace PTANonCrown.Data.Repository
             return _context.SoilLookup.ToList();
         }
 
-        public List<TreatmentLookup> GetTreatmentLookups()
-        {
-            return _context.TreatmentLookup.OrderBy(i => i.Name).ToList();
-        }
+     
 
         public List<TreeLookup> GetTreeLookups()
         {
@@ -35,5 +32,8 @@ namespace PTANonCrown.Data.Repository
         {
             return _context.VegLookup.ToList();
         }
+
+       
+
     }
 }

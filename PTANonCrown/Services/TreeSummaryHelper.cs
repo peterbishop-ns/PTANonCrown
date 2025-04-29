@@ -9,32 +9,57 @@ namespace PTANonCrown.Services
         {
             ObservableCollection<SummaryItem> result = new ObservableCollection<SummaryItem>();
 
-            result.Add(GetTotalBasalArea(trees));
-            result.Add(GetMerchantableBasalArea_m2ha(trees));
-            result.Add(GetLITBasalArea_m2ha(trees));
-            result.Add(GetLTBasalArea_m2ha(trees));
-            result.Add(GetQMDMerchTrees_cm(trees));
+            result.Add(GetBasalAreaTotal(trees));
+            result.Add(GetBasalAreaMerchantable_m2ha(trees));
+            result.Add(GetBasalAreaLIT_m2ha(trees));
+            result.Add(GetBasalAreaLT_m2ha(trees));
+            result.Add(GetBasalArea_WP_RO(trees));
+            result.Add(GetBasalArea_EH_RS_BF(trees));
+            result.Add(GetBasalAreaAGS_sM_yB_wP_rO_rS_15to25_cm(trees));
+
             result.Add(GetAGS_m2ha(trees));
             result.Add(GetAGS_LIT_m2ha(trees));
             result.Add(GetBasalArea_gt25cm_m2ha(trees));
-            result.Add(GetAverageHeight(trees));
+
             result.Add(GetPlantedTreesInSitu_perc(trees));
             result.Add(GetPlantedTreesExSitu_perc(trees));
             result.Add(GetMerchConifer_perc(trees));
             result.Add(GetDeciduousLIT_perc(trees));
-            result.Add(GetBasalArea_WP_RO(trees));
-            result.Add(GetBasalArea_EH_RS_BF(trees));
-            result.Add(GetAGS_sM_yB_wP_rO_rS_15to25_cm(trees));
+            result.Add(GetAGSLIT_NS_WS_RP(trees));
+            result.Add(GetQMDMerchTrees_cm(trees));
+            result.Add(GetAverageHeight(trees));
 
             return result;
         }
-        public static SummaryItem GetTotalBasalArea(IEnumerable<TreeLive> trees)
+
+        public static SummaryItem GetAGSLIT_NS_WS_RP(IEnumerable<TreeLive> trees)
+
+        {
+            var filteredAGSLIT = trees.Where(t => (t.AGS = true) & (t.TreeLookup.LIT = true));
+            var filtered_NS_WS_RP = FilterTreeBySpecies(trees, ["ns", "wp", "rp"]);
+
+            int count_AGSLIT = filteredAGSLIT.Count();
+            int count_NS_WS_RP = filtered_NS_WS_RP.Count();
+
+            int countTotal = trees.Count();
+
+            var result = Math.Round((decimal)100 * (count_AGSLIT + count_NS_WS_RP) / countTotal, 2);
+
+            var summaryItem = new SummaryItem()
+            {
+                DisplayName = "% LIT or NS/WS/RP",
+                Value = result,
+                Units = "%"
+            };
+            return summaryItem;
+        }
+        public static SummaryItem GetBasalAreaTotal(IEnumerable<TreeLive> trees)
         {
             // Twice the count of all trees
             int result = GetBasalArea(trees);
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "Total Basal Area",
+                DisplayName = "Basal Area: Total",
                 Value = result,
                 Units = "m²/ha"
             };
@@ -44,26 +69,31 @@ namespace PTANonCrown.Services
         {
             return trees.Where(t => t.DBH_cm > 9);
         }
-        public static SummaryItem GetMerchantableBasalArea_m2ha(IEnumerable<TreeLive> trees)
+        public static SummaryItem GetBasalAreaMerchantable_m2ha(IEnumerable<TreeLive> trees)
         {
 
             var merchantableTrees = FilterMerchantableTrees(trees);
             int result = GetBasalArea(merchantableTrees); 
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "Merchantable Basal Area",
+                DisplayName = "Basal Area: Merchantable",
                 Value = result,
                 Units = "m²/ha"
             };
             return summaryItem;
         }
 
-        public static SummaryItem GetLITBasalArea_m2ha(IEnumerable<TreeLive> trees)
+        public static SummaryItem GetBasalAreaLIT_m2ha(IEnumerable<TreeLive> trees)
         {
+
+            var filteredTrees = trees.Where(t => t.TreeLookup.LIT == true);
+            //todo account for LIT difference for planted plots
+
+            var result = GetBasalArea(filteredTrees);
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "LIT Basal Area",
-                Value = -99,
+                DisplayName = "Basal Area: LIT",
+                Value = result,
                 Units = "m²/ha"
             };
             return summaryItem;
@@ -71,12 +101,13 @@ namespace PTANonCrown.Services
 
         private static double GetTPH(IEnumerable<TreeLive> trees) {
 
-            double result = trees.Sum(t => Math.Pow(t.DBH_cm, 2) * 0.00007854) ;
+            int BA_per_tree = 2;
+            double result = trees.Sum(t => BA_per_tree/ (Math.Pow(t.DBH_cm, 2) * 0.00007854 )) ;
             return result;
         }
 
 
-        public static SummaryItem GetLTBasalArea_m2ha(IEnumerable<TreeLive> trees)
+        public static SummaryItem GetBasalAreaLT_m2ha(IEnumerable<TreeLive> trees)
         {
             var legacyTrees = trees.Where(t => t.Legacy == true);
             int result = 2 * legacyTrees.Count();
@@ -84,7 +115,7 @@ namespace PTANonCrown.Services
            
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "LT Basal Area",
+                DisplayName = "Basal Area: LT",
                 Value = result,
                 Units = "m²/ha"
             };
@@ -100,7 +131,7 @@ namespace PTANonCrown.Services
             var merchantableTrees = FilterMerchantableTrees(trees);
 
             // find BA and TPH
-            int BAmerch = (int)GetMerchantableBasalArea_m2ha(merchantableTrees).Value;
+            int BAmerch = GetBasalArea(merchantableTrees);
             var TPHmerch = GetTPH(merchantableTrees);
 
             //find the QMD
@@ -123,10 +154,11 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetAGS_m2ha(IEnumerable<TreeLive> trees)
         {
-            int result = GetBasalArea(trees.Where(t => t.AGS == true));
+            var filteredTrees = trees.Where(t => t.AGS == true);
+            int result = GetBasalArea(filteredTrees);
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "AGS",
+                DisplayName = "Basal Area: AGS",
                 Value = result,
                 Units = "m²/ha"
             };
@@ -136,10 +168,14 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetAGS_LIT_m2ha(IEnumerable<TreeLive> trees)
         {
+            var filteredTrees = trees.Where(t => (t.AGS == true) & (t.TreeLookup.LIT == true));
+            //todo account for LIT
+
+            int result = GetBasalArea(filteredTrees);
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "AGS LIT",
-                Value = 0,
+                DisplayName = "Basal Area: AGS LIT",
+                Value = result,
                 Units = "m²/ha"
             };
             return summaryItem;
@@ -204,16 +240,26 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetDeciduousLIT_perc(IEnumerable<TreeLive> trees)
         {
+
+            var filteredTrees = trees.Where(t => (t.TreeLookup.HardwoodSoftwood == 2) & (t.TreeLookup.LIT == true));
+            //todo account for LIT planted vs. LIT not planted; difference in LIT status for at least one tree 
+
+
+            int countFilteredTrees = filteredTrees.Count();
+            int countTotal = trees.Count();
+
+            var result = countTotal > 0 ? Math.Round((decimal)(100 * countFilteredTrees / countTotal),2) : 0;  
+
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "Deciduous LIT",
-                Value = 0,
+                DisplayName = "% Deciduous LIT",
+                Value = result,
                 Units = "%"
             };
             return summaryItem;
         }
 
-        public static SummaryItem GetAGS_sM_yB_wP_rO_rS_15to25_cm(IEnumerable<TreeLive> trees)
+        public static SummaryItem GetBasalAreaAGS_sM_yB_wP_rO_rS_15to25_cm(IEnumerable<TreeLive> trees)
         {
             var filteredTrees = trees.Where(t => t.AGS == true);
             filteredTrees = filteredTrees.Where(t => 15 < t.DBH_cm && t.DBH_cm < 25);
@@ -222,7 +268,7 @@ namespace PTANonCrown.Services
             int result = GetBasalArea(filteredTrees);
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "LIT 15 - 25 cm (sM / yB / wP / rO / rS)",
+                DisplayName = "Basal Area: LIT 15-25 cm (sM/yB/wP/rO/rS)",
                 Value = result,
                 Units = "m²/ha"
             };
@@ -232,10 +278,17 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetMerchConifer_perc(IEnumerable<TreeLive> trees)
         {
+            var filteredTrees = FilterMerchantableTrees(trees).Where(t => t.TreeLookup.HardwoodSoftwood == 1);
+
+            int countMerchConifer = filteredTrees.Count();
+            int totalCount = trees.Count();
+
+            var result = totalCount > 0? Math.Round((decimal)(100 * countMerchConifer/totalCount), 2) : 0;
+
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "Merchantable Conifer",
-                Value = 0,
+                DisplayName = "% Merchantable Conifer",
+                Value = result,
                 Units = "%"
             };
             return summaryItem;
@@ -264,7 +317,7 @@ namespace PTANonCrown.Services
             decimal result = countTotal > 0 ? 100 * countExSitu / countTotal : 0;
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "Planted Trees Ex Situ",
+                DisplayName = "% Planted Ex Situ (of Total Planted)",
                 Value = result,
                 Units = "%"
             };
@@ -280,7 +333,7 @@ namespace PTANonCrown.Services
 
             var summaryItem = new SummaryItem()
             {
-                DisplayName = "Planted Trees In Situ",
+                DisplayName = "% Planted In Situ (of Total Planted)",
                 Value = result,
                 Units = "%"
             };

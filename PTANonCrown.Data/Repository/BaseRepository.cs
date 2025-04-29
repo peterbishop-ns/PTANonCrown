@@ -114,7 +114,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
             _dbSet.Update(entity); // Update if already tracked
         }
 
-        _context.SaveChanges(); // Commit changes
+            _context.SaveChanges(); // Commit changes
     }
 
     private static object GetPropertyValue(object obj, string propertyName)

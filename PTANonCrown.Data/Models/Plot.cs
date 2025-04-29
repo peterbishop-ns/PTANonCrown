@@ -42,7 +42,34 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
-        
+        private ICollection<PlotTreatment> _plotTreatments;
+        public ICollection<PlotTreatment> PlotTreatments
+        {
+            get => _plotTreatments;
+            set
+            {
+                if (_plotTreatments != value)
+                {
+                    _plotTreatments = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(PlotTreatmentsDisplayString));
+                }
+                }
+        }
+
+        public string PlotTreatmentsDisplayString
+        {
+            get
+            {
+                return string.Join(", ", PlotTreatments
+                        .Where(pt => (pt.IsActive == true) & (pt.Treatment != null))
+                        .Select(pt => pt.Treatment.Name));
+            } 
+
+          
+        }
+
+
         public int HorizontalStructure { get; set; }
 
         public int ID { get; set; }

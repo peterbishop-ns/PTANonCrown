@@ -15,6 +15,8 @@ public class AppDbContext : DbContext
     public DbSet<Stand> Stands { get; set; }
     public DbSet<TreeDead> TreesDead { get; set; }
     public DbSet<TreeLive> TreesLive { get; set; }
+    public DbSet<Treatment>Treatments { get; set; }
+    public DbSet<PlotTreatment> PlotTreatments { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -39,8 +41,36 @@ public class AppDbContext : DbContext
             .HasForeignKey(t => t.PlotID)
             .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete trees when plot is deleted
 
-        // Plot → PlotCoarseWoody
-        modelBuilder.Entity<Plot>()
+
+        modelBuilder.Entity<Treatment>().HasData(
+                  new Treatment { ID = 1, Name = "Planting" },
+                  new Treatment { ID = 2, Name = "Pre-commercial thinning" },
+                  new Treatment { ID = 3, Name = "Commercial thinning" },
+                  new Treatment { ID = 4, Name = "Strip shelterwood" },
+                  new Treatment { ID = 5, Name = "Patch shelterwood" },
+                  new Treatment { ID = 6, Name = "Uniform shelterwood" },
+                  new Treatment { ID = 7, Name = "Gap irregular shelterwood" },
+                  new Treatment { ID = 8, Name = "Continuous cover irregular shelterwood" },
+                  new Treatment { ID = 9, Name = "Single tree selection" },
+                  new Treatment { ID = 10, Name = "Group selection" },
+                  new Treatment { ID = 11, Name = "Partial harvest (unknown)" }
+              ); 
+        modelBuilder.Entity<PlotTreatment>()
+            .HasKey(sc => new { sc.PlotId, sc.TreatmentId });
+
+        modelBuilder.Entity<PlotTreatment>()
+            .HasOne(pt => pt.Plot)
+            .WithMany(p => p.PlotTreatments)
+            .HasForeignKey(pt => pt.PlotId);
+
+        modelBuilder.Entity<PlotTreatment>()
+            .HasOne(pt => pt.Treatment)
+            .WithMany(t => t.PlotTreatments)
+            .HasForeignKey(pt => pt.TreatmentId);
+
+
+    // Plot → PlotCoarseWoody
+    modelBuilder.Entity<Plot>()
             .HasMany(p => p.PlotCoarseWoody)
             .WithOne(t => t.Plot)
             .HasForeignKey(t => t.PlotID)

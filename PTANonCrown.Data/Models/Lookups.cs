@@ -11,11 +11,6 @@
     public class SoilLookup : BaseLookup
     { }
 
-    public class TreatmentLookup : BaseLookup
-    {
-        // public bool IsActive { get; set; }
-    }
-
     public class TreeLookup : BaseLookup
     { 
     public int HardwoodSoftwood { get; set; }
@@ -27,4 +22,12 @@
 
     public class VegLookup : BaseLookup
     { }
+
+    public class DBHToHeight
+    {
+        public int HardwoodSoftwood { get; set; }
+        public int DBH_cm { get; set; }
+        public int HeightPredicted_m { get; set; }
+
+    }
 }

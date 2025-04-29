@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTANonCrown.Data.Context;
 using PTANonCrown.Data.Models;
+using System.Collections.Generic;
 
 namespace PTANonCrown.Data.Repository
 {
@@ -21,8 +22,17 @@ namespace PTANonCrown.Data.Repository
         {
             IQueryable<Stand> query = _context.Set<Stand>()
                 .Include(s => s.Plots)
-                    .ThenInclude(p => p.PlotTreeLive);
-            // .ThenInclude(t => t.TreeLookup);
+                    .ThenInclude(p => p.PlotTreeLive)
+                .Include(s => s.Plots)
+                    .ThenInclude(p=> p.PlotTreatments);
+
+            return query.ToList();
+        }
+
+        public List<Treatment>? GetTreatments()
+        {
+            IQueryable<Treatment> query = _context.Set<Treatment>();
+
             return query.ToList();
         }
     }

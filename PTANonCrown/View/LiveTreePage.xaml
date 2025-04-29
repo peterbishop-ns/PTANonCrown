@@ -73,7 +73,7 @@
                             BackgroundColor="LightGrey"
                             HorizontalOptions="Center">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,60,60,110"
+                    <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,60,60,110,60"
                           BackgroundColor="DarkGray">
                         <VerticalStackLayout Grid.Column="0">
                             <Label Text="Tree Number"
@@ -193,13 +193,22 @@
                                        Style="{StaticResource GridHeader}" />
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
-                        
+                        <VerticalStackLayout Grid.Column="11">
+                            <Label Text="Pred. Height (m)"
+                                   Style="{StaticResource GridHeader}" />
+                            <ImageButton Source="info.png"
+                                         HorizontalOptions="Center"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="PredictedHeight" />
+                        </VerticalStackLayout>
+
                     </Grid>
                 </CollectionView.Header>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,60,60,110"
+                        <Grid ColumnDefinitions="100,300,70,100,60,60,60,60,60,60,110,60"
                               BackgroundColor="LightGrey">
                             <Label Grid.Column="0"
                                    Text="{Binding TreeNumber}"
@@ -293,7 +302,10 @@ Path=CurrentPlot.IsPlanted}">
                                 <CheckBox IsChecked="{Binding PLExSitu, Mode=TwoWay}"
                                           HorizontalOptions="Start" />
                             </HorizontalStackLayout>
+                            <Label Grid.Column="11"
+                                   Text="{Binding HeightPredicted_m}">
 
+                            </Label>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

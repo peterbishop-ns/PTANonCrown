@@ -3,11 +3,14 @@
 using ClosedXML.Excel;
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Storage;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Wordprocessing;
 using PTANonCrown.Data.Models;
 using PTANonCrown.Data.Repository;
 using PTANonCrown.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace PTANonCrown.ViewModel
@@ -89,7 +92,7 @@ namespace PTANonCrown.ViewModel
 
                     _currentPlot = value;
                     OnPropertyChanged();
-
+                    OnCurrentPlotChanged();
                     // Subscribe to the new collection's property change notifications
                     if (_currentPlot != null)
                     {
@@ -100,6 +103,17 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+        private void OnCurrentPlotChanged()
+        {
+            if (CurrentPlot.PlotTreatments.Any(pt => pt.IsActive))
+            {
+                PlotWasTreated = true;
+            }
+            else
+            {
+                PlotWasTreated = false;
+            }
+        }
         public Stand CurrentStand
         {
             get => _currentStand;
@@ -155,7 +169,7 @@ namespace PTANonCrown.ViewModel
         public List<int> ListPercentage { get; set; }
         public List<SoilLookup> LookupSoils { get; set; }
 
-        public List<TreatmentLookup> LookupTreatment { get; set; }
+        public List<Treatment> Treatments { get; set; }
 
         public List<TreeLookup> LookupTrees { get; set; }
 
@@ -183,6 +197,20 @@ namespace PTANonCrown.ViewModel
                 if (_speciesSummary != value)
                 {
                     _speciesSummary = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private ObservableCollection<SummaryTreatmentResult> _treatmentSummary;
+        public ObservableCollection<SummaryTreatmentResult> TreatmentSummary
+        {
+            get => _treatmentSummary;
+            set
+            {
+                if (_treatmentSummary != value)
+                {
+                    _treatmentSummary = value;
                     OnPropertyChanged();
                 }
             }
@@ -332,7 +360,20 @@ namespace PTANonCrown.ViewModel
 
             int newPlotNumber = (stand.Plots != null && stand.Plots.Any())
                 ? stand.Plots.Max(p => p.PlotNumber) + 1
-                : 1; Plot _newPlot = new Plot() { StandID = stand.ID, PlotNumber = newPlotNumber };
+                : 1;
+
+
+            var _newPlot = new Plot
+            {
+                StandID = stand.ID,
+                PlotNumber = newPlotNumber,
+                PlotTreatments = Treatments.Select(t => new PlotTreatment
+                {
+                    TreatmentId = t.ID,
+                    Treatment = t, // Associate the full treatment entity
+                    IsActive = false // Default status
+                }).ToList()
+            };
 
             _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
             _newPlot.PlotTreeLive.Add(new TreeLive() { TreeNumber = 1, PlotID = _newPlot.ID });
@@ -365,6 +406,8 @@ namespace PTANonCrown.ViewModel
             {
                 Console.WriteLine($"PlotNumber changed: {(sender as Plot)?.PlotNumber}");
                 RefreshAllPlots();
+
+
             }
         }
 
@@ -587,7 +630,7 @@ namespace PTANonCrown.ViewModel
             LookupTrees = _lookupRepository.GetTreeLookups();
             LookupSoils = _lookupRepository.GetSoilLookups();
             LookupVeg = _lookupRepository.GetVegLookups();
-            LookupTreatment = _lookupRepository.GetTreatmentLookups();
+            Treatments = _standRepository.GetTreatments();
 
             TreeLookupFilteredList = new ObservableCollection<TreeLookup>() { };
 
@@ -639,8 +682,43 @@ namespace PTANonCrown.ViewModel
         private void SetCurrentPlot(Plot plot)
         {
             CurrentPlot = plot;
+
+            if (plot.PlotTreatments.Where(pt => pt.IsActive == true).Any())
+            {
+                PlotWasTreated = true;
+            }
+            else
+            {
+                PlotWasTreated= false;
+            }
         }
 
+
+        private bool _plotWasTreated;
+        public bool PlotWasTreated
+        {
+            get => _plotWasTreated;
+            set
+            {
+                if (_plotWasTreated != value)
+                {
+                    _plotWasTreated = value;
+                    OnPropertyChanged();
+                    OnPlotWasTreatedChanged();
+                }
+            }
+        }
+
+        private void OnPlotWasTreatedChanged()
+        {
+            if (PlotWasTreated == false)
+            {
+                foreach (PlotTreatment t in CurrentPlot.PlotTreatments)
+                {
+                    t.IsActive = false;
+                }
+            }
+        }
         private void SetCurrentStand(Stand stand)
         {
             CurrentStand = stand;
@@ -669,6 +747,8 @@ namespace PTANonCrown.ViewModel
             var trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
             SummaryItems = TreeSummaryHelper.GenerateSummaryResult(trees);
             SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
+            TreatmentSummary = GenerateTreatmentSummary(CurrentStand.Plots);
+
             SummaryPageMessage = $"Stand {CurrentStand.StandNumber} Summary";
 
         }
@@ -684,8 +764,29 @@ namespace PTANonCrown.ViewModel
                 SummaryItems = TreeSummaryHelper.GenerateSummaryResult(plot.PlotTreeLive);
                 SpeciesSummary = GenerateTreeSpeciesSummary(new List<Plot> { plot });
                 SummaryPageMessage = $"Plot {CurrentPlot.PlotNumber} Summary";
+                TreatmentSummary = GenerateTreatmentSummary(new List<Plot> { plot });
             }
 
+        }
+
+        private ObservableCollection<SummaryTreatmentResult> GenerateTreatmentSummary(IEnumerable<Plot> plots)
+        {
+            ObservableCollection<SummaryTreatmentResult> treatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
+            foreach (Plot plot in plots)
+            {
+                var treatments = plot.PlotTreatments
+                                        .Where(pt => pt.IsActive == true)
+                                        .Select(pt => pt.Treatment.Name);
+                SummaryTreatmentResult summary = new SummaryTreatmentResult()
+                {
+                    PlotNumber = plot.PlotNumber,
+
+                    Treatments = string.Join("\n", treatments)
+                };
+                treatmentSummary.Add(summary);
+            }
+
+            return treatmentSummary;
         }
 
         private void SpecifyTreeCountInPlot()
