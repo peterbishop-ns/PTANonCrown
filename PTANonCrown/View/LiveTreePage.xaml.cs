@@ -22,7 +22,7 @@ public partial class LiveTreePage : ContentPage
             if (vm != null)
             {
                 // Get the filtered list based on user input
-                var filteredResults = vm.LookupTrees
+                var filteredResults = vm.TreeSpecies
                         .Where(t => t.ShortCode.StartsWith(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
                             t.Name.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
                        .ToList();
@@ -56,7 +56,7 @@ public partial class LiveTreePage : ContentPage
     {
         if (e.Parameter is TreeLive itemToUpdate && sender is Label label)
         {
-            var selectedSpecies = label.BindingContext as TreeLookup;
+            var selectedSpecies = label.BindingContext as TreeSpecies;
             if (selectedSpecies != null)
             {
                 itemToUpdate.TreeLookup = selectedSpecies;

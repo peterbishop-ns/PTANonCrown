@@ -137,7 +137,6 @@ namespace PTANonCrown.ViewModel
                         _currentStand.PropertyChanged += Stand_PropertyChanged;
                     }
 
-                    ValidateStand(); // Run validation in case a new object is assigned
                 }
             }
 
@@ -172,7 +171,7 @@ namespace PTANonCrown.ViewModel
 
         public List<Treatment> Treatments { get; set; }
 
-        public List<TreeLookup> LookupTrees { get; set; }
+        public List<TreeSpecies> TreeSpecies { get; set; }
 
         public List<VegLookup> LookupVeg { get; set; }
 
@@ -267,7 +266,7 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; }
+        public ObservableCollection<TreeSpecies> TreeLookupFilteredList { get; set; }
 
         public string ValidationMessage
         {
@@ -323,23 +322,7 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        public void ValidateStand()
-        {
-
-            // StandNumber
-            if (CurrentStand?.StandNumber != 2000)
-            {
-                ValidationMessage = "Wrong stand!";
-                IsValidationError = true;
-            }
-            else
-            {
-                ValidationMessage = string.Empty;
-                IsValidationError = false;
-            }
-
-        }
-
+ 
         private void AddTrees(int currentTreeCount)
         {
             int treesToAdd = CurrentPlot.TreeCount - currentTreeCount;
@@ -604,22 +587,6 @@ namespace PTANonCrown.ViewModel
             }
 
             AllPlots = _stand.Plots;
-
-            foreach (Plot plot in AllPlots)
-            {
-                foreach (TreeLive tree in plot.PlotTreeLive)
-                {
-                    //Populate some tree properties
-                    //hack - SearchSpecies is getting populated in a for loop in the ViewModel. Better would likely be to build this in the model? But would need access to the Lookup in the model... 
-                    
-                    if (tree.Species > 0)
-                    {
-                        tree.TreeLookup = LookupTrees.Where(lu => lu.ID == tree.Species).FirstOrDefault();
-                        //tree.SearchSpecies = $"{tree.TreeLookup.ShortCode} - {tree.TreeLookup.Name}";
-                    }
-                }
-            }
-
             SetCurrentStand(_stand);
 
             return _stand;
@@ -628,12 +595,13 @@ namespace PTANonCrown.ViewModel
 
         private void LoadLookupTables()
         {
-            LookupTrees = _lookupRepository.GetTreeLookups();
             LookupSoils = _lookupRepository.GetSoilLookups();
             LookupVeg = _lookupRepository.GetVegLookups();
+
+            TreeSpecies = _standRepository.GetTreeSpecies();
             Treatments = _standRepository.GetTreatments();
 
-            TreeLookupFilteredList = new ObservableCollection<TreeLookup>() { };
+            TreeLookupFilteredList = new ObservableCollection<TreeSpecies>() { };
 
             ListPercentage = new List<int> { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
 

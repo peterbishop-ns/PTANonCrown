@@ -12,8 +12,8 @@ namespace PTANonCrown.Converter
             if (string.IsNullOrEmpty(shortCode))
                 return null;
 
-            // Assuming LookupTrees is available in your ViewModel and contains all TreeSpecies
-            var treeSpeciesCollection = parameter as ObservableCollection<TreeLookup>;
+            // Assuming TreeSpecies is available in your ViewModel and contains all TreeSpecies
+            var treeSpeciesCollection = parameter as ObservableCollection<TreeSpecies>;
 
             return treeSpeciesCollection?.FirstOrDefault(t => t.ShortCode.Equals(shortCode, StringComparison.OrdinalIgnoreCase));
             //
@@ -22,7 +22,7 @@ namespace PTANonCrown.Converter
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var treeSpecies = value as TreeLookup;
+            var treeSpecies = value as TreeSpecies;
             return treeSpecies?.ShortCode; // Return the ShortCode of the selected TreeSpecies
                                            //
 

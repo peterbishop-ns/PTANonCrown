@@ -6,31 +6,7 @@ namespace PTANonCrown.Data.Models
 {
     public class TreeLive : BaseModel
     {
-        private static readonly Dictionary<int, int> _dbhHeightLookupSoftwood = new Dictionary<int, int>
-    {{10,   2},
-{12,    3},
-{14,    5},
-{16,    7},
-{18,    9},
-{20,    10},
-{22,    10},
-{24,    11},
-{26,    12},
-{28,    13},
-{30,    14},
-{32,    15},
-{34,    16},
-{36,    17},
-{38,    17},
-{40,    17},
-{42,    18},
-{44,    18},
-{46,    19},
-{48,    19},
-{50,    20},
-{ 90,  20}};
-
-        private static readonly Dictionary<int, int > _dbhHeightLookupHardwood = new Dictionary<int, int>
+        private static readonly Dictionary<int, int> _dbhHeightLookupHardwood = new Dictionary<int, int>
     {
         {2, 2 },
         {4, 3 },
@@ -58,17 +34,41 @@ namespace PTANonCrown.Data.Models
         {98, 17 }
 };
 
+        private static readonly Dictionary<int, int> _dbhHeightLookupSoftwood = new Dictionary<int, int>
+    {{10,   2},
+        {12,    3},
+        {14,    5},
+        {16,    7},
+        {18,    9},
+        {20,    10},
+        {22,    10},
+        {24,    11},
+        {26,    12},
+        {28,    13},
+        {30,    14},
+        {32,    15},
+        {34,    16},
+        {36,    17},
+        {38,    17},
+        {40,    17},
+        {42,    18},
+        {44,    18},
+        {46,    19},
+        {48,    19},
+        {50,    20},
+        { 90,  20}};
+
         private int _dbh_cm;
+        private decimal _heightPredicted_m;
         private bool _pLExSitu;
         private bool _pLInSitu;
         private string _searchSpecies;
-        private int _species;
-        private TreeLookup _treeLookup;
+        private TreeSpecies _treeLookup;
 
         public TreeLive()
         {
-            TreeLookup = new TreeLookup();
-            TreeLookupFilteredList = new ObservableCollection<TreeLookup>();
+            TreeLookup = new TreeSpecies();
+            TreeLookupFilteredList = new ObservableCollection<TreeSpecies>();
         }
 
         public bool AGS { get; set; }
@@ -90,32 +90,10 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        public void PredictHeight()
-        {
-            switch (TreeLookup.HardwoodSoftwood)
-            {
-                case 1: // Softwood
-                    HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
-                    break;
-
-                case 2: // Hardwood
-                    HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
-                    break;
-                default:
-                    break;
-                    // Handle unexpected values
-                    //throw new InvalidOperationException($"Unknown HardwoodSoftwood value: {TreeLookup.HardwoodSoftwood}. Expected 1 (Softwood) or 2 (Hardwood).");
-            }
-        }
-        public void OnDBHChanged()
-        {
-            PredictHeight();
-        }
         public bool Diversity { get; set; }
 
         public decimal Height_m { get; set; }
 
-        private decimal _heightPredicted_m;
         public decimal HeightPredicted_m
         {
             get => _heightPredicted_m;
@@ -128,7 +106,6 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
-
 
         public int ID { get; set; }
 
@@ -181,21 +158,8 @@ namespace PTANonCrown.Data.Models
 
         }
 
-        public int Species
-        {
-            get => _species;
-            set
-            {
-                if (_species != value)
-                {
-                    _species = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
 
-        [NotMapped]
-        public TreeLookup TreeLookup
+        public TreeSpecies TreeLookup
         {
             get => _treeLookup;
             set
@@ -205,54 +169,48 @@ namespace PTANonCrown.Data.Models
                     _treeLookup = value;
                     OnPropertyChanged();
                     OnTreeLookupChanged();
-                    //Species = _treeLookup.ID;
                 }
+            }
+        }
+
+        [NotMapped]
+        public ObservableCollection<TreeSpecies> TreeLookupFilteredList { get; set; } = new ObservableCollection<TreeSpecies>();
+
+        public int TreeNumber { get; set; }
+
+        public decimal GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int DBH_cm)
+        {
+
+            return Interpolate(lookup, DBH_cm);
+        }
+
+        public void OnDBHChanged()
+        {
+            PredictHeight();
+        }
+
+        public void PredictHeight()
+        {
+            switch (TreeLookup.HardwoodSoftwood)
+            {
+                case 1: // Softwood
+                    HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
+                    break;
+
+                case 2: // Hardwood
+                    HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
+                    break;
+
+                default:
+                    break;
+                    // Handle unexpected values
+                    //throw new InvalidOperationException($"Unknown HardwoodSoftwood value: {TreeSpecies.HardwoodSoftwood}. Expected 1 (Softwood) or 2 (Hardwood).");
             }
         }
 
         private void OnTreeLookupChanged()
         {
             SearchSpecies = TreeLookup?.ShortCode;
-        }
-
-        [NotMapped]
-        public ObservableCollection<TreeLookup> TreeLookupFilteredList { get; set; } = new ObservableCollection<TreeLookup>();
-
-        public int TreeNumber { get; set; }
-
-        public static decimal Interpolate(Dictionary<int, int> lookup, int input)
-        {
-            if (lookup.ContainsKey(input))
-                return lookup[input]; // Exact match
-
-            var keys = lookup.Keys.OrderBy(k => k).ToList();
-
-            // Edge cases: input lower than lowest key or higher than highest key
-            if (input <= keys.First())
-                return lookup[keys.First()];
-            if (input >= keys.Last())
-                return lookup[keys.Last()];
-
-            // Find the two surrounding keys
-            int lowerKey = keys.Last(k => k <= input);
-            int upperKey = keys.First(k => k >= input);
-
-            int lowerValue = lookup[lowerKey];
-            int upperValue = lookup[upperKey];
-
-            // If input is exactly one of the keys, no need to interpolate
-            if (lowerKey == upperKey)
-                return lowerValue;
-
-            // Linear interpolation formula
-            decimal fraction = (input - lowerKey) / (decimal)(upperKey - lowerKey);
-            return lowerValue + fraction * (upperValue - lowerValue);
-        }
-
-        public decimal GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int DBH_cm)
-        {
-
-            return Interpolate(lookup, DBH_cm);
         }
     }
 }

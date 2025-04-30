@@ -35,5 +35,10 @@ namespace PTANonCrown.Data.Repository
 
             return query.ToList();
         }
+
+        public List<TreeSpecies> GetTreeSpecies()
+        {
+            return _context.Set<TreeSpecies>().OrderBy(i => i.Name).ToList();
+        }
     }
 }

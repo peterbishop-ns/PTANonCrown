@@ -11,23 +11,12 @@
     public class SoilLookup : BaseLookup
     { }
 
-    public class TreeLookup : BaseLookup
-    { 
-    public int HardwoodSoftwood { get; set; }
-    public bool LIT { get; set; }
-        public bool LIT_planted { get; set; }
-        public bool LT { get; set; }
-
-    }
-
     public class VegLookup : BaseLookup
     { }
 
-    public class DBHToHeight
-    {
-        public int HardwoodSoftwood { get; set; }
-        public int DBH_cm { get; set; }
-        public int HeightPredicted_m { get; set; }
 
-    }
+
+
+
+
 }

@@ -16,6 +16,7 @@ public class AppDbContext : DbContext
     public DbSet<TreeDead> TreesDead { get; set; }
     public DbSet<TreeLive> TreesLive { get; set; }
     public DbSet<Treatment>Treatments { get; set; }
+    public DbSet<TreeSpecies> TreeSpecies { get; set; }
     public DbSet<PlotTreatment> PlotTreatments { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -54,8 +55,31 @@ public class AppDbContext : DbContext
                   new Treatment { ID = 9, Name = "Single tree selection" },
                   new Treatment { ID = 10, Name = "Group selection" },
                   new Treatment { ID = 11, Name = "Partial harvest (unknown)" }
-              ); 
-        modelBuilder.Entity<PlotTreatment>()
+              );
+
+
+        modelBuilder.Entity<TreeSpecies>().HasData(
+            new TreeSpecies { ID = 1, ShortCode = "rS", Name = "Red Spruce", HardwoodSoftwood = 1, LIT = true, LIT_planted = true, LT = true },
+            new TreeSpecies { ID = 2, ShortCode = "eH", Name = "Eastern Hemlock", HardwoodSoftwood = 1, LIT = true, LIT_planted = true, LT = true },
+            new TreeSpecies { ID = 3, ShortCode = "wP", Name = "White Pine", HardwoodSoftwood = 1, LIT = true, LIT_planted = true, LT = false },
+            new TreeSpecies { ID = 4, ShortCode = "wS", Name = "White Spruce", HardwoodSoftwood = 1, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 5, ShortCode = "S", Name = "Black Spruce/Coastal", HardwoodSoftwood = 1, LIT = true, LIT_planted = true, LT = false },
+            new TreeSpecies { ID = 6, ShortCode = "bF", Name = "Balsam Fir", HardwoodSoftwood = 1, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 7, ShortCode = "rP", Name = "Red Pine", HardwoodSoftwood = 1, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 8, ShortCode = "jP", Name = "Jack Pine", HardwoodSoftwood = 1, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 9, ShortCode = "eL", Name = "Eastern Larch", HardwoodSoftwood = 1, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 10, ShortCode = "sM", Name = "Sugar Maple", HardwoodSoftwood = 2, LIT = true, LIT_planted = true, LT = false },
+            new TreeSpecies { ID = 11, ShortCode = "yB", Name = "Yellow Birch", HardwoodSoftwood = 2, LIT = true, LIT_planted = true, LT = false },
+            new TreeSpecies { ID = 12, ShortCode = "wA", Name = "White Ash", HardwoodSoftwood = 2, LIT = true, LIT_planted = true, LT = false },
+            new TreeSpecies { ID = 13, ShortCode = "rO", Name = "Red Oak", HardwoodSoftwood = 2, LIT = true, LIT_planted = true, LT = false },
+            new TreeSpecies { ID = 14, ShortCode = "rM", Name = "Red Maple", HardwoodSoftwood = 2, LIT = true, LIT_planted = false, LT = true },
+            new TreeSpecies { ID = 15, ShortCode = "wB", Name = "White Birch", HardwoodSoftwood = 2, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 16, ShortCode = "tA", Name = "Trembling Aspen", HardwoodSoftwood = 2, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 17, ShortCode = "lTA", Name = "Large-tooth Aspen", HardwoodSoftwood = 2, LIT = false, LIT_planted = false, LT = false }
+        );
+
+
+    modelBuilder.Entity<PlotTreatment>()
             .HasKey(sc => new { sc.PlotId, sc.TreatmentId });
 
         modelBuilder.Entity<PlotTreatment>()

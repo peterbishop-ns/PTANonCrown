@@ -171,9 +171,8 @@ namespace PTANonCrown.Data.Migrations
                     b.Property<int>("PlannerID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("StandNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("StandNumber")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
 
@@ -334,7 +333,7 @@ namespace PTANonCrown.Data.Migrations
                     b.Property<bool>("SCanopy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Species")
+                    b.Property<int>("TreeLookupID")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TreeNumber")
@@ -344,7 +343,211 @@ namespace PTANonCrown.Data.Migrations
 
                     b.HasIndex("PlotID");
 
+                    b.HasIndex("TreeLookupID");
+
                     b.ToTable("TreesLive");
+                });
+
+            modelBuilder.Entity("PTANonCrown.Data.Models.TreeSpecies", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HardwoodSoftwood")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LIT")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LIT_planted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LT")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShortCode")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("TreeSpecies");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            HardwoodSoftwood = 1,
+                            LIT = true,
+                            LIT_planted = true,
+                            LT = true,
+                            Name = "Red Spruce",
+                            ShortCode = "rS"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            HardwoodSoftwood = 1,
+                            LIT = true,
+                            LIT_planted = true,
+                            LT = true,
+                            Name = "Eastern Hemlock",
+                            ShortCode = "eH"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            HardwoodSoftwood = 1,
+                            LIT = true,
+                            LIT_planted = true,
+                            LT = false,
+                            Name = "White Pine",
+                            ShortCode = "wP"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            HardwoodSoftwood = 1,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "White Spruce",
+                            ShortCode = "wS"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            HardwoodSoftwood = 1,
+                            LIT = true,
+                            LIT_planted = true,
+                            LT = false,
+                            Name = "Black Spruce/Coastal",
+                            ShortCode = "S"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            HardwoodSoftwood = 1,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "Balsam Fir",
+                            ShortCode = "bF"
+                        },
+                        new
+                        {
+                            ID = 7,
+                            HardwoodSoftwood = 1,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "Red Pine",
+                            ShortCode = "rP"
+                        },
+                        new
+                        {
+                            ID = 8,
+                            HardwoodSoftwood = 1,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "Jack Pine",
+                            ShortCode = "jP"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            HardwoodSoftwood = 1,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "Eastern Larch",
+                            ShortCode = "eL"
+                        },
+                        new
+                        {
+                            ID = 10,
+                            HardwoodSoftwood = 2,
+                            LIT = true,
+                            LIT_planted = true,
+                            LT = false,
+                            Name = "Sugar Maple",
+                            ShortCode = "sM"
+                        },
+                        new
+                        {
+                            ID = 11,
+                            HardwoodSoftwood = 2,
+                            LIT = true,
+                            LIT_planted = true,
+                            LT = false,
+                            Name = "Yellow Birch",
+                            ShortCode = "yB"
+                        },
+                        new
+                        {
+                            ID = 12,
+                            HardwoodSoftwood = 2,
+                            LIT = true,
+                            LIT_planted = true,
+                            LT = false,
+                            Name = "White Ash",
+                            ShortCode = "wA"
+                        },
+                        new
+                        {
+                            ID = 13,
+                            HardwoodSoftwood = 2,
+                            LIT = true,
+                            LIT_planted = true,
+                            LT = false,
+                            Name = "Red Oak",
+                            ShortCode = "rO"
+                        },
+                        new
+                        {
+                            ID = 14,
+                            HardwoodSoftwood = 2,
+                            LIT = true,
+                            LIT_planted = false,
+                            LT = true,
+                            Name = "Red Maple",
+                            ShortCode = "rM"
+                        },
+                        new
+                        {
+                            ID = 15,
+                            HardwoodSoftwood = 2,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "White Birch",
+                            ShortCode = "wB"
+                        },
+                        new
+                        {
+                            ID = 16,
+                            HardwoodSoftwood = 2,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "Trembling Aspen",
+                            ShortCode = "tA"
+                        },
+                        new
+                        {
+                            ID = 17,
+                            HardwoodSoftwood = 2,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "Large-tooth Aspen",
+                            ShortCode = "lTA"
+                        });
                 });
 
             modelBuilder.Entity("PTANonCrown.Data.Models.CoarseWoody", b =>
@@ -407,7 +610,15 @@ namespace PTANonCrown.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PTANonCrown.Data.Models.TreeSpecies", "TreeLookup")
+                        .WithMany("TreeLives")
+                        .HasForeignKey("TreeLookupID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Plot");
+
+                    b.Navigation("TreeLookup");
                 });
 
             modelBuilder.Entity("PTANonCrown.Data.Models.Plot", b =>
@@ -429,6 +640,11 @@ namespace PTANonCrown.Data.Migrations
             modelBuilder.Entity("PTANonCrown.Data.Models.Treatment", b =>
                 {
                     b.Navigation("PlotTreatments");
+                });
+
+            modelBuilder.Entity("PTANonCrown.Data.Models.TreeSpecies", b =>
+                {
+                    b.Navigation("TreeLives");
                 });
 #pragma warning restore 612, 618
         }

@@ -232,7 +232,7 @@
                                        TextChanged="Entry_TextChanged" />
                                 <Picker ItemsSource="{Binding Source={RelativeSource 
                                     AncestorType={x:Type viewModels:MainViewModel}}, 
-                                    Path=LookupTrees}"
+                                    Path=TreeSpecies}"
                                         WidthRequest="200"
                                         SelectedItem="{Binding TreeLookup}"
                                         ItemDisplayBinding="{Binding Name}"/>

@@ -23,10 +23,7 @@ namespace PTANonCrown.Data.Repository
 
      
 
-        public List<TreeLookup> GetTreeLookups()
-        {
-            return _context.TreeLookup.OrderBy(i => i.Name).ToList();
-        }
+
 
         public List<VegLookup> GetVegLookups()
         {
