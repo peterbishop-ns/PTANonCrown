@@ -15,12 +15,14 @@
             <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <VerticalStackLayout>
-        <Label Text="{Binding ErrorMessage}"
-               Background="Pink"
-               IsVisible="{Binding ErrorMessage, 
-            Converter={StaticResource StringToVisibilityConverter}}" /> 
+        
         <ScrollView>
+        <VerticalStackLayout>
+
+            <Label Text="{Binding ErrorMessage}"
+                   Background="Pink"
+                   IsVisible="{Binding ErrorMessage, 
+    Converter={StaticResource StringToVisibilityConverter}}" />
             <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
                   ColumnDefinitions="Auto, *"
                   MaximumWidthRequest="500"
@@ -184,7 +186,8 @@
                            Style="{StaticResource EntryStand}" />
                 </VerticalStackLayout>
             </Grid>
-        </ScrollView>
+        </VerticalStackLayout>
 
-    </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

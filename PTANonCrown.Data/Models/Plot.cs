@@ -17,6 +17,9 @@ namespace PTANonCrown.Data.Models
 
         public Plot()
         {
+            Blowdown = 0;
+            UnderstoryStrata = 0;
+            StockingLITSeedTree = 0;
             InitializeLiveTree();
             InitializeDeadTreeDefaults();
             InitializeCoarseWoodyDefaults();

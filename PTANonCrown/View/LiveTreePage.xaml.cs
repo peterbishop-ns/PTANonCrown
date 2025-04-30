@@ -38,21 +38,15 @@ public partial class LiveTreePage : ContentPage
                 if (filteredResults.Count == 1)
                 {
                     treeRow.TreeLookup = filteredResults.First();
-                    treeRow.SearchSpecies = $"{treeRow.TreeLookup.ShortCode} - {treeRow.TreeLookup.Name}";
+                    treeRow.SearchSpecies = treeRow.TreeLookup.ShortCode;
 
                     treeRow.TreeLookupFilteredList.Clear();
                 }
-
-                /* If user accidentally keeps typing, provide feedbac
-                if (treeRow.TreeLookup is null || treeRow.SearchSpecies.Contains(treeRow.TreeLookup.Name) &&
-                    treeRow.SearchSpecies != $"{treeRow.TreeLookup.ShortCode} - {treeRow.TreeLookup.Name}")
+                else
                 {
-                    entry.BackgroundColor = Color.FromHex("F0AF87");
-                } else //reset
-                {
-                    entry.BackgroundColor = Color.Parse("White");
+                    treeRow.TreeLookup = null;
+                }
 
-                }*/
 
             }
         }
@@ -66,7 +60,7 @@ public partial class LiveTreePage : ContentPage
             if (selectedSpecies != null)
             {
                 itemToUpdate.TreeLookup = selectedSpecies;
-                itemToUpdate.SearchSpecies = $"{selectedSpecies.ShortCode} - {selectedSpecies.Name}";
+                itemToUpdate.SearchSpecies = selectedSpecies.ShortCode;
                 OnPropertyChanged(nameof(itemToUpdate));
 
             }

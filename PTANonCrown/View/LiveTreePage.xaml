@@ -21,6 +21,10 @@
         <VerticalStackLayout VerticalOptions="Start"
                              Spacing="20"
                              Margin="10">
+            <Label Text="{Binding ErrorMessage}"
+                   Background="Pink"
+                   IsVisible="{Binding ErrorMessage, 
+     Converter={StaticResource StringToVisibilityConverter}}" />
             <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="10">
                 
                 <!-- STAND/PLOT -->
@@ -218,33 +222,23 @@
                                    VerticalTextAlignment="Start"
                                    HorizontalTextAlignment="Center" />
 
-                            <VerticalStackLayout Grid.Column="1">
+                            <HorizontalStackLayout Grid.Column="1" Spacing="5">
 
                                 <Entry x:Name="treeShortCodeEntry"
+                                       WidthRequest="50"
+                                       HorizontalOptions="Start"
                                        Placeholder="Species"
                                        Text="{Binding SearchSpecies}"
                                        TextChanged="Entry_TextChanged" />
-
-                                <CollectionView ItemsSource="{Binding TreeLookupFilteredList, Mode=TwoWay}"
-                                                SelectionMode="Single">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Padding="5">
-                                                <Label Text="{Binding DisplayName   }"
-                                                       FontSize="14">
-                                                    <Label.GestureRecognizers>
-                                                        <TapGestureRecognizer Tapped="OnSuggestionSelected"
-                                                                              CommandParameter="{Binding .,
-                                                            Source={RelativeSource AncestorType={x:Type models:TreeLive}}}" />
-                                                    </Label.GestureRecognizers>
-                                                </Label>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
+                                <Picker ItemsSource="{Binding Source={RelativeSource 
+                                    AncestorType={x:Type viewModels:MainViewModel}}, 
+                                    Path=LookupTrees}"
+                                        WidthRequest="200"
+                                        SelectedItem="{Binding TreeLookup}"
+                                        ItemDisplayBinding="{Binding Name}"/>
 
                              
-                            </VerticalStackLayout>
+                            </HorizontalStackLayout>
                             <Entry Grid.Column="2"
                                    Text="{Binding DBH_cm}"
                                    Style="{StaticResource GridEntry}">

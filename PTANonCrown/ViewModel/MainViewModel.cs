@@ -615,7 +615,7 @@ namespace PTANonCrown.ViewModel
                     if (tree.Species > 0)
                     {
                         tree.TreeLookup = LookupTrees.Where(lu => lu.ID == tree.Species).FirstOrDefault();
-                        tree.SearchSpecies = $"{tree.TreeLookup.ShortCode} - {tree.TreeLookup.Name}";
+                        //tree.SearchSpecies = $"{tree.TreeLookup.ShortCode} - {tree.TreeLookup.Name}";
                     }
                 }
             }
@@ -701,11 +701,23 @@ namespace PTANonCrown.ViewModel
                 ErrorMessage = string.Empty;
             }
         }
+
+        private void ValidateTrees(ObservableCollection<TreeLive> trees)
+        {
+            foreach (TreeLive tree in trees)
+            {
+                if (tree.TreeLookup is null)
+                {
+                    ErrorMessage = ErrorMessage + "\n" + $"Invalid tree species for {tree.TreeNumber}";
+                    ContainsError = true;
+                }
+            }
+        }
         private void SaveAll()
         {
             ContainsError = false; // reset
             ValidateStand(CurrentStand);
-            
+            ValidateTrees(CurrentPlot.PlotTreeLive);
             if (ContainsError)
             {
                 Application.Current.MainPage.DisplayAlert("Error", "Please address errors", "OK");

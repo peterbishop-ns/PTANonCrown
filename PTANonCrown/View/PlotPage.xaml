@@ -361,7 +361,7 @@
                                 Background="White"
                                 WidthRequest="70"
                                 ItemsSource="{Binding ListPercentage}"
-                                SelectedItem="{Binding UnderstoryStrata}"
+                                SelectedItem="{Binding CurrentPlot.UnderstoryStrata}"
                                 HorizontalOptions="Start" />
 
                         <CheckBox Grid.Row="3"

@@ -8,10 +8,19 @@ namespace PTANonCrown.Behaviours
         protected override void OnAttachedTo(Entry bindable)
         {
             base.OnAttachedTo(bindable);
+            bindable.Focused += OnFocused;
             bindable.Completed += OnCompleted; // Handles Enter key
             bindable.HandlerChanged += OnHandlerChanged;
         }
 
+        private void OnFocused(object? sender, FocusEventArgs e)
+        {
+            if (sender is Entry entry)
+            {
+                entry.SelectionLength = entry.Text?.Length ?? 0;
+                entry.CursorPosition = 0;
+            }
+        }
         protected override void OnDetachingFrom(Entry bindable)
         {
             base.OnDetachingFrom(bindable);
