@@ -5,6 +5,7 @@ using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Storage;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using PTANonCrown.Data.Models;
 using PTANonCrown.Data.Repository;
 using PTANonCrown.Services;
@@ -389,7 +390,7 @@ namespace PTANonCrown.ViewModel
         {
             Stand _stand = new Stand()
             {
-                StandNumber = 1
+                StandNumber = '1'
             };
 
             Plot _newPlot = CreateNewPlot(_stand);
@@ -673,9 +674,43 @@ namespace PTANonCrown.ViewModel
                 CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
             }
         }
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                if (_errorMessage != value)
+                {
+                    _errorMessage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private bool ContainsError = false;
 
+        private void ValidateStand(Stand stand)
+        {
+            if (stand.StandNumber != 123)
+            {
+                ErrorMessage = "Stand Number Error: Must be 123";
+                ContainsError = true;
+            }
+            else
+            {
+                ErrorMessage = string.Empty;
+            }
+        }
         private void SaveAll()
         {
+            ContainsError = false; // reset
+            ValidateStand(CurrentStand);
+            
+            if (ContainsError)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "Please address errors", "OK");
+
+            }
             _standRepository.Save(CurrentStand);
         }
 
@@ -807,6 +842,7 @@ namespace PTANonCrown.ViewModel
 
         private void Stand_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            ValidateStand(sender as Stand);
             // Check if the changed property is StandNumber
             if (e.PropertyName == nameof(Stand.StandNumber))
             {

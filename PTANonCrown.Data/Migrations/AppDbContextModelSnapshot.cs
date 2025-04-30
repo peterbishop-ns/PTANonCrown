@@ -171,8 +171,9 @@ namespace PTANonCrown.Data.Migrations
                     b.Property<int>("PlannerID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("StandNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("StandNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 

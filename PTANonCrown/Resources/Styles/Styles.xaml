@@ -37,6 +37,20 @@
         <Setter Property="HeightRequest"
                 Value="10" />
     </Style>
+    <Style TargetType="Entry"
+           x:Key="InvalidEntryStyle">
+        <Setter Property="BackgroundColor"
+                Value="Red" />
+
+    </Style>
+    
+    <Style TargetType="Entry"
+           x:Key="ValidEntryStyle">
+        <Setter Property="BackgroundColor"
+                Value="LightGreen" />
+
+    </Style>
+    
 
     <Style TargetType="Border">
         <Setter Property="Stroke"

@@ -11,6 +11,8 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:SpeciesConverter x:Key="SpeciesConverter" />
+            <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
