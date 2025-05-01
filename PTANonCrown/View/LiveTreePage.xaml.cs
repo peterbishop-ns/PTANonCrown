@@ -1,4 +1,5 @@
 
+using DocumentFormat.OpenXml.Drawing;
 using PTANonCrown.Data.Models;
 using PTANonCrown.ViewModel;
 
@@ -21,8 +22,12 @@ public partial class LiveTreePage : ContentPage
             var vm = BindingContext as MainViewModel;
             if (vm != null)
             {
+                if (e.NewTextValue == string.Empty || e.NewTextValue is null)
+                {
+                    return;
+                }
                 // Get the filtered list based on user input
-                var filteredResults = vm.TreeSpecies
+                var filteredResults = vm.LookupTrees
                         .Where(t => t.ShortCode.StartsWith(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
                             t.Name.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
                        .ToList();
@@ -37,14 +42,14 @@ public partial class LiveTreePage : ContentPage
                 // If there is a single match, choose it automatically
                 if (filteredResults.Count == 1)
                 {
-                    treeRow.TreeLookup = filteredResults.First();
-                    treeRow.SearchSpecies = treeRow.TreeLookup.ShortCode;
+                    treeRow.TreeSpecies = filteredResults.First();
+                    treeRow.SearchSpecies = treeRow.TreeSpecies.ShortCode;
 
                     treeRow.TreeLookupFilteredList.Clear();
                 }
                 else
                 {
-                    treeRow.TreeLookup = null;
+                    treeRow.TreeSpecies = null;
                 }
 
 
@@ -59,7 +64,7 @@ public partial class LiveTreePage : ContentPage
             var selectedSpecies = label.BindingContext as TreeSpecies;
             if (selectedSpecies != null)
             {
-                itemToUpdate.TreeLookup = selectedSpecies;
+                itemToUpdate.TreeSpecies = selectedSpecies;
                 itemToUpdate.SearchSpecies = selectedSpecies.ShortCode;
                 OnPropertyChanged(nameof(itemToUpdate));
 

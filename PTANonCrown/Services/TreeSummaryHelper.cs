@@ -35,7 +35,7 @@ namespace PTANonCrown.Services
         public static SummaryItem GetAGSLIT_NS_WS_RP(IEnumerable<TreeLive> trees)
 
         {
-            var filteredAGSLIT = trees.Where(t => (t.AGS = true) & (t.TreeLookup.LIT = true));
+            var filteredAGSLIT = trees.Where(t => (t.AGS = true) & (t.TreeSpecies.LIT = true));
             var filtered_NS_WS_RP = FilterTreeBySpecies(trees, ["ns", "wp", "rp"]);
 
             int count_AGSLIT = filteredAGSLIT.Count();
@@ -86,7 +86,7 @@ namespace PTANonCrown.Services
         public static SummaryItem GetBasalAreaLIT_m2ha(IEnumerable<TreeLive> trees)
         {
 
-            var filteredTrees = trees.Where(t => t.TreeLookup.LIT == true);
+            var filteredTrees = trees.Where(t => t.TreeSpecies.LIT == true);
             //todo account for LIT difference for planted plots
 
             var result = GetBasalArea(filteredTrees);
@@ -168,7 +168,7 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetAGS_LIT_m2ha(IEnumerable<TreeLive> trees)
         {
-            var filteredTrees = trees.Where(t => (t.AGS == true) & (t.TreeLookup.LIT == true));
+            var filteredTrees = trees.Where(t => (t.AGS == true) & (t.TreeSpecies.LIT == true));
             //todo account for LIT
 
             int result = GetBasalArea(filteredTrees);
@@ -241,7 +241,7 @@ namespace PTANonCrown.Services
         public static SummaryItem GetDeciduousLIT_perc(IEnumerable<TreeLive> trees)
         {
 
-            var filteredTrees = trees.Where(t => (t.TreeLookup.HardwoodSoftwood == 2) & (t.TreeLookup.LIT == true));
+            var filteredTrees = trees.Where(t => (t.TreeSpecies.HardwoodSoftwood == 2) & (t.TreeSpecies.LIT == true));
             //todo account for LIT planted vs. LIT not planted; difference in LIT status for at least one tree 
 
 
@@ -278,7 +278,7 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetMerchConifer_perc(IEnumerable<TreeLive> trees)
         {
-            var filteredTrees = FilterMerchantableTrees(trees).Where(t => t.TreeLookup.HardwoodSoftwood == 1);
+            var filteredTrees = FilterMerchantableTrees(trees).Where(t => t.TreeSpecies.HardwoodSoftwood == 1);
 
             int countMerchConifer = filteredTrees.Count();
             int totalCount = trees.Count();
@@ -343,7 +343,7 @@ namespace PTANonCrown.Services
        private static IEnumerable<TreeLive> FilterTreeBySpecies(IEnumerable<TreeLive> trees,
            List<string> searchSpecies)
         {
-            return trees.Where(t => searchSpecies.Contains(t.TreeLookup.ShortCode, StringComparer.OrdinalIgnoreCase));
+            return trees.Where(t => searchSpecies.Contains(t.TreeSpecies.ShortCode, StringComparer.OrdinalIgnoreCase));
         }
 
      

@@ -104,6 +104,9 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+
+
+
         private void OnCurrentPlotChanged()
         {
             if (CurrentPlot.PlotTreatments.Any(pt => pt.IsActive))
@@ -137,6 +140,7 @@ namespace PTANonCrown.ViewModel
                         _currentStand.PropertyChanged += Stand_PropertyChanged;
                     }
 
+                    ValidateStand(); // Run validation in case a new object is assigned
                 }
             }
 
@@ -171,7 +175,7 @@ namespace PTANonCrown.ViewModel
 
         public List<Treatment> Treatments { get; set; }
 
-        public List<TreeSpecies> TreeSpecies { get; set; }
+        public List<TreeSpecies> LookupTrees { get; set; }
 
         public List<VegLookup> LookupVeg { get; set; }
 
@@ -322,7 +326,23 @@ namespace PTANonCrown.ViewModel
 
         }
 
- 
+        public void ValidateStand()
+        {
+
+            // StandNumber
+            if (CurrentStand?.StandNumber != 2000)
+            {
+                ValidationMessage = "Wrong stand!";
+                IsValidationError = true;
+            }
+            else
+            {
+                ValidationMessage = string.Empty;
+                IsValidationError = false;
+            }
+
+        }
+
         private void AddTrees(int currentTreeCount)
         {
             int treesToAdd = CurrentPlot.TreeCount - currentTreeCount;
@@ -373,7 +393,7 @@ namespace PTANonCrown.ViewModel
         {
             Stand _stand = new Stand()
             {
-                StandNumber = '1'
+                StandNumber = 1
             };
 
             Plot _newPlot = CreateNewPlot(_stand);
@@ -517,7 +537,7 @@ namespace PTANonCrown.ViewModel
         private ObservableCollection<SummaryResultTreeSpecies> GenerateTreeSpeciesSummary(IEnumerable<Plot> plots)
         {
             var filtered = plots
-             .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeLookup.DisplayName }));
+             .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeSpecies.DisplayName }));
 
             int total = filtered.Count();
 
@@ -587,6 +607,23 @@ namespace PTANonCrown.ViewModel
             }
 
             AllPlots = _stand.Plots;
+
+            foreach (Plot plot in AllPlots)
+            {
+                foreach (TreeLive tree in plot.PlotTreeLive)
+                {
+                    //Populate some tree properties
+                    //hack - SearchSpecies is getting populated in a for loop in the ViewModel. Better would likely be to build this in the model? But would need access to the Lookup in the model... 
+                    /*
+                    if (tree.Species > 0)
+                    {
+                        tree.TreeLookup = LookupTrees.Where(lu => lu.ID == tree.Species).FirstOrDefault();
+                        //tree.SearchSpecies = $"{tree.TreeSpecies.ShortCode} - {tree.TreeSpecies.Name}";
+                    }
+                    */
+                }
+            }
+
             SetCurrentStand(_stand);
 
             return _stand;
@@ -595,10 +632,9 @@ namespace PTANonCrown.ViewModel
 
         private void LoadLookupTables()
         {
+            LookupTrees = _standRepository.GetTreeSpecies();
             LookupSoils = _lookupRepository.GetSoilLookups();
             LookupVeg = _lookupRepository.GetVegLookups();
-
-            TreeSpecies = _standRepository.GetTreeSpecies();
             Treatments = _standRepository.GetTreatments();
 
             TreeLookupFilteredList = new ObservableCollection<TreeSpecies>() { };
@@ -674,7 +710,7 @@ namespace PTANonCrown.ViewModel
         {
             foreach (TreeLive tree in trees)
             {
-                if (tree.TreeLookup is null)
+                if (tree.TreeSpecies is null)
                 {
                     ErrorMessage = ErrorMessage + "\n" + $"Invalid tree species for {tree.TreeNumber}";
                     ContainsError = true;

@@ -86,6 +86,9 @@ namespace PTANonCrown.Data.Migrations
                     b.Property<bool>("OneCohortSenescent")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("PlantedType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("PlotNumber")
                         .HasColumnType("INTEGER");
 
@@ -333,17 +336,17 @@ namespace PTANonCrown.Data.Migrations
                     b.Property<bool>("SCanopy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TreeLookupID")
+                    b.Property<int>("TreeNumber")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TreeNumber")
+                    b.Property<int>("TreeSpeciesID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
 
                     b.HasIndex("PlotID");
 
-                    b.HasIndex("TreeLookupID");
+                    b.HasIndex("TreeSpeciesID");
 
                     b.ToTable("TreesLive");
                 });
@@ -610,15 +613,15 @@ namespace PTANonCrown.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PTANonCrown.Data.Models.TreeSpecies", "TreeLookup")
+                    b.HasOne("PTANonCrown.Data.Models.TreeSpecies", "TreeSpecies")
                         .WithMany("TreeLives")
-                        .HasForeignKey("TreeLookupID")
+                        .HasForeignKey("TreeSpeciesID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Plot");
 
-                    b.Navigation("TreeLookup");
+                    b.Navigation("TreeSpecies");
                 });
 
             modelBuilder.Entity("PTANonCrown.Data.Models.Plot", b =>

@@ -63,11 +63,11 @@ namespace PTANonCrown.Data.Models
         private bool _pLExSitu;
         private bool _pLInSitu;
         private string _searchSpecies;
-        private TreeSpecies _treeLookup;
+        private TreeSpecies _treeSpecies;
 
         public TreeLive()
         {
-            TreeLookup = new TreeSpecies();
+            TreeSpecies = new TreeSpecies();
             TreeLookupFilteredList = new ObservableCollection<TreeSpecies>();
         }
 
@@ -92,7 +92,20 @@ namespace PTANonCrown.Data.Models
 
         public bool Diversity { get; set; }
 
-        public decimal Height_m { get; set; }
+
+        private decimal _height_m;
+        public decimal Height_m
+        {
+            get => _height_m;
+            set
+            {
+                if (_height_m != value)
+                {
+                    _height_m = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public decimal HeightPredicted_m
         {
@@ -159,14 +172,14 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        public TreeSpecies TreeLookup
+        public TreeSpecies TreeSpecies
         {
-            get => _treeLookup;
+            get => _treeSpecies;
             set
             {
-                if (_treeLookup != value)
+                if (_treeSpecies != value)
                 {
-                    _treeLookup = value;
+                    _treeSpecies = value;
                     OnPropertyChanged();
                     OnTreeLookupChanged();
                 }
@@ -191,7 +204,7 @@ namespace PTANonCrown.Data.Models
 
         public void PredictHeight()
         {
-            switch (TreeLookup.HardwoodSoftwood)
+            switch (TreeSpecies.HardwoodSoftwood)
             {
                 case 1: // Softwood
                     HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
@@ -210,7 +223,7 @@ namespace PTANonCrown.Data.Models
 
         private void OnTreeLookupChanged()
         {
-            SearchSpecies = TreeLookup?.ShortCode;
+            SearchSpecies = TreeSpecies?.ShortCode;
         }
     }
 }

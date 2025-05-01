@@ -6,8 +6,15 @@
              x:Class="PTANonCrown.PlotPage"
              xmlns:mvvm="http://schemas.microsoft.com/xaml/behaviors"
              BackgroundColor="#F0F0F0"
+             xmlns:enum="clr-namespace:PTANonCrown.Data.Models;assembly=PTANonCrown.Data"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
+             xmlns:converter="clr-namespace:PTANonCrown.Converter"
              Title="Plot">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:PlantedTypeConverter x:Key="PlantedTypeConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="5"
                              Spacing="5">
@@ -111,20 +118,18 @@
                             </HorizontalStackLayout>
                             <VerticalStackLayout  IsVisible="{Binding Source={x:Reference WasPlanted}, Path=IsChecked}"
                                                   Margin="20,0,0,0"
+                                                  RadioButtonGroup.GroupName="PlantedType"
+                                                  RadioButtonGroup.SelectedValue="{Binding CurrentPlot.PlantedType, 
+                                Mode=TwoWay}"
                                                   Spacing="0">
                                 <RadioButton Content="Acadian"
-                                             GroupName="PlantedType"
-                                             Margin="0"
-                                             IsChecked="{Binding CurrentPlot.IsTreesSelected}" />
+                                             Value="{x:Static enum:PlantedType.Acadian}" />
 
                                 <RadioButton Content="Maritime Boreal"
-                                             Margin="0"
-                                             GroupName="PlantedType"
-                                             IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
+                                             Value="{x:Static enum:PlantedType.MaritimeBoreal}" />
+
                                 <RadioButton Content="Coastal"
-                                             Margin="0"
-                                             GroupName="PlantedType"
-                                             IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
+                                             Value="{x:Static enum:PlantedType.Coastal}" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </Grid>
@@ -372,22 +377,29 @@
                         <CheckBox Grid.Row="4"
                                   Grid.Column="1"
                                   IsChecked="{Binding CurrentPlot.OneCohortSenescent}" />
+
+
+                        <!-- UnderstoryDominated -->
                         <VerticalStackLayout Grid.Row="6"
                                              Grid.Column="0"
                                              Spacing="0"
                                              Grid.ColumnSpan="2"
                                              Margin="40,0,0,0">
+                            <VerticalStackLayout  Margin="20,0,0,0"
+                                                  RadioButtonGroup.GroupName="UnderstoryDominated"
+                                                  RadioButtonGroup.SelectedValue="{Binding CurrentPlot.UnderstoryDominated, Mode=TwoWay}"
+                                                  Spacing="0">
+                                             <RadioButton Content="Trees"
+             Value="{x:Static enum:UnderstoryDominated.Trees}" />
 
-                            <RadioButton Content="Trees"
-                                         Margin="0"
-                                         GroupName="UnderstoryDominatedGroup"
-                                         IsChecked="{Binding CurrentPlot.IsTreesSelected}" />
 
-                            <RadioButton Content="Woody Shrubs"
-                                         Margin="0"
-                                         GroupName="UnderstoryDominatedGroup"
-                                         IsChecked="{Binding CurrentPlot.IsWoodyShrubsSelected}" />
+                                             <RadioButton Content="Woody Shrubs"
+             Value="{x:Static enum:UnderstoryDominated.WoodyShrubs}" />
+
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
+                        
+                        
                     </Grid>
                 </Border>
             </VerticalStackLayout>

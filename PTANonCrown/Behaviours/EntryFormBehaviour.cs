@@ -8,19 +8,10 @@ namespace PTANonCrown.Behaviours
         protected override void OnAttachedTo(Entry bindable)
         {
             base.OnAttachedTo(bindable);
-            bindable.Focused += OnFocused;
             bindable.Completed += OnCompleted; // Handles Enter key
             bindable.HandlerChanged += OnHandlerChanged;
         }
 
-        private void OnFocused(object? sender, FocusEventArgs e)
-        {
-            if (sender is Entry entry)
-            {
-                entry.SelectionLength = entry.Text?.Length ?? 0;
-                entry.CursorPosition = 0;
-            }
-        }
         protected override void OnDetachingFrom(Entry bindable)
         {
             base.OnDetachingFrom(bindable);
@@ -57,7 +48,7 @@ namespace PTANonCrown.Behaviours
             }
         }
 
-        private void MoveFocus(Entry currentEntry)
+        private async void MoveFocus(Entry currentEntry)
         {
             var parentCollection = currentEntry.FindParent<CollectionView>();
             if (parentCollection == null) return;
@@ -69,29 +60,36 @@ namespace PTANonCrown.Behaviours
             {
                 entries[currentIndex + 1].Focus();
                 entries[currentIndex + 1].SelectionLength = entries[currentIndex + 1].Text?.Length ?? 0;
-
             }
             else if (currentIndex == entries.Count - 1)
             {
-                // Assuming your collection is a list, for example
                 var collection = parentCollection.ItemsSource as ObservableCollection<TreeLive>;
                 if (collection != null)
                 {
-
                     int maxTreeNumber = collection.Max(t => t.TreeNumber);
-                    // Add a new item to the collection
                     collection.Add(new TreeLive() { TreeNumber = maxTreeNumber + 1 });
 
-                    // Optionally, you could focus the newly added entry here as well
-                    var newEntry = entries.Last(); // or get the new entry dynamically
-
-                    newEntry.Focus();
-                    newEntry.SelectionLength = newEntry.Text?.Length ?? 0;
                     parentCollection.ScrollTo(collection.Last(), position: ScrollToPosition.End);
 
+                    // Wait for UI to update and then re-fetch the entries list
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await Task.Delay(100); // allow for rendering
+
+                        // Re-fetch entries after UI update
+                        var updatedEntries = parentCollection.FindDescendants<Entry>().ToList();
+
+                        // Focus the first entry in the new row
+                        var newlyAddedEntry = updatedEntries.ElementAtOrDefault(currentIndex + 1);
+                        if (newlyAddedEntry != null)
+                        {
+                            newlyAddedEntry.Focus();
+                            newlyAddedEntry.SelectionLength = newlyAddedEntry.Text?.Length ?? 0;
+                        }
+                    });
                 }
             }
-
         }
+
     }
 }

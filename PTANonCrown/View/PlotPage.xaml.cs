@@ -9,4 +9,6 @@ public partial class PlotPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
+
 }

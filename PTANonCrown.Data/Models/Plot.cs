@@ -20,6 +20,7 @@ namespace PTANonCrown.Data.Models
             Blowdown = 0;
             UnderstoryStrata = 0;
             StockingLITSeedTree = 0;
+            StockingRegenCommercialSpecies = 0;
             InitializeLiveTree();
             InitializeDeadTreeDefaults();
             InitializeCoarseWoodyDefaults();
@@ -29,8 +30,21 @@ namespace PTANonCrown.Data.Models
         public int AverageSampleTreeDBH_cm { get; set; }
         public int AverageSampleTreeSpecies { get; set; }
         public int Blowdown { get; set; }
+        private PlantedType _plantedType;
+        public PlantedType PlantedType
+        {
+            get => _plantedType;
+            set
+            {
+                if (_plantedType != value)
+                {
+                    _plantedType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
- 
+        
         public bool _isPlanted;
 
         public bool IsPlanted
@@ -42,7 +56,15 @@ namespace PTANonCrown.Data.Models
                 {
                     _isPlanted = value;
                     OnPropertyChanged();
-                }
+                    OnIsPlantedChanged();                }
+            }
+        }
+
+        private void OnIsPlantedChanged()
+        {
+            if (!IsPlanted)
+            {
+                PlantedType = PlantedType.None;
             }
         }
         private ICollection<PlotTreatment> _plotTreatments;
@@ -161,7 +183,21 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        public int UnderstoryDominated { get; set; }
+
+        private UnderstoryDominated _understoryDominated;
+        public UnderstoryDominated UnderstoryDominated
+        {
+            get => _understoryDominated;
+            set
+            {
+                if (_understoryDominated != value)
+                {
+                    _understoryDominated = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         public int UnderstoryStrata { get; set; }
 
