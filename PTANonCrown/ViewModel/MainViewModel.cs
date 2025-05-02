@@ -614,12 +614,6 @@ namespace PTANonCrown.ViewModel
             }
 
             AllPlots = _stand.Plots;
-                        //tree.SearchSpecies = $"{tree.TreeSpecies.ShortCode} - {tree.TreeSpecies.Name}";
-                    }
-                    */
-                }
-            }
-
             SetCurrentStand(_stand);
 
             return _stand;
@@ -691,7 +685,7 @@ namespace PTANonCrown.ViewModel
 
         private void ValidateStand(Stand stand)
         {
-            if (stand.StandNumber != 123)
+
             if ((stand.StandNumber == 0) | (stand.StandNumber.ToString() == string.Empty))
             {
                 ErrorMessage = "Stand Number cannot be empty";
