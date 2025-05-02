@@ -75,13 +75,22 @@ namespace PTANonCrown.ViewModel
         }
 
         public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
+        public ICommand UsePredictedHeightsCommand => new Command(_ => UsePredictedHeights());
 
+
+        public void UsePredictedHeights()
+        {
+            foreach(TreeLive tree in CurrentPlot.PlotTreeLive)
+            {
+                tree.Height_m = tree.HeightPredicted_m;
+            }
+        }
         public Plot CurrentPlot
         {
             get => _currentPlot;
             set
             {
-                if (_currentPlot != value)
+                if (_currentPlot != value & value is not null)
                 {
                     // Unsubscribe from the old collection's property change notifications
                     if (_currentPlot != null)
@@ -109,6 +118,7 @@ namespace PTANonCrown.ViewModel
 
         private void OnCurrentPlotChanged()
         {
+            //Ensure correct GUI Checkbox of Plot Was Treated
             if (CurrentPlot.PlotTreatments.Any(pt => pt.IsActive))
             {
                 PlotWasTreated = true;
@@ -117,7 +127,19 @@ namespace PTANonCrown.ViewModel
             {
                 PlotWasTreated = false;
             }
+
+          
+            //Refresh the count 
+            CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
+
+
+
         }
+
+        public IEnumerable<CardinalDirections> TransectDirections { get; } =
+    Enum.GetValues(typeof(CardinalDirections)).Cast<CardinalDirections>();
+
+
         public Stand CurrentStand
         {
             get => _currentStand;
@@ -735,14 +757,7 @@ namespace PTANonCrown.ViewModel
         {
             CurrentPlot = plot;
 
-            if (plot.PlotTreatments.Where(pt => pt.IsActive == true).Any())
-            {
-                PlotWasTreated = true;
-            }
-            else
-            {
-                PlotWasTreated= false;
-            }
+            
         }
 
 

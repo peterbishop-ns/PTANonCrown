@@ -4,11 +4,20 @@
              x:Class="PTANonCrown.CoarseWoodyMaterialPage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
+             xmlns:converter="clr-namespace:PTANonCrown.Converter"
              BackgroundColor="#F0F0F0"
              Title="Coarse Woody Material">
-
-    <VerticalStackLayout Spacing="20"
-                         Margin="10">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <VerticalStackLayout Padding="5"
+                         Spacing="5">
+        <Label Text="{Binding ErrorMessage}"
+               Background="Pink"
+               IsVisible="{Binding ErrorMessage, 
+Converter={StaticResource StringToVisibilityConverter}}" />
         <Border BackgroundColor="LightGoldenrodYellow"
                 StrokeShape="RoundRectangle 2,2,2,2"
                 WidthRequest="200">
@@ -30,28 +39,17 @@
             <HorizontalStackLayout>
                 <Label Text="Transect Length (m)"
                        WidthRequest="150" />
-                <Entry Text="{Binding TransectLength}"
+                <Entry Text="{Binding CurrentPlot.TransectLength}"
+                       Keyboard="Numeric"
                        Style="{StaticResource EntryShort}"
                        WidthRequest="50" />
             </HorizontalStackLayout>
             <HorizontalStackLayout>
                 <Label Text="Transect Direction"
                        WidthRequest="150" />
-                <Picker  WidthRequest="100"
-                         SelectedItem="{Binding TransectDirection}">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>N</x:String>
-                            <x:String>NE</x:String>
-                            <x:String>E</x:String>
-                            <x:String>SE</x:String>
-                            <x:String>S</x:String>
-                            <x:String>SW</x:String>
-                            <x:String>W</x:String>
-                            <x:String>NW</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                <Picker WidthRequest="100"
+                        ItemsSource="{Binding TransectDirections}"
+                        SelectedItem="{Binding CurrentPlot.TransectDirection, Mode=TwoWay}" />
             </HorizontalStackLayout>
         </VerticalStackLayout>
         <CollectionView ItemsSource="{Binding CurrentPlot.PlotCoarseWoody}"

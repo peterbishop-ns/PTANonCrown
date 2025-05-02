@@ -165,7 +165,6 @@ namespace PTANonCrown.Data.Models
         private string _searchSpecies;
 
 
-       [NotMapped]
         public string SearchSpecies
         {
             get => _searchSpecies;

@@ -113,6 +113,12 @@ namespace PTANonCrown.Data.Migrations
                     b.Property<int>("StockingRegenLITSpecies")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("TransectDirection")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("TransectLength")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("UnderstoryDominated")
                         .HasColumnType("INTEGER");
 
@@ -335,6 +341,10 @@ namespace PTANonCrown.Data.Migrations
 
                     b.Property<bool>("SCanopy")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("SearchSpecies")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TreeNumber")
                         .HasColumnType("INTEGER");

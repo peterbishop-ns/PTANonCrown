@@ -19,8 +19,8 @@
     <ScrollView>
 
         <VerticalStackLayout VerticalOptions="Start"
-                             Spacing="20"
-                             Margin="10">
+                             Padding="5"
+                             Spacing="5">
             <Label Text="{Binding ErrorMessage}"
                    Background="Pink"
                    IsVisible="{Binding ErrorMessage, 
@@ -232,14 +232,18 @@
                                        HorizontalOptions="Start"
                                        Placeholder="e.g. bF"
                                        Text="{Binding SearchSpecies, Mode=TwoWay}" />
-<!--                                TextChanged="Entry_TextChanged" />-->
+<!--                                TextChanged="Entry_TextChanged" />
                                 <Picker ItemsSource="{Binding Source={RelativeSource 
                                     AncestorType={x:Type viewModels:MainViewModel}}, 
                                     Path=LookupTrees}"
                                         WidthRequest="200"
                                         SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
-                                        ItemDisplayBinding="{Binding Name, Mode=TwoWay}"/>
-                               
+                                        ItemDisplayBinding="{Binding Name, Mode=TwoWay}"/>-->
+                                <Picker WidthRequest="200"
+                                        ItemsSource="{Binding BindingContext.LookupTrees, 
+                                          Source={x:Reference collectionViewLiveTrees}}"
+                                        SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
+                                        ItemDisplayBinding="{Binding Name}" />
                             </HorizontalStackLayout>
                             <Entry Grid.Column="2"
                                    Text="{Binding DBH_cm}"

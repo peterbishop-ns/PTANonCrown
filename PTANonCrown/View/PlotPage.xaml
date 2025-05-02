@@ -10,9 +10,19 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:converter="clr-namespace:PTANonCrown.Converter"
              Title="Plot">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
+        
         <VerticalStackLayout Padding="5"
                              Spacing="5">
+            <Label Text="{Binding ErrorMessage}"
+                   Background="Pink"
+                   IsVisible="{Binding ErrorMessage, 
+Converter={StaticResource StringToVisibilityConverter}}" />
             <!-- PLOT NUMBERS -->
             <Grid RowDefinitions="Auto,Auto,Auto"
                   Margin="10,0,0,0">
@@ -83,6 +93,7 @@
                                 <Label Text="Treated"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center" />
+                                
                             </HorizontalStackLayout>
                             <CollectionView HorizontalOptions="StartAndExpand"
                                             Margin="20,0,0,0"
@@ -137,26 +148,43 @@
                        Text="Forest Ecosystem Classification (FEC)" />
                 <Border>
                     <Grid RowDefinitions="Auto,Auto"
-                          ColumnDefinitions="75,Auto"
+                          ColumnDefinitions="100,Auto"
                           ColumnSpacing="20">
-                        <Label Grid.Row="0"
-                               Grid.Column="0"
-                               Text="Soil" />
+                        <HorizontalStackLayout Grid.Row="0"
+                                               Grid.Column="0">
+                            <Label 
+                                   Text="Soil" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="SWLITRegen" />
+                        </HorizontalStackLayout>
                         <Picker  Grid.Row="0"
                                  Grid.Column="1"
+                                 SelectedItem="{Binding CurrentPlot.SoilType}"
                                  ItemsSource="{Binding LookupSoils}"
                                  ItemDisplayBinding="{Binding DisplayName}"
-                                 WidthRequest="350"
+                                 WidthRequest="250"
                                  HorizontalOptions="Start" />
 
-                        <Label Grid.Row="1"
-                               Grid.Column="0"
-                               Text="Vegetation" />
+                        <HorizontalStackLayout Grid.Row="1"
+                                               Grid.Column="0">
+                            
+                            <Label 
+                                   Text="Vegetation" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="SWLITRegen" />
+                        </HorizontalStackLayout>
                         <Picker Grid.Row="1"
                                 Grid.Column="1"
                                 ItemsSource="{Binding LookupVeg}"
+                                SelectedItem="{Binding CurrentPlot.VegType}"
                                 ItemDisplayBinding="{Binding DisplayName}"
-                                WidthRequest="350"
+                                WidthRequest="250"
                                 HorizontalOptions="Start" />
                     </Grid>
                 </Border>
@@ -254,16 +282,20 @@
                                 Grid.Column="1"
                                 Background="White"
                                 WidthRequest="70"
-                                SelectedItem="{Binding CurrentPlot.StockingRegenCommercialSpecies}"
+                                ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding ListPercentage}"
+                                SelectedItem="{Binding CurrentPlot.StockingRegenCommercialSpecies}"
                                 HorizontalOptions="Start" />
+
+
 
                         <Picker Grid.Row="1"
                                 Grid.Column="1"
                                 Background="White"
                                 WidthRequest="70"
-                                SelectedItem="{Binding CurrentPlot.RegenStockingLITSpecies}"
+                                ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding ListPercentage}"
+                                SelectedItem="{Binding CurrentPlot.StockingRegenLITSpecies}"
                                 HorizontalOptions="Start" />
                     </Grid>
                 </Border>
@@ -344,6 +376,7 @@
                                 Grid.Column="1"
                                 Background="White"
                                 WidthRequest="70"
+                                ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding ListPercentage}"
                                 SelectedItem="{Binding CurrentPlot.StockingLITSeedTree}"
                                 HorizontalOptions="Start" />
@@ -352,14 +385,16 @@
                                 Grid.Column="1"
                                 Background="White"
                                 WidthRequest="70"
-                                SelectedItem="{Binding CurrentPlot.Blowdown}"
+                                ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding ListPercentage}"
+                                SelectedItem="{Binding CurrentPlot.Blowdown, Mode=TwoWay}"
                                 HorizontalOptions="Start" />
 
                         <Picker Grid.Row="2"
                                 Grid.Column="1"
                                 Background="White"
                                 WidthRequest="70"
+                                ItemDisplayBinding="{Binding .}"
                                 ItemsSource="{Binding ListPercentage}"
                                 SelectedItem="{Binding CurrentPlot.UnderstoryStrata}"
                                 HorizontalOptions="Start" />
@@ -401,8 +436,16 @@
 
             <!-- AGE -->
             <VerticalStackLayout>
-                <Label Text="Age"
-                       Style="{StaticResource LabelPlot}" />
+                <HorizontalStackLayout>
+                    <Label Text="Age"
+                           Style="{StaticResource LabelPlot}" />
+                    <ImageButton Source="info.png"
+                                 Style="{StaticResource ImageButtonHelper}"
+                                 Margin="10,0,0,0"
+                                 Command="{Binding ShowHelperTextCommand}"
+                                 CommandParameter="UnderStoryDominatedBy" />
+                </HorizontalStackLayout>
+              
                 <Border>
                     <Grid RowDefinitions="*,*,*"
                           ColumnSpacing="5"

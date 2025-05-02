@@ -17,7 +17,8 @@
     </ContentPage.Resources>
         
         <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout Padding="5"
+                             Spacing="5">
 
             <Label Text="{Binding ErrorMessage}"
                    Background="Pink"

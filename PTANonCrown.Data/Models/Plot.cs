@@ -21,7 +21,8 @@ namespace PTANonCrown.Data.Models
             UnderstoryStrata = 0;
             StockingLITSeedTree = 0;
             StockingRegenCommercialSpecies = 0;
-            //InitializeLiveTree();
+            StockingRegenLITSpecies = 0;
+
             InitializeDeadTreeDefaults();
             InitializeCoarseWoodyDefaults();
         }
@@ -120,6 +121,36 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+
+        private CardinalDirections _transectDirection;
+        public CardinalDirections TransectDirection
+        {
+            get => _transectDirection;
+            set
+            {
+                if (_transectDirection != value)
+                {
+                    _transectDirection = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        private decimal _transectLength;
+        public decimal TransectLength
+        {
+            get => _transectLength;
+            set
+            {
+                if (_transectLength != value)
+                {
+                    _transectLength = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public int PlotNumber
         {
             get => _plotNumber;
@@ -167,6 +198,7 @@ namespace PTANonCrown.Data.Models
         public bool RegenHeightSWLIT { get; set; }
         public Stand Stand { get; set; }
         public int StandID { get; set; }
+
 
         public int StockingBeechRegeneration { get; set; }
         public int StockingLITSeedTree { get; set; }

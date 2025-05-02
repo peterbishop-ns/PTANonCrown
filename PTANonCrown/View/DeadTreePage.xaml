@@ -4,11 +4,20 @@
              x:Class="PTANonCrown.DeadTreePage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
+             xmlns:converter="clr-namespace:PTANonCrown.Converter"
              BackgroundColor="#F0F0F0"
              Title="Dead Trees">
-
-    <VerticalStackLayout Spacing="20"
-                         Margin="10">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <VerticalStackLayout Padding="5"
+                         Spacing="5">
+        <Label Text="{Binding ErrorMessage}"
+               Background="Pink"
+               IsVisible="{Binding ErrorMessage, 
+Converter={StaticResource StringToVisibilityConverter}}" />
         <Border BackgroundColor="LightGoldenrodYellow"
                 StrokeShape="RoundRectangle 2,2,2,2"
                 WidthRequest="200">
