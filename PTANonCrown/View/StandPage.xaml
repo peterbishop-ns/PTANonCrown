@@ -67,17 +67,10 @@
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
 
-                        <Entry Text="{Binding CurrentStand.StandNumber, Mode=TwoWay}"
+                        <Entry Text="{Binding CurrentStand.StandNumber, Converter={StaticResource ZeroToEmptyStringConverter}, Mode=TwoWay}"
                                Placeholder="Stand Number"
                                Style="{StaticResource EntryStand}">
-                            <!--
-                            <Entry.Behaviors>
-                                <toolkit:TextValidationBehavior Flags="ValidateOnUnfocusing,ValidateOnAttaching,ValidateOnValueChanged"
-                                                                InvalidStyle="{StaticResource InvalidEntryStyle}"
-                                                                ValidStyle="{StaticResource ValidEntryStyle}"
-                                                                MinimumLength="3" />
-                            </Entry.Behaviors>
-                            -->     
+                            
                         </Entry>
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>

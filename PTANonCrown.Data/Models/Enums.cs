@@ -20,4 +20,11 @@ namespace PTANonCrown.Data.Models
         Trees=1,
         WoodyShrubs = 2
     }
+
+    public enum HardwoodSoftwood
+    {
+        Unknown = 0, 
+        Hardwood = 1, 
+        Softwood = 2
+    }
 }

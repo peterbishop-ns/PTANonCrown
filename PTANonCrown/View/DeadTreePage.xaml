@@ -64,6 +64,7 @@
                             <Entry Text="{Binding Tally_Softwood, Mode=TwoWay}"
                                    WidthRequest="10"
                                    HorizontalOptions="Start"
+                                   TextChanged="OnlyIntegerAllowed"
                                    Style="{StaticResource GridEntry}">
                                 <Entry.Behaviors>
                                     <behav:EntryFormBehaviour />
@@ -75,6 +76,7 @@
                                                HorizontalOptions="Start">
                             <Entry Text="{Binding Tally_Hardwood, Mode=TwoWay}"
                                    WidthRequest="10"
+                                   TextChanged="OnlyIntegerAllowed"
                                    Style="{StaticResource GridEntry}">
                                 <Entry.Behaviors>
                                     <behav:EntryFormBehaviour />
@@ -85,6 +87,7 @@
                         <HorizontalStackLayout Grid.Column="3">
                             <Entry Text="{Binding Tally_Unknown, Mode=TwoWay}"
                                    WidthRequest="10"
+                                   TextChanged="OnlyIntegerAllowed"
                                    Style="{StaticResource GridEntry}">
                                 <Entry.Behaviors>
                                     <behav:EntryFormBehaviour />
@@ -96,6 +99,7 @@
 
                             <Entry Text="{Binding Tally_Cavity, Mode=TwoWay }"
                                    WidthRequest="10"
+                                   TextChanged="OnlyIntegerAllowed"
                                    Style="{StaticResource GridEntry}">
                                 <Entry.Behaviors>
                                     <behav:EntryFormBehaviour />

@@ -21,7 +21,7 @@ namespace PTANonCrown.Data.Models
             UnderstoryStrata = 0;
             StockingLITSeedTree = 0;
             StockingRegenCommercialSpecies = 0;
-            InitializeLiveTree();
+            //InitializeLiveTree();
             InitializeDeadTreeDefaults();
             InitializeCoarseWoodyDefaults();
         }
@@ -157,7 +157,7 @@ namespace PTANonCrown.Data.Models
                     if (_plotTreeLive != null)
                         _plotTreeLive.CollectionChanged += OnTreeLiveCollectionChanged;
 
-                    OnPropertyChanged(nameof(PlotTreeLive));
+                    OnPropertyChanged();
 
                 }
             }
@@ -236,6 +236,7 @@ namespace PTANonCrown.Data.Models
         private void InitializeLiveTree()
         {
             PlotTreeLive = new ObservableCollection<TreeLive>();
+
             //PlotTreeLive.Add(new TreeLive() { PlotID = ID });
 
         }

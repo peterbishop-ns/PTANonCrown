@@ -134,6 +134,7 @@
                                    Style="{StaticResource GridHeader}"
                                    Grid.Column="0" />
                             <Label Text="Treatments"
+                                   HorizontalOptions="Start"
                                    Style="{StaticResource GridHeader}"
                                    Grid.Column="1" />
                         </Grid>

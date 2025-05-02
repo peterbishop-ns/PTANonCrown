@@ -231,16 +231,15 @@
                                        WidthRequest="50"
                                        HorizontalOptions="Start"
                                        Placeholder="e.g. bF"
-                                       Text="{Binding SearchSpecies}"
-                                       TextChanged="Entry_TextChanged" />
+                                       Text="{Binding SearchSpecies, Mode=TwoWay}" />
+<!--                                TextChanged="Entry_TextChanged" />-->
                                 <Picker ItemsSource="{Binding Source={RelativeSource 
                                     AncestorType={x:Type viewModels:MainViewModel}}, 
                                     Path=LookupTrees}"
                                         WidthRequest="200"
-                                        SelectedItem="{Binding TreeSpecies}"
-                                        ItemDisplayBinding="{Binding Name}"/>
-
-                             
+                                        SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
+                                        ItemDisplayBinding="{Binding Name, Mode=TwoWay}"/>
+                               
                             </HorizontalStackLayout>
                             <Entry Grid.Column="2"
                                    Text="{Binding DBH_cm}"
@@ -266,12 +265,12 @@
                             <CheckBox Grid.Column="6"
                                       IsEnabled="False"
                                       HorizontalOptions="Center"
-                                      IsChecked="{Binding TreeLookup.LIT}"
+                                      IsChecked="{Binding TreeSpecies.LIT}"
                                       VerticalOptions="Start" />
                             <CheckBox Grid.Column="7"
                                       IsEnabled="False"
                                       HorizontalOptions="Center"
-                                      IsChecked="{Binding TreeLookup.LT}"
+                                      IsChecked="{Binding TreeSpecies.LT}"
                                       VerticalOptions="Start" />
                             <CheckBox Grid.Column="8"
                                       HorizontalOptions="Center"

@@ -10,11 +10,6 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:converter="clr-namespace:PTANonCrown.Converter"
              Title="Plot">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converter:PlantedTypeConverter x:Key="PlantedTypeConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="5"
                              Spacing="5">

@@ -62,13 +62,12 @@ namespace PTANonCrown.Data.Models
         private decimal _heightPredicted_m;
         private bool _pLExSitu;
         private bool _pLInSitu;
-        private string _searchSpecies;
         private TreeSpecies _treeSpecies;
 
         public TreeLive()
         {
-            TreeSpecies = new TreeSpecies();
-            TreeLookupFilteredList = new ObservableCollection<TreeSpecies>();
+            //TreeSpecies = new TreeSpecies();
+            //TreeSpeciesFilteredList = new ObservableCollection<TreeSpecies>();
         }
 
         public bool AGS { get; set; }
@@ -163,31 +162,47 @@ namespace PTANonCrown.Data.Models
 
         public bool SCanopy { get; set; }
 
-        [NotMapped]
+        private string _searchSpecies;
+
+
+       [NotMapped]
         public string SearchSpecies
         {
             get => _searchSpecies;
-            set => SetProperty(ref _searchSpecies, value);
+            set
+            {
+                if (_searchSpecies != value)
+                {
+                    _searchSpecies = value;
+                    OnPropertyChanged();
+                }
+            }
 
         }
 
+        public int TreeSpeciesID { get; set; }
 
-        public TreeSpecies TreeSpecies
+
+        public virtual TreeSpecies TreeSpecies
         {
             get => _treeSpecies;
             set
             {
-                if (_treeSpecies != value)
+                if ((_treeSpecies != value) & (value is not null))
                 {
                     _treeSpecies = value;
                     OnPropertyChanged();
-                    OnTreeLookupChanged();
+                    OnTreeSpeciesChanged();
                 }
+                    
             }
         }
-
+        private void OnTreeSpeciesChanged()
+        {
+            SearchSpecies = TreeSpecies?.ShortCode;
+        }
         [NotMapped]
-        public ObservableCollection<TreeSpecies> TreeLookupFilteredList { get; set; } = new ObservableCollection<TreeSpecies>();
+        public ObservableCollection<TreeSpecies> TreeSpeciesFilteredList { get; set; } = new ObservableCollection<TreeSpecies>();
 
         public int TreeNumber { get; set; }
 
@@ -204,13 +219,15 @@ namespace PTANonCrown.Data.Models
 
         public void PredictHeight()
         {
+            
+            if(TreeSpecies is null) { return; }
             switch (TreeSpecies.HardwoodSoftwood)
             {
-                case 1: // Softwood
+                case HardwoodSoftwood.Softwood: 
                     HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
                     break;
 
-                case 2: // Hardwood
+                case HardwoodSoftwood.Hardwood:
                     HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
                     break;
 
@@ -221,9 +238,6 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        private void OnTreeLookupChanged()
-        {
-            SearchSpecies = TreeSpecies?.ShortCode;
-        }
+
     }
 }

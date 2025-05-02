@@ -14,6 +14,19 @@ public partial class LiveTreePage : ContentPage
 
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        var vm = BindingContext as MainViewModel;
+
+        if ((vm.CurrentPlot?.PlotTreeLive == null) | (vm.CurrentPlot?.PlotTreeLive.Count == 0)) {
+            vm.AddNewTreeToPlot(vm.CurrentPlot, 1);
+        }
+
+    }
+
+
+
     private void Entry_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (sender is Entry entry && entry.BindingContext is TreeLive treeRow)
@@ -33,10 +46,10 @@ public partial class LiveTreePage : ContentPage
                        .ToList();
 
                 // Refresh the list in the UI based on the filtered list
-                treeRow.TreeLookupFilteredList.Clear();
+                treeRow.TreeSpeciesFilteredList.Clear();
                 foreach (var item in filteredResults)
                 {
-                    treeRow.TreeLookupFilteredList.Add(item);
+                    treeRow.TreeSpeciesFilteredList.Add(item);
                 }
 
                 // If there is a single match, choose it automatically
@@ -45,11 +58,11 @@ public partial class LiveTreePage : ContentPage
                     treeRow.TreeSpecies = filteredResults.First();
                     treeRow.SearchSpecies = treeRow.TreeSpecies.ShortCode;
 
-                    treeRow.TreeLookupFilteredList.Clear();
+                    treeRow.TreeSpeciesFilteredList.Clear();
                 }
                 else
                 {
-                    treeRow.TreeSpecies = null;
+                    //treeRow.TreeSpecies = null;
                 }
 
 

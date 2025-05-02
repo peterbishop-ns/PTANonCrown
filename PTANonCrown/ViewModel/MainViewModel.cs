@@ -353,10 +353,16 @@ namespace PTANonCrown.ViewModel
             // Add the trees
             for (int i = 0; i < treesToAdd; i++)
             {
-                TreeLive _treeLive = new TreeLive() { TreeNumber = currentMaxTreeNumber + 1 };
-                CurrentPlot.PlotTreeLive.Add(_treeLive);
+                AddNewTreeToPlot(CurrentPlot, currentMaxTreeNumber + 1);
                 currentMaxTreeNumber++;
             }
+        }
+
+        public void AddNewTreeToPlot(Plot plot, int treeNumber)
+        {
+
+            plot.PlotTreeLive.Add(new TreeLive() { TreeNumber = treeNumber});
+
         }
 
         private Plot CreateNewPlot(Stand stand)
@@ -380,7 +386,8 @@ namespace PTANonCrown.ViewModel
             };
 
             _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
-            _newPlot.PlotTreeLive.Add(new TreeLive() { TreeNumber = 1, PlotID = _newPlot.ID });
+
+            //AddNewTreeToPlot(_newPlot, 1);
 
             stand.Plots.Add(_newPlot);
 
@@ -396,7 +403,7 @@ namespace PTANonCrown.ViewModel
                 StandNumber = 1
             };
 
-            Plot _newPlot = CreateNewPlot(_stand);
+            CreateNewPlot(_stand);
             AllStands.Add(_stand);
             SetCurrentStand(_stand);
             return _stand;
@@ -607,17 +614,6 @@ namespace PTANonCrown.ViewModel
             }
 
             AllPlots = _stand.Plots;
-
-            foreach (Plot plot in AllPlots)
-            {
-                foreach (TreeLive tree in plot.PlotTreeLive)
-                {
-                    //Populate some tree properties
-                    //hack - SearchSpecies is getting populated in a for loop in the ViewModel. Better would likely be to build this in the model? But would need access to the Lookup in the model... 
-                    /*
-                    if (tree.Species > 0)
-                    {
-                        tree.TreeLookup = LookupTrees.Where(lu => lu.ID == tree.Species).FirstOrDefault();
                         //tree.SearchSpecies = $"{tree.TreeSpecies.ShortCode} - {tree.TreeSpecies.Name}";
                     }
                     */
@@ -696,8 +692,9 @@ namespace PTANonCrown.ViewModel
         private void ValidateStand(Stand stand)
         {
             if (stand.StandNumber != 123)
+            if ((stand.StandNumber == 0) | (stand.StandNumber.ToString() == string.Empty))
             {
-                ErrorMessage = "Stand Number Error: Must be 123";
+                ErrorMessage = "Stand Number cannot be empty";
                 ContainsError = true;
             }
             else
@@ -712,7 +709,7 @@ namespace PTANonCrown.ViewModel
             {
                 if (tree.TreeSpecies is null)
                 {
-                    ErrorMessage = ErrorMessage + "\n" + $"Invalid tree species for {tree.TreeNumber}";
+                    ErrorMessage = ErrorMessage + "\n" + $"Please enter a valid Tree Species for Tree #{tree.TreeNumber}";
                     ContainsError = true;
                 }
             }
@@ -722,13 +719,23 @@ namespace PTANonCrown.ViewModel
             ContainsError = false; // reset
             ValidateStand(CurrentStand);
             ValidateTrees(CurrentPlot.PlotTreeLive);
+            //ValidateDeadTree(CurrentPlot.PlotTreeDead);
+
             if (ContainsError)
             {
                 Application.Current.MainPage.DisplayAlert("Error", "Please address errors", "OK");
-
+                return;
             }
             _standRepository.Save(CurrentStand);
         }
+
+       /* private void ValidateDeadTree(Plot plot)
+        {
+            foreach(TreeDead deadTree in plot.PlotTreeDead)
+            {
+                if (deadTree.Tally_Cavity)
+            }
+        }*/
 
         private void SetCurrentPlot(Plot plot)
         {
@@ -867,5 +874,7 @@ namespace PTANonCrown.ViewModel
                 RefreshAllStands();
             }
         }
+
+ 
     }
 }

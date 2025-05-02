@@ -383,8 +383,18 @@ namespace PTANonCrown.Data.Migrations
                     b.HasData(
                         new
                         {
+                            ID = 999,
+                            HardwoodSoftwood = 0,
+                            LIT = false,
+                            LIT_planted = false,
+                            LT = false,
+                            Name = "Unknown",
+                            ShortCode = "n/a"
+                        },
+                        new
+                        {
                             ID = 1,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = true,
                             LIT_planted = true,
                             LT = true,
@@ -394,7 +404,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 2,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = true,
                             LIT_planted = true,
                             LT = true,
@@ -404,7 +414,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 3,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = true,
                             LIT_planted = true,
                             LT = false,
@@ -414,7 +424,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 4,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = false,
                             LIT_planted = false,
                             LT = false,
@@ -424,7 +434,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 5,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = true,
                             LIT_planted = true,
                             LT = false,
@@ -434,7 +444,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 6,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = false,
                             LIT_planted = false,
                             LT = false,
@@ -444,7 +454,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 7,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = false,
                             LIT_planted = false,
                             LT = false,
@@ -454,7 +464,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 8,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = false,
                             LIT_planted = false,
                             LT = false,
@@ -464,7 +474,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 9,
-                            HardwoodSoftwood = 1,
+                            HardwoodSoftwood = 2,
                             LIT = false,
                             LIT_planted = false,
                             LT = false,
@@ -474,7 +484,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 10,
-                            HardwoodSoftwood = 2,
+                            HardwoodSoftwood = 1,
                             LIT = true,
                             LIT_planted = true,
                             LT = false,
@@ -484,7 +494,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 11,
-                            HardwoodSoftwood = 2,
+                            HardwoodSoftwood = 1,
                             LIT = true,
                             LIT_planted = true,
                             LT = false,
@@ -494,7 +504,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 12,
-                            HardwoodSoftwood = 2,
+                            HardwoodSoftwood = 1,
                             LIT = true,
                             LIT_planted = true,
                             LT = false,
@@ -504,7 +514,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 13,
-                            HardwoodSoftwood = 2,
+                            HardwoodSoftwood = 1,
                             LIT = true,
                             LIT_planted = true,
                             LT = false,
@@ -514,7 +524,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 14,
-                            HardwoodSoftwood = 2,
+                            HardwoodSoftwood = 1,
                             LIT = true,
                             LIT_planted = false,
                             LT = true,
@@ -524,7 +534,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 15,
-                            HardwoodSoftwood = 2,
+                            HardwoodSoftwood = 1,
                             LIT = false,
                             LIT_planted = false,
                             LT = false,
@@ -534,7 +544,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 16,
-                            HardwoodSoftwood = 2,
+                            HardwoodSoftwood = 1,
                             LIT = false,
                             LIT_planted = false,
                             LT = false,
@@ -544,7 +554,7 @@ namespace PTANonCrown.Data.Migrations
                         new
                         {
                             ID = 17,
-                            HardwoodSoftwood = 2,
+                            HardwoodSoftwood = 1,
                             LIT = false,
                             LIT_planted = false,
                             LT = false,

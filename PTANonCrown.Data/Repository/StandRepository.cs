@@ -38,7 +38,10 @@ namespace PTANonCrown.Data.Repository
 
         public List<TreeSpecies> GetTreeSpecies()
         {
-            return _context.Set<TreeSpecies>().OrderBy(i => i.Name).ToList();
+            return _context.Set<TreeSpecies>()
+    .OrderBy(i => i.Name == "Unknown" ? 0 : 1)  // "Unknown" gets priority
+    .ThenBy(i => i.Name)                        // Then sort the rest alphabetically
+    .ToList();
         }
     }
 }
