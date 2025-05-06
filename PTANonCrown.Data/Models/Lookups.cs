@@ -1,4 +1,6 @@
-﻿namespace PTANonCrown.Data.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PTANonCrown.Data.Models
 {
     public class BaseLookup : BaseModel
     {
@@ -40,7 +42,25 @@
     public class VegLookup : BaseLookup
     { }
 
-
+    public class EcodistrictLookup : BaseLookup
+    {
+        [NotMapped]
+        public string DisplayName { get => $"{Name} - {ShortCode}"; }
+        private string _ecositeGroup { get; set; }
+        
+        public string EcositeGroup
+        {
+            get => _ecositeGroup;
+            set
+            {
+                if (_ecositeGroup != value)
+                {
+                    _ecositeGroup = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+    }
 
 
 

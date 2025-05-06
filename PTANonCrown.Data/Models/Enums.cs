@@ -13,6 +13,14 @@ namespace PTANonCrown.Data.Models
         MaritimeBoreal = 2,
         Coastal = 3
     }
+
+    public enum EcositeGroup
+    {
+        None = 0,
+        Acadian = 1,
+        MaritimeBoreal = 2
+    }
+
     public enum CardinalDirections
     {
         N = 0,

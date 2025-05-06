@@ -59,7 +59,7 @@ namespace PTANonCrown.Data.Models
         { 90,  20}};
 
         private int _dbh_cm;
-        private decimal _heightPredicted_m;
+        private int _heightPredicted_m;
         private bool _pLExSitu;
         private bool _pLInSitu;
         private TreeSpecies _treeSpecies;
@@ -92,8 +92,8 @@ namespace PTANonCrown.Data.Models
         public bool Diversity { get; set; }
 
 
-        private decimal _height_m;
-        public decimal Height_m
+        private int _height_m;
+        public int Height_m
         {
             get => _height_m;
             set
@@ -106,7 +106,7 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        public decimal HeightPredicted_m
+        public int HeightPredicted_m
         {
             get => _heightPredicted_m;
             set
@@ -179,6 +179,7 @@ namespace PTANonCrown.Data.Models
 
         }
 
+
         public int TreeSpeciesID { get; set; }
 
 
@@ -205,10 +206,11 @@ namespace PTANonCrown.Data.Models
 
         public int TreeNumber { get; set; }
 
-        public decimal GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int DBH_cm)
+        public int GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int DBH_cm)
         {
+            var height = Interpolate(lookup, DBH_cm);
 
-            return Interpolate(lookup, DBH_cm);
+            return (int)Math.Round(height);
         }
 
         public void OnDBHChanged()

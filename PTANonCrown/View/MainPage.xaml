@@ -11,10 +11,35 @@
             <Label Text="Pre-Treatment Assessment"
                    Style="{StaticResource Headline}"
                    SemanticProperties.HeadingLevel="Level1" />
+            <Label>
 
-            <Label Text="Pre-treatment assessment (PTA) is a system designed to collect site, stand and biodiversity conditions in order to produce an ecosystem-based treatment. Recommendation using the Silvicultural Guide for the Ecological Matrix (SGEM McGrath et al., 2025)..."
-                   SemanticProperties.HeadingLevel="Level3"
-                   SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Pre-treatment assessment (PTA) is a system designed to collect site, stand, and
+biodiversity conditions in order to produce an ecosystem-based treatment
+recommendation using The Silvicultural Guide for the Ecological Matrix (SGEM;
+McGrath et al., 2025)." />
+                        <Span Text="&#10;" />
+                        <Span Text="&#10;" />
+                        <Span Text="PTA is mandated by the Code of Forest Practice (NSDNR, 2012)
+to be performed prior to silvicultural operations on Crown land." />
+                        <Span Text="&#10;" />
+                        <Span Text="&#10;" />
+                        <Span Text="It relies on Nova Scotia’s
+Forest Ecosystem Classification (FEC) system (Neily et al., 2023; Keys et al., 2023)." />
+                        <Span Text="&#10;" />
+                        <Span Text="&#10;" />
+                        <Span Text="Following recommendations from the Independent Review of Forest Practices (Lahey,
+2018), PTA has been expanded to also assess for potential old growth forests and other
+important biodiversity features." />
+                        <Span Text="&#10;" />
+                        <Span Text="&#10;" />
+                        <Span Text="As of 2023, a PTA policy exists that describes the
+structure and administration of the PTA program." />
+
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

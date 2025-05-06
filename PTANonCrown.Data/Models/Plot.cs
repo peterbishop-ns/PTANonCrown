@@ -150,13 +150,51 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
+          private int _ageTreeAge;
+        public int AgeTreeAge
+        {
+            get => _ageTreeAge;
+            set
+            {
+                if (_ageTreeAge != value)
+                {
+                    _ageTreeAge = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private int _ageTreeDBH;
+        public int AgeTreeDBH
+        {
+            get => _ageTreeDBH;
+            set
+            {
+                if (_ageTreeDBH != value)
+                {
+                    _ageTreeDBH = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         public int PlotNumber
         {
             get => _plotNumber;
-            set => SetProperty(ref _plotNumber, value);
-
+            set
+            {
+                if (_plotNumber != value)
+                {
+                    _plotNumber = value;
+                    OnPropertyChanged();
+                }
+            }
         }
+
+
+
+
 
         public virtual ObservableCollection<TreeDead> PlotTreeDead
         {

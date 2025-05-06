@@ -20,9 +20,10 @@ namespace PTANonCrown.Data.Repository
         {
             return _context.SoilLookup.ToList();
         }
-
-     
-
+        public List<EcodistrictLookup> GetEcodistrictLookups()
+        {
+            return _context.EcodistrictLookup.ToList();
+        }
 
 
         public List<VegLookup> GetVegLookups()

@@ -12,6 +12,7 @@ namespace PTANonCrown.Data.Context
 
         public DbSet<SoilLookup> SoilLookup { get; set; }
         public DbSet<VegLookup> VegLookup { get; set; }
+        public DbSet<EcodistrictLookup> EcodistrictLookup { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

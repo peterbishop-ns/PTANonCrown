@@ -62,8 +62,10 @@
                     
                     <Label Text="Number of Trees In Plot"
                            Grid.Row="1"
+                           VerticalOptions="Center"
                            Grid.Column="0"/>
                     <Entry Text="{Binding CurrentPlot.TreeCount, Mode=TwoWay}"
+                           Style="{StaticResource EntryParent}"
                            Grid.Row="1"
                            Grid.Column="1"
                            WidthRequest="50"></Entry>
@@ -182,9 +184,10 @@
                                          CommandParameter="Mast" />
                         </VerticalStackLayout>
                         <VerticalStackLayout Grid.Column="11"
+                                             Grid.ColumnSpan="2"
                                              HorizontalOptions="Center"
                                              IsVisible="{Binding CurrentPlot.IsPlanted}">
-                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" WidthRequest="300">
                                 <Label Text="Planted"
                                        Margin="0"
                                        Style="{StaticResource GridHeader}" />
@@ -231,19 +234,15 @@
                                        WidthRequest="50"
                                        HorizontalOptions="Start"
                                        Placeholder="e.g. bF"
-                                       Text="{Binding SearchSpecies, Mode=TwoWay}" />
-<!--                                TextChanged="Entry_TextChanged" />
+                                       Text="{Binding SearchSpecies, Mode=TwoWay}"
+                                       TextChanged="Entry_TextChanged" />
                                 <Picker ItemsSource="{Binding Source={RelativeSource 
                                     AncestorType={x:Type viewModels:MainViewModel}}, 
                                     Path=LookupTrees}"
                                         WidthRequest="200"
                                         SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
-                                        ItemDisplayBinding="{Binding Name, Mode=TwoWay}"/>-->
-                                <Picker WidthRequest="200"
-                                        ItemsSource="{Binding BindingContext.LookupTrees, 
-                                          Source={x:Reference collectionViewLiveTrees}}"
-                                        SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
-                                        ItemDisplayBinding="{Binding Name}" />
+                                        ItemDisplayBinding="{Binding DisplayName, Mode=TwoWay}"/>
+                           
                             </HorizontalStackLayout>
                             <Entry Grid.Column="2"
                                    Text="{Binding DBH_cm}"

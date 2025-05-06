@@ -38,7 +38,7 @@
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandID" />
+                                     CommandParameter="StandNumber" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Spacing="20">
                         <Picker ItemsSource="{Binding AllStands, Mode=TwoWay}"
@@ -68,14 +68,15 @@
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
 
-                        <Entry Text="{Binding CurrentStand.StandNumber, Converter={StaticResource ZeroToEmptyStringConverter}, Mode=TwoWay}"
+                        <Entry Text="{Binding CurrentStand.StandNumber, 
+                            Converter={StaticResource ZeroToEmptyStringConverter}, Mode=TwoWay}"
                                Placeholder="Stand Number"
                                Style="{StaticResource EntryStand}">
-                            
                         </Entry>
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
                         <Label Text="Comment"
+                               Margin="0,20,0,0"
                                Style="{StaticResource LabelStand}" />
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
@@ -128,7 +129,7 @@
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="Easting" />
+                                     CommandParameter="StandEasting" />
                     </HorizontalStackLayout>
                     <Entry Text="{Binding CurrentStand.Easting}"
                            Placeholder="Easting"
@@ -143,7 +144,7 @@
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="Northing" />
+                                     CommandParameter="StandNorthing" />
                     </HorizontalStackLayout>
                     <Entry Text="{Binding CurrentStand.Northing}"
                            Placeholder="Northing"

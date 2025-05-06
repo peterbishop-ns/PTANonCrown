@@ -34,37 +34,88 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                        Margin="3,0,0,0" />
             </HorizontalStackLayout>
         </Border>
-
+        <HorizontalStackLayout>
+            <Label Text="Deadwood Tally" Style="{StaticResource Headline}"></Label>
+            <ImageButton Source="info.png"
+                         HorizontalOptions="Center"
+                         Style="{StaticResource ImageButtonHelper}"
+                         Command="{Binding ShowHelperTextCommand}"
+                         CommandParameter="DeadwoodGeneral" />
+        </HorizontalStackLayout>
         <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeDead}"
                         BackgroundColor="LightGrey"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="StartAndExpand">
             <!-- Header Row -->
             <CollectionView.Header>
-                <Grid ColumnDefinitions="75,130,130,130,130"
+                <Grid ColumnDefinitions="110,130,130,130,130"
+                      RowDefinitions="Auto,Auto"
                       BackgroundColor="DarkGray">
-                    <Label Text="DBH (cm)"
+                    <HorizontalStackLayout Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+                        <Label Text="DBH (cm)"
+                           Style="{StaticResource GridHeader}"/>
+                        <ImageButton Source="info.png"
+                                     HorizontalOptions="Center"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="SnagDBH" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout  Grid.Column="1"
+                                            Grid.Row="0"
+                                            Grid.ColumnSpan="3" HorizontalOptions="CenterAndExpand">
+                        <Label Text="Species Group"
+                               Style="{StaticResource GridHeader}"
+                              />
+
+                        <ImageButton Source="info.png"
+                                     HorizontalOptions="Center"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="SnagSpecisGroup" />
+
+                    </HorizontalStackLayout>
+    
+                    
+                    
+                                 <Label Text="Softwood" Grid.Column="1"
+                                           Grid.Row="1"
+                           Style="{StaticResource GridHeader}"/>
+                     
+
+
+        
+                                     <Label Text="Hardwood" Grid.Column="2"
+                                           Grid.Row="1"
                            Style="{StaticResource GridHeader}"
-                           Grid.Column="0" />
-                    <Label Text="Softwood"
+                           />       
+                        
+                    <HorizontalStackLayout Grid.Column="3"
+                                           Grid.Row="1">
+                         <Label Text="Unknown"
                            Style="{StaticResource GridHeader}"
-                           Grid.Column="1" />
-                    <Label Text="Hardwood"
+                            />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Column="4"
+                                           Grid.Row="0"
+                                           Grid.RowSpan="2">
+                         <Label Text="Cavity"
                            Style="{StaticResource GridHeader}"
-                           Grid.Column="2" />
-                    <Label Text="Unknown"
-                           Style="{StaticResource GridHeader}"
-                           Grid.Column="3" />
-                    <Label Text="Cavity"
-                           Style="{StaticResource GridHeader}"
-                           Grid.Column="4" />
+                            />
+                        <ImageButton Source="info.png"
+                                     HorizontalOptions="Center"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="SnagCavity" />
+                    </HorizontalStackLayout>
+                   
                 </Grid>
             </CollectionView.Header>
 
             <!-- Data Rows -->
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="75,130,130,130,130"
+                    <Grid ColumnDefinitions="110,130,130,130,130"
                           BackgroundColor="LightGrey">
                         <Label Text="{Binding DBH_range}"
                                Grid.Column="0" />

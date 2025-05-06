@@ -90,7 +90,7 @@ namespace PTANonCrown.ViewModel
             get => _currentPlot;
             set
             {
-                if (_currentPlot != value & value is not null)
+                if (value is not null)
                 {
                     // Unsubscribe from the old collection's property change notifications
                     if (_currentPlot != null)
@@ -102,7 +102,7 @@ namespace PTANonCrown.ViewModel
 
                     _currentPlot = value;
                     OnPropertyChanged();
-                    OnCurrentPlotChanged();
+                    //OnCurrentPlotChanged();
                     // Subscribe to the new collection's property change notifications
                     if (_currentPlot != null)
                     {
@@ -145,8 +145,7 @@ namespace PTANonCrown.ViewModel
             get => _currentStand;
             set
             {
-                if (_currentStand != value)
-                {
+
                     if (_currentStand != null)
                     {
                         // Unsubscribe from old CurrentPlot's property changes
@@ -155,17 +154,27 @@ namespace PTANonCrown.ViewModel
 
                     _currentStand = value;
                     OnPropertyChanged();
+                    OnCurrentStandChanged();
 
                     if (_currentStand != null)
                     {
-                        // Subscribe to new CurrentPlot's property changes
+                        // Subscribe to new CurrentStand's property changes
                         _currentStand.PropertyChanged += Stand_PropertyChanged;
                     }
 
                     ValidateStand(); // Run validation in case a new object is assigned
                 }
-            }
 
+
+        }
+
+        public void OnCurrentStandChanged() {
+            AllPlots = CurrentStand?.Plots;
+            if ((AllPlots != null) & AllPlots.Count() != 0)
+            {
+                CurrentPlot = AllPlots.OrderBy(p => p.PlotNumber).FirstOrDefault();
+
+            }
         }
 
         public ICommand DeletePlotCommand => new Command<Plot>(plot => DeletePlot(plot));
@@ -194,6 +203,7 @@ namespace PTANonCrown.ViewModel
 
         public List<int> ListPercentage { get; set; }
         public List<SoilLookup> LookupSoils { get; set; }
+        public List<EcodistrictLookup> LookupEcodistricts { get; set; }
 
         public List<Treatment> Treatments { get; set; }
 
@@ -308,23 +318,20 @@ namespace PTANonCrown.ViewModel
 
         public void RefreshAllPlots()
         {
+            var tempCurrentPlot = CurrentPlot;
 
-            // Store the existing collection in a temporary list
             var tempList = AllPlots.ToList();
-            var tempCurrentPlot = CurrentPlot; //store ; this gets wiped
-
-            // Clear the existing ObservableCollection
             AllPlots.Clear();
-
-            // Re-add the same items from the temporary list
             foreach (var plot in tempList)
             {
                 AllPlots.Add(plot);
             }
 
-            //reset the Current stand
-            SetCurrentPlot(tempCurrentPlot);
-
+            // Now reassign CurrentPlot to the matching instance from AllPlots
+            if (tempCurrentPlot != null)
+            {
+                CurrentPlot = AllPlots.FirstOrDefault(p => p.PlotNumber == tempCurrentPlot.PlotNumber);
+            }
         }
 
         public void RefreshAllStands()
@@ -420,9 +427,13 @@ namespace PTANonCrown.ViewModel
 
         private Stand CreateNewStand()
         {
+            // get new stand number
+
+            int newStandNumber = AllStands?.Count() >0 ? AllStands.Max(s => s.StandNumber) + 1 : 1;
+
             Stand _stand = new Stand()
             {
-                StandNumber = 1
+                StandNumber = newStandNumber
             };
 
             CreateNewPlot(_stand);
@@ -635,7 +646,7 @@ namespace PTANonCrown.ViewModel
                 _stand = CreateNewStand();
             }
 
-            AllPlots = _stand.Plots;
+           // AllPlots = _stand.Plots;
             SetCurrentStand(_stand);
 
             return _stand;
@@ -646,6 +657,7 @@ namespace PTANonCrown.ViewModel
         {
             LookupTrees = _standRepository.GetTreeSpecies();
             LookupSoils = _lookupRepository.GetSoilLookups();
+            LookupEcodistricts = _lookupRepository.GetEcodistrictLookups();
             LookupVeg = _lookupRepository.GetVegLookups();
             Treatments = _standRepository.GetTreatments();
 
@@ -719,6 +731,23 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+        private void ValidatePlot(Plot plot)
+        {
+
+            if ((plot.IsPlanted) && (plot.PlantedType == PlantedType.None))
+            {
+                ErrorMessage = "Plot was marked as Planted, but no Planted Type was chosen. Please select a Planted Type (e.g. Acadian)";
+                ContainsError = true;
+            }
+
+            if ((PlotWasTreated) && !(CurrentPlot.PlotTreatments.Where(pt => pt.IsActive).Any()))
+            {
+                ErrorMessage = "Plot is marked as Treated, but no Treatment Type is selected. Please select a treatment type (e.g. pre-commercial thinning)";
+                ContainsError = true;
+            }
+
+        }
+
         private void ValidateTrees(ObservableCollection<TreeLive> trees)
         {
             foreach (TreeLive tree in trees)
@@ -734,6 +763,7 @@ namespace PTANonCrown.ViewModel
         {
             ContainsError = false; // reset
             ValidateStand(CurrentStand);
+            ValidatePlot(CurrentPlot);
             ValidateTrees(CurrentPlot.PlotTreeLive);
             //ValidateDeadTree(CurrentPlot.PlotTreeDead);
 

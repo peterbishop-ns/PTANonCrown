@@ -33,12 +33,12 @@
             <ShellContent Title="Overview"
                           ContentTemplate="{DataTemplate local:PlotPage}" />
         </Tab>
-        <Tab Title="Live">
-            <ShellContent Title="Live"
+        <Tab Title="Living Trees">
+            <ShellContent Title="Living Trees"
                           ContentTemplate="{DataTemplate local:LiveTreePage}" />
         </Tab>
-        <Tab Title="Dead">
-            <ShellContent Title="Dead"
+        <Tab Title="Snags">
+            <ShellContent Title="Snags"
                           ContentTemplate="{DataTemplate local:DeadTreePage}" />
         </Tab>
         <Tab Title="Coarse Woody">

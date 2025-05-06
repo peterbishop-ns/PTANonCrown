@@ -194,7 +194,7 @@ namespace PTANonCrown.Services
         public static SummaryItem GetAverageHeight(IEnumerable<TreeLive> trees)
         {
             var heights = trees.Select(trees => trees.Height_m);
-            decimal result = Math.Round(heights.Average(),2);
+            decimal result = (decimal)Math.Round(heights.Average(),2);
             var summaryItem = new SummaryItem()
             {
                 DisplayName = "Average Height",

@@ -35,7 +35,7 @@
         <Setter Property="HorizontalTextAlignment"
                 Value="End" />
         <Setter Property="HeightRequest"
-                Value="15" />
+                Value="44" />
     </Style>
     <Style TargetType="Entry"
            x:Key="InvalidEntryStyle">

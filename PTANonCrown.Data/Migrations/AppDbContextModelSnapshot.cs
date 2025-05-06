@@ -56,6 +56,12 @@ namespace PTANonCrown.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AgeTreeAge")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AgeTreeDBH")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("AverageSampleTreeAge")
                         .HasColumnType("INTEGER");
 

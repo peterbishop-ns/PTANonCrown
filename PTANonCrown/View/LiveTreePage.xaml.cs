@@ -60,12 +60,14 @@ public partial class LiveTreePage : ContentPage
 
                     treeRow.TreeSpeciesFilteredList.Clear();
                 }
-                else
+                else if (filteredResults.Count == 0 && e.NewTextValue.Length == 2)
                 {
-                    //treeRow.TreeSpecies = null;
+                    {
+                        treeRow.TreeSpecies = vm.LookupTrees.Where(t => t.Name.ToLower() == "unknown").FirstOrDefault();
+                    }
+
+
                 }
-
-
             }
         }
     }
