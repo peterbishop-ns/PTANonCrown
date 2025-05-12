@@ -17,6 +17,8 @@ namespace PTANonCrown.Services
                 "transect line. CWM pieces are measured in 20-cm diameter classes " +
                 "(e.g., 21-40 cm)." },
         { "SnagCavity", "Dead trees (snags) that contain cavities." },
+        { "IncludeBiodiversity", "Choosing to include Biodiversity will activate the followoing columns: Cavity, Diversity, Mast." },
+        { "LivingCavity", "Tree contains cavities. Column is active if Include Biodiversity is enabled." },
         { "CWMGeneral", "Coarse woody material (CWM) that is measured in " +
                 "a straight transect. A dead tree is considered to be Coarse Woody Material " +
                 "If it is at less than 45 degrees. Dead trees that are standing at " +
@@ -32,11 +34,11 @@ namespace PTANonCrown.Services
                 "standing at a 45 degrees or greater and is Coarse Woody Material when under 45 degrees." },
         { "Mast", "Mast trees are those that contain fruit. The best mast trees" +
                 " include red oak and beech, but may also include beaked hazelnut," +
-                " wild apple trees and large cone-bearing conifers." },
+                " wild apple trees and large cone-bearing conifers. Column is active if Include Biodiversity is enabled." },
         { "Diversity", "Trees is unusual in context, representing a small portion of " +
                 "the stand, or providing for diversity within the stand " +
                 "(e.g. ironwood tree, black cherry, or a large yellow birch" +
-                " in a softwood stand)." },
+                " in a softwood stand). Column is active if Include Biodiversity is enabled." },
         { "Cavity", "Live or dead trees that contain hollows (or cavities) " +
                 "in the trunk or limbs, or that show signs of decay that may lead " +
                 "to the formation of cavities that would be used by wildlife for " +
@@ -45,7 +47,7 @@ namespace PTANonCrown.Services
         { "AgeSpecies", "Species of the tree selected for aging." },
         { "AGS", "Trees are acceptable or unacceptable growing stock, " +
                 "based on the definitions in Appendix 1 of the SGEM." },
-        { "PredictedHeight", "Height predicted based on the DBH of the tree." },
+        { "PredictedHeight", "Height predicted based on the DBH of the tree. Click Use Predicted Heights to use these heights." },
         { "Height", "Total tree height (m), in 1-m classes. " +
                 "It is acceptable to use predicted heights from models that predict tree height" +
                 " based on DBH and/or site conditions." },

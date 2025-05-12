@@ -38,6 +38,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
         <VerticalStackLayout HorizontalOptions="Start">
             <HorizontalStackLayout>
                 <Label Text="Transect Length (m)"
+                       Style="{StaticResource LabelPlot}"
                        WidthRequest="150" />
                 <ImageButton Source="info.png"
                              HorizontalOptions="Center"
@@ -52,6 +53,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
             </HorizontalStackLayout>
             <HorizontalStackLayout>
                 <Label Text="Transect Direction"
+                       Style="{StaticResource LabelPlot}"
                        WidthRequest="150" />
                 <ImageButton Source="info.png"
                              HorizontalOptions="Center"

@@ -6,11 +6,14 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="30,0"
-                             Spacing="25">
+                             Spacing="5">
 
-            <Label Text="Pre-Treatment Assessment"
+            <Label Text="Pre-Treatment Assessment (Private Land)"
                    Style="{StaticResource Headline}"
                    SemanticProperties.HeadingLevel="Level1" />
+
+            <Border>
+                
             <Label>
 
                 <Label.FormattedText>
@@ -40,6 +43,7 @@ structure and administration of the PTA program." />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
+            </Border>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -111,6 +111,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                             <CheckBox IsChecked="{Binding IsActive}"
                                                       Grid.Column="0" />
                                             <Label Text="{Binding Treatment.Name}"
+                                                   VerticalOptions="Center"
                                                    Grid.Column="1" />
                                         </Grid>
                                     </DataTemplate>
@@ -395,7 +396,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          CommandParameter="Blowdown" />
                         </HorizontalStackLayout>
 
-                        <HorizontalStackLayout Grid.Row="2">
+                        <HorizontalStackLayout Grid.Row="4">
                             <Label Text="Understory Strata (%)"
                                    Style="{StaticResource LabelSubheading}" />
                             <ImageButton Source="info.png"
@@ -415,7 +416,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          CommandParameter="UnevenAged" />
                         </HorizontalStackLayout>
 
-                        <HorizontalStackLayout Grid.Row="4">
+                        <HorizontalStackLayout Grid.Row="2">
                             <Label Text="One Cohort Senescent"
                                    Style="{StaticResource LabelSubheading}" />
                             <ImageButton Source="info.png"
@@ -454,7 +455,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 SelectedItem="{Binding CurrentPlot.Blowdown, Mode=TwoWay}"
                                 HorizontalOptions="Start" />
 
-                        <Picker Grid.Row="2"
+                        <Picker Grid.Row="4"
                                 Grid.Column="1"
                                 Background="White"
                                 WidthRequest="70"
@@ -468,7 +469,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                   IsChecked="{Binding CurrentPlot.UnevenAged}"
                                   Style="{StaticResource LabelSubheading}" />
 
-                        <CheckBox Grid.Row="4"
+                        <CheckBox Grid.Row="2"
                                   Grid.Column="1"
                                   IsChecked="{Binding CurrentPlot.OneCohortSenescent}" />
 

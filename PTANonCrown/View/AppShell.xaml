@@ -17,7 +17,7 @@
     </Shell.ToolbarItems>
 
     <TabBar>
-        <Tab Title="Home">
+        <Tab Title="About">
 
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}"
                           Route="MainPage" />

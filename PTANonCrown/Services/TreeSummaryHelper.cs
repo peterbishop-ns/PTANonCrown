@@ -5,6 +5,12 @@ namespace PTANonCrown.Services
 {
     public static class TreeSummaryHelper
     {
+        private static bool CheckTreesValid(IEnumerable<TreeLive> trees)
+        {
+            return trees.All(t => (t.TreeSpecies is not null) & (t.DBH_cm > 0) & (t.Height_m > 0));
+        }
+
+
         public static ObservableCollection<SummaryItem> GenerateSummaryResult(IEnumerable<TreeLive> trees)
         {
             ObservableCollection<SummaryItem> result = new ObservableCollection<SummaryItem>();
@@ -15,7 +21,11 @@ namespace PTANonCrown.Services
                 return result;
             }
 
-
+            if (!CheckTreesValid(trees))
+            {
+                Application.Current.MainPage.DisplayAlert("Warning", "Unable to generate summary. Some trees missing species, DBH or height.", "OK");
+                return result;
+            }
 
             result.Add(GetBasalAreaTotal(trees));
             result.Add(GetBasalAreaMerchantable_m2ha(trees));

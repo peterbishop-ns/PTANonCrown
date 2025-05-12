@@ -102,7 +102,7 @@ namespace PTANonCrown.ViewModel
 
                     _currentPlot = value;
                     OnPropertyChanged();
-                    //OnCurrentPlotChanged();
+                    OnCurrentPlotChanged();
                     // Subscribe to the new collection's property change notifications
                     if (_currentPlot != null)
                     {
@@ -131,8 +131,6 @@ namespace PTANonCrown.ViewModel
           
             //Refresh the count 
             CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
-
-
 
         }
 
@@ -170,7 +168,7 @@ namespace PTANonCrown.ViewModel
 
         public void OnCurrentStandChanged() {
             AllPlots = CurrentStand?.Plots;
-            if ((AllPlots != null) & AllPlots.Count() != 0)
+            if ((AllPlots != null) & AllPlots?.Count() != 0)
             {
                 CurrentPlot = AllPlots.OrderBy(p => p.PlotNumber).FirstOrDefault();
 
@@ -390,7 +388,8 @@ namespace PTANonCrown.ViewModel
         public void AddNewTreeToPlot(Plot plot, int treeNumber)
         {
 
-            plot.PlotTreeLive.Add(new TreeLive() { TreeNumber = treeNumber});
+            plot.PlotTreeLive.Add(new TreeLive() { TreeNumber = treeNumber,
+            LookupTrees = LookupTrees});
 
         }
 
@@ -428,7 +427,6 @@ namespace PTANonCrown.ViewModel
         private Stand CreateNewStand()
         {
             // get new stand number
-
             int newStandNumber = AllStands?.Count() >0 ? AllStands.Max(s => s.StandNumber) + 1 : 1;
 
             Stand _stand = new Stand()
@@ -725,6 +723,10 @@ namespace PTANonCrown.ViewModel
                 ErrorMessage = "Stand Number cannot be empty";
                 ContainsError = true;
             }
+            else if ((AllStands.Where(s => s.StandNumber == stand.StandNumber).Count()>1)){
+                ErrorMessage = $"Stand Number {stand.StandNumber} already exists. This must be unique.";
+                ContainsError = true;
+            }
             else
             {
                 ErrorMessage = string.Empty;
@@ -787,6 +789,13 @@ namespace PTANonCrown.ViewModel
         {
             CurrentPlot = plot;
 
+            foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
+            {
+                tree.LookupTrees = LookupTrees;
+                var match = tree.LookupTrees.Where(t => t.ShortCode == tree.TreeSpecies.ShortCode).FirstOrDefault();
+                tree.TreeSpecies = match;
+
+            }
             
         }
 

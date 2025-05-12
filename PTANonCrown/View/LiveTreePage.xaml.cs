@@ -25,50 +25,43 @@ public partial class LiveTreePage : ContentPage
 
     }
 
-
+    private void Entry_Focused(object sender, FocusEventArgs e)
+    {
+        if (sender is Entry entry && !string.IsNullOrEmpty(entry.Text))
+        {
+            entry.CursorPosition = 0;
+            entry.SelectionLength = entry.Text.Length;
+        }
+    }
 
     private void Entry_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (sender is Entry entry && entry.BindingContext is TreeLive treeRow)
         {
             // Get ViewModel
-            var vm = BindingContext as MainViewModel;
-            if (vm != null)
-            {
+           // var vm = BindingContext as MainViewModel;
+           // if (vm != null)
+           // {
                 if (e.NewTextValue == string.Empty || e.NewTextValue is null)
                 {
                     return;
                 }
-                // Get the filtered list based on user input
-                var filteredResults = vm.LookupTrees
-                        .Where(t => t.ShortCode.StartsWith(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
-                            t.Name.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
-                       .ToList();
 
-                // Refresh the list in the UI based on the filtered list
-                treeRow.TreeSpeciesFilteredList.Clear();
-                foreach (var item in filteredResults)
+                var match = treeRow.LookupTrees.Where(t => t.ShortCode.ToLower() == e.NewTextValue.ToLower()).FirstOrDefault();
+
+                if (match != null)
                 {
-                    treeRow.TreeSpeciesFilteredList.Add(item);
+                    treeRow.TreeSpecies = match;
+                    treeRow.SearchSpecies = match.ShortCode;
                 }
 
-                // If there is a single match, choose it automatically
-                if (filteredResults.Count == 1)
+                if (match is null & e.NewTextValue.Length >= 2)
                 {
-                    treeRow.TreeSpecies = filteredResults.First();
-                    treeRow.SearchSpecies = treeRow.TreeSpecies.ShortCode;
-
-                    treeRow.TreeSpeciesFilteredList.Clear();
-                }
-                else if (filteredResults.Count == 0 && e.NewTextValue.Length == 2)
-                {
-                    {
-                        treeRow.TreeSpecies = vm.LookupTrees.Where(t => t.Name.ToLower() == "unknown").FirstOrDefault();
-                    }
-
+                    treeRow.TreeSpecies = treeRow.LookupTrees.Where(t => t.Name.ToLower() == "unknown").FirstOrDefault();
 
                 }
-            }
+
+            //}
         }
     }
 

@@ -52,8 +52,18 @@
                     RowDefinitions="Auto,Auto"
                       ColumnSpacing="10"
                       ColumnDefinitions="200,Auto,Auto,Auto">
-                    <Label Text="Include Biodiversity"
-                           Grid.Row="0" Grid.Column="0"/>
+                    <HorizontalStackLayout Grid.Row="0"
+                                           Grid.Column="0">
+                        <Label Text="Include Biodiversity"
+                               Grid.Row="0"
+                               Grid.Column="0" />
+                        <ImageButton Source="info.png"
+                                     HorizontalOptions="Center"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="IncludeBiodiversity" />
+                    </HorizontalStackLayout>
+
                     <CheckBox x:Name="IncludeBiodiversity"
                               IsChecked="{Binding IsCheckedBiodiversity, Mode=TwoWay}"
                               Grid.Row="0"
@@ -162,7 +172,7 @@
                                          HorizontalOptions="Center"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="IncludeBiodiversity" />
+                                         CommandParameter="LivingCavity" />
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Grid.Column="9">
@@ -205,8 +215,9 @@
                                        Style="{StaticResource GridHeader}" />
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="4" HorizontalOptions="Start">
-                            <Label Text="(predicted, m)"
+                        <VerticalStackLayout Grid.Column="4" 
+                                             HorizontalOptions="Center">
+                            <Label Text="(predicted., m)"
                                    Style="{StaticResource GridHeader}" />
                             <ImageButton Source="info.png"
                                          HorizontalOptions="Center"
@@ -217,10 +228,10 @@
 
                     </Grid>
                 </CollectionView.Header>
-
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="100,300,70,100,60,100,60,60,60,60,110,60"
+
+                        <Grid ColumnDefinitions="100,300,70,100,100,60,60,60,60,60,110,60"
                               BackgroundColor="LightGrey">
                             <Label Grid.Column="0"
                                    Text="{Binding TreeNumber}"
@@ -236,9 +247,7 @@
                                        Placeholder="e.g. bF"
                                        Text="{Binding SearchSpecies, Mode=TwoWay}"
                                        TextChanged="Entry_TextChanged" />
-                                <Picker ItemsSource="{Binding Source={RelativeSource 
-                                    AncestorType={x:Type viewModels:MainViewModel}}, 
-                                    Path=LookupTrees}"
+                                <Picker ItemsSource="{Binding LookupTrees}"
                                         WidthRequest="200"
                                         SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
                                         ItemDisplayBinding="{Binding DisplayName, Mode=TwoWay}"/>
@@ -246,6 +255,7 @@
                             </HorizontalStackLayout>
                             <Entry Grid.Column="2"
                                    Text="{Binding DBH_cm}"
+                                   Focused="Entry_Focused"
                                    Style="{StaticResource GridEntry}">
                                 <!-- Bind the behavior -->
                                 <Entry.Behaviors>
@@ -296,6 +306,8 @@
                             <HorizontalStackLayout Grid.Column="11"
                                                    Spacing="20"
                                                    WidthRequest="110"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Start"
                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
 Path=CurrentPlot.IsPlanted}">
                                 <CheckBox IsChecked="{Binding PLInSitu, Mode=TwoWay}"
@@ -307,6 +319,7 @@ Path=CurrentPlot.IsPlanted}">
 
                             <Label Grid.Column="4"
                                    VerticalOptions="Center"
+                                   HorizontalOptions="Center"
                                    Text="{Binding HeightPredicted_m, StringFormat='({0})'}">
                             </Label>
                         </Grid>

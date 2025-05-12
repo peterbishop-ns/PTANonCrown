@@ -1,6 +1,6 @@
 ﻿using PTANonCrown.Data.Models;
 using System.Collections.ObjectModel;
-
+using PTANonCrown.ViewModel;
 namespace PTANonCrown.Behaviours
 {
     public class EntryFormBehaviour : Behavior<Entry>
@@ -10,6 +10,8 @@ namespace PTANonCrown.Behaviours
             base.OnAttachedTo(bindable);
             bindable.Completed += OnCompleted; // Handles Enter key
             bindable.HandlerChanged += OnHandlerChanged;
+
+
         }
 
         protected override void OnDetachingFrom(Entry bindable)
@@ -50,6 +52,10 @@ namespace PTANonCrown.Behaviours
 
         private async void MoveFocus(Entry currentEntry)
         {
+            // need to access the view model to get the LookupTrees
+            var mainVM = Application.Current.MainPage.BindingContext as MainViewModel;
+
+
             var parentCollection = currentEntry.FindParent<CollectionView>();
             if (parentCollection == null) return;
 
@@ -67,8 +73,10 @@ namespace PTANonCrown.Behaviours
                 if (collection != null)
                 {
                     int maxTreeNumber = collection.Max(t => t.TreeNumber);
-                    collection.Add(new TreeLive() { TreeNumber = maxTreeNumber + 1 });
-
+                    collection.Add(new TreeLive() { TreeNumber = maxTreeNumber + 1, 
+                    LookupTrees = mainVM.LookupTrees
+                    });
+                    mainVM.CurrentPlot.TreeCount = collection.Count();
                     parentCollection.ScrollTo(collection.Last(), position: ScrollToPosition.End);
 
                     // Wait for UI to update and then re-fetch the entries list

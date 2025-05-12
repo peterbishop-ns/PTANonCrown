@@ -70,6 +70,14 @@ namespace PTANonCrown.Data.Models
             //TreeSpeciesFilteredList = new ObservableCollection<TreeSpecies>();
         }
 
+
+        // Keeping LookupTrees list on the TreeLive itself is a workaround. 
+        // Was running into issues with the Picker list, where it wouldn't set SelectedItem Correctly
+        //  There were different binding contexts; LookupTrees was on the VM, whereas the selected tree species
+        // Was on the row of the picker. 
+        // Having LookupTrees as a prop of the TreeLive solved this issue. 
+        [NotMapped]
+        public List<TreeSpecies> LookupTrees { get; set; }
         public bool AGS { get; set; }
         public bool Cavity { get; set; }
 
