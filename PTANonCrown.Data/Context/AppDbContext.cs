@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTANonCrown.Data.Models;
+using PTANonCrown.Data.Services;
 
 namespace PTANonCrown.Data.Context;
 
@@ -7,6 +8,7 @@ public class AppDbContext : DbContext
 {
     public AppDbContext()
     {
+        AppLogger.Log($"App DB Context", "App");
 
     }
 
@@ -21,9 +23,13 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        AppLogger.Log($"OnConfiguring", "App");
+
         //string dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
         string dbPath = Path.Combine("C://temp", "app.db");
         optionsBuilder.UseSqlite($"Data Source={dbPath}");
+        AppLogger.Log($"App DB Context", "App");
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

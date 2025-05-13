@@ -1,4 +1,5 @@
 using PTANonCrown.ViewModel;
+using PTANonCrown.Services;
 
 namespace PTANonCrown;
 
@@ -6,6 +7,7 @@ public partial class PlotPage : ContentPage
 {
     public PlotPage(MainViewModel viewModel)
     {
+        AppLogger.Log($"PlotPage", "App");
 
         try
         {

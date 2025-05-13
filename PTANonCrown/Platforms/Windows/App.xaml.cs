@@ -1,6 +1,7 @@
 ﻿// To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
+using PTANonCrown.Services;
 namespace PTANonCrown.WinUI
 {
     /// <summary>
@@ -14,10 +15,28 @@ namespace PTANonCrown.WinUI
         /// </summary>
         public App()
         {
+            AppLogger.Log($"App", "App");
+
             this.InitializeComponent();
         }
 
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+
+        protected override MauiApp CreateMauiApp()
+        {
+            try
+            {
+            return MauiProgram.CreateMauiApp();
+
+            }
+            catch(Exception ex)
+            {
+                AppLogger.Log($"MauiApp: {ex}", "App");
+                throw;
+            }
+        }
+
+
     }
 
 }

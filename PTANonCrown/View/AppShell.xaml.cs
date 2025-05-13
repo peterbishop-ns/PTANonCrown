@@ -1,4 +1,5 @@
 ﻿using PTANonCrown.ViewModel;
+using PTANonCrown.Services;
 
 namespace PTANonCrown
 {
@@ -6,6 +7,8 @@ namespace PTANonCrown
     {
         public AppShell(MainViewModel mainViewModel)
         {
+            AppLogger.Log($"AppShell", "App");
+
             InitializeComponent();
             BindingContext = mainViewModel;
         }

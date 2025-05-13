@@ -23,9 +23,9 @@
 
 		<!-- WindowsPackageType= None needed to compile to a flat EXE, but this 
 		should be removed when running app in debug. If you don't remove it, you get a message about "Package Needs to be Deployed 
-		Before... 
+		Before... -->
 
-		<WindowsPackageType>None</WindowsPackageType>-->
+		<WindowsPackageType>None</WindowsPackageType>
 		
 		
 		<!-- Display name -->
@@ -69,7 +69,9 @@
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-		<MauiAsset Include="Resources\Raw\lookup.db" LogicalName="lookup.db" />
+		<MauiAsset Include="Resources\Raw\lookup.db" LogicalName="lookup.db">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</MauiAsset>
 
 	</ItemGroup>
 
@@ -126,6 +128,15 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\PTANonCrown.Data\PTANonCrown.Data.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\AboutAssets.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\DbhHeights.csv">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
 	</ItemGroup>
 
 </Project>

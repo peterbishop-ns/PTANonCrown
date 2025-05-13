@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTANonCrown.Data.Models;
+using Microsoft.Maui.Storage;
 
 namespace PTANonCrown.Data.Context
 {
@@ -31,28 +32,17 @@ namespace PTANonCrown.Data.Context
             optionsBuilder.UseSqlite($"Data Source={dbPath}");
         }
 
-        private static void CopyDatabaseFromAssets(string dbFileName)
+        private static async Task CopyDatabaseFromAssetsAsync(string dbFileName)
         {
-            // Open the embedded database from Resources/Raw
-            //  using var stream = await FileSystem.OpenAppPackageFileAsync(dbFileName);
-
-            // Define the destination path inside the app's data directory
-            // string dbPath = Path.Combine(FileSystem.AppDataDirectory, dbFileName);
-
-            // Only copy if it doesn't already exist
-            //  if (!File.Exists(dbPath))
-            //  {
-            //      using var fileStream = new FileStream(dbPath, FileMode.Create, FileAccess.Write);
-            //   await stream.CopyToAsync(fileStream);
-            // }
-            string sourcePath = Path.Combine(@"C:\Code\MAUI\PTANonCrown\PTANonCrown\Resources\Raw", dbFileName);
-            string targetPath = Path.Combine(@"C:\temp", dbFileName);
+            string targetPath = Path.Combine(FileSystem.AppDataDirectory, dbFileName);
 
             if (!File.Exists(targetPath))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(targetPath)!);
-                File.Copy(sourcePath, targetPath);
+                using var sourceStream = await FileSystem.OpenAppPackageFileAsync(dbFileName);
+                using var targetStream = File.Create(targetPath);
+                await sourceStream.CopyToAsync(targetStream);
             }
         }
+
     }
 }
