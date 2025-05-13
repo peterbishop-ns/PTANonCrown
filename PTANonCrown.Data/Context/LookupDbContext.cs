@@ -1,48 +1,45 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTANonCrown.Data.Models;
-using Microsoft.Maui.Storage;
-
+using System.IO;
+using System.Threading.Tasks;
 namespace PTANonCrown.Data.Context
 {
     public class LookupDbContext : DbContext
     {
-        public LookupDbContext()
+        public LookupDbContext(DbContextOptions<LookupDbContext> options)
+            : base(options)
         {
-
         }
 
-        public DbSet<SoilLookup> SoilLookup { get; set; }
+    public DbSet<SoilLookup> SoilLookup { get; set; }
         public DbSet<VegLookup> VegLookup { get; set; }
         public DbSet<EcodistrictLookup> EcodistrictLookup { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+
+        /*private static void CopyDatabaseFromAssets(string dbFileName)
         {
-            // Define the path to the database in the Resources/Raw folder
-            string dbFileName = "lookup.db";
-            string dbPath = Path.Combine("C://temp", dbFileName);
+            // Open the embedded database from Resources/Raw
+            //  using var stream = await FileSystem.OpenAppPackageFileAsync(dbFileName);
 
-            // Use SQLite from the app package (Resources/Raw) if the file exists
-            if (!File.Exists(dbPath))
-            {
-                // Copy the database from app package (Resources/Raw) to AppDataDirectory (if not already done)
-                CopyDatabaseFromAssets(dbFileName);
-            }
+            // Define the destination path inside the app's data directory
+            // string dbPath = Path.Combine(FileSystem.AppDataDirectory, dbFileName);
 
-            // Use SQLite from the AppDataDirectory for read-only access
-            optionsBuilder.UseSqlite($"Data Source={dbPath}");
-        }
+            // Only copy if it doesn't already exist
+            //  if (!File.Exists(dbPath))
+            //  {
+            //      using var fileStream = new FileStream(dbPath, FileMode.Create, FileAccess.Write);
+            //   await stream.CopyToAsync(fileStream);
+            // }
 
-        private static async Task CopyDatabaseFromAssetsAsync(string dbFileName)
-        {
-            string targetPath = Path.Combine(FileSystem.AppDataDirectory, dbFileName);
+            string sourcePath = Path.Combine(@"C:\Code\MAUI\PTANonCrown\PTANonCrown\Resources\Raw", dbFileName);
+            string targetPath = Path.Combine(@"C:\temp", dbFileName);
 
             if (!File.Exists(targetPath))
             {
-                using var sourceStream = await FileSystem.OpenAppPackageFileAsync(dbFileName);
-                using var targetStream = File.Create(targetPath);
-                await sourceStream.CopyToAsync(targetStream);
+                Directory.CreateDirectory(Path.GetDirectoryName(targetPath)!);
+                File.Copy(sourcePath, targetPath);
             }
-        }
-
+        }*/
     }
 }

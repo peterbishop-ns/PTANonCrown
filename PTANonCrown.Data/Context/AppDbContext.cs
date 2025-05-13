@@ -6,12 +6,12 @@ namespace PTANonCrown.Data.Context;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext()
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+    : base(options)
     {
         AppLogger.Log($"App DB Context", "App");
 
     }
-
     public DbSet<CoarseWoody> CoarseWoodys { get; set; }
     public DbSet<Plot> Plots { get; set; }
     public DbSet<Stand> Stands { get; set; }
@@ -21,7 +21,7 @@ public class AppDbContext : DbContext
     public DbSet<TreeSpecies> TreeSpecies { get; set; }
     public DbSet<PlotTreatment> PlotTreatments { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+   /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         AppLogger.Log($"OnConfiguring", "App");
 
@@ -30,7 +30,7 @@ public class AppDbContext : DbContext
         optionsBuilder.UseSqlite($"Data Source={dbPath}");
         AppLogger.Log($"App DB Context", "App");
 
-    }
+    }*/
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

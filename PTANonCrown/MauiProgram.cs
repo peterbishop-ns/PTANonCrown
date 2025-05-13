@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PTANonCrown.Data.Context;
 using PTANonCrown.Data.Repository;
@@ -40,9 +41,23 @@ namespace PTANonCrown
             builder.Logging.AddDebug();
 
             // Register DbContext
-            builder.Services.AddDbContext<AppDbContext>();
-            builder.Services.AddDbContext<LookupDbContext>();
 
+
+            builder.Services.AddDbContext<AppDbContext>();
+
+            CopyDatabaseAsync("lookup.db");
+
+            builder.Services.AddDbContext<LookupDbContext>(options =>
+            {
+                var dbPath = Path.Combine(FileSystem.AppDataDirectory, "lookup.db");
+                options.UseSqlite($"Filename={dbPath}");
+            });
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+                options.UseSqlite($"Filename={dbPath}");
+            });
             var app = builder.Build();
 
             // Ensure database is created
@@ -61,5 +76,21 @@ namespace PTANonCrown
             return app;
 
         }
+
+        public static async Task<string> CopyDatabaseAsync(string dbFileName)
+        {
+            string dbPath = Path.Combine(FileSystem.AppDataDirectory, dbFileName);
+
+            if (!File.Exists(dbPath))
+            {
+                // Copy database from Resources/Raw folder to app data directory
+                using var stream = await FileSystem.OpenAppPackageFileAsync(dbFileName);
+                using var fileStream = new FileStream(dbPath, FileMode.Create, FileAccess.Write);
+                await stream.CopyToAsync(fileStream);
+            }
+
+            return dbPath;
+        }
+
     }
 }
