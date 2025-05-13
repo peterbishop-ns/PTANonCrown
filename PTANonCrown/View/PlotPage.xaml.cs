@@ -6,10 +6,25 @@ public partial class PlotPage : ContentPage
 {
     public PlotPage(MainViewModel viewModel)
     {
-        InitializeComponent();
+
+        try
+        {
+            InitializeComponent();
+            // Other constructor logic
+        }
+        catch (Exception ex)
+        {
+            LogError("Constructor", ex);
+        }
+        
+        //InitializeComponent();
         BindingContext = viewModel;
     }
-
+    void LogError(string where, Exception ex)
+    {
+        var path = "c:\\temp\\crashlog.txt";
+        File.AppendAllText(path, $"[{DateTime.Now}] {where}: {ex}\n");
+    }
     private void OnlyIntegerAllowed(object sender, TextChangedEventArgs e)
     {
         var entry = (Entry)sender;

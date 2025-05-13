@@ -10,13 +10,15 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:converter="clr-namespace:PTANonCrown.Converter"
              Title="Plot">
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
-        
+
+
         <VerticalStackLayout Padding="5"
                              Spacing="5">
             <Label Text="{Binding ErrorMessage}"
@@ -48,6 +50,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 Command="{Binding NewPlotCommand}" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
+ 
                 <VerticalStackLayout Grid.Row="1">
                     <HorizontalStackLayout>
                         <Label Text="Edit Plot Number"
@@ -78,6 +81,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
             </Grid>
 
             <!-- PLOT HISTORY-->
+
             <VerticalStackLayout>
                 <Label Text="Plot History"
                        Style="{StaticResource LabelPlot}" />
@@ -180,11 +184,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                              Spacing="0"
                                              Grid.ColumnSpan="2"
                                              Margin="40,0,0,0">
-                            <VerticalStackLayout  Margin="20,0,0,0"
-                                                  RadioButtonGroup.GroupName="EcositeGroup"
-                                                  RadioButtonGroup.SelectedValue="{Binding CurrentPlot.EcositeGroup, Mode=TwoWay}"
-                                                  Spacing="0">
-                                <RadioButton Content="Acadian"
+       
+                                <VerticalStackLayout  Margin="20,0,0,0"
+                                                                Spacing="0">
+                                    <RadioButton Content="Acadian"
                                              Value="{x:Static enum:EcositeGroup.Acadian}" />
 
 
@@ -220,7 +223,6 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          CommandParameter="FECSoil" />
                         </HorizontalStackLayout>
                         <Picker  Grid.Row="5"
-                                 SelectedItem="{Binding CurrentPlot.SoilType}"
                                  ItemsSource="{Binding LookupSoils}"
                                  ItemDisplayBinding="{Binding DisplayName}"
                                  WidthRequest="350"
@@ -239,7 +241,6 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <Picker Grid.Row="7"
                                 Grid.Column="0"
                                 ItemsSource="{Binding LookupVeg}"
-                                SelectedItem="{Binding CurrentPlot.VegType}"
                                 ItemDisplayBinding="{Binding DisplayName}"
                                 WidthRequest="350"
                                 HorizontalOptions="Start" />
@@ -305,8 +306,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                   IsChecked="{Binding CurrentPlot.RegenHeightHWLIT}" />
                         <CheckBox Grid.Row="2"
                                   Grid.Column="1"
-                                  IsChecked="{Binding CurrentPlot.StockingBeechRegeneration}"
-                                  Style="{StaticResource EntryPlot}" />
+                                  IsChecked="{Binding CurrentPlot.StockingBeechRegeneration}" />
                     </Grid>
                 </Border>
             </VerticalStackLayout>
@@ -466,8 +466,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
 
                         <CheckBox Grid.Row="3"
                                   Grid.Column="1"
-                                  IsChecked="{Binding CurrentPlot.UnevenAged}"
-                                  Style="{StaticResource LabelSubheading}" />
+                                  IsChecked="{Binding CurrentPlot.UnevenAged}" />
 
                         <CheckBox Grid.Row="2"
                                   Grid.Column="1"
@@ -570,6 +569,9 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     </Grid>
                 </Border>
             </VerticalStackLayout>
+        
         </VerticalStackLayout>
+
     </ScrollView>
+
 </ContentPage>

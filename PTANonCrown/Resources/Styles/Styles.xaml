@@ -460,8 +460,7 @@
     <Style TargetType="Label"
            x:Key="SubHeadline">
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource Black},
-            Dark={StaticResource White}}" />
+                Value="Black" />
         <Setter Property="FontSize"
                 Value="14" />
         <Setter Property="FontAttributes"
@@ -481,9 +480,9 @@
 
     <Style TargetType="Picker">
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                Value="Black" />
         <Setter Property="TitleColor"
-                Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
+                Value="Black"  />
         <Setter Property="BackgroundColor"
                 Value="White" />
         <Setter Property="FontFamily"
@@ -501,9 +500,9 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                                    Value="Black"/>
                             <Setter Property="TitleColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                                    Value="Black" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -533,7 +532,7 @@
         <Setter Property="BackgroundColor"
                 Value="Transparent" />
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                Value="Black" />
         <Setter Property="FontFamily"
                 Value="OpenSansRegular" />
         <Setter Property="FontSize"
@@ -549,7 +548,7 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                                    Value="Black" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -564,7 +563,7 @@
 
     <Style TargetType="SearchBar">
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                Value="Black" />
         <Setter Property="PlaceholderColor"
                 Value="{StaticResource Gray500}" />
         <Setter Property="CancelButtonColor"
@@ -586,9 +585,9 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                                    Value="Black" />
                             <Setter Property="PlaceholderColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                                    Value="Gray" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -598,9 +597,9 @@
 
     <Style TargetType="SearchHandler">
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                Value="Black" />
         <Setter Property="PlaceholderColor"
-                Value="{StaticResource Gray500}" />
+                Value="Gray" />
         <Setter Property="BackgroundColor"
                 Value="Transparent" />
         <Setter Property="FontFamily"
@@ -614,9 +613,9 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                                    Value="Black" />
                             <Setter Property="PlaceholderColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                                    Value="Gray" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -706,7 +705,7 @@
 
     <Style TargetType="TimePicker">
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+                Value="Black" />
         <Setter Property="BackgroundColor"
                 Value="Transparent" />
         <Setter Property="FontFamily"
@@ -724,7 +723,7 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor"
-                                    Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                                    Value="Black" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -766,11 +765,11 @@
 
     <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor"
-                Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}" />
+                Value="Gray" />
         <Setter Property="BarTextColor"
-                Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource White}}" />
+                Value="White" />
         <Setter Property="IconColor"
-                Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource White}}" />
+                Value="White" />
     </Style>
 
     <Style TargetType="TabbedPage">
