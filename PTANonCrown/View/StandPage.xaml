@@ -84,7 +84,8 @@
                                      CommandParameter="StandComment" />
                     </HorizontalStackLayout>
                     <Editor Placeholder="Comment"
-                            Style="{StaticResource EditorComment}" />
+                            Style="{StaticResource EditorComment}"
+                            Text="{Binding CurrentStand.Comment}"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Row="2"

@@ -12,7 +12,23 @@ namespace PTANonCrown.Services
 
     public static class AppLogger
     {
-        private static readonly string LogFilePath = $"C://temp//log_{DateTime.Now:yyyyMMdd}.txt";
+        private static readonly string LogDirectory = @"C:\temp";
+        private static readonly string LogFilePath = Path.Combine(LogDirectory, $"log_{DateTime.Now:yyyyMMdd}.txt");
+
+        static AppLogger()
+        {
+            try
+            {
+                if (!Directory.Exists(LogDirectory))
+                {
+                    Directory.CreateDirectory(LogDirectory);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to create log directory: {ex.Message}");
+            }
+        }
 
         public static void Log(string message, string? context = null)
         {
@@ -29,8 +45,5 @@ namespace PTANonCrown.Services
                 Debug.WriteLine($"Logging failed: {ex.Message}");
             }
         }
-
-      
     }
-
 }

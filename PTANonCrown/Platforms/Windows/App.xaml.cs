@@ -26,12 +26,13 @@ namespace PTANonCrown.WinUI
         {
             try
             {
-            return MauiProgram.CreateMauiApp();
+                AppLogger.Log($"CreateMauiApp", "App.xaml.cs");
+                return MauiProgram.CreateMauiApp();
 
             }
             catch(Exception ex)
             {
-                AppLogger.Log($"MauiApp: {ex}", "App");
+                AppLogger.Log($"MauiApp: {ex}", "App.xaml.cs");
                 throw;
             }
         }

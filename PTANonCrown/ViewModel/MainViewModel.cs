@@ -3,6 +3,7 @@
 using ClosedXML.Excel;
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Storage;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -33,12 +34,20 @@ namespace PTANonCrown.ViewModel
 
         public MainViewModel(MainService mainService, StandRepository standRepository, LookupRepository lookupRepository)
         {
+            AppLogger.Log("Init", "MainViewModel");
+
             _mainService = mainService;
             _standRepository = standRepository;
             _lookupRepository = lookupRepository;
+
+            AppLogger.Log("LoadLookupTables", "MainViewModel");
+
             LoadLookupTables();
+            AppLogger.Log("GetOrCreateStand", "MainViewModel");
 
             GetOrCreateStand();
+
+            AppLogger.Log("GetOrCreatePlot", "MainViewModel");
             GetOrCreatePlot(CurrentStand);
             ValidationMessage = string.Empty;
 
@@ -521,7 +530,7 @@ namespace PTANonCrown.ViewModel
             // Create a new Excel workbook
             var workbook = new XLWorkbook();
             //DateTime now = DateTime.Now; _{ now.ToString("HHmmss")}
-            string exportFileName = Path.Combine(folder.Path, $"Summary_{CurrentStand.StandNumber}.xlsx");
+            string exportFileName = System.IO.Path.Combine(folder.Path, $"Summary_{CurrentStand.StandNumber}.xlsx");
 
             // Export Stand
             trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
@@ -576,6 +585,14 @@ namespace PTANonCrown.ViewModel
         {
             var filtered = plots
              .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeSpecies.DisplayName }));
+            
+            ObservableCollection<SummaryResultTreeSpecies> result = new ObservableCollection<SummaryResultTreeSpecies>();
+
+            if ((filtered is null || filtered.Count() == 0))
+            {
+                Application.Current.MainPage.DisplayAlert("Warning", "Unable to generate summary. No trees exist in plot.", "OK");
+                return result;
+            }
 
             int total = filtered.Count();
 
@@ -629,25 +646,39 @@ namespace PTANonCrown.ViewModel
 
         private Stand GetOrCreateStand()
         {
-            Stand _stand;
-            AllStands = new ObservableCollection<Stand>(_standRepository.GetAll());
-            // Get first stand if any exist
-            if (AllStands.Count > 0)
-            {
+            AppLogger.Log("GetOrCreateStand", "MainViewModel");
 
-                _stand = AllStands[0];
+            try
+            {
+                Stand _stand;
+
+                AllStands = new ObservableCollection<Stand>(_standRepository.GetAll());
+                // Get first stand if any exist
+                if (AllStands.Count > 0)
+                {
+
+                    _stand = AllStands[0];
+
+                }
+                // Otherwise create a new one (Stand #1)
+                else
+                {
+                    _stand = CreateNewStand();
+                }
+                // AllPlots = _stand.Plots;
+                SetCurrentStand(_stand);
+                return _stand;
 
             }
-            // Otherwise create a new one (Stand #1)
-            else
+            catch (Exception ex)
             {
-                _stand = CreateNewStand();
+
+                AppLogger.Log($"GetOrCreateStand Failed: {ex}", "MainViewModel");
+                throw;
             }
 
-           // AllPlots = _stand.Plots;
-            SetCurrentStand(_stand);
+ 
 
-            return _stand;
 
         }
 

@@ -1,6 +1,6 @@
 ﻿using Android.App;
 using Android.Runtime;
-
+using PTANonCrown.Services;
 namespace PTANonCrown
 {
     [Application]
@@ -11,6 +11,17 @@ namespace PTANonCrown
         {
         }
 
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+        protected override MauiApp CreateMauiApp()
+        {
+
+            try
+            {
+                return MauiProgram.CreateMauiApp();
+            } catch (Exception e) {
+                AppLogger.Log($"{e}", "MauiApplication");
+                throw;
+            }
+        } 
+
     }
 }

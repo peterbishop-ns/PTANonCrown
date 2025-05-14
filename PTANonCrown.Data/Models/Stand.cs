@@ -21,6 +21,7 @@ namespace PTANonCrown.Data.Models
         public float? Northing { get; set; }
 
         public string? Organization { get; set; }
+        public string? Comment { get; set; }
 
         public int PlannerID { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTANonCrown.Data.Models;
+using PTANonCrown.Data.Services;
 using System.IO;
 using System.Threading.Tasks;
 namespace PTANonCrown.Data.Context
@@ -9,6 +10,7 @@ namespace PTANonCrown.Data.Context
         public LookupDbContext(DbContextOptions<LookupDbContext> options)
             : base(options)
         {
+            AppLogger.Log("LookupDbContext", "Context");
         }
 
     public DbSet<SoilLookup> SoilLookup { get; set; }

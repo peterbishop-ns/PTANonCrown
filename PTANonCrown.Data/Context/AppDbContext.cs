@@ -21,16 +21,7 @@ public class AppDbContext : DbContext
     public DbSet<TreeSpecies> TreeSpecies { get; set; }
     public DbSet<PlotTreatment> PlotTreatments { get; set; }
 
-   /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        AppLogger.Log($"OnConfiguring", "App");
 
-        //string dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
-        string dbPath = Path.Combine("C://temp", "app.db");
-        optionsBuilder.UseSqlite($"Data Source={dbPath}");
-        AppLogger.Log($"App DB Context", "App");
-
-    }*/
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

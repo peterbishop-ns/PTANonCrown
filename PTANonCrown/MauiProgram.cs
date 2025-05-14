@@ -12,6 +12,7 @@ namespace PTANonCrown
     {
         public static MauiApp CreateMauiApp()
         {
+            AppLogger.Log($"CreateMauiApp - begnning", "MauiProgram.cs");
 
             var builder = MauiApp.CreateBuilder();
             builder
@@ -22,6 +23,8 @@ namespace PTANonCrown
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            AppLogger.Log($"AddSingleton", "MauiProgram.cs");
 
             builder.Services.AddSingleton<MainService>();
 
@@ -41,11 +44,15 @@ namespace PTANonCrown
             builder.Logging.AddDebug();
 
             // Register DbContext
+            AppLogger.Log($"DbContext - start", "MauiProgram.cs");
 
 
             builder.Services.AddDbContext<AppDbContext>();
 
             CopyDatabaseAsync("lookup.db");
+
+            AppLogger.Log("AddDbContext - lookup", "MauiProgram");
+
 
             builder.Services.AddDbContext<LookupDbContext>(options =>
             {
@@ -53,12 +60,19 @@ namespace PTANonCrown
                 options.UseSqlite($"Filename={dbPath}");
             });
 
+            AppLogger.Log($"{FileSystem.AppDataDirectory}", "AddDbContext");
+            AppLogger.Log("AddDbContext - app", "MauiProgram");
+
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
                 options.UseSqlite($"Filename={dbPath}");
             });
             var app = builder.Build();
+            AppLogger.Log($"DBContext end ", "MauiProgram.cs");
+
+
+            AppLogger.Log($"Services start", "MauiProgram.cs");
 
             // Ensure database is created
             using (var scope = app.Services.CreateScope())
@@ -72,6 +86,7 @@ namespace PTANonCrown
                 var db = scope.ServiceProvider.GetRequiredService<LookupDbContext>();
                 db.Database.EnsureCreated();  // Creates the database if it doesn't exist
             }
+            AppLogger.Log($"Services done", "MauiProgram.cs");
 
             return app;
 
@@ -79,6 +94,8 @@ namespace PTANonCrown
 
         public static async Task<string> CopyDatabaseAsync(string dbFileName)
         {
+            AppLogger.Log($"CopyDatabaseAsync - start", "MauiProgram.cs");
+
             string dbPath = Path.Combine(FileSystem.AppDataDirectory, dbFileName);
 
             if (!File.Exists(dbPath))
@@ -88,6 +105,7 @@ namespace PTANonCrown
                 using var fileStream = new FileStream(dbPath, FileMode.Create, FileAccess.Write);
                 await stream.CopyToAsync(fileStream);
             }
+            AppLogger.Log($"CopyDatabaseAsync - end", "MauiProgram.cs");
 
             return dbPath;
         }
