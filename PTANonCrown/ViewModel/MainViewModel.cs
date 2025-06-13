@@ -13,6 +13,7 @@ using PTANonCrown.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Windows.Input;
 
 namespace PTANonCrown.ViewModel
@@ -84,6 +85,7 @@ namespace PTANonCrown.ViewModel
         }
 
         public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
+        public ICommand PromptDeleteStandCommand => new Command<Stand>(stand => PromptDeleteStand(stand));
         public ICommand UsePredictedHeightsCommand => new Command(_ => UsePredictedHeights());
 
 
@@ -433,6 +435,7 @@ namespace PTANonCrown.ViewModel
             return _newPlot;
         }
 
+        
         private Stand CreateNewStand()
         {
             // get new stand number
@@ -473,6 +476,50 @@ namespace PTANonCrown.ViewModel
 
         }
 
+        private async void PromptDeleteStand(Stand stand)
+        {
+            if (stand is not null)
+            { bool isYes = await Application.Current.MainPage.DisplayAlert(
+                     "Confirm",
+                     "Are you sure you want to delete this stand? All related data (all plots, plot history, tree measurements, etc.), will be deleted. " +
+                     "This cannot be undone. Are you sure you want to continue?",
+                     "Delete Stand",
+                     "Cancel"
+                 );
+
+                if (isYes)
+                {
+                    // User clicked Yes
+                    DeleteStand(stand);
+
+                    // if last stand, create a new stand
+                    if (AllStands.Count == 0)
+                    {
+                        Application.Current.MainPage.DisplayAlert(
+                                "Notice",
+                                "No more stands. Creating a new one.",
+                                "OK"
+                            );
+                        CreateNewStand();
+                    }
+
+                    SaveAll();
+                }
+                else
+                {
+                    // Do nothing
+                }
+                GetOrCreatePlot(CurrentStand);
+                
+            }
+        }
+
+        private void DeleteStand(Stand stand)
+        {
+
+            AllStands.Remove(stand);
+            _standRepository.Delete(stand.ID);
+        }
         // Async method to show the remove trees confirmation dialog
         private async Task<bool> DisplayRemoveTreesConfirmation(string message)
         {

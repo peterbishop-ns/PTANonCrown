@@ -48,7 +48,8 @@
                                 ItemDisplayBinding="{Binding StandNumber, Mode=TwoWay}" />
                         <Button Text="Delete"
                                 Style="{StaticResource ButtonRed}"
-                                Command="{Binding CreateNewStandCommand}" />
+                                Command="{Binding PromptDeleteStandCommand}"
+                                CommandParameter="{Binding CurrentStand}" />
                         <Button Text="New"
                                 Style="{StaticResource ButtonGreen}"
                                 Command="{Binding CreateNewStandCommand}" />
