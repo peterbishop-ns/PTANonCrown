@@ -22,9 +22,23 @@ namespace PTANonCrown.Data.Models
             StockingLITSeedTree = 0;
             StockingRegenCommercialSpecies = 0;
             StockingRegenLITSpecies = 0;
-
+            TransectLength = 20; //default
             InitializeDeadTreeDefaults();
             InitializeCoarseWoodyDefaults();
+        }
+
+        private SoilLookup _soil;
+        public SoilLookup Soil
+        {
+            get => _soil;
+            set
+            {
+                if (_soil != value)
+                {
+                    _soil = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public int AverageSampleTreeAge { get; set; }

@@ -225,6 +225,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <Picker  Grid.Row="5"
                                  ItemsSource="{Binding LookupSoils}"
                                  ItemDisplayBinding="{Binding DisplayName}"
+                                 SelectedItem="{Binding CurrentPlot.Soil}"
                                  WidthRequest="350"
                                  HorizontalOptions="Start" />
 
