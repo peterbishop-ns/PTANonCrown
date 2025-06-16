@@ -76,7 +76,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     </HorizontalStackLayout>
 
                     <Editor Placeholder="Comment"
-                            Style="{StaticResource EditorComment}" />
+                            Style="{StaticResource CurrentPlot.Comments}" />
                 </VerticalStackLayout>
             </Grid>
 

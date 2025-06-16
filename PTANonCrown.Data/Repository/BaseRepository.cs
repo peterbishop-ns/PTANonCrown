@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -114,8 +115,17 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
             _dbSet.Update(entity); // Update if already tracked
         }
 
+
+        try
+        {
             _context.SaveChanges(); // Commit changes
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
     }
+
 
     private static object GetPropertyValue(object obj, string propertyName)
     {

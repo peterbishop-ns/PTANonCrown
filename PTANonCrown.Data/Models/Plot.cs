@@ -27,6 +27,9 @@ namespace PTANonCrown.Data.Models
             InitializeCoarseWoodyDefaults();
         }
 
+
+        /*
+
         private SoilLookup _soil;
         public SoilLookup Soil
         {
@@ -40,6 +43,7 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
+        */
 
         public int AverageSampleTreeAge { get; set; }
         public int AverageSampleTreeDBH_cm { get; set; }

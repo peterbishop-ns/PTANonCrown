@@ -414,7 +414,7 @@ namespace PTANonCrown.ViewModel
 
             var _newPlot = new Plot
             {
-                StandID = stand.ID,
+              //  StandID = stand.ID,
                 PlotNumber = newPlotNumber,
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
@@ -424,9 +424,9 @@ namespace PTANonCrown.ViewModel
                 }).ToList()
             };
 
-            _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
+            _newPlot.Stand = stand;
 
-            //AddNewTreeToPlot(_newPlot, 1);
+            _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
 
             stand.Plots.Add(_newPlot);
 

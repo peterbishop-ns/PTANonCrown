@@ -19,7 +19,7 @@ namespace PTANonCrown.Data.Repository
             _context = context;
         }
 
-        public List<SoilLookup> GetSoilLookups()
+        public List<Lookup> GetSoilLookups()
         {
             AppLogger.Log("GetSoilLookups", "LookupRepository");
 
