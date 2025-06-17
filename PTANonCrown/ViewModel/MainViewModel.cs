@@ -49,7 +49,7 @@ namespace PTANonCrown.ViewModel
             GetOrCreateStand();
 
             AppLogger.Log("GetOrCreatePlot", "MainViewModel");
-            GetOrCreatePlot(CurrentStand);
+            //GetOrCreatePlot(CurrentStand);
             ValidationMessage = string.Empty;
 
         }
@@ -415,8 +415,11 @@ namespace PTANonCrown.ViewModel
 
             var _newPlot = new Plot
             {
-              //  StandID = stand.ID,
+                //  StandID = stand.ID,
                 PlotNumber = newPlotNumber,
+                //Soil = 1,
+                ////Exposure = 1,
+                //Vegetation = 1,
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
                     TreatmentId = t.ID,
@@ -424,6 +427,7 @@ namespace PTANonCrown.ViewModel
                     IsActive = false // Default status
                 }).ToList()
             };
+
 
             _newPlot.Stand = stand;
 

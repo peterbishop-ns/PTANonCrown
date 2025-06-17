@@ -7,18 +7,19 @@ namespace PTANonCrown.Data.Models
     public class Plot : BaseModel
     {
         public bool _isPlanted;
-        public ObservableCollection<CoarseWoody> _plotCoarseWoody;
         private int _ageTreeAge;
         private int _ageTreeDBH;
-        private EcodistrictLookup _ecodistrictLookup;
         private PlantedType _plantedType;
         private int _plotNumber;
 
         private ICollection<PlotTreatment> _plotTreatments;
-        private ObservableCollection<TreeDead> _plotTreeDead;
 
+        public ObservableCollection<CoarseWoody> _plotCoarseWoody;
+
+        private ObservableCollection<TreeDead> _plotTreeDead;
         private ObservableCollection<TreeLive> _plotTreeLive = new ObservableCollection<TreeLive>();
 
+        private EcodistrictLookup _ecodistrictLookup;
         private SoilLookup _soil;
         private CardinalDirections _transectDirection;
         private decimal _transectLength;
@@ -74,7 +75,8 @@ namespace PTANonCrown.Data.Models
 
         public int Blowdown { get; set; }
 
-        public EcodistrictLookup EcodistrictLookup
+        
+        /*public EcodistrictLookup EcodistrictLookup
         {
             get => _ecodistrictLookup;
             set
@@ -85,7 +87,7 @@ namespace PTANonCrown.Data.Models
                     OnPropertyChanged();
                 }
             }
-        }
+        }*/
         private ExposureLookup _exposure;
         public ExposureLookup Exposure
         {

@@ -24,6 +24,7 @@ namespace PTANonCrown.Data.Repository
         public List<Stand>? GetAll()
         {
             AppLogger.Log("GetAll - start", "StandRepository");
+            var hashStand = _context.GetHashCode();
 
             IQueryable<Stand> query = _context.Set<Stand>()
                 .Include(s => s.Plots)

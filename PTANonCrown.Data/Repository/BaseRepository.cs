@@ -105,6 +105,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     public void Save(T entity)
     {
         var entry = _context.Entry(entity);
+        var hashBase = _context.GetHashCode();
 
         if (entry.State == EntityState.Detached)
         {
@@ -114,28 +115,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         {
             _dbSet.Update(entity); // Update if already tracked
         }
-
-
-        try
-        {
             _context.SaveChanges(); // Commit changes
-        }
-        catch (DbUpdateException ex)
-        {
-            Console.WriteLine("Error: " + ex.Message);
-            Console.WriteLine("Inner: " + ex.InnerException?.Message);
 
-            foreach (var item_entry in ex.Entries)
-            {
-                Console.WriteLine($"Entity: {item_entry.Entity.GetType().Name}");
-                Console.WriteLine($"State: {item_entry.State}");
-
-                foreach (var prop in item_entry.CurrentValues.Properties)
-                {
-                    Console.WriteLine($"{prop.Name}: {item_entry.CurrentValues[prop]}");
-                }
-            }
-        }
+        
     }
 
 

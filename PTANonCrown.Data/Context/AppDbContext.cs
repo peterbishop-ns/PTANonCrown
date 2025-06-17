@@ -103,16 +103,17 @@ public class AppDbContext : DbContext
 );
 
         modelBuilder.Entity<ExposureLookup>().HasData(
-            new ExposureLookup { ID = 1, Name = "Exposed"},
-            new ExposureLookup { ID = 2, Name = "Moderately exposed"},
-            new ExposureLookup { ID = 3, Name = "Moderate/neutral"},
-            new ExposureLookup { ID = 4, Name = "Moderately sheltered"},
-            new ExposureLookup { ID = 5, Name = "Sheltered"}
+            new ExposureLookup { ID = 1,  Name = "Unknown" },
+            new ExposureLookup { ID = 2, Name = "Exposed"},
+            new ExposureLookup { ID = 3, Name = "Moderately exposed"},
+            new ExposureLookup { ID = 4, Name = "Moderate/neutral"},
+            new ExposureLookup { ID = 5, Name = "Moderately sheltered"},
+            new ExposureLookup { ID = 6, Name = "Sheltered"}
             
             );
         
         modelBuilder.Entity<VegLookup>().HasData(
-            new VegLookup { ID = 1, ShortCode = null, Name = "Not assessed" },
+            new VegLookup { ID = 1, ShortCode = "n/a", Name = "Not assessed" },
 new VegLookup { ID = 2, ShortCode = "CE1", Name = "Eastern white cedar / Speckled alder / Cinnamon fern / Sphagnum" },
 new VegLookup { ID = 3, ShortCode = "CE1a", Name = "Eastern white cedar / Speckled alder / Cinnamon fern / Sphagnum (Poison ivy variant)" },
 new VegLookup { ID = 4, ShortCode = "CE2", Name = "Eastern white cedar - Balsam fir / Stair" },
