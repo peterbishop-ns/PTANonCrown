@@ -6,14 +6,27 @@ namespace PTANonCrown.Data.Models
 {
     public class Plot : BaseModel
     {
+        public bool _isPlanted;
         public ObservableCollection<CoarseWoody> _plotCoarseWoody;
+        private int _ageTreeAge;
+        private int _ageTreeDBH;
+        private EcodistrictLookup _ecodistrictLookup;
+        private PlantedType _plantedType;
         private int _plotNumber;
 
+        private ICollection<PlotTreatment> _plotTreatments;
         private ObservableCollection<TreeDead> _plotTreeDead;
 
         private ObservableCollection<TreeLive> _plotTreeLive = new ObservableCollection<TreeLive>();
 
+        private SoilLookup _soil;
+        private CardinalDirections _transectDirection;
+        private decimal _transectLength;
         private int _treeCount;
+
+        private UnderstoryDominated _understoryDominated;
+
+        private VegLookup _vegetation;
 
         public Plot()
         {
@@ -27,29 +40,79 @@ namespace PTANonCrown.Data.Models
             InitializeCoarseWoodyDefaults();
         }
 
-
-        /*
-
-        private SoilLookup _soil;
-        public SoilLookup Soil
+        public int AgeTreeAge
         {
-            get => _soil;
+            get => _ageTreeAge;
             set
             {
-                if (_soil != value)
+                if (_ageTreeAge != value)
                 {
-                    _soil = value;
+                    _ageTreeAge = value;
                     OnPropertyChanged();
                 }
             }
         }
-        */
+
+        public int AgeTreeDBH
+        {
+            get => _ageTreeDBH;
+            set
+            {
+                if (_ageTreeDBH != value)
+                {
+                    _ageTreeDBH = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public int AverageSampleTreeAge { get; set; }
+
         public int AverageSampleTreeDBH_cm { get; set; }
+
         public int AverageSampleTreeSpecies { get; set; }
+
         public int Blowdown { get; set; }
-        private PlantedType _plantedType;
+
+        public EcodistrictLookup EcodistrictLookup
+        {
+            get => _ecodistrictLookup;
+            set
+            {
+                if (_ecodistrictLookup != value)
+                {
+                    _ecodistrictLookup = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int HorizontalStructure { get; set; }
+
+        public int ID { get; set; }
+
+        public bool IsPlanted
+        {
+            get => _isPlanted;
+            set
+            {
+                if (_isPlanted != value)
+                {
+                    _isPlanted = value;
+                    OnPropertyChanged();
+                    OnIsPlantedChanged();
+                }
+            }
+        }
+
+        public int OGFSampleTreeAge { get; set; }
+
+        public int OGFSampleTreeDBH_cm { get; set; }
+
+        public int OGFSampleTreeSpecies { get; set; }
+
+        public bool OneCohortSenescent { get; set; }
+
         public PlantedType PlantedType
         {
             get => _plantedType;
@@ -62,69 +125,6 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
-
-        
-        public bool _isPlanted;
-
-        public bool IsPlanted
-        {
-            get => _isPlanted;
-            set
-            {
-                if (_isPlanted != value)
-                {
-                    _isPlanted = value;
-                    OnPropertyChanged();
-                    OnIsPlantedChanged();                }
-            }
-        }
-
-        private void OnIsPlantedChanged()
-        {
-            if (!IsPlanted)
-            {
-                PlantedType = PlantedType.None;
-            }
-        }
-        private ICollection<PlotTreatment> _plotTreatments;
-        public ICollection<PlotTreatment> PlotTreatments
-        {
-            get => _plotTreatments;
-            set
-            {
-                if (_plotTreatments != value)
-                {
-                    _plotTreatments = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(PlotTreatmentsDisplayString));
-                }
-                }
-        }
-
-        public string PlotTreatmentsDisplayString
-        {
-            get
-            {
-                return string.Join(", ", PlotTreatments
-                        .Where(pt => (pt.IsActive == true) & (pt.Treatment != null))
-                        .Select(pt => pt.Treatment.Name));
-            } 
-
-          
-        }
-
-
-        public int HorizontalStructure { get; set; }
-
-        public int ID { get; set; }
-
-        public int OGFSampleTreeAge { get; set; }
-
-        public int OGFSampleTreeDBH_cm { get; set; }
-
-        public int OGFSampleTreeSpecies { get; set; }
-
-        public bool OneCohortSenescent { get; set; }
 
         public ObservableCollection<CoarseWoody> PlotCoarseWoody
         {
@@ -139,64 +139,6 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-
-        private CardinalDirections _transectDirection;
-        public CardinalDirections TransectDirection
-        {
-            get => _transectDirection;
-            set
-            {
-                if (_transectDirection != value)
-                {
-                    _transectDirection = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        private decimal _transectLength;
-        public decimal TransectLength
-        {
-            get => _transectLength;
-            set
-            {
-                if (_transectLength != value)
-                {
-                    _transectLength = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-          private int _ageTreeAge;
-        public int AgeTreeAge
-        {
-            get => _ageTreeAge;
-            set
-            {
-                if (_ageTreeAge != value)
-                {
-                    _ageTreeAge = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private int _ageTreeDBH;
-        public int AgeTreeDBH
-        {
-            get => _ageTreeDBH;
-            set
-            {
-                if (_ageTreeDBH != value)
-                {
-                    _ageTreeDBH = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
         public int PlotNumber
         {
             get => _plotNumber;
@@ -210,9 +152,30 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+        public ICollection<PlotTreatment> PlotTreatments
+        {
+            get => _plotTreatments;
+            set
+            {
+                if (_plotTreatments != value)
+                {
+                    _plotTreatments = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(PlotTreatmentsDisplayString));
+                }
+            }
+        }
 
+        public string PlotTreatmentsDisplayString
+        {
+            get
+            {
+                return string.Join(", ", PlotTreatments
+                        .Where(pt => (pt.IsActive == true) & (pt.Treatment != null))
+                        .Select(pt => pt.Treatment.Name));
+            }
 
-
+        }
 
         public virtual ObservableCollection<TreeDead> PlotTreeDead
         {
@@ -251,15 +214,59 @@ namespace PTANonCrown.Data.Models
         }
 
         public bool RegenHeightHWLIT { get; set; }
+
         public bool RegenHeightSWLIT { get; set; }
+
+        public SoilLookup Soil
+        {
+            get => _soil;
+            set
+            {
+                if (_soil != value)
+                {
+                    _soil = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public Stand Stand { get; set; }
+
         public int StandID { get; set; }
 
-
         public int StockingBeechRegeneration { get; set; }
+
         public int StockingLITSeedTree { get; set; }
+
         public int StockingRegenCommercialSpecies { get; set; }
+
         public int StockingRegenLITSpecies { get; set; }
+
+        public CardinalDirections TransectDirection
+        {
+            get => _transectDirection;
+            set
+            {
+                if (_transectDirection != value)
+                {
+                    _transectDirection = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public decimal TransectLength
+        {
+            get => _transectLength;
+            set
+            {
+                if (_transectLength != value)
+                {
+                    _transectLength = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         [NotMapped]
         public int TreeCount
@@ -271,8 +278,6 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-
-        private UnderstoryDominated _understoryDominated;
         public UnderstoryDominated UnderstoryDominated
         {
             get => _understoryDominated;
@@ -286,13 +291,25 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-
         public int UnderstoryStrata { get; set; }
 
         public bool UnevenAged { get; set; }
 
+        public VegLookup Vegetation
+        {
+            get => _vegetation;
+            set
+            {
+                if (_vegetation != value)
+                {
+                    _vegetation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private void InitializeCoarseWoodyDefaults()
-        {            // todo test; will this load existing values? 
+        {            // todo test; will this load existing values?
 
             if (PlotCoarseWoody is null)
             {
@@ -307,9 +324,9 @@ namespace PTANonCrown.Data.Models
 
         private void InitializeDeadTreeDefaults()
         {
-              // todo test; will this load existing values? 
+            // todo test; will this load existing values?
 
-                if (PlotTreeDead is null)
+            if (PlotTreeDead is null)
             {
                 PlotTreeDead = new ObservableCollection<TreeDead>();
                 PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
@@ -327,6 +344,14 @@ namespace PTANonCrown.Data.Models
 
             //PlotTreeLive.Add(new TreeLive() { PlotID = ID });
 
+        }
+
+        private void OnIsPlantedChanged()
+        {
+            if (!IsPlanted)
+            {
+                PlantedType = PlantedType.None;
+            }
         }
 
         private void OnTreeLiveCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

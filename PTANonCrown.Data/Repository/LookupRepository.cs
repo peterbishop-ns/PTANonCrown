@@ -10,16 +10,16 @@ namespace PTANonCrown.Data.Repository
 
     public class LookupRepository : BaseRepository<BaseLookup>, ILookupRepository
     {
-        private readonly LookupDbContext _context;
+        private readonly AppDbContext _context;
 
-        public LookupRepository(LookupDbContext context) : base(context)
+        public LookupRepository(AppDbContext context) : base(context)
         {
             AppLogger.Log("LookupRepository", "LookupRepository");
 
             _context = context;
         }
 
-        public List<Lookup> GetSoilLookups()
+        public List<SoilLookup> GetSoilLookups()
         {
             AppLogger.Log("GetSoilLookups", "LookupRepository");
 

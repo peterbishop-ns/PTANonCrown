@@ -49,17 +49,6 @@ namespace PTANonCrown
 
             builder.Services.AddDbContext<AppDbContext>();
 
-            CopyDatabaseAsync("lookup.db");
-
-            AppLogger.Log("AddDbContext - lookup", "MauiProgram");
-
-
-            builder.Services.AddDbContext<LookupDbContext>(options =>
-            {
-                var dbPath = Path.Combine(FileSystem.AppDataDirectory, "lookup.db");
-                options.UseSqlite($"Filename={dbPath}");
-            });
-
             AppLogger.Log($"{FileSystem.AppDataDirectory}", "AddDbContext");
             AppLogger.Log("AddDbContext - app", "MauiProgram");
 
@@ -72,20 +61,23 @@ namespace PTANonCrown
             AppLogger.Log($"DBContext end ", "MauiProgram.cs");
 
 
-            AppLogger.Log($"Services start", "MauiProgram.cs");
+            // Apply pending EF Core migrations at runtime
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+            }
 
+            AppLogger.Log($"Services start", "MauiProgram.cs");
+            /*
             // Ensure database is created
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 db.Database.EnsureCreated();  // Creates the database if it doesn't exist
             }
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<LookupDbContext>();
-                db.Database.EnsureCreated();  // Creates the database if it doesn't exist
-            }
+            */
+          
             AppLogger.Log($"Services done", "MauiProgram.cs");
 
             return app;
