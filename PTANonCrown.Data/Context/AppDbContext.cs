@@ -30,6 +30,7 @@ public class AppDbContext : DbContext
     public DbSet<TreeLive> TreesLive { get; set; }
     public DbSet<TreeSpecies> TreeSpecies { get; set; }
     public DbSet<VegLookup> VegLookup { get; set; }
+    public DbSet<ExposureLookup> ExposureLookup { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -101,6 +102,15 @@ public class AppDbContext : DbContext
     new SoilLookup { ID = 65, ShortCode = "ST19-M", Name = "Talus (mafic phase)" }
 );
 
+        modelBuilder.Entity<ExposureLookup>().HasData(
+            new ExposureLookup { ID = 1, Name = "Exposed"},
+            new ExposureLookup { ID = 2, Name = "Moderately exposed"},
+            new ExposureLookup { ID = 3, Name = "Moderate/neutral"},
+            new ExposureLookup { ID = 4, Name = "Moderately sheltered"},
+            new ExposureLookup { ID = 5, Name = "Sheltered"}
+            
+            );
+        
         modelBuilder.Entity<VegLookup>().HasData(
             new VegLookup { ID = 1, ShortCode = null, Name = "Not assessed" },
 new VegLookup { ID = 2, ShortCode = "CE1", Name = "Eastern white cedar / Speckled alder / Cinnamon fern / Sphagnum" },

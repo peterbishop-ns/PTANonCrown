@@ -219,6 +219,7 @@ namespace PTANonCrown.ViewModel
         public List<TreeSpecies> LookupTrees { get; set; }
 
         public List<VegLookup> LookupVeg { get; set; }
+        public List<ExposureLookup> LookupExposure { get; set; }
 
         public ICommand NewPlotCommand =>
             new Command<string>(method => CreateNewPlot(CurrentStand));
@@ -735,6 +736,7 @@ namespace PTANonCrown.ViewModel
             LookupSoils = _lookupRepository.GetSoilLookups();
             LookupEcodistricts = _lookupRepository.GetEcodistrictLookups();
             LookupVeg = _lookupRepository.GetVegLookups();
+            LookupExposure = _lookupRepository.GetExposureLookups();
             Treatments = _standRepository.GetTreatments();
 
             TreeLookupFilteredList = new ObservableCollection<TreeSpecies>() { };

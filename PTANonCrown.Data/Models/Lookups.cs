@@ -38,7 +38,8 @@ namespace PTANonCrown.Data.Models
 
     public class SoilLookup : BaseLookup
     { }
-
+    public class ExposureLookup : BaseLookup
+    { }
     public class VegLookup : BaseLookup
     { }
 

@@ -86,7 +86,19 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
-
+        private ExposureLookup _exposure;
+        public ExposureLookup Exposure
+        {
+            get => _exposure;
+            set
+            {
+                if (_exposure != value)
+                {
+                    _exposure = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public int HorizontalStructure { get; set; }
 
         public int ID { get; set; }

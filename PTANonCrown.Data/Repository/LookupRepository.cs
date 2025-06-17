@@ -38,9 +38,16 @@ namespace PTANonCrown.Data.Repository
             AppLogger.Log("GetVegLookups", "LookupRepository");
 
             return _context.VegLookup.ToList();
-        }
+        }     
+        
+        public List<ExposureLookup> GetExposureLookups()
+        {
+            AppLogger.Log("GetExposureLookups", "LookupRepository");
 
-       
+            return _context.ExposureLookup.ToList();
+        }
+        
+
 
     }
 }
