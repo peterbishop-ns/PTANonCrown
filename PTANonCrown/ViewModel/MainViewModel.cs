@@ -49,7 +49,7 @@ namespace PTANonCrown.ViewModel
             GetOrCreateStand();
 
             AppLogger.Log("GetOrCreatePlot", "MainViewModel");
-            //GetOrCreatePlot(CurrentStand);
+            GetOrCreatePlot(CurrentStand);
             ValidationMessage = string.Empty;
 
         }

@@ -76,7 +76,7 @@ namespace PTANonCrown.Data.Models
         public int Blowdown { get; set; }
 
         
-        /*public EcodistrictLookup EcodistrictLookup
+       public EcodistrictLookup EcodistrictLookup
         {
             get => _ecodistrictLookup;
             set
@@ -87,7 +87,8 @@ namespace PTANonCrown.Data.Models
                     OnPropertyChanged();
                 }
             }
-        }*/
+        }
+
         private ExposureLookup _exposure;
         public ExposureLookup Exposure
         {
@@ -328,11 +329,11 @@ namespace PTANonCrown.Data.Models
             if (PlotCoarseWoody is null)
             {
                 PlotCoarseWoody = new ObservableCollection<CoarseWoody>();
-                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
-                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
-                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
-                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
-                PlotCoarseWoody.Add(new CoarseWoody() { PlotID = ID, DBH_start = 60, DBH_end = -1 });
+                PlotCoarseWoody.Add(new CoarseWoody() { Plot = this, DBH_start = 21, DBH_end = 30 });
+                PlotCoarseWoody.Add(new CoarseWoody() { Plot = this, DBH_start = 31, DBH_end = 40 });
+                PlotCoarseWoody.Add(new CoarseWoody() { Plot = this, DBH_start = 41, DBH_end = 50 });
+                PlotCoarseWoody.Add(new CoarseWoody() { Plot = this, DBH_start = 51, DBH_end = 60 });
+                PlotCoarseWoody.Add(new CoarseWoody() { Plot = this, DBH_start = 60, DBH_end = -1 });
             }
         }
 
@@ -343,11 +344,11 @@ namespace PTANonCrown.Data.Models
             if (PlotTreeDead is null)
             {
                 PlotTreeDead = new ObservableCollection<TreeDead>();
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 21, DBH_end = 30 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 31, DBH_end = 40 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 41, DBH_end = 50 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 51, DBH_end = 60 });
-                PlotTreeDead.Add(new TreeDead() { PlotID = ID, DBH_start = 60, DBH_end = -1 });
+                PlotTreeDead.Add(new TreeDead() { Plot = this, DBH_start = 21, DBH_end = 30 });
+                PlotTreeDead.Add(new TreeDead() { Plot = this, DBH_start = 31, DBH_end = 40 });
+                PlotTreeDead.Add(new TreeDead() { Plot = this, DBH_start = 41, DBH_end = 50 });
+                PlotTreeDead.Add(new TreeDead() { Plot = this, DBH_start = 51, DBH_end = 60 });
+                PlotTreeDead.Add(new TreeDead() { Plot = this, DBH_start = 60, DBH_end = -1 });
             }
 
         }
