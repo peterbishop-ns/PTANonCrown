@@ -35,7 +35,7 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<SoilLookup>().HasData(
-    new SoilLookup { ID = 1, ShortCode = "n/a", Name = "Not Assessed" },
+    new SoilLookup { ID = 1, ShortCode = "n/a", Name = "Not assessed" },
     new SoilLookup { ID = 2, ShortCode = "ST1", Name = "Dry - MCT" },
     new SoilLookup { ID = 3, ShortCode = "ST1-G", Name = "Dry - MCT (granite phase)" },
     new SoilLookup { ID = 4, ShortCode = "ST1-GS", Name = "Dry - MCT (granite stoney phase)" },
@@ -103,7 +103,7 @@ public class AppDbContext : DbContext
 );
 
         modelBuilder.Entity<ExposureLookup>().HasData(
-            new ExposureLookup { ID = 1,  Name = "Unknown" },
+            new ExposureLookup { ID = 1,  Name = "n/a - Not assessed" },
             new ExposureLookup { ID = 2, Name = "Exposed"},
             new ExposureLookup { ID = 3, Name = "Moderately exposed"},
             new ExposureLookup { ID = 4, Name = "Moderate/neutral"},
@@ -228,16 +228,17 @@ new VegLookup { ID = 111, ShortCode = "WD8", Name = "Red spruce - Red maple / Wo
             );
 
         modelBuilder.Entity<EcodistrictLookup>().HasData(
-                new EcodistrictLookup { ID = 1, ShortCode = "220", Name = "Victoria Lowlands ecodistrict", EcositeGroup = "Acadian" },
-                new EcodistrictLookup { ID = 2, ShortCode = "300", Name = "Nova Scotia Uplands ecoregion", EcositeGroup = "Acadian" },
-                new EcodistrictLookup { ID = 3, ShortCode = "400", Name = "Eastern ecoregion", EcositeGroup = "Acadian" },
-                new EcodistrictLookup { ID = 4, ShortCode = "500", Name = "Northumberland / Bras d’Or ecoregion", EcositeGroup = "Acadian" },
-                new EcodistrictLookup { ID = 5, ShortCode = "600", Name = "Valley and Central Lowlands ecoregion", EcositeGroup = "Acadian" },
-                new EcodistrictLookup { ID = 6, ShortCode = "700", Name = "Western ecoregion", EcositeGroup = "Acadian" },
-                new EcodistrictLookup { ID = 7, ShortCode = "900", Name = "Fundy Shore ecoregion", EcositeGroup = "Acadian" },
-                new EcodistrictLookup { ID = 8, ShortCode = "210", Name = "Cape Breton Highlands ecodistrict", EcositeGroup = "Maritime Boreal" },
-                new EcodistrictLookup { ID = 9, ShortCode = "100", Name = "Northern Plateau ecoregion", EcositeGroup = "Maritime Boreal" },
-                new EcodistrictLookup { ID = 10, ShortCode = "800", Name = "Atlantic Coastal ecoregion", EcositeGroup = "Maritime Boreal" }
+                new EcodistrictLookup { ID = 1, ShortCode = "n/a", Name = "Unknown", EcositeGroup = "Unknown" },
+                new EcodistrictLookup { ID = 2, ShortCode = "100", Name = "Northern Plateau", EcositeGroup = "Maritime Boreal" },
+                new EcodistrictLookup { ID = 3, ShortCode = "210", Name = "Cape Breton Highlands", EcositeGroup = "Maritime Boreal" },
+                new EcodistrictLookup { ID = 4, ShortCode = "220", Name = "Victoria Lowlands", EcositeGroup = "Acadian" },
+                new EcodistrictLookup { ID = 5, ShortCode = "300", Name = "Nova Scotia Uplands", EcositeGroup = "Acadian" },
+                new EcodistrictLookup { ID = 6, ShortCode = "400", Name = "Eastern", EcositeGroup = "Acadian" },
+                new EcodistrictLookup { ID = 7, ShortCode = "500", Name = "Northumberland / Bras d’Or", EcositeGroup = "Acadian" },
+                new EcodistrictLookup { ID = 8, ShortCode = "600", Name = "Valley and Central Lowlands", EcositeGroup = "Acadian" },
+                new EcodistrictLookup { ID = 9, ShortCode = "700", Name = "Western", EcositeGroup = "Acadian" },
+                new EcodistrictLookup { ID = 10, ShortCode = "800", Name = "Atlantic Coastal", EcositeGroup = "Maritime Boreal" },
+                new EcodistrictLookup { ID = 11, ShortCode = "900", Name = "Fundy Shore", EcositeGroup = "Acadian" }
             );
 
         modelBuilder.Entity<TreeSpecies>().HasData(

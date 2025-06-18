@@ -92,7 +92,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="StandEasting" />
                         </HorizontalStackLayout>
-                        <Entry Text="{Binding CurrentStand.Easting}"
+                        <Entry Text="{Binding CurrentPlot.Easting}"
                                Placeholder="Easting"
                                Style="{StaticResource EntryPlot}" />
 
@@ -104,7 +104,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="StandNorthing" />
                         </HorizontalStackLayout>
-                        <Entry Text="{Binding CurrentStand.Northing}"
+                        <Entry Text="{Binding CurrentPlot.Northing}"
                                Placeholder="Northing"
                                Style="{StaticResource EntryPlot}" />
                     </VerticalStackLayout>
@@ -215,22 +215,24 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <VerticalStackLayout Grid.Row="1"
                                              Spacing="0"
                                              Grid.ColumnSpan="2"
-                                             Margin="40,0,0,0">
+                                             Margin="0,0,0,0">
        
                                 <VerticalStackLayout  Margin="20,0,0,0"
                                                                 Spacing="0">
                                     <RadioButton Content="Acadian"
+                                                 Margin="0"
                                              Value="{x:Static enum:EcositeGroup.Acadian}" />
 
 
                                 <RadioButton Content="Maritime Boreal"
+                                             Margin="0"
                                              Value="{x:Static enum:EcositeGroup.MaritimeBoreal}" />
 
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                         <HorizontalStackLayout Grid.Row="2"
                                                Grid.Column="0">
-                            <Label Text="Ecodistrict"
+                            <Label Text="Ecoregion"
                                    Style="{StaticResource LabelPlot}" />
                             <ImageButton Source="info.png"
                                          Style="{StaticResource ImageButtonHelper}"

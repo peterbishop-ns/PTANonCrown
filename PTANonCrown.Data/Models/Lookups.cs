@@ -46,7 +46,7 @@ namespace PTANonCrown.Data.Models
     public class EcodistrictLookup : BaseLookup
     {
         [NotMapped]
-        public string DisplayName { get => $"{Name} - {ShortCode}"; }
+        public string DisplayName { get => $"{ShortCode} - {Name}"; }
         private string _ecositeGroup { get; set; }
         
         public string EcositeGroup

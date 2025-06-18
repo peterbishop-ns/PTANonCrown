@@ -415,11 +415,11 @@ namespace PTANonCrown.ViewModel
 
             var _newPlot = new Plot
             {
-                //  StandID = stand.ID,
                 PlotNumber = newPlotNumber,
-                //Soil = 1,
-                ////Exposure = 1,
-                //Vegetation = 1,
+                EcodistrictLookup = LookupEcodistricts.Where(x => x.ID == 1).FirstOrDefault(),
+                Soil = LookupSoils.Where(x => x.ID == 1).FirstOrDefault(),
+                Exposure = LookupExposure.Where(x => x.ID == 1).FirstOrDefault(),
+                Vegetation = LookupVeg.Where(x => x.ID == 1).FirstOrDefault(),
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
                     TreatmentId = t.ID,

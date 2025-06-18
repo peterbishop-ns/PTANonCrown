@@ -28,7 +28,8 @@ namespace PTANonCrown.Data.Models
         private UnderstoryDominated _understoryDominated;
 
         private VegLookup _vegetation;
-
+        public float? Easting { get; set; }
+        public float? Northing { get; set; }
         public Plot()
         {
             Blowdown = 0;

@@ -280,10 +280,7 @@
         <Setter Property="BackgroundColor"
                 Value="#F0F0F0" />
     </Style>
-    <Style TargetType="Editor">
-        <Setter Property="Background"
-                Value="White" />
-    </Style>
+
     <Style TargetType="Entry"
            x:Key="EntryParent">
         <Setter Property="TextColor"

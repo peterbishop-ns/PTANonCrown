@@ -13,12 +13,12 @@ namespace PTANonCrown.Data.Models
         }
 
         public int CruiseID { get; set; }
-        public float? Easting { get; set; }
+
         public int Ecodistrict { get; set; }
         public int ID { get; set; }
         public string? Location { get; set; }
 
-        public float? Northing { get; set; }
+        public float? Area_ha { get; set; } 
 
         public string? Organization { get; set; }
         public string? Comment { get; set; }
