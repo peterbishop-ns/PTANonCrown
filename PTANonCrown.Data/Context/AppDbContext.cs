@@ -262,17 +262,16 @@ new VegLookup { ID = 111, ShortCode = "WD8", Name = "Red spruce - Red maple / Wo
         );
 
         modelBuilder.Entity<Treatment>().HasData(
-                  new Treatment { ID = 1, Name = "Planting" },
-                  new Treatment { ID = 2, Name = "Pre-commercial thinning" },
-                  new Treatment { ID = 3, Name = "Commercial thinning" },
-                  new Treatment { ID = 4, Name = "Strip shelterwood" },
-                  new Treatment { ID = 5, Name = "Patch shelterwood" },
-                  new Treatment { ID = 6, Name = "Uniform shelterwood" },
-                  new Treatment { ID = 7, Name = "Gap irregular shelterwood" },
-                  new Treatment { ID = 8, Name = "Continuous cover irregular shelterwood" },
-                  new Treatment { ID = 9, Name = "Single tree selection" },
-                  new Treatment { ID = 10, Name = "Group selection" },
-                  new Treatment { ID = 11, Name = "Partial harvest (unknown)" }
+                  new Treatment { ID = 1, Name = "Pre-commercial thinning" },
+                  new Treatment { ID = 2, Name = "Commercial thinning" },
+                  new Treatment { ID = 3, Name = "Strip shelterwood" },
+                  new Treatment { ID = 4, Name = "Patch shelterwood" },
+                  new Treatment { ID = 5, Name = "Uniform shelterwood" },
+                  new Treatment { ID = 6, Name = "Gap irregular shelterwood" },
+                  new Treatment { ID = 7, Name = "Continuous cover irregular shelterwood" },
+                  new Treatment { ID = 8, Name = "Single tree selection" },
+                  new Treatment { ID = 9, Name = "Group selection" },
+                  new Treatment { ID = 10, Name = "Partial harvest (unknown)" }
               );
 
         // Stand → Plots
