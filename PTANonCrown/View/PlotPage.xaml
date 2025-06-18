@@ -149,7 +149,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 <RadioButton Content="Maritime Boreal"
                                              Value="{x:Static enum:PlantedType.MaritimeBoreal}" />
 
-                                <RadioButton Content="Coastal"
+                                <RadioButton Content="Coastal (Maritime Boreal)"
                                              Value="{x:Static enum:PlantedType.Coastal}" />
 
 
