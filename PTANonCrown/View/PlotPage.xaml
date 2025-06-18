@@ -17,8 +17,6 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
-
-
         <VerticalStackLayout Padding="5"
                              Spacing="5">
             <Label Text="{Binding ErrorMessage}"
@@ -76,12 +74,46 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     </HorizontalStackLayout>
 
                     <Editor Placeholder="Comment"
-                            Style="{StaticResource CurrentPlot.Comments}" />
+                            Text="{StaticResource CurrentPlot.Comments}"/>
                 </VerticalStackLayout>
             </Grid>
+            <!-- PLOT LOCATION -->
+            <VerticalStackLayout>
+                <Label Text="Location"
+                       Style="{StaticResource LabelPlot}" />
 
+                <Border Padding="10,10,10,10">
+                    <VerticalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="Easting"
+                                   Style="{StaticResource LabelStand}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="StandEasting" />
+                        </HorizontalStackLayout>
+                        <Entry Text="{Binding CurrentStand.Easting}"
+                               Placeholder="Easting"
+                               Style="{StaticResource EntryPlot}" />
+
+                        <HorizontalStackLayout>
+                            <Label Text="Northing"
+                                   Style="{StaticResource LabelStand}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="StandNorthing" />
+                        </HorizontalStackLayout>
+                        <Entry Text="{Binding CurrentStand.Northing}"
+                               Placeholder="Northing"
+                               Style="{StaticResource EntryPlot}" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+            
             <!-- PLOT HISTORY-->
-
+            
             <VerticalStackLayout>
                 <Label Text="Plot History"
                        Style="{StaticResource LabelPlot}" />
