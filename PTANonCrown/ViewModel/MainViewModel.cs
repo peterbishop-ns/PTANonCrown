@@ -977,7 +977,7 @@ namespace PTANonCrown.ViewModel
             SummaryPlot = null;
             SummarySectionIsVisible = true;
             var trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
-            SummaryItems = TreeSummaryHelper.GenerateSummaryResult(trees);
+            SummaryItems = TreeSummaryHelper.GenerateSummaryResult(trees, plotCount: CurrentStand.Plots.Count());
             SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
             TreatmentSummary = GenerateTreatmentSummary(CurrentStand.Plots);
 
