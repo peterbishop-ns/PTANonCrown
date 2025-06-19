@@ -22,6 +22,8 @@ public partial class PlotPage : ContentPage
         //InitializeComponent();
         BindingContext = viewModel;
     }
+
+    
     void LogError(string where, Exception ex)
     {
         var path = "c:\\temp\\crashlog.txt";

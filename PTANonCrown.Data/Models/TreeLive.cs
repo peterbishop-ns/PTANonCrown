@@ -212,8 +212,20 @@ namespace PTANonCrown.Data.Models
         [NotMapped]
         public ObservableCollection<TreeSpecies> TreeSpeciesFilteredList { get; set; } = new ObservableCollection<TreeSpecies>();
 
-        public int TreeNumber { get; set; }
+        private int _treeNumber;
+        public int TreeNumber
+        {
+            get => _treeNumber;
+            set
+            {
+                if (_treeNumber != value)
+                {
+                    _treeNumber = value;
+                    OnPropertyChanged();
+                }
+            }
 
+        }
         public int GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int DBH_cm)
         {
             var height = Interpolate(lookup, DBH_cm);

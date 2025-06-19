@@ -95,7 +95,7 @@
 
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive}">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="100,200,80,80,100,60,60,60,60,80,80,80,60,60"
+                    <Grid ColumnDefinitions="100,200,80,80,100,60,60,60,60,80,80,80,60,60,60"
                           BackgroundColor="LightGray"
                           Padding="5">
                         <Label Grid.Column="0"
@@ -159,16 +159,31 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="100,200,80,80,100,60,60,60,60,80,80,80,60,60"
+                        <Grid ColumnDefinitions="100,200,80,80,100,60,60,60,60,80,80,80,60,60,60"
                               Padding="5"
                               BackgroundColor="WhiteSmoke">
 
                             <!-- Tree Number -->
-                            <Label Grid.Column="0"
-                                   Text="{Binding TreeNumber}"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="0" Spacing="5">
+                                <Label Text="{Binding TreeNumber}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
 
+                                <!-- Source="Resources/Images/delete_button.png"-->
+                                <Button     Text="x"
+                                            TextColor="Red"
+                                            FontSize="24"
+                                            BackgroundColor="Transparent"
+                                            BorderWidth="1"
+                                            CornerRadius="6"
+                                            VerticalOptions="Center"
+                                            WidthRequest="40"
+                                            HeightRequest="40"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=DeleteLiveTreeCommand}"
+                                            CommandParameter="{Binding .}" />
+
+                            </HorizontalStackLayout>
+                           
                             <!-- Species: Entry + Picker -->
                             <HorizontalStackLayout Grid.Column="1"
                                                    Spacing="5">
@@ -263,6 +278,7 @@
                                       IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=CurrentPlot.IsPlanted}"
                                       HorizontalOptions="Center"
                                       VerticalOptions="Center" />
+     
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

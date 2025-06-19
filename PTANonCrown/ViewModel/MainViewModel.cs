@@ -51,6 +51,7 @@ namespace PTANonCrown.ViewModel
             AppLogger.Log("GetOrCreatePlot", "MainViewModel");
             GetOrCreatePlot(CurrentStand);
             ValidationMessage = string.Empty;
+            RefreshTreeCount();
 
         }
 
@@ -84,6 +85,30 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+
+        public void DeleteLiveTree(TreeLive tree)
+        {
+            //remove it
+            CurrentPlot.PlotTreeLive.Remove(tree);
+
+            //Re-adjust the treenumbering (so as to not have a gap)
+            int treeCount = 1;
+            foreach (TreeLive treeLive in CurrentPlot.PlotTreeLive)
+            {
+                treeLive.TreeNumber = treeCount;
+                treeCount++;
+            }
+
+            RefreshTreeCount();
+
+        }
+
+        private void RefreshTreeCount()
+        {
+            //Refresh Tree Count 
+            CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
+        }
+        public ICommand DeleteLiveTreeCommand => new Command<TreeLive>(tree => DeleteLiveTree(tree));
         public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
         public ICommand PromptDeleteStandCommand => new Command<Stand>(stand => PromptDeleteStand(stand));
         public ICommand UsePredictedHeightsCommand => new Command(_ => UsePredictedHeights());
@@ -141,8 +166,7 @@ namespace PTANonCrown.ViewModel
 
           
             //Refresh the count 
-            CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
-
+            RefreshTreeCount();
         }
 
         public IEnumerable<CardinalDirections> TransectDirections { get; } =
@@ -420,6 +444,7 @@ namespace PTANonCrown.ViewModel
                 Soil = LookupSoils.Where(x => x.ID == 1).FirstOrDefault(),
                 Exposure = LookupExposure.Where(x => x.ID == 1).FirstOrDefault(),
                 Vegetation = LookupVeg.Where(x => x.ID == 1).FirstOrDefault(),
+                EcositeGroup = EcositeGroup.None,
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
                     TreatmentId = t.ID,
@@ -832,8 +857,25 @@ namespace PTANonCrown.ViewModel
                 ContainsError = true;
             }
 
+            if (plot.Easting is int easting && CountDigits(easting) != 6 && easting != 0)
+            {
+                ErrorMessage = "Easting should be 6 digits long.";
+                ContainsError = true;
+            }
+
+            if (plot.Northing is int northing && CountDigits(northing) != 7 && northing !=0)
+            {
+                ErrorMessage = "Northing should be 7 digits long.";
+                ContainsError = true;
+            }
+
         }
 
+        private int CountDigits(int number)
+        {
+            int result = number.ToString().TrimStart('-').Length;
+            return result;
+        }
         private void ValidateTrees(ObservableCollection<TreeLive> trees)
         {
             foreach (TreeLive tree in trees)

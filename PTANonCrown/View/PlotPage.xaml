@@ -14,6 +14,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+            <converter:ZeroToEmptyStringConverter x:Key="ZeroToEmptyStringConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
@@ -92,8 +93,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="StandEasting" />
                         </HorizontalStackLayout>
-                        <Entry Text="{Binding CurrentPlot.Easting}"
+                        <Entry Text="{Binding CurrentPlot.Easting, 
+                            Converter={StaticResource ZeroToEmptyStringConverter}}"
                                Placeholder="Easting"
+                               TextChanged="OnlyIntegerAllowed"
                                Style="{StaticResource EntryPlot}" />
 
                         <HorizontalStackLayout>
@@ -104,8 +107,9 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="StandNorthing" />
                         </HorizontalStackLayout>
-                        <Entry Text="{Binding CurrentPlot.Northing}"
+                        <Entry Text="{Binding CurrentPlot.Northing, Converter={StaticResource ZeroToEmptyStringConverter}}"
                                Placeholder="Northing"
+                               TextChanged="OnlyIntegerAllowed"
                                Style="{StaticResource EntryPlot}" />
                     </VerticalStackLayout>
                 </Border>
@@ -218,8 +222,14 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                              Margin="0,0,0,0">
        
                                 <VerticalStackLayout  Margin="20,0,0,0"
-                                                                Spacing="0">
-                                    <RadioButton Content="Acadian"
+                                                                Spacing="0"
+                                                  RadioButtonGroup.GroupName="EcositeGroup"
+                                                  RadioButtonGroup.SelectedValue="{Binding CurrentPlot.EcositeGroup, Mode=TwoWay}">
+                                <RadioButton Content="HIDDEN"
+                                             Margin="0"
+                                             IsVisible="False"
+                                             Value="{x:Static enum:EcositeGroup.None}" />
+                                <RadioButton Content="Acadian"
                                                  Margin="0"
                                              Value="{x:Static enum:EcositeGroup.Acadian}" />
 
@@ -535,7 +545,11 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                   RadioButtonGroup.GroupName="UnderstoryDominated"
                                                   RadioButtonGroup.SelectedValue="{Binding CurrentPlot.UnderstoryDominated, Mode=TwoWay}"
                                                   Spacing="0">
-                                             <RadioButton Content="Trees"
+                                <RadioButton Content="Trees"
+                                             IsVisible="False"
+                                             Value="{x:Static enum:UnderstoryDominated.None}" />
+
+                                <RadioButton Content="Trees"
              Value="{x:Static enum:UnderstoryDominated.Trees}" />
 
 
@@ -581,6 +595,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <Picker Grid.Row="0"
                                 Grid.Column="1"
                                 WidthRequest="200"
+                                SelectedItem="{Binding CurrentPlot.AgeTreeSpecies, Mode=TwoWay}"
                                 ItemsSource="{Binding LookupTrees}"
                                 ItemDisplayBinding="{Binding Name}" />
                         <HorizontalStackLayout Grid.Row="1"

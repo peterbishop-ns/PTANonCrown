@@ -28,8 +28,8 @@ namespace PTANonCrown.Data.Models
         private UnderstoryDominated _understoryDominated;
 
         private VegLookup _vegetation;
-        public float? Easting { get; set; }
-        public float? Northing { get; set; }
+        public int Easting { get; set; }
+        public int Northing { get; set; }
         public Plot()
         {
             Blowdown = 0;
@@ -138,7 +138,56 @@ namespace PTANonCrown.Data.Models
                 {
                     _plantedType = value;
                     OnPropertyChanged();
+                    OnPlantedTypeChanged();
                 }
+            }
+        }
+
+        private EcositeGroup _ecositeGroup;
+        public EcositeGroup EcositeGroup
+        {
+            get => _ecositeGroup;
+            set
+            {
+                if (_ecositeGroup != value)
+                {
+                    _ecositeGroup = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+
+        private TreeSpecies _ageTreeSpecies;
+
+        public TreeSpecies AgeTreeSpecies
+        {
+            get => _ageTreeSpecies;
+            set
+            {
+                if (_ageTreeSpecies != value)
+                {
+                    _ageTreeSpecies = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        
+        public void OnPlantedTypeChanged()
+        {
+            // Keep the two Groups in sync
+            if (PlantedType == PlantedType.Acadian)
+            {
+                EcositeGroup = EcositeGroup.Acadian;
+            }
+
+            else if (PlantedType == PlantedType.Coastal ||
+                PlantedType == PlantedType.MaritimeBoreal)
+            {
+                EcositeGroup = EcositeGroup.MaritimeBoreal;
             }
         }
 
