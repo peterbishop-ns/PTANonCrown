@@ -285,6 +285,33 @@ namespace PTANonCrown.ViewModel
                 }
             }
         }
+        private ObservableCollection<SummarySoilResult> _soilSummary;
+        public ObservableCollection<SummarySoilResult> SoilSummary
+        {
+            get => _soilSummary;
+            set
+            {
+                if (_soilSummary != value)
+                {
+                    _soilSummary = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private ObservableCollection<SummaryVegetationResult> _vegetationSummary;
+        public ObservableCollection<SummaryVegetationResult> VegetationSummary
+        {
+            get => _vegetationSummary;
+            set
+            {
+                if (_vegetationSummary != value)
+                {
+                    _vegetationSummary = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public ICommand SpecifyTreeCountInPlotCommand => new Command(SpecifyTreeCountInPlot);
 
@@ -980,7 +1007,8 @@ namespace PTANonCrown.ViewModel
             SummaryItems = TreeSummaryHelper.GenerateSummaryResult(trees, plotCount: CurrentStand.Plots.Count());
             SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
             TreatmentSummary = GenerateTreatmentSummary(CurrentStand.Plots);
-
+            SoilSummary = GenerateSoilSummary(CurrentStand.Plots);
+            VegetationSummary = GenerateVegetationSummary(CurrentStand.Plots);
             SummaryPageMessage = $"Stand {CurrentStand.StandNumber} Summary";
 
         }
@@ -1000,6 +1028,53 @@ namespace PTANonCrown.ViewModel
             }
 
         }
+
+        private ObservableCollection<SummarySoilResult> GenerateSoilSummary(IEnumerable<Plot> plots)
+        {
+            ObservableCollection<SummarySoilResult> soilSummary = new ObservableCollection<SummarySoilResult>();
+
+            int totalCount = plots.Count();
+
+            // Group plots by Soil object
+            var groupedBySoil = plots
+                .GroupBy(p => p.Soil);
+
+            foreach (var group in groupedBySoil)
+            {
+                var count = group.Count();
+                soilSummary.Add(new SummarySoilResult
+                {
+                    Soil = group.Key,
+                    Count = count,
+                    Percentage = Math.Round(100.0 * count / totalCount, 1)
+                });
+            }
+
+            return soilSummary;
+        }
+        private ObservableCollection<SummaryVegetationResult> GenerateVegetationSummary(IEnumerable<Plot> plots)
+        {
+            ObservableCollection<SummaryVegetationResult> vegSummary = new ObservableCollection<SummaryVegetationResult>();
+            int totalCount = plots.Count();
+
+            // Group plots by Soil object
+            var groupedByVeg = plots
+                .GroupBy(p => p.Vegetation);
+
+            foreach (var group in groupedByVeg)
+            {
+                var count = group.Count();
+                vegSummary.Add(new SummaryVegetationResult
+                {
+                    Vegetation = group.Key,
+                    Count = count,
+                    Percentage = Math.Round(100.0 * count / totalCount, 1)
+                });
+            }
+
+            return vegSummary;
+        }
+
 
         private ObservableCollection<SummaryTreatmentResult> GenerateTreatmentSummary(IEnumerable<Plot> plots)
         {
