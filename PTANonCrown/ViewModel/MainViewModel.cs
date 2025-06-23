@@ -801,6 +801,15 @@ namespace PTANonCrown.ViewModel
                 plot = CreateNewPlot(stand);
             }
 
+            /*
+            // Make sure LookupTrees is populated before this line
+            foreach (var tree in plot.PlotTreeLive)
+            {
+                // Fix: reassign TreeSpecies to one from LookupTrees
+                tree.TreeSpecies = tree.LookupTrees.FirstOrDefault(t => t.ID == tree.TreeSpecies?.ID);
+
+            }
+            */
             SetCurrentPlot(plot);
 
             return plot;

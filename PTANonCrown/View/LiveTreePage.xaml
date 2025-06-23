@@ -190,11 +190,10 @@
                                 <Entry WidthRequest="50"
                                        Placeholder="e.g. bF"
                                        Text="{Binding SearchSpecies, Mode=TwoWay}" />
-
-                                <Picker WidthRequest="130"
-                                        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=LookupTrees}"
+                                <Picker WidthRequest="400"
+                                        ItemsSource="{Binding LookupTrees}"
                                         SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
-                                        ItemDisplayBinding="{Binding DisplayName}" />
+                                        ItemDisplayBinding="{Binding Name}" />
                             </HorizontalStackLayout>
 
                             <!-- DBH -->
