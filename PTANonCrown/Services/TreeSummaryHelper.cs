@@ -1,4 +1,6 @@
-﻿using PTANonCrown.Data.Models;
+﻿using DocumentFormat.OpenXml.Office2013.Drawing.ChartStyle;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using PTANonCrown.Data.Models;
 using System.Collections.ObjectModel;
 
 namespace PTANonCrown.Services
@@ -11,10 +13,16 @@ namespace PTANonCrown.Services
         }
 
 
-        public static ObservableCollection<SummaryItem> GenerateSummaryResult(IEnumerable<TreeLive> trees, int plotCount = 1)
+        public static ObservableCollection<SummaryItem> GenerateSummaryResult(IEnumerable<Plot> plots)
         {
-        ObservableCollection<SummaryItem> result = new ObservableCollection<SummaryItem>();
+
+            // one plot; 
+            var trees = plots.SelectMany(p => p.PlotTreeLive);
+            int plotCount = plots.Count();
+            ObservableCollection<SummaryItem> result = new ObservableCollection<SummaryItem>();
             
+
+
         if ((trees is null || trees.Count() == 0))
         {
             Application.Current.MainPage.DisplayAlert("Warning", "Unable to generate summary. No trees exist in plot.", "OK");
@@ -44,9 +52,13 @@ namespace PTANonCrown.Services
             result.Add(GetPlantedTreesExSitu_perc(trees));
             result.Add(GetMerchConifer_perc(trees));
             result.Add(GetDeciduousLIT_perc(trees));
+            result.Add(GetLIT_perc(trees));
+            result.Add(GetLT_perc(trees));
             result.Add(GetAGSLIT_NS_WS_RP(trees));
             result.Add(GetQMDMerchTrees_cm(trees));
             result.Add(GetAverageHeight(trees));
+
+            result.Add(GetAge(plots));
 
             return result;
         }
@@ -200,7 +212,19 @@ namespace PTANonCrown.Services
             return summaryItem;
         }
 
+        public static SummaryItem GetAge(IEnumerable<Plot> plots)
+        {
+            var ages = plots.Select(p => p.AgeTreeAge);
 
+            decimal result = (decimal)Math.Round(ages.Average(), 2);
+            var summaryItem = new SummaryItem()
+            {
+                DisplayName = "Age",
+                Value = result,
+                Units = "years"
+            };
+            return summaryItem;
+        }
 
         public static SummaryItem GetAverageHeight(IEnumerable<TreeLive> trees)
         {
@@ -257,6 +281,42 @@ namespace PTANonCrown.Services
             return summaryItem;
         }
 
+        public static SummaryItem GetLIT_perc(IEnumerable<TreeLive> trees)
+        {
+            var filteredTrees = trees.Where(t => (t.TreeSpecies.LIT == true));
+            //todo account for LIT planted vs. LIT not planted; difference in LIT status for at least one tree 
+
+
+            int countFilteredTrees = filteredTrees.Count();
+            int countTotal = trees.Count();
+
+            var result = countTotal > 0 ? Math.Round((decimal)(100 * countFilteredTrees / countTotal), 2) : 0;
+
+            var summaryItem = new SummaryItem()
+            {
+                DisplayName = "% LIT",
+                Value = result,
+                Units = "%"
+            };
+            return summaryItem;
+        }
+        public static SummaryItem GetLT_perc(IEnumerable<TreeLive> trees)
+        {
+            var filteredTrees = trees.Where(t => (t.TreeSpecies.LT == true));
+
+            int countFilteredTrees = filteredTrees.Count();
+            int countTotal = trees.Count();
+
+            var result = countTotal > 0 ? Math.Round((decimal)(100 * countFilteredTrees / countTotal), 2) : 0;
+
+            var summaryItem = new SummaryItem()
+            {
+                DisplayName = "% LT",
+                Value = result,
+                Units = "%"
+            };
+            return summaryItem;
+        }
         public static SummaryItem GetDeciduousLIT_perc(IEnumerable<TreeLive> trees)
         {
 

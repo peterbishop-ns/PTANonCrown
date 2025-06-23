@@ -20,6 +20,11 @@ namespace PTANonCrown.Data.Models
         public string DisplayName { get => $"{Name} - {ShortCode}"; }
         // Navigatioon property to all the trees that use this TreeSpecies
         public List<TreeLive> TreeLives { get; set; }
-
+        public override string ToString()
+        {
+            return $"{DisplayName}"; // or include more: $"Plot {PlotNumber} - {Location}"
+        }
     }
+
+   
 }

@@ -12,6 +12,56 @@ public partial class SummaryPage : ContentPage
         BindingContext = viewModel;
     }
 
+    void ShowSoil(object sender, EventArgs e)
+    {
+        MainSummary.IsVisible = false;
+        SoilSummary.IsVisible = true;
+        
+        VegetationSummary.IsVisible = false;
+        TreatmentSummary.IsVisible = false;
+        SpeciesSummary.IsVisible = false;
+
+
+    }
+
+    void ShowVegetation(object sender, EventArgs e)
+    {
+        MainSummary.IsVisible = false;
+        SoilSummary.IsVisible = false;
+        VegetationSummary.IsVisible = true;
+        TreatmentSummary.IsVisible = false;
+        SpeciesSummary.IsVisible = false;
+    }
+
+    void ShowTreatment(object sender, EventArgs e)
+    {
+        MainSummary.IsVisible = false;
+        SoilSummary.IsVisible = false;
+        VegetationSummary.IsVisible = false;
+        TreatmentSummary.IsVisible = true;
+        SpeciesSummary.IsVisible = false;
+    }
+
+    void ShowMain(object sender, EventArgs e)
+    {
+        MainSummary.IsVisible = true;
+        SoilSummary.IsVisible = false;
+        VegetationSummary.IsVisible = false;
+        TreatmentSummary.IsVisible = false;
+        SpeciesSummary.IsVisible = false;
+
+    }    
+    
+    void ShowSpecies(object sender, EventArgs e)
+    {
+        MainSummary.IsVisible = false;
+        SoilSummary.IsVisible = false;
+        VegetationSummary.IsVisible = false;
+        TreatmentSummary.IsVisible = false;
+        SpeciesSummary.IsVisible = true;
+
+    }
+
     private async void OnButtonClicked(object sender, EventArgs e)
     {
         try

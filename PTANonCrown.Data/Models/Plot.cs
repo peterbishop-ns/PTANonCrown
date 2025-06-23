@@ -41,6 +41,10 @@ namespace PTANonCrown.Data.Models
             InitializeDeadTreeDefaults();
             InitializeCoarseWoodyDefaults();
         }
+        public override string ToString()
+        {
+            return $"Plot {PlotNumber}"; // or include more: $"Plot {PlotNumber} - {Location}"
+        }
 
         public int AgeTreeAge
         {

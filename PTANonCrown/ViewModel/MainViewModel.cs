@@ -13,6 +13,7 @@ using PTANonCrown.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Windows.Input;
 
@@ -463,7 +464,6 @@ namespace PTANonCrown.ViewModel
                 ? stand.Plots.Max(p => p.PlotNumber) + 1
                 : 1;
 
-
             var _newPlot = new Plot
             {
                 PlotNumber = newPlotNumber,
@@ -472,6 +472,7 @@ namespace PTANonCrown.ViewModel
                 Exposure = LookupExposure.Where(x => x.ID == 1).FirstOrDefault(),
                 Vegetation = LookupVeg.Where(x => x.ID == 1).FirstOrDefault(),
                 EcositeGroup = EcositeGroup.None,
+                AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
                     TreatmentId = t.ID,
@@ -527,6 +528,7 @@ namespace PTANonCrown.ViewModel
             if (plot is not null)
             {
                 CurrentStand.Plots.Remove(plot);
+                
                 GetOrCreatePlot(CurrentStand);
                 SaveAll();
             }
@@ -602,7 +604,7 @@ namespace PTANonCrown.ViewModel
                     string folderPath = $"Folder Name: {selectedFolder.Folder}";
 
                     ExportSummary(folder: selectedFolder.Folder);
-
+                    ExportAllTrees(folder: selectedFolder.Folder);
                 }
                 else
                 {
@@ -623,6 +625,32 @@ namespace PTANonCrown.ViewModel
             Application.Current.MainPage.DisplayAlert("Export Successful", $"Summary has been exported to {destination}.", "OK");
         }
 
+        private void ExportAllTrees(Folder folder)
+        {
+            IEnumerable<TreeLive> trees = null;
+            string tabName = null;
+
+            // Create a new Excel workbook
+            var workbook = new XLWorkbook();
+            string exportFileName = System.IO.Path.Combine(folder.Path, $"Trees_{CurrentStand.StandNumber}.xlsx");
+
+            // Export Stand
+            trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
+            tabName = "Stand " + CurrentStand.StandNumber.ToString();
+
+            ExportToExcel(workbook, tabName, trees, exportFileName);
+
+            //Export all Plots
+            foreach (Plot plot in CurrentStand.Plots)
+            {
+                trees = plot.PlotTreeLive;
+                tabName = "Plot " + plot.PlotNumber.ToString();
+                ExportToExcel(workbook, tabName, trees, exportFileName);
+            }
+
+            ExportSuccessMessage(exportFileName);
+        }
+
         private void ExportSummary(Folder folder)
         {
 
@@ -638,24 +666,36 @@ namespace PTANonCrown.ViewModel
 
             // Export Stand
             trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
-            summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
+            summaryResult = TreeSummaryHelper.GenerateSummaryResult(plots: CurrentStand.Plots);
             tabName = "Stand " + CurrentStand.StandNumber.ToString();
             ExportToExcel(workbook, tabName, summaryResult, exportFileName);
+
+
 
             //Export all Plots
             foreach (Plot plot in CurrentStand.Plots)
             {
                 trees = plot.PlotTreeLive;
-                summaryResult = TreeSummaryHelper.GenerateSummaryResult(trees);
+                summaryResult = TreeSummaryHelper.GenerateSummaryResult(new[] { plot });
                 tabName = "Plot " + plot.PlotNumber.ToString();
                 ExportToExcel(workbook, tabName, summaryResult, exportFileName);
             }
 
             ExportSuccessMessage(exportFileName);
         }
-
-        private void ExportToExcel<T>(XLWorkbook workBook, string tabName, ObservableCollection<T> items, string exportFilePath)
+        PropertyInfo[] FilterProperties(PropertyInfo[] properties, params string[] excludeNames)
         {
+            var excludeList = excludeNames.ToList();
+
+            return properties
+                .Where(p => !excludeList.Contains(p.Name, StringComparer.OrdinalIgnoreCase))
+                .ToArray();
+        }
+
+        private void ExportToExcel<T>(XLWorkbook workBook, string tabName, IEnumerable<T> items, string exportFilePath)
+        {
+
+            var itemsList = items.ToList();
 
             // Add a worksheet
             var worksheet = workBook.Worksheets.Add(tabName);
@@ -663,18 +703,32 @@ namespace PTANonCrown.ViewModel
             // Get the properties of the generic type T (column names)
             var properties = typeof(T).GetProperties();
 
+            // Priority list: put any property containing these keywords first
+            string[] priorityKeywords = { "Plot", "Number", "ID", "Name",  "Species" };
+
+            // 1. Properties with priority keywords come first
+            // 2. All others come after, in alphabetical order (or keep as-is)
+            var propertiesSorted = properties
+                .OrderByDescending(p => priorityKeywords.Any(keyword => p.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase)))
+                .ThenBy(p => p.Name) // or keep order as-is by removing this line
+                .ToArray();
+
+            // Define the list of property names to exclude
+            string[] excludeProps = { "SearchSpecies", "TreeSpeciesID", "TreeSpeciesFilteredList", "LookupTrees" };
+
+            propertiesSorted = FilterProperties(propertiesSorted, excludeProps);
             // Add headers (column names) to the first row
-            for (int col = 0; col < properties.Length; col++)
+            for (int col = 0; col < propertiesSorted.Length; col++)
             {
-                worksheet.Cell(1, col + 1).Value = properties[col].Name; // Column headers are property names
+                worksheet.Cell(1, col + 1).Value = propertiesSorted[col].Name; // Column headers are property names
             }
 
-            // Add the data (values from the ObservableCollection)
-            for (int row = 0; row < items.Count; row++)
+            // Add the data (values from the IEnumerable)
+            for (int row = 0; row < itemsList.Count; row++)
             {
-                for (int col = 0; col < properties.Length; col++)
+                for (int col = 0; col < propertiesSorted.Length; col++)
                 {
-                    var propertyValue = properties[col].GetValue(items[row]);
+                    var propertyValue = propertiesSorted[col].GetValue(itemsList[row]);
                     worksheet.Cell(row + 2, col + 1).Value = propertyValue.ToString();
                 }
             }
@@ -739,6 +793,11 @@ namespace PTANonCrown.ViewModel
             // Otherwise create one
             else
             {
+                Application.Current.MainPage.DisplayAlert(
+                "Creating new plot",
+                "No more plots. Creating a new Plot.",
+                "Continue",
+                "Cancel");
                 plot = CreateNewPlot(stand);
             }
 
@@ -1003,8 +1062,7 @@ namespace PTANonCrown.ViewModel
             StandOnlySummary = true;
             SummaryPlot = null;
             SummarySectionIsVisible = true;
-            var trees = CurrentStand.Plots.SelectMany(p => p.PlotTreeLive);
-            SummaryItems = TreeSummaryHelper.GenerateSummaryResult(trees, plotCount: CurrentStand.Plots.Count());
+            SummaryItems = TreeSummaryHelper.GenerateSummaryResult(CurrentStand.Plots);
             SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
             TreatmentSummary = GenerateTreatmentSummary(CurrentStand.Plots);
             SoilSummary = GenerateSoilSummary(CurrentStand.Plots);
@@ -1021,10 +1079,10 @@ namespace PTANonCrown.ViewModel
                 StandOnlySummary = false;
                 SummarySectionIsVisible = true;
 
-                SummaryItems = TreeSummaryHelper.GenerateSummaryResult(plot.PlotTreeLive);
-                SpeciesSummary = GenerateTreeSpeciesSummary(new List<Plot> { plot });
+                SummaryItems = TreeSummaryHelper.GenerateSummaryResult(new[] { plot });
+                SpeciesSummary = GenerateTreeSpeciesSummary(new [] { plot });
                 SummaryPageMessage = $"Plot {CurrentPlot.PlotNumber} Summary";
-                TreatmentSummary = GenerateTreatmentSummary(new List<Plot> { plot });
+                TreatmentSummary = GenerateTreatmentSummary(new[] { plot });
             }
 
         }
