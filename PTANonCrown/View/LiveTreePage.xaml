@@ -201,15 +201,21 @@
                                    Text="{Binding DBH_cm, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    HorizontalOptions="Center"
-                                   VerticalOptions="Center" />
-
+                                   VerticalOptions="Center">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
                             <!-- Height -->
                             <Entry Grid.Column="3"
                                    Text="{Binding Height_m, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    HorizontalOptions="Center"
-                                   VerticalOptions="Center" />
-
+                                   VerticalOptions="Center">
+                                <Entry.Behaviors>
+                                    <behav:EntryFormBehaviour />
+                                </Entry.Behaviors>
+                            </Entry>
                             <!-- Predicted Height (read-only) -->
                             <Label Grid.Column="4"
                                    Text="{Binding HeightPredicted_m, StringFormat='({0})'}"
