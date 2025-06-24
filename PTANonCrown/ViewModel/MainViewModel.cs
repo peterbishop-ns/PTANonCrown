@@ -981,6 +981,10 @@ namespace PTANonCrown.ViewModel
             ValidateTrees(CurrentPlot.PlotTreeLive);
             //ValidateDeadTree(CurrentPlot.PlotTreeDead);
 
+            // Nullable to allow field to be empty in GUI, but need to save as a zero bec
+            CurrentPlot.Easting = CurrentPlot.Easting ?? 0;
+            CurrentPlot.Northing = CurrentPlot.Northing ?? 0;
+
             if (ContainsError)
             {
                 Application.Current.MainPage.DisplayAlert("Error", "Please address errors", "OK");

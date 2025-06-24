@@ -379,11 +379,10 @@ namespace PTANonCrown.Services
             switch (type)
             {
                 case "insitu":
-                    return trees.Where(t => t.PLInSitu).Count();
+                    return trees.Where(t => t.PlantedMethod == PlantedMethod.InSitu).Count();
                 case "exsitu":
-                    return trees.Where(t => t.PLExSitu).Count();
-                case "both":
-                    return trees.Where(t => t.PLExSitu || t.PLInSitu).Count();
+                    return trees.Where(t => t.PlantedMethod == PlantedMethod.ExSitu).Count();
+         
                 default:
                     throw new Exception("Case not handled. Must be one of: insitu, exsitu, both");
             }

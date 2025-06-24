@@ -60,7 +60,7 @@ namespace PTANonCrown.Data.Models
 
         private int _dbh_cm;
         private int _heightPredicted_m;
-        private bool _pLExSitu;
+        private PlantedMethod _plantedMethod;
         private bool _pLInSitu;
         private TreeSpecies _treeSpecies;
 
@@ -138,27 +138,14 @@ namespace PTANonCrown.Data.Models
 
         public bool Mast { get; set; }
 
-        public bool PLExSitu
+        public PlantedMethod PlantedMethod
         {
-            get => _pLExSitu;
+            get => _plantedMethod;
             set
             {
-                if (_pLExSitu != value)
+                if (_plantedMethod != value)
                 {
-                    _pLExSitu = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool PLInSitu
-        {
-            get => _pLInSitu;
-            set
-            {
-                if (_pLInSitu != value)
-                {
-                    _pLInSitu = value;
+                    _plantedMethod = value;
                     OnPropertyChanged();
                 }
             }

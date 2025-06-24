@@ -14,6 +14,13 @@ namespace PTANonCrown.Data.Models
         Coastal = 3
     }
 
+    public enum PlantedMethod
+    {
+        NotPlanted = 0,
+        InSitu = 1,
+        ExSitu = 2
+    }
+
     public enum EcositeGroup
     {
         None = 0,

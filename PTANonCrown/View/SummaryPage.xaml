@@ -85,11 +85,11 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             Clicked="ShowMain" />
                     <Button Text="Treatment"
                             Clicked="ShowTreatment" />
-                    <Button Text="SpeciesSummary"
+                    <Button Text="Species"
                             Clicked="ShowSpecies" />
-                    <Button Text="SoilSummary"
+                    <Button Text="Soil"
                             Clicked="ShowSoil" />
-                    <Button Text="VegetationSummary"
+                    <Button Text="Vegetation"
                             Clicked="ShowVegetation" />
                 </HorizontalStackLayout>
 

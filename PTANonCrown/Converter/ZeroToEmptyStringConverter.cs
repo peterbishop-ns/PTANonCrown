@@ -16,7 +16,7 @@ namespace PTANonCrown.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int intValue && intValue == 0)
+            if (value == null || (value is int intValue && intValue == 0))
                 return string.Empty;
 
             return value.ToString();
@@ -26,13 +26,14 @@ namespace PTANonCrown.Converter
         {
             var str = value as string;
             if (string.IsNullOrWhiteSpace(str))
-                return 0;
+                return null;
 
             if (int.TryParse(str, out int result))
                 return result;
 
-            return 0;
+            return null;
         }
     }
+
 
 }

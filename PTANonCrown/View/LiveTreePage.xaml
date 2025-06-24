@@ -95,97 +95,98 @@
 
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive}">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="100,200,80,80,100,60,60,60,60,80,80,80,60,60,60"
+                    <Grid ColumnDefinitions="30,50,200,80,80,100,60,60,60,60,80,80,300"
                           BackgroundColor="LightGray"
                           Padding="5">
-                        <Label Grid.Column="0"
+                        <Label Grid.Column="1"
                                Text="Tree #"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="1"
+                        <Label Grid.Column="2"
                                Text="Species"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="2"
+                        <Label Grid.Column="3"
                                Text="DBH (cm)"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="3"
+                        <Label Grid.Column="4"
                                Text="Height (m)"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="4"
+                        <Label Grid.Column="5"
                                Text="Predicted"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="5"
+                        <Label Grid.Column="6"
                                Text="AGS"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="6"
+                        <Label Grid.Column="7"
                                Text="LIT"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="7"
+                        <Label Grid.Column="8"
                                Text="LT"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="8"
+                        <Label Grid.Column="9"
                                Text="Cavity"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="9"
+                        <Label Grid.Column="10"
                                Text="Diversity"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="10"
+                        <Label Grid.Column="11"
                                Text="Mast"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
-                        <Label Grid.Column="11"
-                               Text="Planted"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center" />
-                        <Label Grid.Column="12"
-                               Text="In Situ"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center" />
-                        <Label Grid.Column="13"
-                               Text="Ex Situ"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center" />
+
+                            <Label Text="Planted"
+                                   Grid.Column="12"
+                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
+                            Path=CurrentPlot.IsPlanted}"
+                                   HorizontalOptions="Center"
+                                   FontAttributes="Bold" />
+              
+
+
+                        
                     </Grid>
                 </CollectionView.Header>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="100,200,80,80,100,60,60,60,60,80,80,80,60,60,60"
+                        <Grid ColumnDefinitions="30 ,50,200,80,80,100,60,60,60,60,80,80,300"
                               Padding="5"
                               BackgroundColor="WhiteSmoke">
 
-                            <!-- Tree Number -->
-                            <HorizontalStackLayout Grid.Column="0" Spacing="5">
-                                <Label Text="{Binding TreeNumber}"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center" />
-
-                                <!-- Source="Resources/Images/delete_button.png"-->
                                 <Button     Text="x"
+                                            Grid.Column="0"
                                             TextColor="Red"
                                             FontSize="24"
+                                            BorderColor="Transparent"
                                             BackgroundColor="Transparent"
                                             BorderWidth="1"
                                             CornerRadius="6"
                                             VerticalOptions="Center"
+                                        HorizontalOptions='Center'
                                             WidthRequest="40"
                                             HeightRequest="40"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=DeleteLiveTreeCommand}"
                                             CommandParameter="{Binding .}" />
 
-                            </HorizontalStackLayout>
+                            <!-- Tree Number -->
+
+                            <Label Text="{Binding TreeNumber}"
+                                       HorizontalOptions="Center"
+                                       Grid.Column="1"
+                                       VerticalOptions="Center" />
+
                            
                             <!-- Species: Entry + Picker -->
-                            <HorizontalStackLayout Grid.Column="1"
+                            <HorizontalStackLayout Grid.Column="2"
                                                    Spacing="5">
                                 <Entry WidthRequest="50"
                                        Placeholder="e.g. bF"
@@ -193,11 +194,11 @@
                                 <Picker WidthRequest="400"
                                         ItemsSource="{Binding LookupTrees}"
                                         SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
-                                        ItemDisplayBinding="{Binding Name}" />
+                                        ItemDisplayBinding="{Binding DisplayName}" />
                             </HorizontalStackLayout>
 
                             <!-- DBH -->
-                            <Entry Grid.Column="2"
+                            <Entry Grid.Column="3"
                                    Text="{Binding DBH_cm, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    HorizontalOptions="Center"
@@ -207,7 +208,7 @@
                                 </Entry.Behaviors>
                             </Entry>
                             <!-- Height -->
-                            <Entry Grid.Column="3"
+                            <Entry Grid.Column="4"
                                    Text="{Binding Height_m, Mode=TwoWay}"
                                    Keyboard="Numeric"
                                    HorizontalOptions="Center"
@@ -217,73 +218,72 @@
                                 </Entry.Behaviors>
                             </Entry>
                             <!-- Predicted Height (read-only) -->
-                            <Label Grid.Column="4"
+                            <Label Grid.Column="5"
                                    Text="{Binding HeightPredicted_m, StringFormat='({0})'}"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
 
                             <!-- AGS -->
-                            <CheckBox Grid.Column="5"
+                            <CheckBox Grid.Column="6"
                                       IsChecked="{Binding AGS, Mode=TwoWay}"
                                       HorizontalOptions="Center"
                                       VerticalOptions="Center" />
 
                             <!-- LIT (read-only from species) -->
-                            <CheckBox Grid.Column="6"
+                            <CheckBox Grid.Column="7"
                                       IsChecked="{Binding TreeSpecies.LIT}"
                                       IsEnabled="False"
                                       HorizontalOptions="Center"
                                       VerticalOptions="Center" />
 
                             <!-- LT (read-only from species) -->
-                            <CheckBox Grid.Column="7"
+                            <CheckBox Grid.Column="8"
                                       IsChecked="{Binding TreeSpecies.LT}"
                                       IsEnabled="False"
                                       HorizontalOptions="Center"
                                       VerticalOptions="Center" />
 
                             <!-- Cavity -->
-                            <CheckBox Grid.Column="8"
+                            <CheckBox Grid.Column="9"
                                       IsChecked="{Binding Cavity, Mode=TwoWay}"
                                       IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=IsCheckedBiodiversity}"
                                       HorizontalOptions="Center"
                                       VerticalOptions="Center" />
 
                             <!-- Diversity -->
-                            <CheckBox Grid.Column="9"
+                            <CheckBox Grid.Column="10"
                                       IsChecked="{Binding Diversity, Mode=TwoWay}"
                                       IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=IsCheckedBiodiversity}"
                                       HorizontalOptions="Center"
                                       VerticalOptions="Center" />
 
                             <!-- Mast -->
-                            <CheckBox Grid.Column="10"
+                            <CheckBox Grid.Column="11"
                                       IsChecked="{Binding Mast, Mode=TwoWay}"
-                                      IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=IsCheckedBiodiversity}"
+                                      IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
+                                Path=IsCheckedBiodiversity}"
                                       HorizontalOptions="Center"
                                       VerticalOptions="Center" />
 
-                            <!-- Planted visibility check -->
-                            <CheckBox Grid.Column="11"
-                                      IsChecked="{Binding Planted, Mode=TwoWay}"
-                                      IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=CurrentPlot.IsPlanted}"
-                                      HorizontalOptions="Center"
-                                      VerticalOptions="Center" />
 
                             <!-- In Situ -->
-                            <CheckBox Grid.Column="12"
-                                      IsChecked="{Binding PLInSitu, Mode=TwoWay}"
-                                      IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=CurrentPlot.IsPlanted}"
-                                      HorizontalOptions="Center"
-                                      VerticalOptions="Center" />
+                            <HorizontalStackLayout IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=CurrentPlot.IsPlanted}"
+                                                 RadioButtonGroup.GroupName="{Binding TreeNumber}"
+                                                 RadioButtonGroup.SelectedValue="{Binding PlantedMethod, Mode=TwoWay}"
+                                                 Spacing="10"
+                                                 HorizontalOptions="CenterAndExpand"
+                                                 Grid.Column="12">
 
-                            <!-- Ex Situ -->
-                            <CheckBox Grid.Column="13"
-                                      IsChecked="{Binding PLExSitu, Mode=TwoWay}"
-                                      IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=CurrentPlot.IsPlanted}"
-                                      HorizontalOptions="Center"
-                                      VerticalOptions="Center" />
-     
+                                <RadioButton Content="n/a"
+                                             Value="{x:Static models:PlantedMethod.NotPlanted}" />
+
+                                <RadioButton Content="In Situ"
+                                             Value="{x:Static models:PlantedMethod.InSitu}" />
+
+                                <RadioButton Content="Ex Situ"
+                                             Value="{x:Static models:PlantedMethod.ExSitu}" />
+                            </HorizontalStackLayout>
+
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
