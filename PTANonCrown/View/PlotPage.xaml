@@ -92,7 +92,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             <ImageButton Source="info.png"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="StandEasting" />
+                                         CommandParameter="PlotEasting" />
                         </HorizontalStackLayout>
                         <Entry Text="{Binding CurrentPlot.Easting, 
                             Converter={StaticResource ZeroToEmptyStringConverter}}"
@@ -106,7 +106,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             <ImageButton Source="info.png"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="StandNorthing" />
+                                         CommandParameter="PlotNorthing" />
                         </HorizontalStackLayout>
                         <Entry Text="{Binding CurrentPlot.Northing, Converter={StaticResource ZeroToEmptyStringConverter}}"
                                Placeholder="Northing"
@@ -249,7 +249,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Style="{StaticResource ImageButtonHelper}"
                                          Margin="10,0,0,0"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="Ecodistrict" />
+                                         CommandParameter="Ecoregion" />
                         </HorizontalStackLayout>
                         <Picker  Grid.Row="3"
                                  ItemsSource="{Binding LookupEcodistricts}"
