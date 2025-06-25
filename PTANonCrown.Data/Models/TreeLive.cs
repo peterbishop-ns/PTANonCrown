@@ -79,8 +79,20 @@ namespace PTANonCrown.Data.Models
         [NotMapped]
         public List<TreeSpecies> LookupTrees { get; set; }
         public bool AGS { get; set; }
-        public bool Cavity { get; set; }
 
+        private bool _cavity;
+        public bool Cavity
+        {
+            get => _cavity;
+            set
+            {
+                if (_cavity != value)
+                {
+                    _cavity = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public int DBH_cm
         {
             get => _dbh_cm;
@@ -97,7 +109,19 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        public bool Diversity { get; set; }
+        private bool _diversity;
+        public bool Diversity
+        {
+            get => _diversity;
+            set
+            {
+                if (_diversity != value)
+                {
+                    _diversity = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
 
         private int _height_m;

@@ -11,6 +11,7 @@ using PTANonCrown.Data.Models;
 using PTANonCrown.Data.Repository;
 using PTANonCrown.Services;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -54,7 +55,36 @@ namespace PTANonCrown.ViewModel
             ValidationMessage = string.Empty;
             RefreshTreeCount();
 
+            // If summaryItems changes, notify the Bool that is used to show/hide the section
+            SummaryItems = new ObservableCollection<SummaryItem>();
+            SummaryItems.CollectionChanged += OnSummaryItemsChanged;
+
+            TreatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
+            TreatmentSummary.CollectionChanged += OnTreatmentSummaryChanged;
+
+
         }
+
+        public bool HasSummaryItems => SummaryItems?.Count > 0;
+        public bool HasNoSummaryItems => SummaryItems?.Count == 0;
+        public bool HasTreatments => TreatmentSummary?.Count > 0;
+        public bool HasNoTreatments => TreatmentSummary?.Count == 0;
+
+
+        
+        private void OnSummaryItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(HasSummaryItems));
+            OnPropertyChanged(nameof(HasNoSummaryItems));
+
+        }
+        private void OnTreatmentSummaryChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(HasTreatments));
+            OnPropertyChanged(nameof(HasNoTreatments));
+
+        }
+
 
         public ObservableCollection<Plot> _allPlots { get; set; }
         public ObservableCollection<Stand> _allStands { get; set; }
@@ -279,11 +309,17 @@ namespace PTANonCrown.ViewModel
             get => _treatmentSummary;
             set
             {
-                if (_treatmentSummary != value)
-                {
-                    _treatmentSummary = value;
-                    OnPropertyChanged();
-                }
+                if (_treatmentSummary != null)
+                    _treatmentSummary.CollectionChanged -= OnTreatmentSummaryChanged;
+
+                _treatmentSummary = value;
+
+                if (_treatmentSummary != null)
+                    _treatmentSummary.CollectionChanged += OnTreatmentSummaryChanged;
+
+                OnPropertyChanged(nameof(TreatmentSummary));
+                OnPropertyChanged(nameof(HasTreatments));
+                OnPropertyChanged(nameof(HasNoTreatments));
             }
         }
         private ObservableCollection<SummarySoilResult> _soilSummary;
@@ -325,11 +361,21 @@ namespace PTANonCrown.ViewModel
             {
                 if (_summaryItems != value)
                 {
+                    if (_summaryItems != null)
+                        _summaryItems.CollectionChanged -= OnSummaryItemsChanged;
+
                     _summaryItems = value;
+
+                    if (_summaryItems != null)
+                        _summaryItems.CollectionChanged += OnSummaryItemsChanged;
+
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(HasSummaryItems));
+                    OnPropertyChanged(nameof(HasNoSummaryItems));
                 }
             }
         }
+
 
         public string SummaryPageMessage
         {
@@ -801,10 +847,35 @@ namespace PTANonCrown.ViewModel
                 plot = CreateNewPlot(stand);
             }
 
-            SetCurrentPlot(plot);
+            // needs to reference the same list that used in the loook up, or it will fail 
+            // to display the correct item in the AgreTree picker list
+            var match = LookupTrees.Where(t => t.ID == plot.AgeTreeSpecies.ID).FirstOrDefault();
+            SelectedAgeTreeSpecies = match;
 
+            SetCurrentPlot(plot);
             return plot;
 
+        }
+
+
+
+        // TODO - in progress - trying to get Selected Age Species working
+        public TreeSpecies SelectedAgeTreeSpecies
+        {
+            get
+            {
+                var spec = LookupTrees.FirstOrDefault(t => t.ID == CurrentPlot.AgeTreeSpecies?.ID);
+
+                return spec;
+            }
+            set
+            {
+                if (value != null && CurrentPlot.AgeTreeSpecies?.ID != value.ID)
+                {
+                    CurrentPlot.AgeTreeSpecies = value;
+                    OnPropertyChanged(nameof(SelectedAgeTreeSpecies));
+                }
+            }
         }
 
         private Stand GetOrCreateStand()
@@ -1056,10 +1127,37 @@ namespace PTANonCrown.ViewModel
                 {
                     _isCheckedBiodiversity = value;
                     OnPropertyChanged();
+                    OnIsCheckedBiodiversityChanged();
+
+
+
                 }
             }
         }
 
+
+        private async void OnIsCheckedBiodiversityChanged()
+        {
+            // only prompty user if some trees actually have Biodiversity Data associated
+            if (!IsCheckedBiodiversity && CurrentPlot.PlotTreeLive.Any(t => t.Cavity || t.Diversity))
+            {
+                bool confirm = await Application.Current.MainPage.DisplayAlert(
+                      "Clear Biodiversity data?",
+                      "Unchecking Biodiversity will clear the fields 'Diversity' and 'Cavity' for all trees. Continue?",
+                      "OK",
+                      "Cancel");
+
+                if (confirm)
+                {
+                    foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
+                    {
+                        tree.Cavity = false;
+                        tree.Diversity = false;
+                    }
+                }
+            }
+            
+        }
 
         private void SetStandOnly()
         {
@@ -1087,6 +1185,9 @@ namespace PTANonCrown.ViewModel
                 SpeciesSummary = GenerateTreeSpeciesSummary(new [] { plot });
                 SummaryPageMessage = $"Plot {CurrentPlot.PlotNumber} Summary";
                 TreatmentSummary = GenerateTreatmentSummary(new[] { plot });
+                VegetationSummary = GenerateVegetationSummary(new[] { plot });
+                SoilSummary = GenerateSoilSummary(new[] { plot });
+
             }
 
         }
@@ -1146,13 +1247,18 @@ namespace PTANonCrown.ViewModel
                 var treatments = plot.PlotTreatments
                                         .Where(pt => pt.IsActive == true)
                                         .Select(pt => pt.Treatment.Name);
-                SummaryTreatmentResult summary = new SummaryTreatmentResult()
-                {
-                    PlotNumber = plot.PlotNumber,
 
-                    Treatments = string.Join("\n", treatments)
-                };
-                treatmentSummary.Add(summary);
+                if (treatments.Count() != 0 )
+                {
+                    SummaryTreatmentResult summary = new SummaryTreatmentResult()
+                    {
+                        PlotNumber = plot.PlotNumber,
+                        Treatments = string.Join("\n", treatments)
+                    };
+                    treatmentSummary.Add(summary);
+
+                }
+
             }
 
             return treatmentSummary;

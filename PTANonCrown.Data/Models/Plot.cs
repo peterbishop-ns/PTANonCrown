@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations.Schema;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PTANonCrown.Data.Models
 {
@@ -415,13 +416,37 @@ namespace PTANonCrown.Data.Models
 
         }
 
-        private void OnIsPlantedChanged()
+        private async void OnIsPlantedChanged()
         {
             if (!IsPlanted)
             {
                 PlantedType = PlantedType.None;
+
+
+
+                    // Reset the planted method for all trees to none
+                    foreach (TreeLive tree in PlotTreeLive)
+                    {
+                        tree.PlantedMethod = PlantedMethod.NotPlanted;
+
+                    }
+
+
+
             }
+
         }
+
+
+        // Keeping LookupTrees list on the Plot itself is a workaround. 
+        // Was running into issues with the Picker list, where it wouldn't set SelectedItem Correctly
+        //  There were different binding contexts; LookupTrees was on the VM, whereas the selected tree species
+        // Was on the row of the picker. 
+        // Having LookupTrees as a prop of the Plot solved this issue
+        // This is used for the AgeTree speceis. 
+        [NotMapped]
+        public List<TreeSpecies> LookupTrees { get; set; }
+
 
         private void OnTreeLiveCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

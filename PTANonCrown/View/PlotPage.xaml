@@ -75,6 +75,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     </HorizontalStackLayout>
 
                     <Editor Placeholder="Comment"
+                            Style="{StaticResource EditorComment}"
                             Text="{StaticResource CurrentPlot.Comments}"/>
                 </VerticalStackLayout>
             </Grid>
@@ -591,13 +592,14 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="AgeSpecies" />
                         </HorizontalStackLayout>
-                        
+              
                         <Picker Grid.Row="0"
                                 Grid.Column="1"
                                 WidthRequest="200"
-                                SelectedItem="{Binding CurrentPlot.AgeTreeSpecies, Mode=TwoWay}"
+                                SelectedItem="{Binding SelectedAgeTreeSpecies, Mode=TwoWay}"
                                 ItemsSource="{Binding LookupTrees}"
                                 ItemDisplayBinding="{Binding Name}" />
+
                         <HorizontalStackLayout Grid.Row="1"
                                                Grid.Column="0">
                             <Label  Text="Age" />
