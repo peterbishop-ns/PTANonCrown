@@ -195,7 +195,8 @@ namespace PTANonCrown.ViewModel
                 PlotWasTreated = false;
             }
 
-          
+            //Refres
+            SetSummaryPlot(CurrentPlot);
             //Refresh the count 
             RefreshTreeCount();
         }

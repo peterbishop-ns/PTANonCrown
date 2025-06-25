@@ -64,15 +64,18 @@ namespace PTANonCrown.Services
         public static SummaryItem GetAGSLIT_NS_WS_RP(IEnumerable<TreeLive> trees)
 
         {
-            var filteredAGSLIT = trees.Where(t => (t.AGS = true) & (t.TreeSpecies.LIT = true));
-            var filtered_NS_WS_RP = FilterTreeBySpecies(trees, ["ns", "wp", "rp"]);
+            var filteredAGSLIT = trees.Where(t => t.AGS && t.TreeSpecies.LIT);
+            var filtered_NS_WS_RP = FilterTreeBySpecies(trees, new List<string> { "ns", "wp", "rp" });
 
-            int count_AGSLIT = filteredAGSLIT.Count();
-            int count_NS_WS_RP = filtered_NS_WS_RP.Count();
+            // Combine the two sets and remove duplicates (by object reference or ID)
+            var combined = filteredAGSLIT
+                .Union(filtered_NS_WS_RP)
+                .Distinct(); // Optional if trees can repeat — ensure it’s by object equality
 
+            int countCombined = combined.Count();
             int countTotal = trees.Count();
 
-            var result = Math.Round((decimal)100 * (count_AGSLIT + count_NS_WS_RP) / countTotal, 2);
+            var result = Math.Round((decimal)100 * countCombined / countTotal, 2);
 
             var summaryItem = new SummaryItem()
             {

@@ -75,7 +75,6 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                        FontAttributes="Bold" />
             </Border>
         </Grid>
-        <ScrollView>
             <VerticalStackLayout HorizontalOptions="Start"
                                  Spacing="20"
                                  IsVisible="{Binding SummarySectionIsVisible}">
@@ -93,7 +92,9 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             Clicked="ShowVegetation" />
                 </HorizontalStackLayout>
 
-                <VerticalStackLayout  x:Name="MainSummary"
+
+                <VerticalStackLayout
+                    x:Name="MainSummary"
                                       IsVisible="true"
                                       Margin="20,20,0,0">
                     <Label Text="Cruise Summary"
@@ -107,6 +108,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                     BackgroundColor="LightGrey"
                                     IsVisible="{Binding HasSummaryItems}"
                                     MaximumWidthRequest="400"
+                                    MaximumHeightRequest="300"
                                     HorizontalOptions="Start">
                         <CollectionView.Header>
                             <Grid ColumnDefinitions="300,100"
@@ -162,6 +164,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                     IsVisible="{Binding HasTreatments}"
                                     BackgroundColor="LightGrey"
                                     MaximumWidthRequest="400"
+                                    MaximumHeightRequest="500"
                                     HorizontalOptions="Start">
                         <CollectionView.Header>
                             <Grid ColumnDefinitions="100,300"
@@ -214,7 +217,8 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <CollectionView ItemsSource="{Binding SpeciesSummary}"
                                     x:Name="collectionSpeciesSummary"
                                     MaximumWidthRequest="600"
-                                    HorizontalOptions="Start"
+                                MaximumHeightRequest="500"
+                                HorizontalOptions="Start"
                                     IsVisible="{Binding HasSummaryItems}"
                                     BackgroundColor="LightGrey">
                         <CollectionView.Header>
@@ -278,7 +282,8 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <CollectionView ItemsSource="{Binding SoilSummary}"
                                     BackgroundColor="LightGrey"
                                     MaximumWidthRequest="400"
-                                    HorizontalOptions="Start">
+                                MaximumHeightRequest="500"
+                                HorizontalOptions="Start">
                         <CollectionView.Header>
                             <Grid ColumnDefinitions="100,100,100,100"
                                   BackgroundColor="DarkGray">
@@ -340,7 +345,8 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <CollectionView ItemsSource="{Binding VegetationSummary}"
                                     BackgroundColor="LightGrey"
                                     MaximumWidthRequest="1000"
-                                    HorizontalOptions="Start">
+                                MaximumHeightRequest="500"
+                                HorizontalOptions="Start">
                         <CollectionView.Header>
                             <Grid ColumnDefinitions="100,600,100,100"
                                   BackgroundColor="DarkGray">
@@ -393,6 +399,5 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     </CollectionView>
                 </VerticalStackLayout>
             </VerticalStackLayout>
-        </ScrollView>
     </VerticalStackLayout>
 </ContentPage>

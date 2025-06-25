@@ -16,7 +16,6 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ScrollView>
 
         <VerticalStackLayout VerticalOptions="Start"
                              Padding="5"
@@ -289,5 +288,4 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </VerticalStackLayout>
-    </ScrollView>
 </ContentPage>
