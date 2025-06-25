@@ -95,7 +95,7 @@
 
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive}">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="30,50,200,80,80,100,60,60,60,60,80,80,300"
+                    <Grid ColumnDefinitions="30,50,350,80,80,100,60,60,60,60,80,80,300"
                           BackgroundColor="LightGray"
                           Padding="5">
                         <Label Grid.Column="1"
@@ -158,7 +158,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="30 ,50,200,80,80,100,60,60,60,60,80,80,300"
+                        <Grid ColumnDefinitions="30 ,50,350,80,80,100,60,60,60,60,80,80,300"
                               Padding="5"
                               BackgroundColor="WhiteSmoke">
 
@@ -191,7 +191,7 @@
                                 <Entry WidthRequest="50"
                                        Placeholder="e.g. bF"
                                        Text="{Binding SearchSpecies, Mode=TwoWay}" />
-                                <Picker WidthRequest="400"
+                                <Picker WidthRequest="250"
                                         ItemsSource="{Binding LookupTrees}"
                                         SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
                                         ItemDisplayBinding="{Binding DisplayName}" />

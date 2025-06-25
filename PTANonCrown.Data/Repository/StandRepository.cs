@@ -30,7 +30,13 @@ namespace PTANonCrown.Data.Repository
                 .Include(s => s.Plots)
                     .ThenInclude(p => p.PlotTreeLive)
                 .Include(s => s.Plots)
-                    .ThenInclude(p=> p.PlotTreatments);
+                    .ThenInclude(p => p.PlotTreatments)
+                .Include(s => s.Plots)
+                    .ThenInclude(p => p.PlotCoarseWoody)
+                 .Include(s => s.Plots)
+                    .ThenInclude(p => p.PlotTreeDead);
+            
+
             AppLogger.Log("GetAll - end", "StandRepository");
 
             return query.ToList();

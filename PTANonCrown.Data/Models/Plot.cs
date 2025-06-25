@@ -40,7 +40,7 @@ namespace PTANonCrown.Data.Models
             StockingRegenLITSpecies = 0;
             TransectLength = 20; //default
             InitializeDeadTreeDefaults();
-            InitializeCoarseWoodyDefaults();
+            //InitializeCoarseWoodyDefaults();
         }
         public override string ToString()
         {

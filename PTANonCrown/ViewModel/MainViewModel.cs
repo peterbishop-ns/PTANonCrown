@@ -503,6 +503,35 @@ namespace PTANonCrown.ViewModel
 
         }
 
+
+        private ObservableCollection<CoarseWoody> CreateDefaultCoarseWoody(Plot parentPlot)
+        {
+            return new ObservableCollection<CoarseWoody>
+    {
+        new CoarseWoody { Plot = parentPlot, DBH_start = 21, DBH_end = 30 },
+        new CoarseWoody { Plot = parentPlot, DBH_start = 31, DBH_end = 40 },
+        new CoarseWoody { Plot = parentPlot, DBH_start = 41, DBH_end = 50 },
+        new CoarseWoody { Plot = parentPlot, DBH_start = 51, DBH_end = 60 },
+        new CoarseWoody { Plot = parentPlot, DBH_start = 60, DBH_end = -1 }
+    };
+        }
+
+
+        private ObservableCollection<TreeDead> CreateDefaultTreeDead(Plot parentPlot)
+        {
+            return new ObservableCollection<TreeDead>
+            {
+                new TreeDead() { Plot = parentPlot, DBH_start = 21, DBH_end = 30 },
+                new TreeDead() { Plot = parentPlot, DBH_start = 31, DBH_end = 40 },
+                new TreeDead() { Plot = parentPlot, DBH_start = 41, DBH_end = 50 },
+                new TreeDead() { Plot = parentPlot, DBH_start = 51, DBH_end = 60 },
+                new TreeDead() { Plot = parentPlot, DBH_start = 60, DBH_end = -1 }
+            };
+
+        }
+
+
+
         private Plot CreateNewPlot(Stand stand)
         {
 
@@ -519,6 +548,7 @@ namespace PTANonCrown.ViewModel
                 Vegetation = LookupVeg.Where(x => x.ID == 1).FirstOrDefault(),
                 EcositeGroup = EcositeGroup.None,
                 AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
+   
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
                     TreatmentId = t.ID,
@@ -527,6 +557,8 @@ namespace PTANonCrown.ViewModel
                 }).ToList()
             };
 
+            _newPlot.PlotCoarseWoody = CreateDefaultCoarseWoody(_newPlot);
+            _newPlot.PlotTreeDead = CreateDefaultTreeDead(_newPlot);
 
             _newPlot.Stand = stand;
 
@@ -794,7 +826,6 @@ namespace PTANonCrown.ViewModel
 
             if ((filtered is null || filtered.Count() == 0))
             {
-                Application.Current.MainPage.DisplayAlert("Warning", "Unable to generate summary. No trees exist in plot.", "OK");
                 return result;
             }
 
