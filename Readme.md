@@ -14,6 +14,11 @@ How to Make Schema Changes:
 - Run `dotnet ef migrations add MyMigration --project PTANonCrown.Data`
 - Run `dotnet ef database update --project PTANonCrown.Data`
 
+
+How to Complile to EXE
+
+
+
 Errors:
 - Unable to create a 'DbContext' of type 'AppDbContext'... Unable to resolve service for type 'DbContextOptions'
 - When doing `dotnet ef database update`:

@@ -1196,6 +1196,12 @@ namespace PTANonCrown.ViewModel
             StandOnlySummary = true;
             SummaryPlot = null;
             SummarySectionIsVisible = true;
+
+            foreach (Plot plot in CurrentStand.Plots)
+            {
+                //CheckTrees(plot);
+
+            }
             SummaryItems = TreeSummaryHelper.GenerateSummaryResult(CurrentStand.Plots);
             SpeciesSummary = GenerateTreeSpeciesSummary(CurrentStand.Plots);
             TreatmentSummary = GenerateTreatmentSummary(CurrentStand.Plots);
@@ -1212,7 +1218,7 @@ namespace PTANonCrown.ViewModel
                 SummaryPlot = plot;
                 StandOnlySummary = false;
                 SummarySectionIsVisible = true;
-
+                //CheckTrees(plot);
                 SummaryItems = TreeSummaryHelper.GenerateSummaryResult(new[] { plot });
                 SpeciesSummary = GenerateTreeSpeciesSummary(new [] { plot });
                 SummaryPageMessage = $"Plot {CurrentPlot.PlotNumber} Summary";
@@ -1222,6 +1228,18 @@ namespace PTANonCrown.ViewModel
 
             }
 
+        }
+
+        private async void CheckTrees(Plot plot)
+        {
+            if (!plot.PlotTreeLive.Any(t => t.DBH_cm == 0 || t.Height_m == 0))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+               "Missing info.",
+               $"Trees in Plot {plot.PlotNumber} missing DBH and/or Heights",
+               "Continue",
+               "Cancel");
+            }
         }
 
         private ObservableCollection<SummarySoilResult> GenerateSoilSummary(IEnumerable<Plot> plots)

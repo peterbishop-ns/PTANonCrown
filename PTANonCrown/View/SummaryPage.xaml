@@ -31,11 +31,17 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    Text="{Binding CurrentStand.StandNumber}" />
-            <Button Text="Stand Summary"
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Style="{StaticResource ButtonGreen}"
-                    Command="{Binding SetStandOnlyCommand}" />
+            <HorizontalStackLayout Grid.Row="0"
+                                   Grid.Column="2">
+                <Button Text="Stand Summary"
+                        Style="{StaticResource ButtonGreen}"
+                        Command="{Binding SetStandOnlyCommand}" />
+                <ImageButton Source="info.png"
+                             Style="{StaticResource ImageButtonHelper}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="StandSummary" />
+            </HorizontalStackLayout>
+
 
             <Label Text="Plot Number"
                    Grid.Row="1"
@@ -48,13 +54,18 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     WidthRequest="100"
                     HeightRequest="20"
                     ItemDisplayBinding="{Binding PlotNumber, Mode=TwoWay}" />
-
-            <Button Grid.Row="1"
-                    Grid.Column="2"
-                    Text="Plot Summary"
+            <HorizontalStackLayout Grid.Row="1"
+                                   Grid.Column="2">
+                <Button Text="Plot Summary"
                     Style="{StaticResource ButtonGreen}"
                     Command="{Binding SetPlotSummaryCommand}"
                     CommandParameter="{Binding CurrentPlot}" />
+                <ImageButton Source="info.png"
+                             Style="{StaticResource ImageButtonHelper}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="PlotSummary" />
+            </HorizontalStackLayout>
+
 
             <Button Text="Export All"
                     Grid.Column="3"

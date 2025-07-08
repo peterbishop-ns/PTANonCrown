@@ -210,7 +210,13 @@ public class AppDbContext : DbContext
             new TreeSpecies { ID = 15, ShortCode = "rM", Name = "Red Maple", HardwoodSoftwood = HardwoodSoftwood.Hardwood, LIT = true, LIT_planted = false, LT = true },
             new TreeSpecies { ID = 16, ShortCode = "wB", Name = "White Birch", HardwoodSoftwood = HardwoodSoftwood.Hardwood, LIT = false, LIT_planted = false, LT = false },
             new TreeSpecies { ID = 17, ShortCode = "tA", Name = "Trembling Aspen", HardwoodSoftwood = HardwoodSoftwood.Hardwood, LIT = false, LIT_planted = false, LT = false },
-            new TreeSpecies { ID = 18, ShortCode = "lTA", Name = "Large-tooth Aspen", HardwoodSoftwood = HardwoodSoftwood.Hardwood, LIT = false, LIT_planted = false, LT = false }
+            new TreeSpecies { ID = 18, ShortCode = "nS", Name = "Norway Spruce", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 19, ShortCode = "sP", Name = "Scots pine", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 20, ShortCode = "eL", Name = "European Larch", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 21, ShortCode = "jL", Name = "Japanese Larch", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 22, ShortCode = "sS", Name = "Sitka Spruce", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 23, ShortCode = "dF", Name = "Douglas Fir", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
+            new TreeSpecies { ID = 24, ShortCode = "lP", Name = "Lodgepole Pine", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false }
         );
 
         modelBuilder.Entity<Treatment>().HasData(

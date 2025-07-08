@@ -131,7 +131,7 @@
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandEasting" />
+                                     CommandParameter="StandArea" />
                     </HorizontalStackLayout>
                     <Entry Text="{Binding CurrentStand.Area_ha}"
                            Placeholder="Area (ha)"
