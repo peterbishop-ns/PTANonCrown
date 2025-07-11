@@ -75,11 +75,11 @@
                                Style="{StaticResource EntryStand}">
                         </Entry>
                     </HorizontalStackLayout>
-                    <HorizontalStackLayout>
+                    <HorizontalStackLayout Margin="0,20,0,0">
                         <Label Text="Comment"
-                               Margin="0,20,0,0"
                                Style="{StaticResource LabelStand}" />
                         <ImageButton Source="info.png"
+                                     
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="StandComment" />

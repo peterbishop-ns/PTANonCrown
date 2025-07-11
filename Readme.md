@@ -17,7 +17,9 @@ How to Make Schema Changes:
 
 How to Complile to EXE
 
-
+In the command line, run: 
+- `dotnet publish PTANonCrown.csproj -c Release -f:net8.0-windows10.0.19041.0 --self-contained true -p:PublishSingleFile=true -o ./publish`
+- 
 
 Errors:
 - Unable to create a 'DbContext' of type 'AppDbContext'... Unable to resolve service for type 'DbContextOptions'
