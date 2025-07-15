@@ -14,9 +14,17 @@ namespace PTANonCrown.Data.Repository
 
         public LookupRepository(AppDbContext context) : base(context)
         {
-            AppLogger.Log("LookupRepository", "LookupRepository");
-
-            _context = context;
+            try
+            {
+                AppLogger.Log("LookupRepository", "LookupRepository constructor start");
+                _context = context;
+                AppLogger.Log("LookupRepository", "Context assigned");
+            }
+            catch (Exception ex)
+            {
+                AppLogger.Log("LookupRepository", $"Exception: {ex.Message}");
+                throw;
+            }
         }
 
         public List<SoilLookup> GetSoilLookups()

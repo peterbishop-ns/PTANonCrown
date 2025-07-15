@@ -21,9 +21,7 @@ namespace PTANonCrown.Services
         { "CWMCavity", "Coarse Woody Material pieces that contain cavities." },
         { "CWMDBH", "Measure CWM pieces that are greater than 20 cm in diameter where the transect crosses the central axis or pith of the piece. Diameter is measured perpendicular to the pith, not along the transect line. CWM pieces are measured in 20-cm diameter classes (e.g., 21-40 cm)." },
         { "CWMGeneral", "Coarse woody material (CWM) that is measured in a straight transect. A dead tree is considered to be Coarse Woody Material. If it is at less than 45 degrees. Dead trees that are standing at greater than 45 degrees are considered snags." },
-
-         { "CWMCavity", "Coarse Woody Material pieces that contain cavities." },
-{ "CWMSpeciesGroup", "Softwood (SW), hardwood (HW), or unknown species." },
+        { "CWMSpeciesGroup", "Softwood (SW), hardwood (HW), or unknown species." },
         { "DBH", "Diameter at Breast Height. Tree diameter (cm) at 1.3 m. Tally all living trees and dead trees greater than 20 cm DBH within the prism sweep, though only living merchantable trees (i.e., greater than 9 cm DBH) are counted towards the growing stock of the plot. Trees can be tallied in 2-cm diameter classes (e.g., 10, 12, 14). For example, the 20-cm class would include any tree between 19.1-21 cm DBH." },
         { "DeadwoodGeneral", "The deadwood information includes both standing dead trees (i.e., snags) that are tallied in the prism sweep and coarse woody material (CWM) that is measured in a separate transect. The transect should be a straight, 20-m line in a consistent direction (e.g., always north). A dead tree is considered a snag if it is standing at a 45 degrees or greater and is Coarse Woody Material when under 45 degrees." },
         { "Diversity", "Trees is unusual in context, representing a small portion of the stand, or providing for diversity within the stand (e.g. ironwood tree, black cherry, or a large yellow birch in a softwood stand). Column is active if Include Biodiversity is enabled." },

@@ -101,8 +101,7 @@
                                      CommandParameter="CruiseID" />
                     </HorizontalStackLayout>
 
-                    <Entry Text="{Binding CurrentStand.CruiseID,
-                   Converter={StaticResource ZeroToEmptyStringConverter}}"
+                    <Entry Text="{Binding CurrentStand.CruiseID}"
                            Placeholder="Cruise ID"
                            Style="{StaticResource EntryStand}" />
                 </VerticalStackLayout>
@@ -117,8 +116,7 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="PlannerID" />
                     </HorizontalStackLayout>
-                    <Entry Text="{Binding CurrentStand.PlannerID,
-                   Converter={StaticResource ZeroToEmptyStringConverter}}"
+                    <Entry Text="{Binding CurrentStand.PlannerID}"
                            Placeholder="Planner ID"
                            Style="{StaticResource EntryStand}" />
                 </VerticalStackLayout>

@@ -22,8 +22,8 @@
 
 		<!-- WindowsPackageType= None needed to compile to a flat EXE, but this 
 		should be removed when running app in debug. If you don't remove it, you get a message about "Package Needs to be Deployed 
-		Before... 	
-		<WindowsPackageType>None</WindowsPackageType> -->
+		Before... 	 -->
+		<WindowsPackageType>None</WindowsPackageType>
 
 
 
