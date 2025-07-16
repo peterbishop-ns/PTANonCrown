@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<PropertyGroup Condition="'$(Configuration)'=='Release'">
+  <WindowsPackageType>None</WindowsPackageType>
+</PropertyGroup>
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 
@@ -22,8 +24,7 @@
 
 		<!-- WindowsPackageType= None needed to compile to a flat EXE, but this 
 		should be removed when running app in debug. If you don't remove it, you get a message about "Package Needs to be Deployed 
-		Before... 	 -->
-		<WindowsPackageType>None</WindowsPackageType>
+		Before... 	sss-->
 
 
 
@@ -94,6 +95,9 @@
 	  <Compile Update="View\CoarseWoodyMaterialPage.xaml.cs">
 	    <DependentUpon>CoarseWoodyMaterialPage.xaml</DependentUpon>
 	  </Compile>
+		<Compile Update="View\PlotPage.xaml.cs">
+			<DependentUpon>PlotPage.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>

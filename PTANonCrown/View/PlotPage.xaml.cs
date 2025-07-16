@@ -7,19 +7,8 @@ public partial class PlotPage : ContentPage
 {
     public PlotPage(MainViewModel viewModel)
     {
-        AppLogger.Log($"PlotPage", "App");
 
-        try
-        {
-            InitializeComponent();
-            // Other constructor logic
-        }
-        catch (Exception ex)
-        {
-            LogError("Constructor", ex);
-        }
-        
-        //InitializeComponent();
+        InitializeComponent();
         BindingContext = viewModel;
     }
 

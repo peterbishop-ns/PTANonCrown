@@ -80,7 +80,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
 
                     <Editor Placeholder="Comment"
                             Style="{StaticResource EditorComment}"
-                            Text="{StaticResource CurrentPlot.Comments}"/>
+                            Text="{Binding CurrentPlot.Comments}"/>
                 </VerticalStackLayout>
             </Grid>
             <!-- PLOT LOCATION -->
