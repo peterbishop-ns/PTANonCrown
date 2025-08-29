@@ -51,22 +51,9 @@
                     RowDefinitions="Auto,Auto"
                       ColumnSpacing="10"
                       ColumnDefinitions="200,Auto,Auto,Auto">
-                    <HorizontalStackLayout Grid.Row="0"
-                                           Grid.Column="0">
-                        <Label Text="Include Biodiversity"
-                               Grid.Row="0"
-                               Grid.Column="0" />
-                        <ImageButton Source="info.png"
-                                     HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="IncludeBiodiversity" />
-                    </HorizontalStackLayout>
 
-                    <CheckBox x:Name="IncludeBiodiversity"
-                              IsChecked="{Binding IsCheckedBiodiversity, Mode=TwoWay}"
-                              Grid.Row="0"
-                              Grid.Column="1" />
+
+                    
                 <HorizontalStackLayout Grid.Row="1"
                                        Grid.Column="0">
 
@@ -111,9 +98,16 @@
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive}">
                 <CollectionView.Header>
                     <Grid ColumnDefinitions="30,70,350,80,80,100,60,60,60,60,80,80,80,270"
-                          BackgroundColor="LightGray"
+                          RowDefinitions="40,40"
                           Padding="5">
-                    <VerticalStackLayout Grid.Column="1">
+                    <BoxView Grid.Row="1"
+                             Grid.ColumnSpan="9"
+                             BackgroundColor="LightGray" />
+                    <BoxView Grid.Row="1"
+                             Grid.Column="9"
+                             Grid.ColumnSpan="3"
+                             BackgroundColor="LightBlue" />
+                    <VerticalStackLayout Grid.Column="1" Grid.Row="1">
                         <Label Text="Tree #"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -123,7 +117,8 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeNumber" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="2">
+                    <VerticalStackLayout Grid.Column="2"
+                                         Grid.Row="1">
                         <Label 
                                Text="Species"
                                FontAttributes="Bold"
@@ -134,7 +129,8 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeSpecies" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="3">
+                    <VerticalStackLayout Grid.Column="3"
+                                         Grid.Row="1">
                         <Label Text="DBH (cm)"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -144,7 +140,8 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeDBH" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="4">
+                    <VerticalStackLayout Grid.Column="4"
+                                         Grid.Row="1">
                         <Label Text="Height (m)"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -154,7 +151,8 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeHeight" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="5">
+                    <VerticalStackLayout Grid.Column="5"
+                                         Grid.Row="1">
                         <Label Text="Predicted&#10;Height (m)"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -164,7 +162,8 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreePredicted" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="6">
+                    <VerticalStackLayout Grid.Column="6"
+                                         Grid.Row="1">
                         <Label Text="AGS"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -174,7 +173,8 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeAGS" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="7">
+                    <VerticalStackLayout Grid.Column="7"
+                                         Grid.Row="1">
                         <Label Text="LIT"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -184,7 +184,8 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeLIT" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="8">
+                    <VerticalStackLayout Grid.Column="8"
+                                         Grid.Row="1">
                         <Label Text="LT"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -194,7 +195,8 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeLT" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="9">
+                    <VerticalStackLayout Grid.Column="9"
+                                         Grid.Row="1">
                         <Label Text="Cavity"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -204,7 +206,33 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeCavity" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="10">
+
+
+                    <HorizontalStackLayout Grid.Column="9"
+                                           Grid.ColumnSpan="3"
+                                           Grid.Row="0"
+                                           HorizontalOptions="Center"
+                                           >
+                        <Label Text="Include Biodiversity"
+                               FontAttributes="Bold"
+                               Grid.Row="0"
+                               VerticalOptions="Center"
+                               Grid.Column="0" />
+                        <ImageButton Source="info.png"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="IncludeBiodiversity" />
+                        <CheckBox x:Name="IncludeBiodiversity"
+                                  IsChecked="{Binding IsCheckedBiodiversity, Mode=TwoWay}"
+                                  Grid.Row="0"
+                                  Grid.Column="1" />
+                    </HorizontalStackLayout>
+                        
+                        
+                    <VerticalStackLayout Grid.Column="10"
+                                         Grid.Row="1">
                         <Label Text="Diversity"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
@@ -216,6 +244,7 @@
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="11"
+                                         Grid.Row="1"
                                          HorizontalOptions="Center">
                         <Label Text="Mast"
                                FontAttributes="Bold" />
@@ -227,6 +256,7 @@
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="12"
+                                         Grid.Row="1"
                                          HorizontalOptions="CenterAndExpand"
                                          IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
       Path=CurrentPlot.IsPlanted}">
@@ -279,7 +309,6 @@
                             <HorizontalStackLayout Grid.Column="2"
                                                    Spacing="5">
                                 <Entry WidthRequest="50"
-                                       Placeholder="e.g. bF"
                                        Text="{Binding SearchSpecies, Mode=TwoWay}" />
                                 <Picker WidthRequest="250"
                                         ItemsSource="{Binding LookupTrees}"

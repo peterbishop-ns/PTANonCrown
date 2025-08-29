@@ -193,8 +193,18 @@ namespace PTANonCrown.Data.Models
                 {
                     _searchSpecies = value;
                     OnPropertyChanged();
+                    OnSearchSpeciesChanged(value);
                 }
             }
+
+        }
+
+        private void OnSearchSpeciesChanged(string searchString)
+        {
+            var result = LookupTrees
+                .FirstOrDefault(t => string.Equals(t.ShortCode, searchString, StringComparison.OrdinalIgnoreCase));
+
+                TreeSpecies = result;
 
         }
 
@@ -207,7 +217,7 @@ namespace PTANonCrown.Data.Models
             get => _treeSpecies;
             set
             {
-                if ((_treeSpecies != value) & (value is not null))
+                if (_treeSpecies != value)
                 {
                     _treeSpecies = value;
                     OnPropertyChanged();
@@ -220,6 +230,7 @@ namespace PTANonCrown.Data.Models
         {
             SearchSpecies = TreeSpecies?.ShortCode;
         }
+
         [NotMapped]
         public ObservableCollection<TreeSpecies> TreeSpeciesFilteredList { get; set; } = new ObservableCollection<TreeSpecies>();
 
