@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PTANonCrown.Data.Models
 
@@ -199,11 +200,10 @@ namespace PTANonCrown.Data.Models
 
         }
 
-        private void OnSearchSpeciesChanged(string searchString)
+        private async void OnSearchSpeciesChanged(string searchString)
         {
             var result = LookupTrees
                 .FirstOrDefault(t => string.Equals(t.ShortCode, searchString, StringComparison.OrdinalIgnoreCase));
-
                 TreeSpecies = result;
 
         }

@@ -103,10 +103,21 @@
                     <BoxView Grid.Row="1"
                              Grid.ColumnSpan="9"
                              BackgroundColor="LightGray" />
+                    <BoxView Grid.Row="0"
+                             Grid.Column="9"
+                             Grid.ColumnSpan="3"
+                             BackgroundColor="LightGray" />
+
                     <BoxView Grid.Row="1"
                              Grid.Column="9"
                              Grid.ColumnSpan="3"
-                             BackgroundColor="LightBlue" />
+                             BackgroundColor="LightSkyBlue" />
+
+                    <BoxView Grid.Row="1"
+                             Grid.Column="12"
+                             Grid.ColumnSpan="3"
+                             BackgroundColor="LightGreen" />
+                        
                     <VerticalStackLayout Grid.Column="1" Grid.Row="1">
                         <Label Text="Tree #"
                                FontAttributes="Bold"
@@ -257,6 +268,7 @@
 
                     <VerticalStackLayout Grid.Column="12"
                                          Grid.Row="1"
+                                         Grid.ColumnSpan="2"
                                          HorizontalOptions="CenterAndExpand"
                                          IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
       Path=CurrentPlot.IsPlanted}">
