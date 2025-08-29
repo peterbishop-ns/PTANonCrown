@@ -273,6 +273,27 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+        private SoilLookup _selectedSoil;
+        public SoilLookup SelectedSoil
+        {
+            get => _selectedSoil;
+            set
+            {
+                if (_selectedSoil != value)
+                {
+                    _selectedSoil = value;
+                    OnPropertyChanged();
+
+                    // 1️⃣ update Plot's soil
+                    CurrentPlot.Soil = _selectedSoil;
+
+                    // 2️⃣ update dependent things, e.g., phases
+                    UpdateSoilPhases();
+                }
+            }
+        }
+
+
         public ICommand SetCurrentPlotCommand => new Command<Plot>(plot => SetCurrentPlot(plot));
 
         public ICommand SetPlotSummaryCommand => new Command<Plot>(plot => SetSummaryPlot(plot));
@@ -1312,6 +1333,61 @@ namespace PTANonCrown.ViewModel
             {
                 ErrorMessage = string.Empty;
             }
+        }
+
+        private readonly Dictionary<string, List<string>> _phaseToSoilTypes = new()
+        {
+            { "Boulder Phase", new List<string> { "st1", "st2", "st3", "st8", "st9", "st14", "st15", "st16" } },
+            { "Coarse Phase", new List<string> { "st2", "st3", "st5", "st6", "st8", "st9", "st15", "st16" } },
+            { "Loamy Phase", new List<string> { "st2", "st3", "st15", "st16" } },
+            { "Stony Phase", Enumerable.Range(1, 18).Select(i => $"st{i}").ToList() },
+            { "Upland Phase", new List<string> { "st14"} }
+
+        };
+        public ObservableCollection<string> SoilPhases { get; } = new ObservableCollection<string>();
+
+
+        private void UpdateSoilPhases()
+        {
+            SoilPhases.Clear();
+
+            if (SelectedSoil is not null)
+            {
+                var soilCode = SelectedSoil.ShortCode;
+
+
+                var phases = _phaseToSoilTypes
+                .Where(kvp => kvp.Value.Contains(soilCode, StringComparer.OrdinalIgnoreCase))
+                    .Select(kvp => kvp.Key);
+
+                foreach (var phase in phases)
+                    SoilPhases.Add(phase);
+            }
+
+            SelectedSoilPhase = null;
+        }
+
+
+        private string _selectedSoilPhase;
+        public string SelectedSoilPhase
+        {
+            get => _selectedSoilPhase;
+            set
+            {
+                if (_selectedSoilPhase != value)
+                {
+                    _selectedSoilPhase = value;
+
+                    CurrentPlot.SoilPhase = _selectedSoilPhase;
+                    OnPropertyChanged();
+
+                }
+            }
+        }
+
+        private void OnSoilChanged()
+        {
+            UpdateSoilPhases();
         }
 
         private void ValidateTrees(ObservableCollection<TreeLive> trees)

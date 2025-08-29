@@ -208,7 +208,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                 <Label Style="{StaticResource LabelPlot}"
                        Text="Forest Ecosystem Classification (FEC)" />
                 <Border>
-                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                           ColumnDefinitions="Auto"
                           ColumnSpacing="20">
                         <HorizontalStackLayout Grid.Row="0">
@@ -287,14 +287,34 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="FECSoil" />
                         </HorizontalStackLayout>
+                        
                         <Picker  Grid.Row="7"
                                  ItemsSource="{Binding LookupSoils}"
                                  ItemDisplayBinding="{Binding DisplayName}"
-                                 SelectedItem="{Binding CurrentPlot.Soil}"
+                                 SelectedItem="{Binding SelectedSoil}"
                                  WidthRequest="350"
                                  HorizontalOptions="Start" />
 
+
+
                         <HorizontalStackLayout Grid.Row="8"
+                                               Grid.Column="0">
+                            <Label Text="Soil Phase"
+                                   Style="{StaticResource LabelPlot}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="SoilPhases" />
+                        </HorizontalStackLayout>
+                        <Picker Grid.Row="9"
+                                Grid.Column="0"
+                                ItemsSource="{Binding SoilPhases}"
+                                SelectedItem="{Binding SelectedSoilPhase}"
+                                WidthRequest="350"
+                                HorizontalOptions="Start" />
+
+                        <HorizontalStackLayout Grid.Row="10"
                                                Grid.Column="0">
                             <Label Text="Vegetation"
                                    Style="{StaticResource LabelPlot}" />
@@ -304,7 +324,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="FECVeg" />
                         </HorizontalStackLayout>
-                        <Picker Grid.Row="9"
+                        <Picker Grid.Row="11"
                                 Grid.Column="0"
                                 ItemsSource="{Binding LookupVeg}"
                                 ItemDisplayBinding="{Binding DisplayName}"

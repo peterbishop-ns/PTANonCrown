@@ -302,6 +302,7 @@ namespace PTANonCrown.Data.Models
         public Stand Stand { get; set; }
 
         public int StandID { get; set; }
+        public string SoilPhase { get; set; }
 
         public int StockingBeechRegeneration { get; set; }
 
