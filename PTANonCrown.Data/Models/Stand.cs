@@ -12,7 +12,7 @@ namespace PTANonCrown.Data.Models
             Plots = new ObservableCollection<Plot>();
         }
 
-        public int CruiseID { get; set; }
+        public string CruiseID { get; set; }
 
         public int Ecodistrict { get; set; }
         public int ID { get; set; }
@@ -23,7 +23,7 @@ namespace PTANonCrown.Data.Models
         public string? Organization { get; set; }
         public string? Comment { get; set; }
 
-        public int PlannerID { get; set; }
+        public string PlannerID { get; set; }
 
         public virtual ObservableCollection<Plot> Plots { get; set; }
 
