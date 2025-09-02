@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PTANonCrown.Resources.Converters
+namespace PTANonCrown.Converter
 {
     public class SliderToValueConverter : IValueConverter
     {

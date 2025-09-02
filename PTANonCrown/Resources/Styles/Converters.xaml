@@ -4,5 +4,4 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:converters="clr-namespace:PTANonCrown.Resources.Converters">
 
-    <converters:PlotToBackgroundColourConverter x:Key="PlotToBackgroundColourConverter" />
 </ResourceDictionary>

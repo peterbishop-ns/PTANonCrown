@@ -198,7 +198,7 @@ public class AppDbContext : DbContext
             new TreeSpecies { ID = 3, ShortCode = "eH", Name = "Eastern Hemlock", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = true, LIT_planted = true, LT = true },
             new TreeSpecies { ID = 4, ShortCode = "wP", Name = "White Pine", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = true, LIT_planted = true, LT = false },
             new TreeSpecies { ID = 5, ShortCode = "wS", Name = "White Spruce", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
-            new TreeSpecies { ID = 6, ShortCode = "S", Name = "Black Spruce/Coastal", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = true, LIT_planted = true, LT = false },
+            new TreeSpecies { ID = 6, ShortCode = "bS", Name = "Black Spruce", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = true, LT = false },
             new TreeSpecies { ID = 7, ShortCode = "bF", Name = "Balsam Fir", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
             new TreeSpecies { ID = 8, ShortCode = "rP", Name = "Red Pine", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },
             new TreeSpecies { ID = 9, ShortCode = "jP", Name = "Jack Pine", HardwoodSoftwood = HardwoodSoftwood.Softwood, LIT = false, LIT_planted = false, LT = false },

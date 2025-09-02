@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using PTANonCrown.Data.Services;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -115,9 +117,19 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         {
             _dbSet.Update(entity); // Update if already tracked
         }
+
+        try
+        {
             _context.SaveChanges(); // Commit changes
 
-        
+        }
+        catch (DbUpdateException dbEx) when (dbEx.InnerException is SqliteException sqlEx)
+        {
+            AppLogger.Log("SQL Error", sqlEx.ToString());
+            throw dbEx; //rethrow
+        }
+
+
     }
 
 

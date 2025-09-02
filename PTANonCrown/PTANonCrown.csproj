@@ -143,4 +143,8 @@
 	  </MauiAsset>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Resources\Converters\" />
+	</ItemGroup>
+
 </Project>

@@ -1329,10 +1329,24 @@ namespace PTANonCrown.ViewModel
                 ErrorMessage = $"Stand Number {stand.StandNumber} already exists. This must be unique.";
                 ContainsError = true;
             }
+
+            else if (stand.CruiseID is null || stand.PlannerID is null)
+            {
+                var missingFields = new List<string>();
+                if (stand.CruiseID is null) missingFields.Add("CruiseID");
+                if (stand.PlannerID is null) missingFields.Add("PlannerID");
+
+                ErrorMessage = $"Stand Number {stand.StandNumber} has missing required fields: {string.Join(", ", missingFields)}";
+                ContainsError = true;
+            }
             else
             {
                 ErrorMessage = string.Empty;
             }
+
+
+
+
         }
 
         private readonly Dictionary<string, List<string>> _phaseToSoilTypes = new()

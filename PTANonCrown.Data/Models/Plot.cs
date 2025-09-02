@@ -363,7 +363,34 @@ namespace PTANonCrown.Data.Models
 
         public int UnderstoryStrata { get; set; }
 
-        public bool UnevenAged { get; set; }
+        public bool _unevenAged { get; set; }
+        public bool UnevenAged
+        {
+            get => _unevenAged;
+            set
+            {
+                if (_unevenAged != value)
+                {
+                    _unevenAged = value;
+                    OnPropertyChanged();
+                }
+            }
+        }       
+        
+        public int _agsPatches { get; set; }
+        public int AGSPatches
+        {
+            get => _agsPatches;
+            set
+            {
+                if (_agsPatches != value)
+                {
+                    _agsPatches = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         public VegLookup Vegetation
         {

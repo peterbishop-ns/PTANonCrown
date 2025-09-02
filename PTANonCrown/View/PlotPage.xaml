@@ -15,6 +15,7 @@
         <ResourceDictionary>
             <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
             <converter:ZeroToEmptyStringConverter x:Key="ZeroToEmptyStringConverter" />
+            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
@@ -439,6 +440,82 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     </Grid>
                 </Border>
             </VerticalStackLayout>
+            <!-- Uneven Aged -->
+            <VerticalStackLayout>
+                <Label Text="Uneven Aged"
+                       Style="{StaticResource SubHeadline}" />
+                <Border>
+                    <Grid ColumnDefinitions="250,Auto"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                          RowSpacing="5"
+                          ColumnSpacing="20">
+
+                        <HorizontalStackLayout Grid.Row="0">
+                            <Label Text="Uneven Aged"
+                                   Style="{StaticResource LabelSubheading}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="UnevenAged" />
+                        </HorizontalStackLayout>
+
+
+                        <CheckBox Grid.Row="0"
+                                  Grid.Column="1"
+                                  IsChecked="{Binding CurrentPlot.UnevenAged}" /> 
+
+                        <HorizontalStackLayout Grid.Row="1"
+                                               IsVisible="{Binding CurrentPlot.UnevenAged,
+                                        Converter={StaticResource BoolToVisibilityConverter},
+                            ConverterParameter=collapsed}">
+                            <Label Text="AGS / Patches AGS (m²/ha)"
+                                   Style="{StaticResource LabelSubheading}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="AGSPatches" />
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="2"
+                                               IsVisible="{Binding CurrentPlot.UnevenAged,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}">
+                            <Label Text="One Cohort Senescent"
+                                   Style="{StaticResource LabelSubheading}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="OneCohortSenescent" />
+                        </HorizontalStackLayout>
+
+
+                        <CheckBox Grid.Row="2"
+                                  Grid.Column="1"
+                                  IsChecked="{Binding CurrentPlot.OneCohortSenescent}"
+                                  IsVisible="{Binding CurrentPlot.UnevenAged,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}"/>
+
+                        <Entry Grid.Row="1"
+                               Grid.Column="1"
+                               WidthRequest="70"
+                               IsVisible="{Binding CurrentPlot.UnevenAged,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}"
+                            HorizontalOptions="CenterAndExpand"
+                               Text="{Binding CurrentPlot.AGSPatches}"
+                               TextChanged="OnlyIntegerAllowed"
+                               Style="{StaticResource EntryParent}" />
+
+
+                    </Grid>
+
+                </Border>
+            </VerticalStackLayout>
+            
             
             <!-- FOREST STRUCTURE -->
             <VerticalStackLayout>
@@ -446,7 +523,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                        Style="{StaticResource SubHeadline}" />
                 <Border>
                     <Grid ColumnDefinitions="250,Auto"
-                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                           RowSpacing="5"
                           ColumnSpacing="20">
                         <!--- LEFT HAND SIDE -->
@@ -471,7 +548,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          CommandParameter="Blowdown" />
                         </HorizontalStackLayout>
 
-                        <HorizontalStackLayout Grid.Row="4">
+                        <HorizontalStackLayout Grid.Row="5">
                             <Label Text="Understory Strata (%)"
                                    Style="{StaticResource LabelSubheading}" />
                             <ImageButton Source="info.png"
@@ -481,29 +558,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          CommandParameter="UnderstoryStrata" />
                         </HorizontalStackLayout>
 
-                        <HorizontalStackLayout Grid.Row="3">
-                            <Label Text="Uneven Aged"
-                                   Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="UnevenAged" />
-                        </HorizontalStackLayout>
+                        
+                        <HorizontalStackLayout Grid.Row="6">
 
-                        <HorizontalStackLayout Grid.Row="2">
-                            <Label Text="One Cohort Senescent"
-                                   Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="OneCohortSenescent" />
-                        </HorizontalStackLayout>
-                        <HorizontalStackLayout Grid.Row="5">
-
-                            <Label Text="Understory Dominated By"
-                                   Grid.Row="11" />
+                            <Label Text="Understory Dominated By"/>
                             <ImageButton Source="info.png"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Margin="10,0,0,0"
@@ -530,7 +588,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 SelectedItem="{Binding CurrentPlot.Blowdown, Mode=TwoWay}"
                                 HorizontalOptions="Start" />
 
-                        <Picker Grid.Row="4"
+                        <Picker Grid.Row="5"
                                 Grid.Column="1"
                                 Background="White"
                                 WidthRequest="70"
@@ -539,17 +597,11 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 SelectedItem="{Binding CurrentPlot.UnderstoryStrata}"
                                 HorizontalOptions="Start" />
 
-                        <CheckBox Grid.Row="3"
-                                  Grid.Column="1"
-                                  IsChecked="{Binding CurrentPlot.UnevenAged}" />
-
-                        <CheckBox Grid.Row="2"
-                                  Grid.Column="1"
-                                  IsChecked="{Binding CurrentPlot.OneCohortSenescent}" />
+                      
 
 
                         <!-- UnderstoryDominated -->
-                        <VerticalStackLayout Grid.Row="6"
+                        <VerticalStackLayout Grid.Row="7"
                                              Grid.Column="0"
                                              Spacing="0"
                                              Grid.ColumnSpan="2"
