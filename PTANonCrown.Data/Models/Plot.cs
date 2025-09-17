@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace PTANonCrown.Data.Models
@@ -93,6 +95,39 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
+
+
+        public void UpdateTreeLIT()
+        {
+            foreach (var tree in PlotTreeLive)
+            {
+                var species = tree.TreeSpecies;
+                var name = species.Name.ToLowerInvariant();
+
+                if (name.Contains("red maple"))
+                {
+                    // Red maple is LIT only in tolerant hardwood
+                    species.LIT = Vegetation.ForestGroup == ForestGroup.TolerantHardwood;
+                    Console.WriteLine($"LIT for Red Maple is {species.LIT}. FG is {Vegetation.ForestGroup}");
+                }
+                else if (name.Contains("white spruce"))
+                {
+                    // White spruce is not LIT in these groups
+                    var notLitGroups = new[]
+                    {
+                ForestGroup.CoastalBoreal,
+                ForestGroup.OldField,
+                ForestGroup.Highland,
+                ForestGroup.PlantedForest
+            };
+
+                    species.LIT = !notLitGroups.Contains(Vegetation.ForestGroup);
+                    Console.WriteLine($"LIT for White Spruce is {species.LIT}. FG is {Vegetation.ForestGroup}");
+
+                }
+            }
+        }
+
 
         private ExposureLookup _exposure;
         public ExposureLookup Exposure
@@ -401,12 +436,18 @@ namespace PTANonCrown.Data.Models
                 {
                     _vegetation = value;
                     OnPropertyChanged();
+                    OnVegChanged();
                 }
             }
         }
+        private void OnVegChanged()
+        {
+            // whenever the Veg is changed, need to refresh the LIT status of all the trees
+            this.UpdateTreeLIT();
+
+        }
 
 
-       
 
         private void InitializeLiveTree()
         {

@@ -1046,6 +1046,9 @@ namespace PTANonCrown.ViewModel
                 PlotWasTreated = false;
             }
 
+            // Refresh LIT status of trees
+            CurrentPlot.UpdateTreeLIT();
+
             //Refres
             SetSummaryPlot(CurrentPlot);
             //Refresh the count
@@ -1204,7 +1207,11 @@ namespace PTANonCrown.ViewModel
         private void SetCurrentPlot(Plot plot)
         {
             CurrentPlot = plot;
+            
 
+            
+
+            // Need to populate each tree with the full LookupTrees to ensure dropdown bindings work
             foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
             {
                 tree.LookupTrees = LookupTrees;

@@ -12,9 +12,22 @@ namespace PTANonCrown.Data.Models
     public class TreeSpecies : BaseLookup
     {
         public HardwoodSoftwood HardwoodSoftwood { get; set; }
-        public bool LIT { get; set; }
-        public bool LIT_planted { get; set; }
+        private bool _lit;
+        public bool LIT
+        {
+            get => _lit;
+            set
+            {
+                if (_lit != value)
+                {
+                    _lit = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public bool LIT_specialcase { get; set; }
         public bool LT { get; set; }
+        public int CustomOrder { get; set; }
 
         [NotMapped]
         public string DisplayName { get => $"{Name} - {ShortCode}"; }

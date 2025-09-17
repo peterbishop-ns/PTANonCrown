@@ -5,6 +5,7 @@ using PTANonCrown.Data.Context;
 using PTANonCrown.Data.Repository;
 using PTANonCrown.Services;
 using PTANonCrown.ViewModel;
+using System.Diagnostics;
 
 namespace PTANonCrown
 {
@@ -66,7 +67,17 @@ namespace PTANonCrown
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 db.Database.EnsureDeleted();  // <-- add this temporarily
-                db.Database.Migrate();
+                try
+                {
+
+                    db.Database.Migrate();
+                }
+
+                catch (Exception ex)
+                {
+                    // catch startup issues
+                    Debug.WriteLine("Unexpected EF error: " + ex);
+                }
             }
 
             AppLogger.Log($"Services start", "MauiProgram.cs");

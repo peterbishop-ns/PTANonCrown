@@ -39,9 +39,27 @@ namespace PTANonCrown.Data.Models
     public class SoilLookup : BaseLookup
     { }
     public class ExposureLookup : BaseLookup
-    { }
+    { }    
+    
+    
+
     public class VegLookup : BaseLookup
-    { }
+    {
+        private ForestGroup _forestGroup { get; set; }
+
+        public ForestGroup ForestGroup
+        {
+            get => _forestGroup;
+            set
+            {
+                if (_forestGroup != value)
+                {
+                    _forestGroup = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+    }
 
     public class EcodistrictLookup : BaseLookup
     {
