@@ -25,7 +25,6 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
-        public bool LIT_specialcase { get; set; }
         public bool LT { get; set; }
         public int CustomOrder { get; set; }
 
