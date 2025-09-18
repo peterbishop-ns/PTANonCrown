@@ -139,7 +139,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
                 }
             }
 
-            //throw; // rethrow while preserving stack trace
+            throw; // rethrow while preserving stack trace
         }
     }
 

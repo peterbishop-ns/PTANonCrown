@@ -66,7 +66,7 @@ namespace PTANonCrown
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                db.Database.EnsureDeleted();  // <-- add this temporarily
+                //db.Database.EnsureDeleted();  // <-- add this temporarily
                 try
                 {
 

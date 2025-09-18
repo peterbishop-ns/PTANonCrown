@@ -1228,10 +1228,7 @@ namespace PTANonCrown.ViewModel
         private void SetCurrentPlot(Plot plot)
         {
             CurrentPlot = plot;
-            
-
-            
-
+ 
             // Need to populate each tree with the full LookupTrees to ensure dropdown bindings work
             foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
             {
