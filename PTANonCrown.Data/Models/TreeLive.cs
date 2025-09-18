@@ -178,7 +178,6 @@ namespace PTANonCrown.Data.Models
 
         public Plot Plot { get; set; }
 
-        public int PlotID { get; set; }
 
         public bool SCanopy { get; set; }
 

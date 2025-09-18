@@ -107,7 +107,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     public void Save(T entity)
     {
         var entry = _context.Entry(entity);
-        var hashBase = _context.GetHashCode();
 
         if (entry.State == EntityState.Detached)
         {
@@ -121,15 +120,27 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         try
         {
             _context.SaveChanges(); // Commit changes
-
         }
         catch (DbUpdateException dbEx) when (dbEx.InnerException is SqliteException sqlEx)
         {
-            AppLogger.Log("SQL Error", sqlEx.ToString());
-            throw dbEx; //rethrow
+            // Log the raw SQLite error
+            AppLogger.Log("SQL Error", $"SQLite Error {sqlEx.SqliteErrorCode}: {sqlEx.Message}");
+
+            // Inspect the failing entries
+            foreach (var failedEntry in dbEx.Entries)
+            {
+                var entityName = failedEntry.Entity.GetType().Name;
+                AppLogger.Log("SQL Error", $"Entity: {entityName}, State: {failedEntry.State}");
+
+                foreach (var prop in failedEntry.CurrentValues.Properties)
+                {
+                    var value = failedEntry.CurrentValues[prop];
+                    AppLogger.Log("SQL Error", $"  {prop.Name} = {value ?? "NULL"}");
+                }
+            }
+
+            //throw; // rethrow while preserving stack trace
         }
-
-
     }
 
 

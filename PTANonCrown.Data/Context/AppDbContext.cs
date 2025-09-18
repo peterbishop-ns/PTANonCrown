@@ -15,7 +15,7 @@ public class AppDbContext : DbContext
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         optionsBuilder.UseSqlite("Data Source=app.db");  // or your actual connection string
-
+        optionsBuilder.EnableSensitiveDataLogging();
         return new AppDbContext(optionsBuilder.Options);
     }
 
@@ -153,14 +153,14 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Stand>()
             .HasMany(s => s.Plots)
             .WithOne(p => p.Stand)
-            .HasForeignKey(p => p.StandID)
-            .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete plots when stand is deleted
+           // .HasForeignKey("StandID")  // shadow property, no need for it in Plot class
+            .OnDelete(DeleteBehavior.Cascade); // optional: cascade delete plots when stand is deleted
 
         // Plot → PlotTreeLive
         modelBuilder.Entity<Plot>()
             .HasMany(p => p.PlotTreeLive)
             .WithOne(t => t.Plot)
-            .HasForeignKey(t => t.PlotID)
+           // .HasForeignKey("PlotID")
             .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete trees when plot is deleted
 
 
@@ -169,26 +169,26 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<PlotTreatment>()
             .HasOne(pt => pt.Plot)
-            .WithMany(p => p.PlotTreatments)
-            .HasForeignKey(pt => pt.PlotId);
+            .WithMany(p => p.PlotTreatments);
+        // .HasForeignKey("PlotId");
 
         modelBuilder.Entity<PlotTreatment>()
             .HasOne(pt => pt.Treatment)
-            .WithMany(t => t.PlotTreatments)
-            .HasForeignKey(pt => pt.TreatmentId);
+            .WithMany(t => t.PlotTreatments);
+       //     .HasForeignKey("TreatmentId");
 
         // Plot → PlotCoarseWoody
         modelBuilder.Entity<Plot>()
                 .HasMany(p => p.PlotCoarseWoody)
                 .WithOne(t => t.Plot)
-                .HasForeignKey(t => t.PlotID)
+              //  .HasForeignKey("PlotID")
                 .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete trees when plot is deleted
 
         // Plot → PlotTreeDead
         modelBuilder.Entity<Plot>()
             .HasMany(p => p.PlotTreeDead)
             .WithOne(t => t.Plot)
-            .HasForeignKey(t => t.PlotID)
+          //  .HasForeignKey("PlotID")
             .OnDelete(DeleteBehavior.Cascade);  // Optional: cascade delete trees when plot is deleted
     }
 }

@@ -12,6 +12,10 @@ namespace PTANonCrown.Data.Models
         public bool _isPlanted;
         private int _ageTreeAge;
         private int _ageTreeDBH;
+
+        private int _oldGrowthAge;
+        private int _oldGrowthDBH;
+
         private PlantedType _plantedType;
         private int _plotNumber;
 
@@ -73,6 +77,32 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
+        
+        public int OldGrowthAge
+        {
+            get => _oldGrowthAge;
+            set
+            {
+                if (_oldGrowthAge != value)
+                {
+                    _oldGrowthAge = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int OldGrowthDBH
+        {
+            get => _oldGrowthDBH;
+            set
+            {
+                if (_oldGrowthDBH != value)
+                {
+                    _oldGrowthDBH = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public int AverageSampleTreeAge { get; set; }
 
@@ -99,6 +129,12 @@ namespace PTANonCrown.Data.Models
 
         public void UpdateTreeLIT()
         {
+            if (PlotTreeLive?.Count() == 0)
+            {
+                return;
+            }
+
+
             foreach (var tree in PlotTreeLive)
             {
                 var species = tree.TreeSpecies;
@@ -208,6 +244,20 @@ namespace PTANonCrown.Data.Models
                 if (_ageTreeSpecies != value)
                 {
                     _ageTreeSpecies = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+                private TreeSpecies _oldGrowthSpecies;
+
+        public TreeSpecies OldGrowthSpecies
+        {
+            get => _oldGrowthSpecies;
+            set
+            {
+                if (_oldGrowthSpecies != value)
+                {
+                    _oldGrowthSpecies = value;
                     OnPropertyChanged();
                 }
             }
@@ -336,8 +386,8 @@ namespace PTANonCrown.Data.Models
 
         public Stand Stand { get; set; }
 
-        public int StandID { get; set; }
-        public string SoilPhase { get; set; }
+        //public int StandID { get; set; }
+        public string? SoilPhase { get; set; }
 
         public int StockingBeechRegeneration { get; set; }
 
@@ -398,7 +448,7 @@ namespace PTANonCrown.Data.Models
 
         public int UnderstoryStrata { get; set; }
 
-        public bool _unevenAged { get; set; }
+        private bool _unevenAged { get; set; }
         public bool UnevenAged
         {
             get => _unevenAged;
@@ -410,9 +460,22 @@ namespace PTANonCrown.Data.Models
                     OnPropertyChanged();
                 }
             }
+        }
+        private bool _hasOldGrowth { get; set; }
+        public bool HasOldGrowth
+        {
+            get => _hasOldGrowth;
+            set
+            {
+                if (_hasOldGrowth != value)
+                {
+                    _hasOldGrowth = value;
+                    OnPropertyChanged();
+                }
+            }
         }       
         
-        public int _agsPatches { get; set; }
+        private int _agsPatches { get; set; }
         public int AGSPatches
         {
             get => _agsPatches;

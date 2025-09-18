@@ -6,6 +6,7 @@ using CommunityToolkit.Maui.Storage;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using PTANonCrown.Data.Models;
 using PTANonCrown.Data.Repository;
@@ -269,6 +270,23 @@ namespace PTANonCrown.ViewModel
                 {
                     CurrentPlot.AgeTreeSpecies = value;
                     OnPropertyChanged(nameof(SelectedAgeTreeSpecies));
+                }
+            }
+        }
+        public TreeSpecies SelectedOldGrowthSpecies
+        {
+            get
+            {
+                var spec = LookupTrees.FirstOrDefault(t => t.ID == CurrentPlot.OldGrowthSpecies?.ID);
+
+                return spec;
+            }
+            set
+            {
+                if (value != null && CurrentPlot.OldGrowthSpecies?.ID != value.ID)
+                {
+                    CurrentPlot.OldGrowthSpecies = value;
+                    OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
                 }
             }
         }
@@ -614,10 +632,10 @@ namespace PTANonCrown.ViewModel
                 Vegetation = LookupVeg.Where(x => x.ID == 1).FirstOrDefault(),
                 EcositeGroup = EcositeGroup.None,
                 AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
+                OldGrowthSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
 
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
-                    TreatmentId = t.ID,
                     Treatment = t, // Associate the full treatment entity
                     IsActive = false // Default status
                 }).ToList()
@@ -1201,7 +1219,10 @@ namespace PTANonCrown.ViewModel
                 Application.Current.MainPage.DisplayAlert("Error", "Please address errors", "OK");
                 return;
             }
-            _standRepository.Save(CurrentStand);
+
+
+                _standRepository.Save(CurrentStand);
+           
         }
 
         private void SetCurrentPlot(Plot plot)

@@ -702,7 +702,113 @@ ConverterParameter=collapsed}"
                     </Grid>
                 </Border>
             </VerticalStackLayout>
-        
+
+            <!-- OLD GROWTH  -->
+            <VerticalStackLayout>
+                <HorizontalStackLayout>
+
+                    <Label Text="Age Tree : Old Growth"
+                           Style="{StaticResource LabelPlot}" />
+                    <ImageButton Source="info.png"
+                                 Style="{StaticResource ImageButtonHelper}"
+                                 Margin="10,0,0,0"
+                                 Command="{Binding ShowHelperTextCommand}"
+                                 CommandParameter="AgeGeneral" />
+                </HorizontalStackLayout>
+
+                <Border>
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+                          ColumnSpacing="5"
+                          ColumnDefinitions="160,Auto,Auto">
+
+                        <HorizontalStackLayout Grid.Row="0"
+                                               Grid.Column="0">
+                            <Label  Text="Present?" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="AgeTreeSpecies" />
+                        </HorizontalStackLayout>
+                        <CheckBox Grid.Row="0"
+                                  Grid.Column="1"
+                                  HorizontalOptions="Start"
+                                  IsChecked="{Binding CurrentPlot.HasOldGrowth}" />
+
+                        <HorizontalStackLayout Grid.Row="1"
+                                               Grid.Column="0"
+                                               IsVisible="{Binding CurrentPlot.HasOldGrowth,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}">
+                            <Label Text="Species" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="AgeTreeSpecies" />
+                        </HorizontalStackLayout>
+
+                        <Picker Grid.Row="1"
+                                Grid.Column="1"
+                                WidthRequest="200"
+                                IsVisible="{Binding CurrentPlot.HasOldGrowth,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}"
+                                SelectedItem="{Binding SelectedOldGrowthSpecies, Mode=TwoWay}"
+                                ItemsSource="{Binding LookupTrees}"
+                                ItemDisplayBinding="{Binding Name}" />
+
+                        <HorizontalStackLayout Grid.Row="2"
+                                               Grid.Column="0"
+                                               IsVisible="{Binding CurrentPlot.HasOldGrowth,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}">
+                            <Label  Text="Age" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="AgeTreeAge" />
+
+                        </HorizontalStackLayout>
+
+                        <Entry Grid.Row="2"
+                               WidthRequest="50"
+                               IsVisible="{Binding CurrentPlot.HasOldGrowth,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}"
+                               HorizontalOptions="End"
+                               Text="{Binding CurrentPlot.OldGrowthAge}"
+                               TextChanged="OnlyIntegerAllowed"
+                               Style="{StaticResource EntryParent}"
+                               Grid.Column="1" />
+                        <HorizontalStackLayout Grid.Row="3"
+                                               Grid.Column="0"
+                                               IsVisible="{Binding CurrentPlot.HasOldGrowth,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}">
+                            <Label Text="DBH (cm)" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="AgeDBH" />
+                        </HorizontalStackLayout>
+
+                        <Entry Grid.Row="3"
+                               IsVisible="{Binding CurrentPlot.HasOldGrowth,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}"
+                               WidthRequest="50"
+                               TextChanged="OnlyIntegerAllowed"
+                               Text="{Binding CurrentPlot.OldGrowthDBH}"
+                               Style="{StaticResource EntryParent}"
+                               HorizontalOptions="End"
+                               Grid.Column="1" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
         </VerticalStackLayout>
 
     </ScrollView>
