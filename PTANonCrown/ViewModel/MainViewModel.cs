@@ -62,6 +62,11 @@ namespace PTANonCrown.ViewModel
 
             AppLogger.Log("GetOrCreatePlot", "MainViewModel");
             GetOrCreatePlot(CurrentStand);
+
+            SelectedSoil = CurrentPlot.Soil;
+            SelectedSoilPhase = SoilPhases.Where(x => x == CurrentPlot.SoilPhase).FirstOrDefault();
+            
+
             ValidationMessage = string.Empty;
             RefreshTreeCount();
 
@@ -105,6 +110,7 @@ namespace PTANonCrown.ViewModel
         }
 
         public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
+        public ICommand AddTreeCommand => new Command(_ => AddTrees(1));
 
         public Plot CurrentPlot
         {
@@ -228,7 +234,7 @@ namespace PTANonCrown.ViewModel
         public List<SoilLookup> LookupSoils { get; set; }
 
         public List<TreeSpecies> LookupTrees { get; set; }
-
+  
         public List<VegLookup> LookupVeg { get; set; }
 
         public ICommand NewPlotCommand =>
@@ -256,7 +262,7 @@ namespace PTANonCrown.ViewModel
         new Command<string>(method => SaveAll());
 
         // TODO - in progress - trying to get Selected Age Species working
-        public TreeSpecies SelectedAgeTreeSpecies
+       /* public TreeSpecies SelectedAgeTreeSpecies
         {
             get
             {
@@ -266,7 +272,7 @@ namespace PTANonCrown.ViewModel
             }
             set
             {
-                if (value != null && CurrentPlot.AgeTreeSpecies?.ID != value.ID)
+                if (value != null && CurrentPlot.AgeTreeSpeciesID? != value.ID)
                 {
                     CurrentPlot.AgeTreeSpecies = value;
                     OnPropertyChanged(nameof(SelectedAgeTreeSpecies));
@@ -289,7 +295,7 @@ namespace PTANonCrown.ViewModel
                     OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
                 }
             }
-        }
+        }*/
 
         private SoilLookup _selectedSoil;
         public SoilLookup SelectedSoil
@@ -558,9 +564,8 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        private void AddTrees(int currentTreeCount)
+        private void AddTrees(int treesToAdd)
         {
-            int treesToAdd = CurrentPlot.TreeCount - currentTreeCount;
 
             // Get max tree number
             int currentMaxTreeNumber = GetMaxTreeNumber();
@@ -573,16 +578,18 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        private async void CheckTrees(Plot plot)
+        private async void DisplayTreeWarningMessage(Plot plot)
         {
-            if (!plot.PlotTreeLive.Any(t => t.DBH_cm == 0 || t.Height_m == 0))
+
+            if (Application.Current?.MainPage != null)
             {
                 await Application.Current.MainPage.DisplayAlert(
-               "Missing info.",
-               $"Trees in Plot {plot.PlotNumber} missing DBH and/or Heights",
-               "Continue",
-               "Cancel");
+                    "Incomplete Information",
+                    $"Trees in Plot {plot.PlotNumber} missing DBH, heights or species. " +
+                    $"Cruise Summary cannot be generated.",
+                    "Continue", "Cancel");
             }
+
         }
 
         private int CountDigits(int number)
@@ -631,8 +638,8 @@ namespace PTANonCrown.ViewModel
                 Exposure = LookupExposure.Where(x => x.ID == 1).FirstOrDefault(),
                 Vegetation = LookupVeg.Where(x => x.ID == 1).FirstOrDefault(),
                 EcositeGroup = EcositeGroup.None,
-                AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
-                OldGrowthSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
+                //AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
+                OldGrowthSpeciesID = 1,
 
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
@@ -994,13 +1001,40 @@ namespace PTANonCrown.ViewModel
 
             // needs to reference the same list that used in the loook up, or it will fail
             // to display the correct item in the AgreTree picker list
-            var match = LookupTrees.Where(t => t.ID == plot.AgeTreeSpecies.ID).FirstOrDefault();
-            SelectedAgeTreeSpecies = match;
+            //var match = LookupTrees.Where(t => t.ID == plot.AgeTreeSpecies.ID).FirstOrDefault();
+            
+            //SelectedAgeTreeSpecies = match;
+
+
+            //plot.LookupTrees = LookupTrees;
+
+
+            SelectedOldGrowthSpecies =
+                LookupTrees
+                    .FirstOrDefault(t => t.ID == plot.OldGrowthSpeciesID);
+
+            //SelectedAgeTreeSpecies =
+              //  LookupTrees
+              //      .FirstOrDefault(t => t.ID == plot.AgeTreeSpeciesID);
 
             SetCurrentPlot(plot);
-            return plot;
+                return plot;
 
         }
+
+        public TreeSpecies SelectedOldGrowthSpecies
+        {
+            get => LookupTrees?.FirstOrDefault(t => t.ID == CurrentPlot?.OldGrowthSpeciesID);
+            set
+            {
+                if (value != null && CurrentPlot != null)
+                {
+                    CurrentPlot.OldGrowthSpeciesID = value.ID;
+                    OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
+                }
+            }
+        }
+
 
         private Stand GetOrCreateStand()
         {
@@ -1080,7 +1114,7 @@ namespace PTANonCrown.ViewModel
             {
                 bool confirm = await Application.Current.MainPage.DisplayAlert(
                       "Clear Biodiversity data?",
-                      "Unchecking Biodiversity will clear the fields 'Diversity' and 'Cavity' for all trees. Continue?",
+                      "Unchecking Biodiversity will clear the fields 'Diversity', 'Cavity' and 'Mast' for all trees. Continue?",
                       "OK",
                       "Cancel");
 
@@ -1090,6 +1124,7 @@ namespace PTANonCrown.ViewModel
                     {
                         tree.Cavity = false;
                         tree.Diversity = false;
+                        tree.Mast = false;
                     }
                 }
             }
@@ -1253,7 +1288,10 @@ namespace PTANonCrown.ViewModel
 
             foreach (Plot plot in CurrentStand.Plots)
             {
-                //CheckTrees(plot);
+                if (!TreeSummaryHelper.CheckTreesValid(plot.PlotTreeLive))
+                {
+                    DisplayTreeWarningMessage(plot);
+                }
 
             }
             SummaryItems = TreeSummaryHelper.GenerateSummaryResult(CurrentStand.Plots);
@@ -1272,7 +1310,13 @@ namespace PTANonCrown.ViewModel
                 SummaryPlot = plot;
                 StandOnlySummary = false;
                 SummarySectionIsVisible = true;
-                //CheckTrees(plot);
+
+                if (!TreeSummaryHelper.CheckTreesValid(plot.PlotTreeLive))
+                {
+                    DisplayTreeWarningMessage(plot);
+                }
+
+
                 SummaryItems = TreeSummaryHelper.GenerateSummaryResult(new[] { plot });
                 SpeciesSummary = GenerateTreeSpeciesSummary(new[] { plot });
                 SummaryPageMessage = $"Plot {CurrentPlot.PlotNumber} Summary";
@@ -1291,7 +1335,9 @@ namespace PTANonCrown.ViewModel
             // Add Trees if necessary
             if (CurrentPlot.TreeCount > currentTreeCount)
             {
-                AddTrees(currentTreeCount);
+                int treesToAdd = CurrentPlot.TreeCount - currentTreeCount;
+
+                AddTrees(treesToAdd);
             }
             // Remove Trees if necessary
             else if (CurrentPlot.TreeCount < currentTreeCount)
@@ -1368,14 +1414,11 @@ namespace PTANonCrown.ViewModel
             {
                 ErrorMessage = string.Empty;
             }
-
-
-
-
         }
 
         private readonly Dictionary<string, List<string>> _phaseToSoilTypes = new()
         {
+            { "n/a Unknown", new List<string> { "n/a" } },
             { "Boulder Phase", new List<string> { "st1", "st2", "st3", "st8", "st9", "st14", "st15", "st16" } },
             { "Coarse Phase", new List<string> { "st2", "st3", "st5", "st6", "st8", "st9", "st15", "st16" } },
             { "Loamy Phase", new List<string> { "st2", "st3", "st15", "st16" } },

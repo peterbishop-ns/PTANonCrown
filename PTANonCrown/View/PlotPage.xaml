@@ -62,7 +62,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="PlotNumber" />
+                                     CommandParameter="PlotNumberEdit" />
                     </HorizontalStackLayout>
                     <Entry Text="{Binding CurrentPlot.PlotNumber}"
                            Style="{StaticResource EntryStand}"
@@ -745,7 +745,7 @@ ConverterParameter=collapsed}">
                                          Style="{StaticResource ImageButtonHelper}"
                                          Margin="10,0,0,0"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="AgeTreeSpecies" />
+                                         CommandParameter="OldGrowthSpecies" />
                         </HorizontalStackLayout>
 
                         <Picker Grid.Row="1"
@@ -763,12 +763,14 @@ ConverterParameter=collapsed}"
                                                IsVisible="{Binding CurrentPlot.HasOldGrowth,
             Converter={StaticResource BoolToVisibilityConverter},
 ConverterParameter=collapsed}">
+                            <Label Text="{Binding SelectedOldGrowthSpecies.Name}" />
+
                             <Label  Text="Age" />
                             <ImageButton Source="info.png"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Margin="10,0,0,0"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="AgeTreeAge" />
+                                         CommandParameter="OldGrowthAge" />
 
                         </HorizontalStackLayout>
 
@@ -792,7 +794,7 @@ ConverterParameter=collapsed}">
                                          Style="{StaticResource ImageButtonHelper}"
                                          Margin="10,0,0,0"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="AgeDBH" />
+                                         CommandParameter="OldGrowthDBH" />
                         </HorizontalStackLayout>
 
                         <Entry Grid.Row="3"

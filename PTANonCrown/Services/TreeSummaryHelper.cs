@@ -7,7 +7,7 @@ namespace PTANonCrown.Services
 {
     public static class TreeSummaryHelper
     {
-        private static bool CheckTreesValid(IEnumerable<TreeLive> trees)
+        public static bool CheckTreesValid(IEnumerable<TreeLive> trees)
         {
             return trees.All(t => (t.TreeSpecies is not null) & (t.DBH_cm > 0) & (t.Height_m > 0));
         }

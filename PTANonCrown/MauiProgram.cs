@@ -53,11 +53,24 @@ namespace PTANonCrown
             AppLogger.Log($"{FileSystem.AppDataDirectory}", "AddDbContext");
             AppLogger.Log("AddDbContext - app", "MauiProgram");
 
+           // builder.Services.AddDbContext<AppDbContext>(options =>
+           // {
+           //     var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+          //      options.UseSqlite($"Filename={dbPath}");
+          //  });
+
+
+            // STEP 1: Get platform-specific path
+            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+
+            AppLogger.Log($"dbPath", dbPath);
+
+
+            // STEP 2: Register DbContext with dependency injection
             builder.Services.AddDbContext<AppDbContext>(options =>
-            {
-                var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
-                options.UseSqlite($"Filename={dbPath}");
-            });
+                options.UseSqlite($"Data Source={dbPath}"));
+
+
             var app = builder.Build();
             AppLogger.Log($"DBContext end ", "MauiProgram.cs");
 
@@ -77,6 +90,8 @@ namespace PTANonCrown
                 {
                     // catch startup issues
                     Debug.WriteLine("Unexpected EF error: " + ex);
+                    AppLogger.Log($"DB Exception", ex.ToString());
+
                 }
             }
 

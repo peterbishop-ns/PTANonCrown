@@ -103,6 +103,7 @@ namespace PTANonCrown.Data.Models
                 {
                     _dbh_cm = value;
                     OnPropertyChanged(nameof(DBH_cm));
+                    OnPropertyChanged(nameof(IsMerchantable));
                     OnDBHChanged();
                     OnPropertyChanged(nameof(HeightPredicted_m)); // Notify UI that BasalArea changed
 

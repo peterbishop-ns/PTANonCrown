@@ -202,7 +202,22 @@ namespace PTANonCrown.Data.Models
 
         public int OGFSampleTreeSpecies { get; set; }
 
-        public bool OneCohortSenescent { get; set; }
+
+        private bool _oneCohortSenescent;
+        public bool OneCohortSenescent
+        {
+            get => _oneCohortSenescent;
+            set
+            {
+                if (_oneCohortSenescent != value)
+                {
+                    _oneCohortSenescent = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
 
         public PlantedType PlantedType
         {
@@ -234,30 +249,32 @@ namespace PTANonCrown.Data.Models
 
 
 
-        private TreeSpecies _ageTreeSpecies;
+        private int _ageTreeSpeciesID;
 
-        public TreeSpecies AgeTreeSpecies
+        public int AgeTreeSpeciesID
         {
-            get => _ageTreeSpecies;
+            get => _ageTreeSpeciesID;
             set
             {
-                if (_ageTreeSpecies != value)
+                if (_ageTreeSpeciesID != value)
                 {
-                    _ageTreeSpecies = value;
+                    _ageTreeSpeciesID = value;
                     OnPropertyChanged();
                 }
             }
         }
-                private TreeSpecies _oldGrowthSpecies;
+                
+        
+        private int _oldGrowthSpeciesID;
 
-        public TreeSpecies OldGrowthSpecies
+        public int OldGrowthSpeciesID
         {
-            get => _oldGrowthSpecies;
+            get => _oldGrowthSpeciesID;
             set
             {
-                if (_oldGrowthSpecies != value)
+                if (_oldGrowthSpeciesID != value)
                 {
-                    _oldGrowthSpecies = value;
+                    _oldGrowthSpeciesID = value;
                     OnPropertyChanged();
                 }
             }
@@ -458,7 +475,18 @@ namespace PTANonCrown.Data.Models
                 {
                     _unevenAged = value;
                     OnPropertyChanged();
+                    OnUnevenAgedChanged(value);
                 }
+            }
+        }
+
+        private void OnUnevenAgedChanged(bool unevenAged)
+        {
+            if (!unevenAged)
+            {
+                // clear the child props
+                AGSPatches = 0;
+                OneCohortSenescent = false;
             }
         }
         private bool _hasOldGrowth { get; set; }
@@ -471,10 +499,23 @@ namespace PTANonCrown.Data.Models
                 {
                     _hasOldGrowth = value;
                     OnPropertyChanged();
+                    OnHasOldGrowthChanged(value);
                 }
             }
         }       
         
+        private void OnHasOldGrowthChanged(bool hasOldGrowth)
+        {
+            if (!hasOldGrowth)
+            { //reset things
+                OldGrowthAge = 0;
+                OldGrowthDBH = 0;
+                OldGrowthSpeciesID = 1;
+            }
+
+
+        }
+
         private int _agsPatches { get; set; }
         public int AGSPatches
         {

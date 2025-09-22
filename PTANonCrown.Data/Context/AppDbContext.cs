@@ -19,6 +19,9 @@ public class AppDbContext : DbContext
         return new AppDbContext(optionsBuilder.Options);
     }
 
+
+   
+
     public DbSet<CoarseWoody> CoarseWoodys { get; set; }
     public DbSet<EcodistrictLookup> EcodistrictLookup { get; set; }
     public DbSet<Plot> Plots { get; set; }

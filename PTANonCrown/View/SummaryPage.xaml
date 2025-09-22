@@ -66,12 +66,19 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                              CommandParameter="PlotSummary" />
             </HorizontalStackLayout>
 
+            <HorizontalStackLayout 
+                Grid.Column="3"
+                Grid.Row="0">
+                <Button Text="Export All"
+                        
+                        Style="{StaticResource ButtonGreen}"
+                        Command="{Binding PickFolderCommand}" />
+                <ImageButton Source="info.png"
+                             Style="{StaticResource ImageButtonHelper}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="ExportAll" />
+            </HorizontalStackLayout>
 
-            <Button Text="Export All"
-                    Grid.Column="3"
-                    Grid.Row="0"
-                    Style="{StaticResource ButtonGreen}"
-                    Command="{Binding PickFolderCommand}" />
 
             <Border Grid.Column="0"
                     Grid.Row="2"
@@ -223,14 +230,12 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <Label Text="Species Summary"
                            Style="{StaticResource LabelParent}"
                            Margin="0,0,0,20" />
-                    <Label Text="Please add trees before generating a species summary."
-                           IsVisible="{Binding HasNoSummaryItems}" />
+
                     <CollectionView ItemsSource="{Binding SpeciesSummary}"
                                     x:Name="collectionSpeciesSummary"
                                     MaximumWidthRequest="600"
                                 MaximumHeightRequest="500"
                                 HorizontalOptions="Start"
-                                    IsVisible="{Binding HasSummaryItems}"
                                     BackgroundColor="LightGrey">
                         <CollectionView.Header>
                             <Grid ColumnDefinitions="100,300,100,100"

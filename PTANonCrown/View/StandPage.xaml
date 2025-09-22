@@ -65,7 +65,7 @@
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandNumber" />
+                                     CommandParameter="StandNumberEdit" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
 

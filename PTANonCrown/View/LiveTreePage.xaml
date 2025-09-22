@@ -12,7 +12,7 @@
         <ResourceDictionary>
             <converter:SpeciesConverter x:Key="SpeciesConverter" />
             <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-
+            <converter:IntEmptyToZeroConverter x:Key="IntEmptyToZeroConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -97,8 +97,8 @@
 
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeLive}">
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions="30,70,350,80,80,100,60,60,60,60,80,80,80,270"
-                          RowDefinitions="40,40"
+                    <Grid ColumnDefinitions="30,70,350,80,100,100,60,60,60,60,80,80,80,270"
+                          RowDefinitions="40,70"
                           Padding="5">
                     <BoxView Grid.Row="1"
                              Grid.ColumnSpan="9"
@@ -124,7 +124,7 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeNumber" />
                     </VerticalStackLayout>
@@ -136,7 +136,7 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeSpecies" />
                     </VerticalStackLayout>
@@ -147,7 +147,7 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeDBH" />
                     </VerticalStackLayout>
@@ -158,18 +158,18 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeHeight" />
                     </VerticalStackLayout>
                     <VerticalStackLayout Grid.Column="5"
                                          Grid.Row="1">
-                        <Label Text="Predicted&#10;Height (m)"
+                        <Label Text="Predicted Height (m)"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreePredicted" />
                     </VerticalStackLayout>
@@ -180,7 +180,7 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeAGS" />
                     </VerticalStackLayout>
@@ -191,7 +191,7 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeLIT" />
                     </VerticalStackLayout>
@@ -202,7 +202,7 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeLT" />
                     </VerticalStackLayout>
@@ -213,7 +213,7 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeCavity" />
                     </VerticalStackLayout>
@@ -249,7 +249,7 @@
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeDiversity" />
                     </VerticalStackLayout>
@@ -261,7 +261,7 @@
                                FontAttributes="Bold" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
+                                     Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="LivingTreeMast" />
                     </VerticalStackLayout>
@@ -290,7 +290,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                    <Grid ColumnDefinitions="30,70,350,80,80,100,60,60,60,60,80,80,270"
+                    <Grid ColumnDefinitions="30,70,350,80,100,100,60,60,60,60,80,80,270"
                           Padding="5"
                               BackgroundColor="WhiteSmoke">
 
@@ -330,7 +330,7 @@
 
                             <!-- DBH -->
                             <Entry Grid.Column="3"
-                                   Text="{Binding DBH_cm, Mode=TwoWay}"
+                               Text="{Binding DBH_cm, Mode=TwoWay, Converter={StaticResource IntEmptyToZeroConverter}}"
                                    Keyboard="Numeric"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center">
@@ -340,7 +340,7 @@
                             </Entry>
                             <!-- Height -->
                             <Entry Grid.Column="4"
-                                   Text="{Binding Height_m, Mode=TwoWay}"
+                               Text="{Binding Height_m, Mode=TwoWay, Converter={StaticResource IntEmptyToZeroConverter}}"
                                    Keyboard="Numeric"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center">
@@ -421,5 +421,18 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </VerticalStackLayout>
+
+        <Button     Text="+"
+                    TextColor="Green"
+                    FontSize="24"
+                    BorderColor="Transparent"
+                    BackgroundColor="Transparent"
+                    BorderWidth="1"
+                    CornerRadius="6"
+                    VerticalOptions="Center"
+                    HorizontalOptions='Start'
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    Command="{Binding AddTreeCommand}" />
+    </VerticalStackLayout>
 </ContentPage>
