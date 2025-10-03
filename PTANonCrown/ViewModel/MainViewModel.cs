@@ -14,10 +14,14 @@ using PTANonCrown.Services;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Formats.Asn1;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Windows.Input;
+using System.Globalization;
+using CsvHelper;
 
 namespace PTANonCrown.ViewModel
 {
@@ -52,6 +56,8 @@ namespace PTANonCrown.ViewModel
             _mainService = mainService;
             _standRepository = standRepository;
             _lookupRepository = lookupRepository;
+
+            _phaseToSoilTypes = LoadPhaseToSoilTypes("SoilPhases.csv");
 
             AppLogger.Log("LoadLookupTables", "MainViewModel");
 
@@ -457,6 +463,7 @@ namespace PTANonCrown.ViewModel
         }
 
         private LookupRepository _lookupRepository { get; set; }
+        private Dictionary<string, List<string>> _phaseToSoilTypes { get; set; }
 
         private MainService _mainService { get; set; }
 
@@ -1416,17 +1423,60 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        private readonly Dictionary<string, List<string>> _phaseToSoilTypes = new()
-        {
-            { "n/a Unknown", new List<string> { "n/a" } },
-            { "Boulder Phase", new List<string> { "st1", "st2", "st3", "st8", "st9", "st14", "st15", "st16" } },
-            { "Coarse Phase", new List<string> { "st2", "st3", "st5", "st6", "st8", "st9", "st15", "st16" } },
-            { "Loamy Phase", new List<string> { "st2", "st3", "st15", "st16" } },
-            { "Stony Phase", Enumerable.Range(1, 18).Select(i => $"st{i}").ToList() },
-            { "Upland Phase", new List<string> { "st14"} }
 
-        };
-        public ObservableCollection<string> SoilPhases { get; } = new ObservableCollection<string>();
+    public Dictionary<string, List<string>> LoadPhaseToSoilTypes(string csvFileName)
+    {
+        // Open the CSV from MAUI Resources/Raw folder
+        using var stream = FileSystem.OpenAppPackageFileAsync(csvFileName).Result;
+            // ".Result" lets us call an async method in a non-async method
+
+        using var reader = new StreamReader(stream);
+        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+
+        // .ToList() Forces enumeration immediately into a list to avoid stream closing issues
+        var records = csv.GetRecords<dynamic>().ToList();
+
+        var dict = new Dictionary<string, List<string>>();
+
+        foreach (var row in records)
+        {
+            string soilType = row.SoilType;
+            string soilPhase = row.SoilPhase;
+
+            string phaseName = soilPhase?.ToUpper() switch
+            {
+                "B" => "Boulder Phase",
+                "S" => "Stony Phase",
+                "SB" => "Stony-Boulder Phase",
+                "C" => "Coarse Phase",
+                "CB" => "Coarse-Boulder Phase",
+                "CS" => "Coarse-Stony Phase",
+                "CSB" => "Coarse-Stony-Boulder Phase",
+                "L" => "Loamy Phase",
+                "LB" => "Loamy-Boulder Phase",
+                "LS" => "Loamy-Stony Phase",
+                "LSB" => "Loamy-Stony-Boulder Phase",
+                "U" => "Upland Phase",
+                "UB" => "Upland-Boulder Phase",
+                "US" => "Upland-Stony Phase",
+                "USB" => "Upland-Stony-Boulder Phase",
+                _ => "n/a Unknown"
+            };
+
+            if (!dict.TryGetValue(phaseName, out var list))
+            {
+                list = new List<string>();
+                dict[phaseName] = list;
+            }
+
+            if (!string.IsNullOrWhiteSpace(soilType))
+                list.Add("st" + soilType);
+        }
+
+        return dict;
+    }
+
+    public ObservableCollection<string> SoilPhases { get; } = new ObservableCollection<string>();
 
 
         private void UpdateSoilPhases()
