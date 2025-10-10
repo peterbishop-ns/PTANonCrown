@@ -26,14 +26,14 @@
 
     public class SummarySoilResult
     {
-        public SoilLookup Soil { get; set; }
+        public Soils Soil { get; set; }
         public int Count { get; set; }
 
         public double Percentage { get; set; }
     }
     public class SummaryVegetationResult
     {
-        public VegLookup Vegetation { get; set; }
+        public Vegetation Vegetation { get; set; }
         public int Count { get; set; }
 
         public double Percentage { get; set; }

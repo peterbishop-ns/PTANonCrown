@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
+using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace PTANonCrown.Data.Models
@@ -26,15 +27,15 @@ namespace PTANonCrown.Data.Models
         private ObservableCollection<TreeDead> _plotTreeDead;
         private ObservableCollection<TreeLive> _plotTreeLive = new ObservableCollection<TreeLive>();
 
-        private EcodistrictLookup _ecodistrictLookup;
-        private SoilLookup _soil;
+        private Ecodistrict _ecodistrictLookup;
+        private string _soil;
         private CardinalDirections _transectDirection;
         private decimal _transectLength;
         private int _treeCount;
 
         private UnderstoryDominated _understoryDominated;
 
-        private VegLookup _vegetation;
+        private string _vegetation;
         public int? Easting { get; set; }
         public int? Northing { get; set; }
         public Plot()
@@ -113,7 +114,7 @@ namespace PTANonCrown.Data.Models
         public int Blowdown { get; set; }
 
         
-       public EcodistrictLookup EcodistrictLookup
+       public Ecodistrict EcodistrictLookup
         {
             get => _ecodistrictLookup;
             set
@@ -143,8 +144,8 @@ namespace PTANonCrown.Data.Models
                 if (name.Contains("red maple"))
                 {
                     // Red maple is LIT only in tolerant hardwood
-                    species.LIT = Vegetation.ForestGroup == ForestGroup.TolerantHardwood;
-                    Console.WriteLine($"LIT for Red Maple is {species.LIT}. FG is {Vegetation.ForestGroup}");
+                    species.LIT = ForestGroup == ForestGroup.TolerantHardwood;
+                    Console.WriteLine($"LIT for Red Maple is {species.LIT}. FG is {ForestGroup}");
                 }
                 else if (name.Contains("white spruce"))
                 {
@@ -157,8 +158,9 @@ namespace PTANonCrown.Data.Models
                 ForestGroup.PlantedForest
             };
 
-                    species.LIT = !notLitGroups.Contains(Vegetation.ForestGroup);
-                    Console.WriteLine($"LIT for White Spruce is {species.LIT}. FG is {Vegetation.ForestGroup}");
+                    species.LIT = !notLitGroups.Contains(ForestGroup);
+
+                    Console.WriteLine($"LIT for White Spruce is {species.LIT}. FG is {ForestGroup}");
 
                 }
             }
@@ -388,7 +390,7 @@ namespace PTANonCrown.Data.Models
 
         public bool RegenHeightSWLIT { get; set; }
 
-        public SoilLookup Soil
+        public string Soil
         {
             get => _soil;
             set
@@ -403,8 +405,20 @@ namespace PTANonCrown.Data.Models
 
         public Stand Stand { get; set; }
 
-        //public int StandID { get; set; }
-        public string? SoilPhase { get; set; }
+
+        private string? _soilPhase;
+        public string? SoilPhase
+        {
+            get => _soilPhase;
+            set
+            {
+                if (_soilPhase != value)
+                {
+                    _soilPhase = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public int StockingBeechRegeneration { get; set; }
 
@@ -531,7 +545,38 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        public VegLookup Vegetation
+        private ForestGroup GetForestGroup(string vegType)
+        {
+            var pattern = new Regex(@"^([A-Z]+)"); // capture letters at the start
+
+
+
+            var match = pattern.Match(vegType);
+            if (!match.Success)
+                return vegType; // fallback if regex doesn't match
+
+            string forestGroup = match.Groups[1].Value;  // "MW"
+
+
+            return forestGroup;
+
+        }
+
+        private ForestGroup _forestGroup;
+        public ForestGroup ForestGroup
+        {
+            get => _forestGroup;
+            set
+            {
+                if (_forestGroup != value)
+                {
+                    _forestGroup = value;
+                    OnPropertyChanged();
+                }
+            }
+        }        
+        
+        public string Vegetation
         {
             get => _vegetation;
             set

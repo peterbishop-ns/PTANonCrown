@@ -290,8 +290,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         </HorizontalStackLayout>
                         
                         <Picker  Grid.Row="7"
-                                 ItemsSource="{Binding LookupSoils}"
-                                 ItemDisplayBinding="{Binding DisplayName}"
+                                 ItemsSource="{Binding soils}"
                                  SelectedItem="{Binding SelectedSoil}"
                                  WidthRequest="350"
                                  HorizontalOptions="Start" />
@@ -327,8 +326,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         </HorizontalStackLayout>
                         <Picker Grid.Row="11"
                                 Grid.Column="0"
-                                ItemsSource="{Binding LookupVeg}"
-                                ItemDisplayBinding="{Binding DisplayName}"
+                                ItemsSource="{Binding veg}"
                                 SelectedItem="{Binding CurrentPlot.Vegetation}"
                                 WidthRequest="350"
                                 HorizontalOptions="Start" />

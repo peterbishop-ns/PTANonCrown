@@ -22,6 +22,7 @@ using System.Security.Cryptography;
 using System.Windows.Input;
 using System.Globalization;
 using CsvHelper;
+using System.Text.RegularExpressions;
 
 namespace PTANonCrown.ViewModel
 {
@@ -57,8 +58,16 @@ namespace PTANonCrown.ViewModel
             _standRepository = standRepository;
             _lookupRepository = lookupRepository;
 
-            _phaseToSoilTypes = LoadPhaseToSoilTypes("SoilPhases.csv");
 
+            var records = ReadCsvRecords("EcoLookup.csv");
+
+            _phaseToSoilTypes = LoadPhaseToSoilTypes(records);
+
+            LookupSoils = GetSoilTypes(records);
+            LookupVeg = GetVegTypes(records);
+            var forestGroups = GetForestGroups(records);
+
+            var hit = GetEco("ST10", "S", "WC10", records);
             AppLogger.Log("LoadLookupTables", "MainViewModel");
 
             LoadLookupTables();
@@ -233,15 +242,14 @@ namespace PTANonCrown.ViewModel
 
         public List<int> ListPercentage { get; set; }
 
-        public List<EcodistrictLookup> LookupEcodistricts { get; set; }
+        public List<Ecodistrict> LookupEcodistricts { get; set; }
 
         public List<ExposureLookup> LookupExposure { get; set; }
 
-        public List<SoilLookup> LookupSoils { get; set; }
-
-        public List<TreeSpecies> LookupTrees { get; set; }
+        public List<string> LookupSoils { get; set; }
   
-        public List<VegLookup> LookupVeg { get; set; }
+        public List<string> LookupVeg { get; set; }
+        public List<TreeSpecies> LookupTrees { get; set; }
 
         public ICommand NewPlotCommand =>
             new Command<string>(method => CreateNewPlot(CurrentStand));
@@ -303,8 +311,8 @@ namespace PTANonCrown.ViewModel
             }
         }*/
 
-        private SoilLookup _selectedSoil;
-        public SoilLookup SelectedSoil
+        private string _selectedSoil;
+        public string SelectedSoil
         {
             get => _selectedSoil;
             set
@@ -466,6 +474,8 @@ namespace PTANonCrown.ViewModel
         private Dictionary<string, List<string>> _phaseToSoilTypes { get; set; }
 
         private MainService _mainService { get; set; }
+        public List<string> veg { get; set; }
+        public List<string> soils { get; set; }
 
         private StandRepository _standRepository { get; set; }
 
@@ -641,7 +651,7 @@ namespace PTANonCrown.ViewModel
             {
                 PlotNumber = newPlotNumber,
                 EcodistrictLookup = LookupEcodistricts.Where(x => x.ID == 1).FirstOrDefault(),
-                Soil = LookupSoils.Where(x => x.ID == 1).FirstOrDefault(),
+               // Soil = LookupSoils.Where(x => x.ID == 1).FirstOrDefault(),
                 Exposure = LookupExposure.Where(x => x.ID == 1).FirstOrDefault(),
                 Vegetation = LookupVeg.Where(x => x.ID == 1).FirstOrDefault(),
                 EcositeGroup = EcositeGroup.None,
@@ -661,7 +671,6 @@ namespace PTANonCrown.ViewModel
             _newPlot.Stand = stand;
 
             _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
-
             stand.Plots.Add(_newPlot);
 
             SetCurrentPlot(_newPlot);
@@ -1424,21 +1433,114 @@ namespace PTANonCrown.ViewModel
         }
 
 
-    public Dictionary<string, List<string>> LoadPhaseToSoilTypes(string csvFileName)
+        // Get list of unique soil types
+        public List<string> GetSoilTypes(List<dynamic> csvRecords)
+        {
+            var pattern = new Regex(@"^([A-Z]+)(\d+)([A-Z]*)$");
+            // Group 1 = prefix letters (ST)
+            // Group 2 = numeric part
+            // Group 3 = optional trailing letters
+
+            // Get all distinct soil codes
+            var soils = csvRecords.Select(r => (string)r.Soil).Distinct();
+
+            // Extract base code without trailing letters and sort by numeric part
+            var soilTypes = soils
+                .Select(s =>
+                {
+                    var match = pattern.Match(s);
+                    if (!match.Success)
+                        return s; // fallback if regex doesn't match
+
+                    string prefix = match.Groups[1].Value;  // "ST"
+                    string number = match.Groups[2].Value;  // "1", "2", etc.
+                    return prefix + number;
+                })
+                .Distinct()
+                .OrderBy(s =>
+                {
+                    var match = pattern.Match(s);
+                    return int.Parse(match.Groups[2].Value); // sort by numeric part
+                })
+                .ToList();
+
+            return soilTypes;
+        }
+
+        public List<string> GetForestGroups(List<dynamic> csvRecords)
+        {
+            var pattern = new Regex(@"^([A-Z]+)"); // capture letters at the start
+
+
+            // Get all distinct soil codes
+            var veg = csvRecords.Select(r => (string)r.Veg).Distinct();
+
+            // Extract base code without trailing letters and sort by numeric part
+            var forestGroups = veg
+                .Select(s =>
+                {
+                    var match = pattern.Match(s);
+                    if (!match.Success)
+                        return s; // fallback if regex doesn't match
+
+                    string forestGroup = match.Groups[1].Value;  // "MW"
+                    return forestGroup;
+                })
+                .Distinct()
+                .OrderBy(s => s) // alphabetical
+                .ToList();
+
+            return forestGroups;
+        }
+
+
+        public List<string> GetVegTypes(List<dynamic> csvRecords)
+        {
+            var vegTypes = csvRecords.Select(r => (string)r.Veg).Distinct().OrderBy(v=>v).ToList();
+            return vegTypes;
+
+        }
+
+
+        public string GetEco(string soilType, string soilPhase, string VegType, List<dynamic> csvRecords)
+        {
+            string match = (string)csvRecords.Where(r => r.Soil == soilType + soilPhase && r.Veg == VegType).Select(r => r.Eco).FirstOrDefault();
+            return match;
+        }
+        // Get list of unique Veg Types
+
+        // Method that takes soil type, soil phase, veg type, and returns an eco group
+
+        public Dictionary<string, List<string>> LoadPhaseToSoilTypes(List<dynamic> csvRecords)
     {
-        // Open the CSV from MAUI Resources/Raw folder
-        using var stream = FileSystem.OpenAppPackageFileAsync(csvFileName).Result;
-            // ".Result" lets us call an async method in a non-async method
 
-        using var reader = new StreamReader(stream);
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-
-        // .ToList() Forces enumeration immediately into a list to avoid stream closing issues
-        var records = csv.GetRecords<dynamic>().ToList();
 
         var dict = new Dictionary<string, List<string>>();
 
-        foreach (var row in records)
+            var soils = csvRecords.Select(r => (string)r.Soil)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct()
+                .ToList();
+            var pattern = new Regex(@"^([A-Z0-9]+?)([A-Z]*)$");
+
+            var dictSoil = soils.
+                Select(s =>
+                {
+                    var match = pattern.Match(s);
+                    var numberPart = match.Groups[1].Value;
+                    var charPart = match.Groups[2].Value;
+                    return (numberPart, charPart);
+                })
+                .GroupBy(x => x.charPart)
+                .ToDictionary(g=> g.Key, g => g.Select(x => x.numberPart).ToList());
+
+
+
+
+            return dictSoil;
+            /*
+
+            foreach (var row in records)
         {
             string soilType = row.SoilType;
             string soilPhase = row.SoilPhase;
@@ -1473,10 +1575,21 @@ namespace PTANonCrown.ViewModel
                 list.Add("st" + soilType);
         }
 
-        return dict;
-    }
+        return dict;*/
+        }
 
-    public ObservableCollection<string> SoilPhases { get; } = new ObservableCollection<string>();
+        public List<dynamic> ReadCsvRecords(string csvFileName)
+        {
+            using var stream = FileSystem.OpenAppPackageFileAsync(csvFileName).Result;
+            using var reader = new StreamReader(stream);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+
+            // Force enumeration immediately
+            return csv.GetRecords<dynamic>().ToList();
+        }
+
+        public ObservableCollection<string> SoilPhases { get; } = new ObservableCollection<string>();
+
 
 
         private void UpdateSoilPhases()
