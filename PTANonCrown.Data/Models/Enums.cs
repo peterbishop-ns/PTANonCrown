@@ -19,8 +19,60 @@ namespace PTANonCrown.Data.Models
             return attribute != null ? attribute.Description : value.ToString();
         }
     }
-    
-    
+
+    public enum ForestGroup
+    {
+        [Description("Coastal Acadian")]
+        CoastalAcadian = 0,
+
+        [Description("Flood Plain Forest")]
+        FloodPlainForest = 1,
+
+        [Description("Intolerant Hardwood")]
+        IntolerantHardwood = 2,
+
+        [Description("Karst Forest")]
+        KarstForest = 3,
+
+        [Description("Mixedwood")]
+        Mixedwood = 4,
+
+        [Description("Old Field")]
+        OldField = 5,
+
+        [Description("Open Woodlands")]
+        OpenWoodlands = 6,
+
+        [Description("Spruce Hemlock")]
+        SpruceHemlock = 7,
+
+        [Description("Spruce Pine")]
+        SprucePine = 8,
+
+        [Description("Tolerant Hardwood")]
+        TolerantHardwood = 9,
+
+        [Description("Wet Coniferous")]
+        WetConiferous = 10,
+
+        [Description("Wet Deciduous")]
+        WetDeciduous = 11,
+
+        [Description("Wet Mixed Wood")]
+        WetMixedWood = 12,
+
+        [Description("Coastal Boreal")]
+        CoastalBoreal = 13,
+
+        [Description("Highland")]
+        Highland = 14,
+
+        [Description("Wet Boreal")]
+        WetBoreal = 15,
+
+        [Description("Planted Forest")]
+        PlantedForest = 16
+    }
     public enum PlantedType
     {
         None = 0,

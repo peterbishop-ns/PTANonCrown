@@ -11,6 +11,8 @@ namespace PTANonCrown.Data.Models
     // Special kind of lookup that has more logic tied to it
     public class TreeSpecies : BaseLookup
     {
+        public int ID { get; set; }
+
         public HardwoodSoftwood HardwoodSoftwood { get; set; }
         private bool _lit;
         public bool LIT

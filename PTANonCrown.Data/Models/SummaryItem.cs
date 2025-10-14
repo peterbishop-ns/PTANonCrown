@@ -26,14 +26,14 @@
 
     public class SummarySoilResult
     {
-        public Soils Soil { get; set; }
+        public string SoilCode { get; set; }
         public int Count { get; set; }
 
         public double Percentage { get; set; }
     }
     public class SummaryVegetationResult
     {
-        public Vegetation Vegetation { get; set; }
+        public string VegCode { get; set; }
         public int Count { get; set; }
 
         public double Percentage { get; set; }

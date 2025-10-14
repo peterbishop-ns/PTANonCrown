@@ -4,8 +4,8 @@ namespace PTANonCrown.Data.Models
 {
     public class BaseLookup : BaseModel
     {
-        public virtual string DisplayName => $"{ShortCode} - {Name}";
-        public int ID { get; set; }
+      //  public virtual string DisplayName => $"{ShortCode} - {Name}";
+      //  public int ID { get; set; }
         
         
         private string _name;
@@ -36,36 +36,24 @@ namespace PTANonCrown.Data.Models
         }
     }
 
-    public class SoilLookup : BaseLookup
-    { }
-    public class ExposureLookup : BaseLookup
-    { }    
-    
-    
-
-    public class VegLookup : BaseLookup
+    public class Soil : BaseLookup
     {
-        private ForestGroup _forestGroup { get; set; }
-
-        public ForestGroup ForestGroup
-        {
-            get => _forestGroup;
-            set
-            {
-                if (_forestGroup != value)
-                {
-                    _forestGroup = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+    
+    }
+    public class Exposure : BaseLookup
+    {
+        public int ID { get; set; }
     }
 
-    public class EcodistrictLookup : BaseLookup
+    public class Vegetation : BaseLookup
     {
-        [NotMapped]
-        public string DisplayName { get => $"{ShortCode} - {Name}"; }
-        private string _ecositeGroup { get; set; }
+
+    }
+
+    public class Ecodistrict : BaseLookup
+    {
+
+        /*private string _ecositeGroup { get; set; }
         
         public string EcositeGroup
         {
@@ -78,8 +66,26 @@ namespace PTANonCrown.Data.Models
                     OnPropertyChanged();
                 }
             }
-        }
+        }*/
     }
+
+    // Junction table
+    public class EcodistrictSoilVeg
+    {
+
+        public string SoilCode { get; set; } = null!;
+       // public virtual Soil Soil { get; set; } = null!;
+
+        public string VegCode { get; set; } = null!;
+      //  public virtual Vegetation Veg { get; set; } = null!;
+
+        public string EcodistrictCode { get; set; } = null!;
+       // public virtual Ecodistrict Ecodistrict { get; set; } = null!;
+
+        // Optional: a friendly composite name
+        //public string DisplayName => $"{SoilCode} + {VegCode} → {EcodistrictCode}";
+    }
+
 
 
 

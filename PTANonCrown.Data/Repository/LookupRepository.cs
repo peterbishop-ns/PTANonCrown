@@ -27,17 +27,17 @@ namespace PTANonCrown.Data.Repository
             }
         }
 
-        public List<Soils> GetSoilLookups()
+        public List<Soil> GetSoilLookups()
         {
             AppLogger.Log("GetSoilLookups", "LookupRepository");
 
-            return _context.SoilLookup.ToList();
+            return _context.Soil.ToList();
         }
         public List<Ecodistrict> GetEcodistrictLookups()
         {
             AppLogger.Log("GetEcodistrictLookups", "LookupRepository");
 
-            return _context.EcodistrictLookup.ToList();
+            return _context.Ecodistrict.ToList();
         }
 
 
@@ -45,14 +45,14 @@ namespace PTANonCrown.Data.Repository
         {
             AppLogger.Log("GetVegLookups", "LookupRepository");
 
-            return _context.VegLookup.ToList();
+            return _context.Vegetation.ToList();
         }     
         
-        public List<ExposureLookup> GetExposureLookups()
+        public List<Exposure> GetExposureLookups()
         {
             AppLogger.Log("GetExposureLookups", "LookupRepository");
 
-            return _context.ExposureLookup.ToList();
+            return _context.Exposure.ToList();
         }
         
 

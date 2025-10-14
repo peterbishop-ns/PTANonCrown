@@ -59,15 +59,9 @@ namespace PTANonCrown.ViewModel
             _lookupRepository = lookupRepository;
 
 
-            var records = ReadCsvRecords("EcoLookup.csv");
 
-            _phaseToSoilTypes = LoadPhaseToSoilTypes(records);
+            //_phaseToSoilTypes = LoadPhaseToSoilTypes(records);
 
-            LookupSoils = GetSoilTypes(records);
-            LookupVeg = GetVegTypes(records);
-            var forestGroups = GetForestGroups(records);
-
-            var hit = GetEco("ST10", "S", "WC10", records);
             AppLogger.Log("LoadLookupTables", "MainViewModel");
 
             LoadLookupTables();
@@ -78,8 +72,8 @@ namespace PTANonCrown.ViewModel
             AppLogger.Log("GetOrCreatePlot", "MainViewModel");
             GetOrCreatePlot(CurrentStand);
 
-            SelectedSoil = CurrentPlot.Soil;
-            SelectedSoilPhase = SoilPhases.Where(x => x == CurrentPlot.SoilPhase).FirstOrDefault();
+            SelectedSoil = CurrentPlot.SoilCode;
+            //SelectedSoilPhase = SoilPhases.Where(x => x == CurrentPlot.SoilPhase).FirstOrDefault();
             
 
             ValidationMessage = string.Empty;
@@ -244,11 +238,11 @@ namespace PTANonCrown.ViewModel
 
         public List<Ecodistrict> LookupEcodistricts { get; set; }
 
-        public List<ExposureLookup> LookupExposure { get; set; }
+        public List<Exposure> LookupExposure { get; set; }
 
-        public List<string> LookupSoils { get; set; }
+        public List<Soil> LookupSoils { get; set; }
   
-        public List<string> LookupVeg { get; set; }
+        public List<Vegetation> LookupVeg { get; set; }
         public List<TreeSpecies> LookupTrees { get; set; }
 
         public ICommand NewPlotCommand =>
@@ -323,10 +317,10 @@ namespace PTANonCrown.ViewModel
                     OnPropertyChanged();
 
                     // 1️⃣ update Plot's soil
-                    CurrentPlot.Soil = _selectedSoil;
+                    CurrentPlot.SoilCode = _selectedSoil;
 
                     // 2️⃣ update dependent things, e.g., phases
-                    UpdateSoilPhases();
+                    //UpdateSoilPhases();
                 }
             }
         }
@@ -650,10 +644,10 @@ namespace PTANonCrown.ViewModel
             var _newPlot = new Plot
             {
                 PlotNumber = newPlotNumber,
-                EcodistrictLookup = LookupEcodistricts.Where(x => x.ID == 1).FirstOrDefault(),
-               // Soil = LookupSoils.Where(x => x.ID == 1).FirstOrDefault(),
-                Exposure = LookupExposure.Where(x => x.ID == 1).FirstOrDefault(),
-                Vegetation = LookupVeg.Where(x => x.ID == 1).FirstOrDefault(),
+                EcoDistrictCode = LookupEcodistricts.Select(v => v.ShortCode).FirstOrDefault(),
+                SoilCode = LookupSoils.Select(v => v.ShortCode).FirstOrDefault(),
+                ExposureCode = LookupExposure.Select(v => v.ShortCode).FirstOrDefault(),
+                VegCode = LookupVeg.Select(v => v.ShortCode).FirstOrDefault(),
                 EcositeGroup = EcositeGroup.None,
                 //AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
                 OldGrowthSpeciesID = 1,
@@ -891,14 +885,14 @@ namespace PTANonCrown.ViewModel
 
             // Group plots by Soil object
             var groupedBySoil = plots
-                .GroupBy(p => p.Soil);
+                .GroupBy(p => p.SoilCode);
 
             foreach (var group in groupedBySoil)
             {
                 var count = group.Count();
                 soilSummary.Add(new SummarySoilResult
                 {
-                    Soil = group.Key,
+                    SoilCode = group.Key,
                     Count = count,
                     Percentage = Math.Round(100.0 * count / totalCount, 1)
                 });
@@ -970,14 +964,14 @@ namespace PTANonCrown.ViewModel
 
             // Group plots by Soil object
             var groupedByVeg = plots
-                .GroupBy(p => p.Vegetation);
+                .GroupBy(p => p.VegCode);
 
             foreach (var group in groupedByVeg)
             {
                 var count = group.Count();
                 vegSummary.Add(new SummaryVegetationResult
                 {
-                    Vegetation = group.Key,
+                    VegCode = group.Key,
                     Count = count,
                     Percentage = Math.Round(100.0 * count / totalCount, 1)
                 });
@@ -1027,7 +1021,7 @@ namespace PTANonCrown.ViewModel
 
             SelectedOldGrowthSpecies =
                 LookupTrees
-                    .FirstOrDefault(t => t.ID == plot.OldGrowthSpeciesID);
+                    .FirstOrDefault();
 
             //SelectedAgeTreeSpecies =
               //  LookupTrees
@@ -1040,12 +1034,12 @@ namespace PTANonCrown.ViewModel
 
         public TreeSpecies SelectedOldGrowthSpecies
         {
-            get => LookupTrees?.FirstOrDefault(t => t.ID == CurrentPlot?.OldGrowthSpeciesID);
+            get => LookupTrees?.FirstOrDefault();
             set
             {
                 if (value != null && CurrentPlot != null)
                 {
-                    CurrentPlot.OldGrowthSpeciesID = value.ID;
+                   // CurrentPlot.OldGrowthSpeciesID = value.ID;
                     OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
                 }
             }
@@ -1592,7 +1586,7 @@ namespace PTANonCrown.ViewModel
 
 
 
-        private void UpdateSoilPhases()
+       /* private void UpdateSoilPhases()
         {
             SoilPhases.Clear();
 
@@ -1613,26 +1607,11 @@ namespace PTANonCrown.ViewModel
         }
 
 
-        private string _selectedSoilPhase;
-        public string SelectedSoilPhase
-        {
-            get => _selectedSoilPhase;
-            set
-            {
-                if (_selectedSoilPhase != value)
-                {
-                    _selectedSoilPhase = value;
-
-                    CurrentPlot.SoilPhase = _selectedSoilPhase;
-                    OnPropertyChanged();
-
-                }
-            }
-        }
+        */
 
         private void OnSoilChanged()
         {
-            UpdateSoilPhases();
+          //  UpdateSoilPhases();
         }
 
         private void ValidateTrees(ObservableCollection<TreeLive> trees)

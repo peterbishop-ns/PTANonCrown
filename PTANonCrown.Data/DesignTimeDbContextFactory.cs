@@ -9,12 +9,17 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+        string dbPath;
 
-        // Use the same connection string your app uses
-        var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "app.db");
+
+            // Fallback for EF CLI tools (no MAUI FileSystem available)
+            dbPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "app.db"
+            );
+  
+        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         optionsBuilder.UseSqlite($"Filename={dbPath}");
-        AppLogger.Log($"App DB Location", $"{dbPath}");
 
         return new AppDbContext(optionsBuilder.Options);
     }

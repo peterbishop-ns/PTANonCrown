@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PTANonCrown.Data.Context;
 using PTANonCrown.Data.Repository;
+using PTANonCrown.Data.Services;
 using PTANonCrown.Services;
 using PTANonCrown.ViewModel;
 using System.Diagnostics;
@@ -13,7 +14,7 @@ namespace PTANonCrown
     {
         public static MauiApp CreateMauiApp()
         {
-            AppLogger.Log($"CreateMauiApp - begnning", "MauiProgram.cs");
+            Services.AppLogger.Log($"CreateMauiApp - begnning", "MauiProgram.cs");
 
             var builder = MauiApp.CreateBuilder();
             builder
@@ -25,7 +26,7 @@ namespace PTANonCrown
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            AppLogger.Log($"AddSingleton", "MauiProgram.cs");
+            Services.AppLogger.Log($"AddSingleton", "MauiProgram.cs");
 
             builder.Services.AddSingleton<MainService>();
 
@@ -42,16 +43,20 @@ namespace PTANonCrown
 
             builder.Services.AddSingleton<MainViewModel>();
 
+            //Services
+            builder.Services.AddSingleton<LookupRefreshService>();
+           // builder.Services.AddTransient<CsvLoader>();
+
             builder.Logging.AddDebug();
 
             // Register DbContext
-            AppLogger.Log($"DbContext - start", "MauiProgram.cs");
+            Services.AppLogger.Log($"DbContext - start", "MauiProgram.cs");
 
 
-            builder.Services.AddDbContext<AppDbContext>();
+            //builder.Services.AddDbContext<AppDbContext>();
 
-            AppLogger.Log($"{FileSystem.AppDataDirectory}", "AddDbContext");
-            AppLogger.Log("AddDbContext - app", "MauiProgram");
+            Services.AppLogger.Log($"{FileSystem.AppDataDirectory}", "AddDbContext");
+            Services.AppLogger.Log("AddDbContext - app", "MauiProgram");
 
            // builder.Services.AddDbContext<AppDbContext>(options =>
            // {
@@ -63,7 +68,7 @@ namespace PTANonCrown
             // STEP 1: Get platform-specific path
             string dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
 
-            AppLogger.Log($"dbPath", dbPath);
+            Services.AppLogger.Log($"dbPath", dbPath);
 
 
             // STEP 2: Register DbContext with dependency injection
@@ -72,7 +77,7 @@ namespace PTANonCrown
 
 
             var app = builder.Build();
-            AppLogger.Log($"DBContext end ", "MauiProgram.cs");
+            Services.AppLogger.Log($"DBContext end ", "MauiProgram.cs");
 
 
             // Apply pending EF Core migrations at runtime
@@ -90,12 +95,12 @@ namespace PTANonCrown
                 {
                     // catch startup issues
                     Debug.WriteLine("Unexpected EF error: " + ex);
-                    AppLogger.Log($"DB Exception", ex.ToString());
+                    Services.AppLogger.Log($"DB Exception", ex.ToString());
 
                 }
             }
 
-            AppLogger.Log($"Services start", "MauiProgram.cs");
+            Services.AppLogger.Log($"Services start", "MauiProgram.cs");
             /*
             // Ensure database is created
             using (var scope = app.Services.CreateScope())
@@ -104,8 +109,8 @@ namespace PTANonCrown
                 db.Database.EnsureCreated();  // Creates the database if it doesn't exist
             }
             */
-          
-            AppLogger.Log($"Services done", "MauiProgram.cs");
+
+            Services.AppLogger.Log($"Services done", "MauiProgram.cs");
 
             return app;
 
@@ -113,7 +118,7 @@ namespace PTANonCrown
 
         public static async Task<string> CopyDatabaseAsync(string dbFileName)
         {
-            AppLogger.Log($"CopyDatabaseAsync - start", "MauiProgram.cs");
+            Services.AppLogger.Log($"CopyDatabaseAsync - start", "MauiProgram.cs");
 
             string dbPath = Path.Combine(FileSystem.AppDataDirectory, dbFileName);
 
@@ -124,7 +129,7 @@ namespace PTANonCrown
                 using var fileStream = new FileStream(dbPath, FileMode.Create, FileAccess.Write);
                 await stream.CopyToAsync(fileStream);
             }
-            AppLogger.Log($"CopyDatabaseAsync - end", "MauiProgram.cs");
+            Services.AppLogger.Log($"CopyDatabaseAsync - end", "MauiProgram.cs");
 
             return dbPath;
         }

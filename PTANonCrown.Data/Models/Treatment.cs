@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 namespace PTANonCrown.Data.Models
 {
     public class Treatment : BaseLookup
+
     {
+
+        public int ID { get; set; }
+
+
         private ICollection<PlotTreatment> _plotTreatments;
         public ICollection<PlotTreatment> PlotTreatments
         {

@@ -1,4 +1,4 @@
-﻿namespace PTANonCrown.Data.Models
+﻿    namespace PTANonCrown.Data.Models
 {
     public class TreeDead : ItemTally
     {
