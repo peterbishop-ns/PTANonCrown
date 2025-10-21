@@ -28,7 +28,7 @@ namespace PTANonCrown
 
             Services.AppLogger.Log($"AddSingleton", "MauiProgram.cs");
 
-            builder.Services.AddSingleton<MainService>();
+            builder.Services.AddSingleton<DatabaseService>();
 
             builder.Services.AddSingleton<StandPage>();
             builder.Services.AddSingleton<PlotPage>();
@@ -72,8 +72,13 @@ namespace PTANonCrown
 
 
             // STEP 2: Register DbContext with dependency injection
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite($"Data Source={dbPath}"));
+            builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+            {
+                var dbService = serviceProvider.GetRequiredService<DatabaseService>();
+                options.UseSqlite($"Data Source={dbService.CurrentDbPath}");
+
+
+            });
 
 
             var app = builder.Build();

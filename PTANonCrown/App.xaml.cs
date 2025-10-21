@@ -9,6 +9,9 @@ namespace PTANonCrown
     {
         public App(MainViewModel mainViewModel, LookupRefreshService lookupRefreshService)
         {
+            _ = Task.Run(async () => await lookupRefreshService.RefreshLookupsAsync());
+
+
             Services.AppLogger.Log($"Starting App", "App");
             InitializeComponent();
 
@@ -17,7 +20,6 @@ namespace PTANonCrown
             TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
 
             // Fire-and-forget async refresh of lookups
-            _ = Task.Run(async () => await lookupRefreshService.RefreshLookupsAsync());
 
             MainPage = new AppShell(mainViewModel);
         }

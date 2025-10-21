@@ -91,7 +91,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<EcodistrictSoilVeg>()
             .HasKey(ev => new { ev.SoilCode, ev.VegCode, ev.EcodistrictCode });
 
-        modelBuilder.Entity<EcodistrictSoilVeg>()
+        /*modelBuilder.Entity<EcodistrictSoilVeg>()
             .HasOne(ev => ev.Soil)
             .WithMany()
             .HasForeignKey(ev => ev.SoilCode)
@@ -107,7 +107,7 @@ public class AppDbContext : DbContext
             .HasOne(ev => ev.Ecodistrict)
             .WithMany()
             .HasForeignKey(ev => ev.EcodistrictCode)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict);*/
 
         // Prevent duplicate Soil+Veg combos
         modelBuilder.Entity<EcodistrictSoilVeg>()

@@ -61,14 +61,16 @@ namespace PTANonCrown.Data.Services
                 if (existing == null)
                 {
                     await _db.EcodistrictSoilVeg.AddAsync(rec);
+                    await _db.SaveChangesAsync();
                 }
                 else
                 {
                     existing.EcodistrictCode = rec.EcodistrictCode; // update ecodistrict if changed
+                    await _db.SaveChangesAsync();
                 }
             }
 
-            await _db.SaveChangesAsync();
+            //await _db.SaveChangesAsync();
         }
     }
 }

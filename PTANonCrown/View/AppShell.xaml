@@ -8,7 +8,11 @@
        Title="PTANonCrown">
 
     <Shell.ToolbarItems>
-    
+        <ToolbarItem Text="Open"
+                     Priority="0"
+                     IconImageSource="save_icon.png"
+                     Command="{Binding OpenFileCommand}">
+        </ToolbarItem>
         <ToolbarItem Text="Save"
                      Priority="0"
                      IconImageSource="save_icon.png"

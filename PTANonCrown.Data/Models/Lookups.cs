@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace PTANonCrown.Data.Models
 {
@@ -34,6 +35,11 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
+        public override string ToString()
+        {
+            return Name;
+        }
+
     }
 
     public class Soil : BaseLookup

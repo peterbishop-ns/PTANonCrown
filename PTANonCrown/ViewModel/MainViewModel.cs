@@ -20,9 +20,12 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Windows.Input;
+
 using System.Globalization;
+
 using CsvHelper;
 using System.Text.RegularExpressions;
+using PTANonCrown.WinUI;
 
 namespace PTANonCrown.ViewModel
 {
@@ -37,6 +40,7 @@ namespace PTANonCrown.ViewModel
         private bool _isSelectedExportSelectedOnly;
         private bool _isValidationError;
         private bool _plotWasTreated;
+        private Soil _selectedSoil;
         private ObservableCollection<SummarySoilResult> _soilSummary;
         private ObservableCollection<SummaryResultTreeSpecies> _speciesSummary;
         private ObservableCollection<SummaryItem> _summaryItems;
@@ -50,15 +54,13 @@ namespace PTANonCrown.ViewModel
 
         private bool ContainsError = false;
 
-        public MainViewModel(MainService mainService, StandRepository standRepository, LookupRepository lookupRepository)
+        public MainViewModel(DatabaseService databaseService, StandRepository standRepository, LookupRepository lookupRepository)
         {
             AppLogger.Log("Init", "MainViewModel");
 
-            _mainService = mainService;
+            _databaseService = databaseService;
             _standRepository = standRepository;
             _lookupRepository = lookupRepository;
-
-
 
             //_phaseToSoilTypes = LoadPhaseToSoilTypes(records);
 
@@ -72,9 +74,8 @@ namespace PTANonCrown.ViewModel
             AppLogger.Log("GetOrCreatePlot", "MainViewModel");
             GetOrCreatePlot(CurrentStand);
 
-            SelectedSoil = CurrentPlot.SoilCode;
+            SelectedSoil = CurrentPlot.Soil;
             //SelectedSoilPhase = SoilPhases.Where(x => x == CurrentPlot.SoilPhase).FirstOrDefault();
-            
 
             ValidationMessage = string.Empty;
             RefreshTreeCount();
@@ -90,6 +91,8 @@ namespace PTANonCrown.ViewModel
 
         public ObservableCollection<Plot> _allPlots { get; set; }
         public ObservableCollection<Stand> _allStands { get; set; }
+
+        public ICommand AddTreeCommand => new Command(_ => AddTrees(1));
 
         public ObservableCollection<Plot> AllPlots
         {
@@ -119,7 +122,6 @@ namespace PTANonCrown.ViewModel
         }
 
         public ICommand CreateNewStandCommand => new Command(_ => CreateNewStand());
-        public ICommand AddTreeCommand => new Command(_ => AddTrees(1));
 
         public Plot CurrentPlot
         {
@@ -241,12 +243,15 @@ namespace PTANonCrown.ViewModel
         public List<Exposure> LookupExposure { get; set; }
 
         public List<Soil> LookupSoils { get; set; }
-  
-        public List<Vegetation> LookupVeg { get; set; }
+
         public List<TreeSpecies> LookupTrees { get; set; }
+        public List<Vegetation> LookupVeg { get; set; }
 
         public ICommand NewPlotCommand =>
             new Command<string>(method => CreateNewPlot(CurrentStand));
+
+        public ICommand OpenFileCommand =>
+new Command<string>(method => OpenFile());
 
         public ICommand PickFolderCommand => new Command(async () => await ExecutePickFolderCommand());
 
@@ -270,43 +275,55 @@ namespace PTANonCrown.ViewModel
         new Command<string>(method => SaveAll());
 
         // TODO - in progress - trying to get Selected Age Species working
-       /* public TreeSpecies SelectedAgeTreeSpecies
-        {
-            get
-            {
-                var spec = LookupTrees.FirstOrDefault(t => t.ID == CurrentPlot.AgeTreeSpecies?.ID);
+        /* public TreeSpecies SelectedAgeTreeSpecies
+         {
+             get
+             {
+                 var spec = LookupTrees.FirstOrDefault(t => t.ID == CurrentPlot.AgeTreeSpecies?.ID);
 
-                return spec;
-            }
-            set
-            {
-                if (value != null && CurrentPlot.AgeTreeSpeciesID? != value.ID)
-                {
-                    CurrentPlot.AgeTreeSpecies = value;
-                    OnPropertyChanged(nameof(SelectedAgeTreeSpecies));
-                }
-            }
-        }
+                 return spec;
+             }
+             set
+             {
+                 if (value != null && CurrentPlot.AgeTreeSpeciesID? != value.ID)
+                 {
+                     CurrentPlot.AgeTreeSpecies = value;
+                     OnPropertyChanged(nameof(SelectedAgeTreeSpecies));
+                 }
+             }
+         }
+         public TreeSpecies SelectedOldGrowthSpecies
+         {
+             get
+             {
+                 var spec = LookupTrees.FirstOrDefault(t => t.ID == CurrentPlot.OldGrowthSpecies?.ID);
+
+                 return spec;
+             }
+             set
+             {
+                 if (value != null && CurrentPlot.OldGrowthSpecies?.ID != value.ID)
+                 {
+                     CurrentPlot.OldGrowthSpecies = value;
+                     OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
+                 }
+             }
+         }*/
+
         public TreeSpecies SelectedOldGrowthSpecies
         {
-            get
-            {
-                var spec = LookupTrees.FirstOrDefault(t => t.ID == CurrentPlot.OldGrowthSpecies?.ID);
-
-                return spec;
-            }
+            get => LookupTrees?.FirstOrDefault();
             set
             {
-                if (value != null && CurrentPlot.OldGrowthSpecies?.ID != value.ID)
+                if (value != null && CurrentPlot != null)
                 {
-                    CurrentPlot.OldGrowthSpecies = value;
+                    // CurrentPlot.OldGrowthSpeciesID = value.ID;
                     OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
                 }
             }
-        }*/
+        }
 
-        private string _selectedSoil;
-        public string SelectedSoil
+        public Soil SelectedSoil
         {
             get => _selectedSoil;
             set
@@ -317,7 +334,7 @@ namespace PTANonCrown.ViewModel
                     OnPropertyChanged();
 
                     // 1️⃣ update Plot's soil
-                    CurrentPlot.SoilCode = _selectedSoil;
+                 //   CurrentPlot.SoilCode = _selectedSoil;
 
                     // 2️⃣ update dependent things, e.g., phases
                     //UpdateSoilPhases();
@@ -325,12 +342,15 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-
         public ICommand SetCurrentPlotCommand => new Command<Plot>(plot => SetCurrentPlot(plot));
 
         public ICommand SetPlotSummaryCommand => new Command<Plot>(plot => SetSummaryPlot(plot));
 
         public ICommand SetStandOnlyCommand => new Command<Plot>(plot => SetStandOnly());
+
+        public ObservableCollection<string> SoilPhases { get; } = new ObservableCollection<string>();
+
+        public List<string> soils { get; set; }
 
         public ObservableCollection<SummarySoilResult> SoilSummary
         {
@@ -451,6 +471,8 @@ namespace PTANonCrown.ViewModel
             set => SetProperty(ref _validationMessage, value);
         }
 
+        public List<string> veg { get; set; }
+
         public ObservableCollection<SummaryVegetationResult> VegetationSummary
         {
             get => _vegetationSummary;
@@ -465,12 +487,8 @@ namespace PTANonCrown.ViewModel
         }
 
         private LookupRepository _lookupRepository { get; set; }
+        private DatabaseService _databaseService { get; set; }
         private Dictionary<string, List<string>> _phaseToSoilTypes { get; set; }
-
-        private MainService _mainService { get; set; }
-        public List<string> veg { get; set; }
-        public List<string> soils { get; set; }
-
         private StandRepository _standRepository { get; set; }
 
         public void AddNewTreeToPlot(Plot plot, int treeNumber)
@@ -501,6 +519,141 @@ namespace PTANonCrown.ViewModel
 
         }
 
+        public string GetEco(string soilType, string soilPhase, string VegType, List<dynamic> csvRecords)
+        {
+            string match = (string)csvRecords.Where(r => r.Soil == soilType + soilPhase && r.Veg == VegType).Select(r => r.Eco).FirstOrDefault();
+            return match;
+        }
+
+        public List<string> GetForestGroups(List<dynamic> csvRecords)
+        {
+            var pattern = new Regex(@"^([A-Z]+)"); // capture letters at the start
+
+            // Get all distinct soil codes
+            var veg = csvRecords.Select(r => (string)r.Veg).Distinct();
+
+            // Extract base code without trailing letters and sort by numeric part
+            var forestGroups = veg
+                .Select(s =>
+                {
+                    var match = pattern.Match(s);
+                    if (!match.Success)
+                        return s; // fallback if regex doesn't match
+
+                    string forestGroup = match.Groups[1].Value;  // "MW"
+                    return forestGroup;
+                })
+                .Distinct()
+                .OrderBy(s => s) // alphabetical
+                .ToList();
+
+            return forestGroups;
+        }
+
+        // Get list of unique soil types
+        public List<string> GetSoilTypes(List<dynamic> csvRecords)
+        {
+            var pattern = new Regex(@"^([A-Z]+)(\d+)([A-Z]*)$");
+            // Group 1 = prefix letters (ST)
+            // Group 2 = numeric part
+            // Group 3 = optional trailing letters
+
+            // Get all distinct soil codes
+            var soils = csvRecords.Select(r => (string)r.Soil).Distinct();
+
+            // Extract base code without trailing letters and sort by numeric part
+            var soilTypes = soils
+                .Select(s =>
+                {
+                    var match = pattern.Match(s);
+                    if (!match.Success)
+                        return s; // fallback if regex doesn't match
+
+                    string prefix = match.Groups[1].Value;  // "ST"
+                    string number = match.Groups[2].Value;  // "1", "2", etc.
+                    return prefix + number;
+                })
+                .Distinct()
+                .OrderBy(s =>
+                {
+                    var match = pattern.Match(s);
+                    return int.Parse(match.Groups[2].Value); // sort by numeric part
+                })
+                .ToList();
+
+            return soilTypes;
+        }
+
+        public List<string> GetVegTypes(List<dynamic> csvRecords)
+        {
+            var vegTypes = csvRecords.Select(r => (string)r.Veg).Distinct().OrderBy(v => v).ToList();
+            return vegTypes;
+
+        }
+
+        public Dictionary<string, List<string>> LoadPhaseToSoilTypes(List<dynamic> csvRecords)
+        {
+
+            var dict = new Dictionary<string, List<string>>();
+
+            var soils = csvRecords.Select(r => (string)r.Soil)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct()
+                .ToList();
+            var pattern = new Regex(@"^([A-Z0-9]+?)([A-Z]*)$");
+
+            var dictSoil = soils.
+                Select(s =>
+                {
+                    var match = pattern.Match(s);
+                    var numberPart = match.Groups[1].Value;
+                    var charPart = match.Groups[2].Value;
+                    return (numberPart, charPart);
+                })
+                .GroupBy(x => x.charPart)
+                .ToDictionary(g => g.Key, g => g.Select(x => x.numberPart).ToList());
+
+            return dictSoil;
+            /*
+
+            foreach (var row in records)
+        {
+            string soilType = row.SoilType;
+            string soilPhase = row.SoilPhase;
+
+            string phaseName = soilPhase?.ToUpper() switch
+            {
+                "B" => "Boulder Phase",
+                "S" => "Stony Phase",
+                "SB" => "Stony-Boulder Phase",
+                "C" => "Coarse Phase",
+                "CB" => "Coarse-Boulder Phase",
+                "CS" => "Coarse-Stony Phase",
+                "CSB" => "Coarse-Stony-Boulder Phase",
+                "L" => "Loamy Phase",
+                "LB" => "Loamy-Boulder Phase",
+                "LS" => "Loamy-Stony Phase",
+                "LSB" => "Loamy-Stony-Boulder Phase",
+                "U" => "Upland Phase",
+                "UB" => "Upland-Boulder Phase",
+                "US" => "Upland-Stony Phase",
+                "USB" => "Upland-Stony-Boulder Phase",
+                _ => "n/a Unknown"
+            };
+
+            if (!dict.TryGetValue(phaseName, out var list))
+            {
+                list = new List<string>();
+                dict[phaseName] = list;
+            }
+
+            if (!string.IsNullOrWhiteSpace(soilType))
+                list.Add("st" + soilType);
+        }
+
+        return dict;*/
+        }
+
         public void OnCurrentStandChanged()
         {
             AllPlots = CurrentStand?.Plots;
@@ -509,6 +662,17 @@ namespace PTANonCrown.ViewModel
                 CurrentPlot = AllPlots.OrderBy(p => p.PlotNumber).FirstOrDefault();
 
             }
+        }
+
+        // Method that takes soil type, soil phase, veg type, and returns an eco group
+        public List<dynamic> ReadCsvRecords(string csvFileName)
+        {
+            using var stream = FileSystem.OpenAppPackageFileAsync(csvFileName).Result;
+            using var reader = new StreamReader(stream);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+
+            // Force enumeration immediately
+            return csv.GetRecords<dynamic>().ToList();
         }
 
         public void RefreshAllPlots()
@@ -589,20 +753,6 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        private async void DisplayTreeWarningMessage(Plot plot)
-        {
-
-            if (Application.Current?.MainPage != null)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Incomplete Information",
-                    $"Trees in Plot {plot.PlotNumber} missing DBH, heights or species. " +
-                    $"Cruise Summary cannot be generated.",
-                    "Continue", "Cancel");
-            }
-
-        }
-
         private int CountDigits(int number)
         {
             int result = number.ToString().TrimStart('-').Length;
@@ -645,9 +795,9 @@ namespace PTANonCrown.ViewModel
             {
                 PlotNumber = newPlotNumber,
                 EcoDistrictCode = LookupEcodistricts.Select(v => v.ShortCode).FirstOrDefault(),
-                SoilCode = LookupSoils.Select(v => v.ShortCode).FirstOrDefault(),
+                Soil = LookupSoils.FirstOrDefault(),
                 ExposureCode = LookupExposure.Select(v => v.ShortCode).FirstOrDefault(),
-                VegCode = LookupVeg.Select(v => v.ShortCode).FirstOrDefault(),
+                Vegetation = LookupVeg.FirstOrDefault(),
                 EcositeGroup = EcositeGroup.None,
                 //AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
                 OldGrowthSpeciesID = 1,
@@ -727,6 +877,20 @@ namespace PTANonCrown.ViewModel
                 "Continue",
                 "Cancel"
             );
+        }
+
+        private async void DisplayTreeWarningMessage(Plot plot)
+        {
+
+            if (Application.Current?.MainPage != null)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Incomplete Information",
+                    $"Trees in Plot {plot.PlotNumber} missing DBH, heights or species. " +
+                    $"Cruise Summary cannot be generated.",
+                    "Continue", "Cancel");
+            }
+
         }
 
         private async Task ExecutePickFolderCommand()
@@ -885,7 +1049,7 @@ namespace PTANonCrown.ViewModel
 
             // Group plots by Soil object
             var groupedBySoil = plots
-                .GroupBy(p => p.SoilCode);
+                .GroupBy(p => p.Soil?.ShortCode);
 
             foreach (var group in groupedBySoil)
             {
@@ -962,9 +1126,9 @@ namespace PTANonCrown.ViewModel
             ObservableCollection<SummaryVegetationResult> vegSummary = new ObservableCollection<SummaryVegetationResult>();
             int totalCount = plots.Count();
 
-            // Group plots by Soil object
+            // Group plots by Veg object
             var groupedByVeg = plots
-                .GroupBy(p => p.VegCode);
+                .GroupBy(p => p.Vegetation?.ShortCode);
 
             foreach (var group in groupedByVeg)
             {
@@ -1012,39 +1176,23 @@ namespace PTANonCrown.ViewModel
             // needs to reference the same list that used in the loook up, or it will fail
             // to display the correct item in the AgreTree picker list
             //var match = LookupTrees.Where(t => t.ID == plot.AgeTreeSpecies.ID).FirstOrDefault();
-            
+
             //SelectedAgeTreeSpecies = match;
 
-
             //plot.LookupTrees = LookupTrees;
-
 
             SelectedOldGrowthSpecies =
                 LookupTrees
                     .FirstOrDefault();
 
             //SelectedAgeTreeSpecies =
-              //  LookupTrees
-              //      .FirstOrDefault(t => t.ID == plot.AgeTreeSpeciesID);
+            //  LookupTrees
+            //      .FirstOrDefault(t => t.ID == plot.AgeTreeSpeciesID);
 
             SetCurrentPlot(plot);
-                return plot;
+            return plot;
 
         }
-
-        public TreeSpecies SelectedOldGrowthSpecies
-        {
-            get => LookupTrees?.FirstOrDefault();
-            set
-            {
-                if (value != null && CurrentPlot != null)
-                {
-                   // CurrentPlot.OldGrowthSpeciesID = value.ID;
-                    OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
-                }
-            }
-        }
-
 
         private Stand GetOrCreateStand()
         {
@@ -1152,6 +1300,11 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+        private void OnSoilChanged()
+        {
+            //  UpdateSoilPhases();
+        }
+
         private void OnSummaryItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(HasSummaryItems));
@@ -1163,6 +1316,22 @@ namespace PTANonCrown.ViewModel
         {
             OnPropertyChanged(nameof(HasTreatments));
             OnPropertyChanged(nameof(HasNoTreatments));
+
+        }
+
+        private async void OpenFile()
+        {
+            var result = await FilePicker.Default.PickAsync();
+            if (result != null)
+            {
+                // Update the database service with the new path               
+
+                _databaseService.SetDatabasePath(result.FullPath);
+
+
+            }
+
+
 
         }
 
@@ -1265,15 +1434,14 @@ namespace PTANonCrown.ViewModel
                 return;
             }
 
+            _standRepository.Save(CurrentStand);
 
-                _standRepository.Save(CurrentStand);
-           
         }
 
         private void SetCurrentPlot(Plot plot)
         {
             CurrentPlot = plot;
- 
+
             // Need to populate each tree with the full LookupTrees to ensure dropdown bindings work
             foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
             {
@@ -1325,7 +1493,6 @@ namespace PTANonCrown.ViewModel
                 {
                     DisplayTreeWarningMessage(plot);
                 }
-
 
                 SummaryItems = TreeSummaryHelper.GenerateSummaryResult(new[] { plot });
                 SpeciesSummary = GenerateTreeSpeciesSummary(new[] { plot });
@@ -1410,7 +1577,6 @@ namespace PTANonCrown.ViewModel
                 ErrorMessage = $"Stand Number {stand.StandNumber} already exists. This must be unique.";
                 ContainsError = true;
             }
-
             else if (stand.CruiseID is null || stand.PlannerID is null)
             {
                 var missingFields = new List<string>();
@@ -1426,193 +1592,27 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-
-        // Get list of unique soil types
-        public List<string> GetSoilTypes(List<dynamic> csvRecords)
-        {
-            var pattern = new Regex(@"^([A-Z]+)(\d+)([A-Z]*)$");
-            // Group 1 = prefix letters (ST)
-            // Group 2 = numeric part
-            // Group 3 = optional trailing letters
-
-            // Get all distinct soil codes
-            var soils = csvRecords.Select(r => (string)r.Soil).Distinct();
-
-            // Extract base code without trailing letters and sort by numeric part
-            var soilTypes = soils
-                .Select(s =>
-                {
-                    var match = pattern.Match(s);
-                    if (!match.Success)
-                        return s; // fallback if regex doesn't match
-
-                    string prefix = match.Groups[1].Value;  // "ST"
-                    string number = match.Groups[2].Value;  // "1", "2", etc.
-                    return prefix + number;
-                })
-                .Distinct()
-                .OrderBy(s =>
-                {
-                    var match = pattern.Match(s);
-                    return int.Parse(match.Groups[2].Value); // sort by numeric part
-                })
-                .ToList();
-
-            return soilTypes;
-        }
-
-        public List<string> GetForestGroups(List<dynamic> csvRecords)
-        {
-            var pattern = new Regex(@"^([A-Z]+)"); // capture letters at the start
-
-
-            // Get all distinct soil codes
-            var veg = csvRecords.Select(r => (string)r.Veg).Distinct();
-
-            // Extract base code without trailing letters and sort by numeric part
-            var forestGroups = veg
-                .Select(s =>
-                {
-                    var match = pattern.Match(s);
-                    if (!match.Success)
-                        return s; // fallback if regex doesn't match
-
-                    string forestGroup = match.Groups[1].Value;  // "MW"
-                    return forestGroup;
-                })
-                .Distinct()
-                .OrderBy(s => s) // alphabetical
-                .ToList();
-
-            return forestGroups;
-        }
-
-
-        public List<string> GetVegTypes(List<dynamic> csvRecords)
-        {
-            var vegTypes = csvRecords.Select(r => (string)r.Veg).Distinct().OrderBy(v=>v).ToList();
-            return vegTypes;
-
-        }
-
-
-        public string GetEco(string soilType, string soilPhase, string VegType, List<dynamic> csvRecords)
-        {
-            string match = (string)csvRecords.Where(r => r.Soil == soilType + soilPhase && r.Veg == VegType).Select(r => r.Eco).FirstOrDefault();
-            return match;
-        }
         // Get list of unique Veg Types
+        /* private void UpdateSoilPhases()
+         {
+             SoilPhases.Clear();
 
-        // Method that takes soil type, soil phase, veg type, and returns an eco group
+             if (SelectedSoil is not null)
+             {
+                 var soilCode = SelectedSoil.ShortCode;
 
-        public Dictionary<string, List<string>> LoadPhaseToSoilTypes(List<dynamic> csvRecords)
-    {
+                 var phases = _phaseToSoilTypes
+                 .Where(kvp => kvp.Value.Contains(soilCode, StringComparer.OrdinalIgnoreCase))
+                     .Select(kvp => kvp.Key);
 
+                 foreach (var phase in phases)
+                     SoilPhases.Add(phase);
+             }
 
-        var dict = new Dictionary<string, List<string>>();
+             SelectedSoilPhase = null;
+         }
 
-            var soils = csvRecords.Select(r => (string)r.Soil)
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct()
-                .ToList();
-            var pattern = new Regex(@"^([A-Z0-9]+?)([A-Z]*)$");
-
-            var dictSoil = soils.
-                Select(s =>
-                {
-                    var match = pattern.Match(s);
-                    var numberPart = match.Groups[1].Value;
-                    var charPart = match.Groups[2].Value;
-                    return (numberPart, charPart);
-                })
-                .GroupBy(x => x.charPart)
-                .ToDictionary(g=> g.Key, g => g.Select(x => x.numberPart).ToList());
-
-
-
-
-            return dictSoil;
-            /*
-
-            foreach (var row in records)
-        {
-            string soilType = row.SoilType;
-            string soilPhase = row.SoilPhase;
-
-            string phaseName = soilPhase?.ToUpper() switch
-            {
-                "B" => "Boulder Phase",
-                "S" => "Stony Phase",
-                "SB" => "Stony-Boulder Phase",
-                "C" => "Coarse Phase",
-                "CB" => "Coarse-Boulder Phase",
-                "CS" => "Coarse-Stony Phase",
-                "CSB" => "Coarse-Stony-Boulder Phase",
-                "L" => "Loamy Phase",
-                "LB" => "Loamy-Boulder Phase",
-                "LS" => "Loamy-Stony Phase",
-                "LSB" => "Loamy-Stony-Boulder Phase",
-                "U" => "Upland Phase",
-                "UB" => "Upland-Boulder Phase",
-                "US" => "Upland-Stony Phase",
-                "USB" => "Upland-Stony-Boulder Phase",
-                _ => "n/a Unknown"
-            };
-
-            if (!dict.TryGetValue(phaseName, out var list))
-            {
-                list = new List<string>();
-                dict[phaseName] = list;
-            }
-
-            if (!string.IsNullOrWhiteSpace(soilType))
-                list.Add("st" + soilType);
-        }
-
-        return dict;*/
-        }
-
-        public List<dynamic> ReadCsvRecords(string csvFileName)
-        {
-            using var stream = FileSystem.OpenAppPackageFileAsync(csvFileName).Result;
-            using var reader = new StreamReader(stream);
-            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-
-            // Force enumeration immediately
-            return csv.GetRecords<dynamic>().ToList();
-        }
-
-        public ObservableCollection<string> SoilPhases { get; } = new ObservableCollection<string>();
-
-
-
-       /* private void UpdateSoilPhases()
-        {
-            SoilPhases.Clear();
-
-            if (SelectedSoil is not null)
-            {
-                var soilCode = SelectedSoil.ShortCode;
-
-
-                var phases = _phaseToSoilTypes
-                .Where(kvp => kvp.Value.Contains(soilCode, StringComparer.OrdinalIgnoreCase))
-                    .Select(kvp => kvp.Key);
-
-                foreach (var phase in phases)
-                    SoilPhases.Add(phase);
-            }
-
-            SelectedSoilPhase = null;
-        }
-
-
-        */
-
-        private void OnSoilChanged()
-        {
-          //  UpdateSoilPhases();
-        }
+         */
 
         private void ValidateTrees(ObservableCollection<TreeLive> trees)
         {

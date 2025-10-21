@@ -258,7 +258,6 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         </HorizontalStackLayout>
                         <Picker  Grid.Row="3"
                                  ItemsSource="{Binding LookupEcodistricts}"
-                                 ItemDisplayBinding="{Binding DisplayName}"
                                  SelectedItem="{Binding CurrentPlot.EcodistrictLookup}"
                                  WidthRequest="350"
                                  HorizontalOptions="Start" />
@@ -274,7 +273,6 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         </HorizontalStackLayout>
                         <Picker  Grid.Row="5"
                                  ItemsSource="{Binding LookupExposure}"
-                                 ItemDisplayBinding="{Binding Name}"
                                  SelectedItem="{Binding CurrentPlot.Exposure}"
                                  WidthRequest="350"
                                  HorizontalOptions="Start" />
@@ -288,15 +286,12 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="FECSoil" />
                         </HorizontalStackLayout>
-                        
+
                         <Picker  Grid.Row="7"
-                                 ItemsSource="{Binding soils}"
-                                 SelectedItem="{Binding SelectedSoil}"
+                                 ItemsSource="{Binding LookupSoils}"
+                                 SelectedItem="{Binding CurrentPlot.Soils}"
                                  WidthRequest="350"
                                  HorizontalOptions="Start" />
-
-
-
                         <HorizontalStackLayout Grid.Row="8"
                                                Grid.Column="0">
                             <Label Text="Soil Phase"
@@ -326,7 +321,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         </HorizontalStackLayout>
                         <Picker Grid.Row="11"
                                 Grid.Column="0"
-                                ItemsSource="{Binding veg}"
+                                ItemsSource="{Binding LookupVeg}"
                                 SelectedItem="{Binding CurrentPlot.Vegetation}"
                                 WidthRequest="350"
                                 HorizontalOptions="Start" />
