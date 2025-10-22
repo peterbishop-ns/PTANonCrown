@@ -9,9 +9,9 @@ namespace PTANonCrown.Data.Models
       //  public int ID { get; set; }
         
         
-        private string _name;
+        private string? _name;
 
-        public string Name {
+        public string? Name {
             get => _name;
             set
             {
@@ -37,14 +37,84 @@ namespace PTANonCrown.Data.Models
         }
         public override string ToString()
         {
-            return Name;
+            return ShortCode;
         }
 
     }
 
     public class Soil : BaseLookup
     {
-    
+        private static readonly Dictionary<string, string> SoilPhaseLookup = new()
+            {
+                {"B", "Boulder"},
+                {"S", "Stony"},
+                {"SB", "Stony-Boulder"},
+                {"C", "Coarse"},
+                {"CB", "Coarse-Boulder"},
+                {"CS", "Coarse-Stony"},
+                {"CSB", "Coarse-Stony-Boulder"},
+                {"L", "Loamy"},
+                {"LB", "Loamy-Boulder"},
+                {"LS", "Loamy-Stony"},
+                {"LSB", "Loamy-Stony-Boulder"},
+                {"U", "Upland"},
+                {"UB", "Upland-Boulder"},
+                {"US", "Upland-Stony"},
+                {"USB", "Upland-Stony-Boulder"}
+            };
+
+        private string? _soilPhaseLong;
+
+        private int _soilType;
+        public int SoilType
+        {
+            get => _soilType;
+            set
+            {
+                if (_soilType != value)
+                {
+                    _soilType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string? _soilPhaseShort;
+        public string? SoilPhaseShort
+        {
+            get => _soilPhaseShort;
+            set
+            {
+                if (_soilPhaseShort != value)
+                {
+                    _soilPhaseShort = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+
+        [NotMapped]
+        public string? SoilPhaseLong =>
+            _soilPhaseShort != null && SoilPhaseLookup.TryGetValue(_soilPhaseShort, out var longVal)
+                ? longVal
+                : null;
+
+        public override string ToString()
+        {
+            if (SoilType == -1)
+            {
+                return "unknown";
+            }
+            if (SoilPhaseShort is null || SoilPhaseShort == string.Empty)
+            {
+                return $"ST{SoilType}";
+
+            }
+            return $"ST{SoilType}-{SoilPhaseShort} ({SoilPhaseLong})";
+        }
+
+
     }
     public class Exposure : BaseLookup
     {
@@ -53,26 +123,22 @@ namespace PTANonCrown.Data.Models
 
     public class Vegetation : BaseLookup
     {
+        public override string ToString()
+        {
 
+            if (ShortCode is null)
+            {
+                return "unknown";
+            }
+
+            return ShortCode;
+        }
     }
 
     public class Ecodistrict : BaseLookup
     {
 
-        /*private string _ecositeGroup { get; set; }
         
-        public string EcositeGroup
-        {
-            get => _ecositeGroup;
-            set
-            {
-                if (_ecositeGroup != value)
-                {
-                    _ecositeGroup = value;
-                    OnPropertyChanged();
-                }
-            }
-        }*/
     }
 
     // Junction table
@@ -80,16 +146,12 @@ namespace PTANonCrown.Data.Models
     {
 
         public string SoilCode { get; set; } = null!;
-       // public virtual Soil Soil { get; set; } = null!;
-
         public string VegCode { get; set; } = null!;
-      //  public virtual Vegetation Veg { get; set; } = null!;
 
         public string EcodistrictCode { get; set; } = null!;
-       // public virtual Ecodistrict Ecodistrict { get; set; } = null!;
 
-        // Optional: a friendly composite name
-        //public string DisplayName => $"{SoilCode} + {VegCode} → {EcodistrictCode}";
+        public string EcositeGroup { get; set; } = null!;
+
     }
 
 

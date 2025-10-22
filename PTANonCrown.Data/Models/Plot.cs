@@ -411,35 +411,51 @@ namespace PTANonCrown.Data.Models
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         [Required]
-        private Soil _soil = null!;
+        private Soil? _soil = null!;
 
-        public Soil Soil
+        public Soil? Soil
         {
             get => _soil;
             set
             {
                 _soil = value;
+                OnPropertyChanged();
             }
         }
 
+
+
+
+
         [Required]
-        private Vegetation _vegetation = null!;
-        public Vegetation Vegetation
+        private Vegetation? _vegetation = null!;
+        public Vegetation? Vegetation
         {
             get => _vegetation;
             set
             {
                 _vegetation = value;
+                OnPropertyChanged();
+
             }
         }
 
-        [Required]
-        public string EcoDistrictCode { get; set; } = null!;
-        public Ecodistrict EcoDistrict { get; set; } = null!;
 
-        [Required]
-        public string ExposureCode { get; set; } = null!;
-        public Exposure Exposure { get; set; } = null!;
+
+        private Ecodistrict? _ecoDistrict = null!;
+        public Ecodistrict? EcoDistrict
+        {
+            get => _ecoDistrict;
+            set
+            {
+                _ecoDistrict = value;
+                OnPropertyChanged();
+
+            }
+        }
+
+
+        public string? Exposure { get; set; } = null!;
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////

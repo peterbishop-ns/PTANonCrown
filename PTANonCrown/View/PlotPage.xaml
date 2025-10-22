@@ -211,6 +211,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                 <Border>
                     <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                           ColumnDefinitions="Auto"
+                          RowSpacing="10"
                           ColumnSpacing="20">
                         <HorizontalStackLayout Grid.Row="0">
                             <Label Text="Ecosite Group"
@@ -246,37 +247,9 @@ Converter={StaticResource StringToVisibilityConverter}}" />
 
                             </VerticalStackLayout>
                         </VerticalStackLayout>
-                        <HorizontalStackLayout Grid.Row="2"
-                                               Grid.Column="0">
-                            <Label Text="Ecodistrict"
-                                   Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="Ecodistrict" />
-                        </HorizontalStackLayout>
-                        <Picker  Grid.Row="3"
-                                 ItemsSource="{Binding LookupEcodistricts}"
-                                 SelectedItem="{Binding CurrentPlot.EcodistrictLookup}"
-                                 WidthRequest="350"
-                                 HorizontalOptions="Start" />
+                        
+
                         <HorizontalStackLayout Grid.Row="4"
-                                               Grid.Column="0">
-                            <Label Text="Exposure"
-                                   Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="Exposure" />
-                        </HorizontalStackLayout>
-                        <Picker  Grid.Row="5"
-                                 ItemsSource="{Binding LookupExposure}"
-                                 SelectedItem="{Binding CurrentPlot.Exposure}"
-                                 WidthRequest="350"
-                                 HorizontalOptions="Start" />
-                        <HorizontalStackLayout Grid.Row="6"
                                                Grid.Column="0">
                             <Label Text="Soil"
                                    Style="{StaticResource LabelPlot}" />
@@ -287,29 +260,14 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          CommandParameter="FECSoil" />
                         </HorizontalStackLayout>
 
-                        <Picker  Grid.Row="7"
+                        <Picker  Grid.Row="5"
                                  ItemsSource="{Binding LookupSoils}"
-                                 SelectedItem="{Binding CurrentPlot.Soils}"
+                                 SelectedItem="{Binding CurrentPlot.Soil}"
                                  WidthRequest="350"
                                  HorizontalOptions="Start" />
-                        <HorizontalStackLayout Grid.Row="8"
-                                               Grid.Column="0">
-                            <Label Text="Soil Phase"
-                                   Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="SoilPhases" />
-                        </HorizontalStackLayout>
-                        <Picker Grid.Row="9"
-                                Grid.Column="0"
-                                ItemsSource="{Binding SoilPhases}"
-                                SelectedItem="{Binding SelectedSoilPhase}"
-                                WidthRequest="350"
-                                HorizontalOptions="Start" />
 
-                        <HorizontalStackLayout Grid.Row="10"
+
+                        <HorizontalStackLayout Grid.Row="6"
                                                Grid.Column="0">
                             <Label Text="Vegetation"
                                    Style="{StaticResource LabelPlot}" />
@@ -319,12 +277,47 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="FECVeg" />
                         </HorizontalStackLayout>
-                        <Picker Grid.Row="11"
+                        <Picker Grid.Row="7"
                                 Grid.Column="0"
                                 ItemsSource="{Binding LookupVeg}"
                                 SelectedItem="{Binding CurrentPlot.Vegetation}"
                                 WidthRequest="350"
                                 HorizontalOptions="Start" />
+
+                        <HorizontalStackLayout Grid.Row="8"
+                                               Grid.Column="0">
+                            <Label Text="Ecodistrict"
+                                   Style="{StaticResource LabelPlot}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="Ecodistrict" />
+                        </HorizontalStackLayout>
+                        <Label  Grid.Row="9"
+                                Text="{Binding CurrentPlot.EcoDistrict}"
+                                WidthRequest="350"
+                                HorizontalOptions="Start" />
+                        <Label  Grid.Row="9"
+                                Text="{Binding EcodistrictErrorMessage}"
+                                TextColor="Red"
+                                WidthRequest="350"
+                                HorizontalOptions="Start" />
+                        <HorizontalStackLayout Grid.Row="10"
+                                               Grid.Column="0">
+                            <Label Text="Exposure"
+                                   Style="{StaticResource LabelPlot}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="Exposure" />
+                        </HorizontalStackLayout>
+                        <Picker  Grid.Row="11"
+                                 ItemsSource="{Binding ListExposure}"
+                                 SelectedItem="{Binding CurrentPlot.Exposure}"
+                                 WidthRequest="350"
+                                 HorizontalOptions="Start" />
 
                     </Grid>
                 </Border>

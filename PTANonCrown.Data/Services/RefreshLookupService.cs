@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.Data.Sqlite;
 
 namespace PTANonCrown.Data.Services
 {
@@ -24,7 +26,7 @@ namespace PTANonCrown.Data.Services
             await RefreshTableAsync<Vegetation>("Vegetation.csv", v => v.ShortCode);
             await RefreshTableAsync<Ecodistrict>("Ecodistrict.csv", e => e.ShortCode);
 
-            await RefreshJunctionAsync("EcodistrictSoilVeg.csv");
+            RefreshJunctionAsync("EcodistrictSoilVeg.csv");
 
             // --- ensure all changes are written ---
             _db.SaveChangesAsync(); // commit any pending inserts/updates
@@ -47,30 +49,25 @@ namespace PTANonCrown.Data.Services
 
             await _db.SaveChangesAsync();
         }
-
         private async Task RefreshJunctionAsync(string csvPath)
         {
-            var records = CsvLoader.LoadCsv<EcodistrictSoilVeg>(csvPath);
+            // Load CSV
+            var records = CsvLoader.LoadCsv<EcodistrictSoilVeg>(csvPath)
+                .Where(r => !string.IsNullOrWhiteSpace(r.SoilCode)
+                         && !string.IsNullOrWhiteSpace(r.VegCode)
+                         && !string.IsNullOrWhiteSpace(r.EcositeGroup))
+                .ToList();
 
-            foreach (var rec in records)
-            {
-                // check if combination exists
-                var existing = await _db.EcodistrictSoilVeg
-                    .FirstOrDefaultAsync(ev => ev.SoilCode == rec.SoilCode && ev.VegCode == rec.VegCode);
+            // Wipe existing data
+            var allExisting = _db.EcodistrictSoilVeg.ToList();
+            _db.EcodistrictSoilVeg.RemoveRange(allExisting);
+            await _db.SaveChangesAsync();
 
-                if (existing == null)
-                {
-                    await _db.EcodistrictSoilVeg.AddAsync(rec);
-                    await _db.SaveChangesAsync();
-                }
-                else
-                {
-                    existing.EcodistrictCode = rec.EcodistrictCode; // update ecodistrict if changed
-                    await _db.SaveChangesAsync();
-                }
-            }
+            // Add all records
+            await _db.EcodistrictSoilVeg.AddRangeAsync(records);
 
-            //await _db.SaveChangesAsync();
+            // Commit
+            await _db.SaveChangesAsync();
         }
     }
 }

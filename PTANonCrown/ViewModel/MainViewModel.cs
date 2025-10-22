@@ -3,29 +3,17 @@
 using ClosedXML.Excel;
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Storage;
-using DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.InkML;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
+using CsvHelper;
 using PTANonCrown.Data.Models;
 using PTANonCrown.Data.Repository;
 using PTANonCrown.Services;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Formats.Asn1;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Windows.Input;
-
-using System.Globalization;
-
-using CsvHelper;
 using System.Text.RegularExpressions;
-using PTANonCrown.WinUI;
+using System.Windows.Input;
 
 namespace PTANonCrown.ViewModel
 {
@@ -141,6 +129,7 @@ namespace PTANonCrown.ViewModel
                     _currentPlot = value;
                     OnPropertyChanged();
                     OnCurrentPlotChanged();
+
                     // Subscribe to the new collection's property change notifications
                     if (_currentPlot != null)
                     {
@@ -237,10 +226,11 @@ namespace PTANonCrown.ViewModel
         }
 
         public List<int> ListPercentage { get; set; }
+        public List<string> ListExposure { get; set; }
 
         public List<Ecodistrict> LookupEcodistricts { get; set; }
+        public List<EcodistrictSoilVeg> LookupEcodistrictSoilVeg { get; set; }
 
-        public List<Exposure> LookupExposure { get; set; }
 
         public List<Soil> LookupSoils { get; set; }
 
@@ -334,7 +324,7 @@ new Command<string>(method => OpenFile());
                     OnPropertyChanged();
 
                     // 1️⃣ update Plot's soil
-                 //   CurrentPlot.SoilCode = _selectedSoil;
+                    //   CurrentPlot.SoilCode = _selectedSoil;
 
                     // 2️⃣ update dependent things, e.g., phases
                     //UpdateSoilPhases();
@@ -794,9 +784,9 @@ new Command<string>(method => OpenFile());
             var _newPlot = new Plot
             {
                 PlotNumber = newPlotNumber,
-                EcoDistrictCode = LookupEcodistricts.Select(v => v.ShortCode).FirstOrDefault(),
+                //EcoDistrictCode = LookupEcodistricts.Select(v => v.ShortCode).FirstOrDefault(),
                 Soil = LookupSoils.FirstOrDefault(),
-                ExposureCode = LookupExposure.Select(v => v.ShortCode).FirstOrDefault(),
+                Exposure = "",
                 Vegetation = LookupVeg.FirstOrDefault(),
                 EcositeGroup = EcositeGroup.None,
                 //AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
@@ -847,7 +837,30 @@ new Command<string>(method => OpenFile());
                 RefreshAllPlots();
 
             }
+
+            if (e.PropertyName == nameof(Plot.Soil) || e.PropertyName == nameof(Plot.Vegetation) || e.PropertyName == nameof(Plot.EcositeGroup))
+            {
+                RefreshEcodistrict(CurrentPlot.Soil, CurrentPlot.Vegetation, CurrentPlot.EcositeGroup.ToString());
+            }
         }
+
+        private void RefreshEcodistrict(Soil? soil, Vegetation? veg, string ecositeGroup)
+        {
+            // Step 1 - look it up in the soil.
+            EcodistrictSoilVeg? matchingRecord = LookupEcodistrictSoilVeg.Where(r => r.SoilCode == soil?.ShortCode &&
+            r.VegCode == veg?.ShortCode &&
+            r.EcositeGroup == ecositeGroup
+
+            ).FirstOrDefault();
+
+            Ecodistrict newEcodistrict = LookupEcodistricts.Where(e => e.ShortCode == matchingRecord?.EcodistrictCode).FirstOrDefault();
+            CurrentPlot.EcoDistrict = newEcodistrict;
+
+            OnPropertyChanged(nameof(EcodistrictErrorMessage));
+
+
+        }
+
 
         private void DeletePlot(Plot plot)
         {
@@ -878,6 +891,28 @@ new Command<string>(method => OpenFile());
                 "Cancel"
             );
         }
+
+        public string EcodistrictErrorMessage
+        {
+            get
+            {
+                if (CurrentPlot.Soil is null || CurrentPlot.Vegetation is null || CurrentPlot.EcositeGroup == EcositeGroup.None)
+                {
+                    return "Please select a Soil Type, Vegetation Type, and Ecosite Group to determine the Ecodistrict.";
+                }
+                // If any selection is missing, or combination is invalid
+                if (CurrentPlot.EcoDistrict == null)
+                {
+                    return "This combination of Soil Type, Vegetation Type and Ecosite Group has no matching EcoDistrict.";
+                }
+
+
+
+                return string.Empty; // valid
+            }
+        }
+
+
 
         private async void DisplayTreeWarningMessage(Plot plot)
         {
@@ -1234,16 +1269,18 @@ new Command<string>(method => OpenFile());
             LookupTrees = _standRepository.GetTreeSpecies();
             LookupSoils = _lookupRepository.GetSoilLookups();
             LookupEcodistricts = _lookupRepository.GetEcodistrictLookups();
+            LookupEcodistrictSoilVeg = _lookupRepository.GetEcodistrictSoilVegLookups();
             LookupVeg = _lookupRepository.GetVegLookups();
-            LookupExposure = _lookupRepository.GetExposureLookups();
             Treatments = _standRepository.GetTreatments();
 
             TreeLookupFilteredList = new ObservableCollection<TreeSpecies>() { };
 
             ListPercentage = new List<int> { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
-
+            ListExposure = new List<string?> { null, "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
         }
 
+
+            
         private void OnCurrentPlotChanged()
         {
             //Ensure correct GUI Checkbox of Plot Was Treated

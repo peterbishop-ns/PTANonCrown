@@ -28,7 +28,6 @@ public class AppDbContext : DbContext
     // Lookup Tables
     public DbSet<Vegetation> Vegetation { get; set; }
     public DbSet<Soil> Soil { get; set; }
-    public DbSet<Exposure> Exposure { get; set; }
     public DbSet<Ecodistrict> Ecodistrict { get; set; }
 
     //Junction table
@@ -89,30 +88,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Ecodistrict>().HasKey(e => e.ShortCode);
 
         modelBuilder.Entity<EcodistrictSoilVeg>()
-            .HasKey(ev => new { ev.SoilCode, ev.VegCode, ev.EcodistrictCode });
+            .HasKey(ev => new { ev.SoilCode, ev.VegCode, ev.EcositeGroup });
 
-        /*modelBuilder.Entity<EcodistrictSoilVeg>()
-            .HasOne(ev => ev.Soil)
-            .WithMany()
-            .HasForeignKey(ev => ev.SoilCode)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<EcodistrictSoilVeg>()
-            .HasOne(ev => ev.Veg)
-            .WithMany()
-            .HasForeignKey(ev => ev.VegCode)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<EcodistrictSoilVeg>()
-            .HasOne(ev => ev.Ecodistrict)
-            .WithMany()
-            .HasForeignKey(ev => ev.EcodistrictCode)
-            .OnDelete(DeleteBehavior.Restrict);*/
-
-        // Prevent duplicate Soil+Veg combos
-        modelBuilder.Entity<EcodistrictSoilVeg>()
-            .HasIndex(ev => new { ev.SoilCode, ev.VegCode })
-            .IsUnique();
 
     }
 }

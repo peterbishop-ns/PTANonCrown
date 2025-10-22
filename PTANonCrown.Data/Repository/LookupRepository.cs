@@ -28,11 +28,18 @@ namespace PTANonCrown.Data.Repository
             }
         }
 
-        public List<Soil> GetSoilLookups()
+        public List<Soil?> GetSoilLookups()
         {
             AppLogger.Log("GetSoilLookups", "LookupRepository");
 
-            return _context.Soil.ToList();
+            var soils = _context.Soil
+                .OrderBy(s => s.SoilType)
+                .ThenBy(s => s.ShortCode)
+                .ToList<Soil?>();
+
+            soils.Insert(0, new Soil() { ShortCode = null, SoilType = -1, Name = null, SoilPhaseShort = null});  // prepend a null entry
+
+            return soils;
         }
         public List<Ecodistrict> GetEcodistrictLookups()
         {
@@ -40,21 +47,28 @@ namespace PTANonCrown.Data.Repository
 
             return _context.Ecodistrict.ToList();
         }
+                public List<EcodistrictSoilVeg> GetEcodistrictSoilVegLookups()
+        {
+            AppLogger.Log("GetEcodistrictSoilVegLookups", "LookupRepository");
+
+            return _context.EcodistrictSoilVeg.ToList();
+        }
 
 
         public List<Vegetation> GetVegLookups()
         {
             AppLogger.Log("GetVegLookups", "LookupRepository");
 
-            return _context.Vegetation.ToList();
+            var vegs = _context.Vegetation
+             .OrderBy(s => s.ShortCode)
+             .ToList<Vegetation?>();
+
+            vegs.Insert(0, new Vegetation() { ShortCode = null, Name = null });  // prepend a null entry
+
+            return vegs;
         }     
         
-        public List<Exposure> GetExposureLookups()
-        {
-            AppLogger.Log("GetExposureLookups", "LookupRepository");
 
-            return _context.Exposure.ToList();
-        }
         
 
 
