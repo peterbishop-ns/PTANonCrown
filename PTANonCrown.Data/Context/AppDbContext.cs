@@ -9,7 +9,7 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options)
     : base(options)
     {
-        AppLogger.Log($"App DB Context", "App");
+        AppLoggerData.Log($"App DB Context", "App");
     }
 
 
@@ -83,6 +83,27 @@ public class AppDbContext : DbContext
 
         // Lookups
         // Use codes as keys instead of IDs
+
+        modelBuilder.Entity<Plot>()
+            .HasOne(p => p.Soil)
+            .WithMany()
+            .HasForeignKey(p => p.SoilCode)
+            .IsRequired(false);  // optional
+
+        modelBuilder.Entity<Plot>()
+            .HasOne(p => p.Vegetation)
+            .WithMany()
+            .HasForeignKey(p => p.VegCode)
+            .IsRequired(false);
+
+        modelBuilder.Entity<Plot>()
+            .HasOne(p => p.EcoDistrict)
+            .WithMany()
+            .HasForeignKey(p => p.EcodistrictCode)
+            .IsRequired(false);
+
+
+
         modelBuilder.Entity<Soil>().HasKey(s => s.ShortCode);
         modelBuilder.Entity<Vegetation>().HasKey(v => v.ShortCode);
         modelBuilder.Entity<Ecodistrict>().HasKey(e => e.ShortCode);

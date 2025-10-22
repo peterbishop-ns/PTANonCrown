@@ -20,8 +20,6 @@ public partial class SummaryPage : ContentPage
         VegetationSummary.IsVisible = false;
         TreatmentSummary.IsVisible = false;
         SpeciesSummary.IsVisible = false;
-
-
     }
 
     void ShowVegetation(object sender, EventArgs e)

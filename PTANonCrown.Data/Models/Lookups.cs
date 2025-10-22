@@ -37,7 +37,7 @@ namespace PTANonCrown.Data.Models
         }
         public override string ToString()
         {
-            return ShortCode;
+            return ShortCode ?? "n/a";
         }
 
     }

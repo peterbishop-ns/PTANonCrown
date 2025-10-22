@@ -58,15 +58,17 @@ namespace PTANonCrown
             Services.AppLogger.Log($"{FileSystem.AppDataDirectory}", "AddDbContext");
             Services.AppLogger.Log("AddDbContext - app", "MauiProgram");
 
-           // builder.Services.AddDbContext<AppDbContext>(options =>
-           // {
-           //     var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
-          //      options.UseSqlite($"Filename={dbPath}");
-          //  });
+            // builder.Services.AddDbContext<AppDbContext>(options =>
+            // {
+            //     var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+            //      options.UseSqlite($"Filename={dbPath}");
+            //  });
 
 
             // STEP 1: Get platform-specific path
-            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+
+            builder.Services.AddSingleton(new DatabaseService(dbPath));
 
             Services.AppLogger.Log($"dbPath", dbPath);
 

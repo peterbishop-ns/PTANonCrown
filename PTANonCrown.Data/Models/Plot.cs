@@ -410,6 +410,10 @@ namespace PTANonCrown.Data.Models
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        public string? SoilCode { get; set; }
+
         [Required]
         private Soil? _soil = null!;
 
@@ -424,6 +428,8 @@ namespace PTANonCrown.Data.Models
         }
 
 
+
+        public string? VegCode { get; set; }
 
 
 
@@ -440,6 +446,7 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+        public string? EcodistrictCode { get; set; }
 
 
         private Ecodistrict? _ecoDistrict = null!;
@@ -494,7 +501,7 @@ namespace PTANonCrown.Data.Models
 
         public string ForestGroup
         {
-            get => GetForestGroup(Vegetation.ShortCode);
+            get => "OW";//""GetForestGroup(Vegetation.ShortCode);
             
         }
 

@@ -34,7 +34,6 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
-
 	<ItemGroup>
 	  <None Update="Resources\Ecodistrict.csv">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>

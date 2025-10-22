@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using PTANonCrown.Data.Services;
 
 namespace PTANonCrown.ViewModel
 {
@@ -646,7 +647,7 @@ new Command<string>(method => OpenFile());
 
         public void OnCurrentStandChanged()
         {
-            AllPlots = CurrentStand?.Plots;
+            AllPlots = _currentStand?.Plots;
             if ((AllPlots != null) & AllPlots?.Count() != 0)
             {
                 CurrentPlot = AllPlots.OrderBy(p => p.PlotNumber).FirstOrDefault();
@@ -785,10 +786,10 @@ new Command<string>(method => OpenFile());
             {
                 PlotNumber = newPlotNumber,
                 //EcoDistrictCode = LookupEcodistricts.Select(v => v.ShortCode).FirstOrDefault(),
-                Soil = LookupSoils.FirstOrDefault(),
+                Soil = null,//LookupSoils.FirstOrDefault(),
                 Exposure = "",
-                Vegetation = LookupVeg.FirstOrDefault(),
-                EcositeGroup = EcositeGroup.None,
+                Vegetation = null,//LookupVeg.FirstOrDefault(),
+                EcositeGroup = EcositeGroup.None,// EcositeGroup.None,
                 //AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
                 OldGrowthSpeciesID = 1,
 
@@ -809,6 +810,7 @@ new Command<string>(method => OpenFile());
 
             SetCurrentPlot(_newPlot);
             return _newPlot;
+
         }
 
         private Stand CreateNewStand()
@@ -837,11 +839,11 @@ new Command<string>(method => OpenFile());
                 RefreshAllPlots();
 
             }
-
+            /*
             if (e.PropertyName == nameof(Plot.Soil) || e.PropertyName == nameof(Plot.Vegetation) || e.PropertyName == nameof(Plot.EcositeGroup))
             {
-                RefreshEcodistrict(CurrentPlot.Soil, CurrentPlot.Vegetation, CurrentPlot.EcositeGroup.ToString());
-            }
+                RefreshEcodistrict(CurrentSoil, CurrentSoil, CurrentPlot.EcositeGroup.ToString());
+            }*/
         }
 
         private void RefreshEcodistrict(Soil? soil, Vegetation? veg, string ecositeGroup)
@@ -854,7 +856,7 @@ new Command<string>(method => OpenFile());
             ).FirstOrDefault();
 
             Ecodistrict newEcodistrict = LookupEcodistricts.Where(e => e.ShortCode == matchingRecord?.EcodistrictCode).FirstOrDefault();
-            CurrentPlot.EcoDistrict = newEcodistrict;
+           CurrentEcodistrict = newEcodistrict;
 
             OnPropertyChanged(nameof(EcodistrictErrorMessage));
 
@@ -896,12 +898,12 @@ new Command<string>(method => OpenFile());
         {
             get
             {
-                if (CurrentPlot.Soil is null || CurrentPlot.Vegetation is null || CurrentPlot.EcositeGroup == EcositeGroup.None)
+                if (CurrentSoil is null || CurrentVeg is null || CurrentEcositeGroup == EcositeGroup.None)
                 {
                     return "Please select a Soil Type, Vegetation Type, and Ecosite Group to determine the Ecodistrict.";
                 }
                 // If any selection is missing, or combination is invalid
-                if (CurrentPlot.EcoDistrict == null)
+                if (CurrentEcodistrict == null)
                 {
                     return "This combination of Soil Type, Vegetation Type and Ecosite Group has no matching EcoDistrict.";
                 }
@@ -1365,7 +1367,12 @@ new Command<string>(method => OpenFile());
 
                 _databaseService.SetDatabasePath(result.FullPath);
 
+                // 2. Reload from new context if needed
+                using var db = _databaseService.GetContext();
+                var stand = db.Stands.FirstOrDefault(); // or whatever logic you use
 
+                CurrentStand = null;
+                SetCurrentStand(stand);
             }
 
 
@@ -1471,9 +1478,79 @@ new Command<string>(method => OpenFile());
                 return;
             }
 
+            CurrentPlot.SoilCode = CurrentSoil.ShortCode;
+            CurrentPlot.VegCode= CurrentVeg.ShortCode;
+            CurrentPlot.EcositeGroup = CurrentEcositeGroup;
+            CurrentPlot.EcodistrictCode = CurrentEcodistrict.ShortCode;
+
             _standRepository.Save(CurrentStand);
 
         }
+
+
+        private Soil? _currentSoil;
+        public Soil? CurrentSoil
+        {
+            get => _currentSoil;
+            set
+            {
+                if (_currentSoil != value)
+                {
+                    _currentSoil = value;
+                    OnPropertyChanged();
+                    RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+                }
+            }
+        }
+
+        private Vegetation? _currentVeg;
+        public Vegetation? CurrentVeg
+        {
+            get => _currentVeg;
+            set
+            {
+                if (_currentVeg != value)
+                {
+                    _currentVeg = value;
+                    OnPropertyChanged();
+                    RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+
+                }
+            }
+        }
+
+        private EcositeGroup _currentEcositeGroup;
+        public EcositeGroup CurrentEcositeGroup
+        {
+            get => _currentEcositeGroup;
+            set
+            {
+                if (_currentEcositeGroup != value)
+                {
+                    _currentEcositeGroup = value;
+                    OnPropertyChanged();
+                    RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+
+                }
+            }
+
+        }
+
+
+        private Ecodistrict? _currentEcodistrict;
+        public Ecodistrict? CurrentEcodistrict
+        {
+            get => _currentEcodistrict;
+            set
+            {
+                if (_currentEcodistrict != value)
+                {
+                    _currentEcodistrict = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         private void SetCurrentPlot(Plot plot)
         {

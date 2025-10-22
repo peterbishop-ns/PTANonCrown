@@ -29,36 +29,40 @@ public interface IBaseRepository<T> where T : class
 
 public class BaseRepository<T> : IBaseRepository<T> where T : class
 {
-    protected readonly DbContext _context;
+    protected readonly DatabaseService _databaseService;
     protected readonly DbSet<T> _dbSet;
 
-    public BaseRepository(DbContext context)
+    public BaseRepository(DatabaseService databaseService)
     {
-        _context = context;
-        _dbSet = context.Set<T>();
+        _databaseService = databaseService;
     }
 
     public void Add(T entity)
     {
-        _dbSet.Add(entity);
-        _context.SaveChanges();
+        using var context = _databaseService.GetContext();
+        var dbSet = context.Set<T>();
+        dbSet.Add(entity);
+        context.SaveChanges();
     }
 
     public void Delete(int id)
     {
-        var entity = _dbSet.Find(id);
+        using var context = _databaseService.GetContext();
+        var dbSet = context.Set<T>();
+        var entity = dbSet.Find(id);
         if (entity != null)
         {
-            _dbSet.Remove(entity);
-            _context.SaveChanges();
+            dbSet.Remove(entity);
+            context.SaveChanges();
         }
     }
 
     public List<T>? GetAll()
     {
-        IQueryable<T> query = _context.Set<T>();
+        using var context = _databaseService.GetContext();
+        IQueryable<T> query = context.Set<T>();
 
-        var entityType = _context.Model.FindEntityType(typeof(T));
+        var entityType = context.Model.FindEntityType(typeof(T));
         if (entityType != null)  // Ensure entityType is not null
         {
             foreach (var navigation in entityType.GetNavigations()) // No need for ??
@@ -70,12 +74,17 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return query.ToList();
     }
 
-    public T? GetById(int id) => _dbSet.Find(id) ?? null;
-
+    public T? GetById(int id)
+    {
+        using var context = _databaseService.GetContext();
+        return context.Set<T>().Find(id);
+    }
     public List<T> GetBySearch(string searchString, string propertyNameToSearch)
     { // method to search  a set by a searchString, Looking at a specific Property Name
-        // e.g. Search all trials by Location
-        IQueryable<T> query = _context.Set<T>();
+      // e.g. Search all trials by Location
+        using var context = _databaseService.GetContext();
+
+        IQueryable<T> query = context.Set<T>();
         var results = query
             .Where(x => GetPropertyValue(x, propertyNameToSearch).ToString() != null &&
             GetPropertyValue(x, propertyNameToSearch).ToString().ToUpper() ==
@@ -87,13 +96,17 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 
     public EntityEntry<T> GetEntry<T>(T item) where T : class
     {
-        var entry = _context.Entry(item);
+        using var context = _databaseService.GetContext();
+
+        var entry = context.Entry(item);
         return entry;
     }
 
     public void ResetProperty<T>(T entity, string property) where T : class
     {
-        var entry = _context.Entry(entity);
+        using var context = _databaseService.GetContext();
+
+        var entry = context.Entry(entity);
         if (entry.State != EntityState.Detached)
         {
             var originalValue = entry.OriginalValues[property];
@@ -106,36 +119,39 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 
     public void Save(T entity)
     {
-        var entry = _context.Entry(entity);
+        using var context = _databaseService.GetContext();
+        var dbSet = context.Set<T>();
+
+        var entry = context.Entry(entity);
 
         if (entry.State == EntityState.Detached)
         {
-            _dbSet.Add(entity); // Insert if not tracked
+            dbSet.Add(entity); // Insert if not tracked
         }
         else
         {
-            _dbSet.Update(entity); // Update if already tracked
+            dbSet.Update(entity); // Update if already tracked
         }
 
         try
         {
-            _context.SaveChanges(); // Commit changes
+            context.SaveChanges(); // Commit changes
         }
         catch (DbUpdateException dbEx) when (dbEx.InnerException is SqliteException sqlEx)
         {
             // Log the raw SQLite error
-            AppLogger.Log("SQL Error", $"SQLite Error {sqlEx.SqliteErrorCode}: {sqlEx.Message}");
+            AppLoggerData.Log("SQL Error", $"SQLite Error {sqlEx.SqliteErrorCode}: {sqlEx.Message}");
 
             // Inspect the failing entries
             foreach (var failedEntry in dbEx.Entries)
             {
                 var entityName = failedEntry.Entity.GetType().Name;
-                AppLogger.Log("SQL Error", $"Entity: {entityName}, State: {failedEntry.State}");
+                AppLoggerData.Log("SQL Error", $"Entity: {entityName}, State: {failedEntry.State}");
 
                 foreach (var prop in failedEntry.CurrentValues.Properties)
                 {
                     var value = failedEntry.CurrentValues[prop];
-                    AppLogger.Log("SQL Error", $"  {prop.Name} = {value ?? "NULL"}");
+                    AppLoggerData.Log("SQL Error", $"  {prop.Name} = {value ?? "NULL"}");
                 }
             }
 

@@ -12,21 +12,23 @@ namespace PTANonCrown.Data.Repository
 
     public class StandRepository : BaseRepository<Stand>, IStandRepository
     {
-        private readonly AppDbContext _context;
 
-        public StandRepository(AppDbContext context) : base(context)
+        public StandRepository(DatabaseService databaseService) : base(databaseService)
         {
-            AppLogger.Log("StandRepository", "StandRepository");
+            AppLoggerData.Log("StandRepository", "StandRepository");
 
-            _context = context;
         }
 
         public List<Stand>? GetAll()
         {
-            AppLogger.Log("GetAll - start", "StandRepository");
-            var hashStand = _context.GetHashCode();
+            AppLoggerData.Log("GetAll - start", "StandRepository");
+            using var context = _databaseService.GetContext();
+            var dbSet = context.Set<Stand>();
 
-            IQueryable<Stand> query = _context.Set<Stand>()
+
+            var hashStand = context.GetHashCode();
+
+            IQueryable<Stand> query = context.Set<Stand>()
                 .Include(s => s.Plots)
                     .ThenInclude(p => p.PlotTreeLive)
                 .Include(s => s.Plots)
@@ -37,28 +39,31 @@ namespace PTANonCrown.Data.Repository
                     .ThenInclude(p => p.PlotTreeDead);
             
 
-            AppLogger.Log("GetAll - end", "StandRepository");
+            AppLoggerData.Log("GetAll - end", "StandRepository");
 
             return query.ToList();
         }
 
         public List<Treatment>? GetTreatments()
         {
-            AppLogger.Log("GetTreatments", "StandRepository");
+            AppLoggerData.Log("GetTreatments", "StandRepository");
+            using var context = _databaseService.GetContext();
+            var dbSet = context.Set<Treatment>();
 
-            IQueryable<Treatment> query = _context.Set<Treatment>();
+            IQueryable<Treatment> query = context.Set<Treatment>();
 
             return query.ToList();
         }
 
         public List<TreeSpecies> GetTreeSpecies()
         {
-            AppLogger.Log("GetTreeSpecies", "StandRepository");
-
-            return _context.Set<TreeSpecies>()
-    .OrderBy(i => i.Name == "Unknown" ? 0 : 1)  // "Unknown" gets priority
-    .ThenBy(i => i.Name)                        // Then sort the rest alphabetically
-    .ToList();
+            AppLoggerData.Log("GetTreeSpecies", "StandRepository");
+            using var context = _databaseService.GetContext();
+            var dbSet = context.Set<TreeSpecies>();
+            return context.Set<TreeSpecies>()
+                .OrderBy(i => i.Name == "Unknown" ? 0 : 1)  // "Unknown" gets priority
+                .ThenBy(i => i.Name)                        // Then sort the rest alphabetically
+                .ToList();
         }
     }
 }

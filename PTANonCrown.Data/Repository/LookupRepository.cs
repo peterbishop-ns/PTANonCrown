@@ -11,59 +11,53 @@ namespace PTANonCrown.Data.Repository
 
     public class LookupRepository : BaseRepository<BaseLookup>, ILookupRepository
     {
-        private readonly AppDbContext _context;
-
-        public LookupRepository(AppDbContext context) : base(context)
+        public LookupRepository(DatabaseService databaseService) : base(databaseService)
         {
-            try
-            {
-                AppLogger.Log("LookupRepository", "LookupRepository constructor start");
-                _context = context;
-                AppLogger.Log("LookupRepository", "Context assigned");
-            }
-            catch (Exception ex)
-            {
-                AppLogger.Log("LookupRepository", $"Exception: {ex.Message}");
-                throw;
-            }
+
         }
 
         public List<Soil?> GetSoilLookups()
         {
-            AppLogger.Log("GetSoilLookups", "LookupRepository");
+            AppLoggerData.Log("GetSoilLookups", "LookupRepository");
+            using var context = _databaseService.GetContext();
 
-            var soils = _context.Soil
+            var soils = context.Soil
                 .OrderBy(s => s.SoilType)
                 .ThenBy(s => s.ShortCode)
                 .ToList<Soil?>();
 
-            soils.Insert(0, new Soil() { ShortCode = null, SoilType = -1, Name = null, SoilPhaseShort = null});  // prepend a null entry
+           // soils.Insert(0, new Soil() { ShortCode = null, SoilType = -1, Name = null, SoilPhaseShort = null});  // prepend a null entry
 
             return soils;
         }
         public List<Ecodistrict> GetEcodistrictLookups()
         {
-            AppLogger.Log("GetEcodistrictLookups", "LookupRepository");
-
-            return _context.Ecodistrict.ToList();
+            AppLoggerData.Log("GetEcodistrictLookups", "LookupRepository");
+            using var context = _databaseService.GetContext();
+            var ecodistricts = context.Ecodistrict.ToList<Ecodistrict>();
+            return ecodistricts;
         }
+
+
+
+
                 public List<EcodistrictSoilVeg> GetEcodistrictSoilVegLookups()
         {
-            AppLogger.Log("GetEcodistrictSoilVegLookups", "LookupRepository");
-
-            return _context.EcodistrictSoilVeg.ToList();
+            AppLoggerData.Log("GetEcodistrictSoilVegLookups", "LookupRepository");
+            using var context = _databaseService.GetContext();
+            return context.EcodistrictSoilVeg.ToList();
         }
 
 
         public List<Vegetation> GetVegLookups()
         {
-            AppLogger.Log("GetVegLookups", "LookupRepository");
-
-            var vegs = _context.Vegetation
+            AppLoggerData.Log("GetVegLookups", "LookupRepository");
+            using var context = _databaseService.GetContext();
+            var vegs = context.Vegetation
              .OrderBy(s => s.ShortCode)
              .ToList<Vegetation?>();
 
-            vegs.Insert(0, new Vegetation() { ShortCode = null, Name = null });  // prepend a null entry
+           // vegs.Insert(0, new Vegetation() { ShortCode = null, Name = null });  // prepend a null entry
 
             return vegs;
         }     

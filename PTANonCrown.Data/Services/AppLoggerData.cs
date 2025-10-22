@@ -10,7 +10,7 @@ namespace PTANonCrown.Data.Services
     using System.Diagnostics;
     using System.IO;
 
-    public static class AppLogger
+    public static class AppLoggerData
     {
         private static readonly string LogFilePath = $"C://temp//log_{DateTime.Now:yyyyMMdd}.txt";
 
