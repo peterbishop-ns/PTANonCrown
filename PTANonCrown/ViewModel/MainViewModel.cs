@@ -1374,6 +1374,14 @@ namespace PTANonCrown.ViewModel
 
         }
 
+        private void NewFile()
+        {
+
+            // get temp file path
+            // 
+
+        }
+
         private async void OpenFile()
         {
             var result = await FilePicker.Default.PickAsync();

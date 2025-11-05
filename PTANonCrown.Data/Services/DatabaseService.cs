@@ -8,11 +8,14 @@ namespace PTANonCrown.Data.Services
         public string CurrentDbPath { get; private set; }
         public bool DbIsNew{ get; set; }
 
-        public DatabaseService(string dbPath)
+        public DatabaseService(string? dbPath = null)
         {
-            AppLoggerData.Log($"Initiating DB path: {dbPath}", "DatabaseService");
-
-            CurrentDbPath = dbPath;
+            if (dbPath != null && dbPath != string.Empty)
+            {
+                AppLoggerData.Log($"Initiating DB path: {dbPath}", "DatabaseService");
+                SetDatabasePath(dbPath);
+            }
+         
         }
 
         public void SetDatabasePath(string newPath)

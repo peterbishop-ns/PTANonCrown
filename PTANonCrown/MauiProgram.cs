@@ -52,74 +52,41 @@ namespace PTANonCrown
             // Register DbContext
             Services.AppLogger.Log($"DbContext - start", "MauiProgram.cs");
 
-
-            //builder.Services.AddDbContext<AppDbContext>();
-
-            Services.AppLogger.Log($"{FileSystem.AppDataDirectory}", "AddDbContext");
-            Services.AppLogger.Log("AddDbContext - app", "MauiProgram");
-
-            // builder.Services.AddDbContext<AppDbContext>(options =>
-            // {
-            //     var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
-            //      options.UseSqlite($"Filename={dbPath}");
-            //  });
-
-
             // STEP 1: Get platform-specific path
-            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+            builder.Services.AddSingleton(new DatabaseService());
 
-            builder.Services.AddSingleton(new DatabaseService(dbPath));
-
-            Services.AppLogger.Log($"dbPath", dbPath);
+            // temp file path, used until it gets saved
+            var filePath = Path.Combine(FileSystem.CacheDirectory, "temp.db");
 
 
             // STEP 2: Register DbContext with dependency injection
             builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
             {
                 var dbService = serviceProvider.GetRequiredService<DatabaseService>();
-                options.UseSqlite($"Data Source={dbService.CurrentDbPath}");
+                options.UseSqlite($"Data Source={filePath}");
+                dbService.SetDatabasePath(filePath);
                 dbService.DbIsNew = true; //will force the user to choose save location
-
             });
 
-            
-
             var app = builder.Build();
-            Services.AppLogger.Log($"DBContext end ", "MauiProgram.cs");
 
 
-            // Apply pending EF Core migrations at runtime
+            // Apply Migrations
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                //db.Database.EnsureDeleted();  // <-- add this temporarily
                 try
                 {
+                    var path = db.Database.GetDbConnection().DataSource;
 
                     db.Database.Migrate();
                 }
 
                 catch (Exception ex)
                 {
-                    // catch startup issues
-                    Debug.WriteLine("Unexpected EF error: " + ex);
                     Services.AppLogger.Log($"DB Exception", ex.ToString());
-
                 }
             }
-
-            Services.AppLogger.Log($"Services start", "MauiProgram.cs");
-            /*
-            // Ensure database is created
-            using (var scope = app.Services.CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                db.Database.EnsureCreated();  // Creates the database if it doesn't exist
-            }
-            */
-
-            Services.AppLogger.Log($"Services done", "MauiProgram.cs");
-
             return app;
 
         }
