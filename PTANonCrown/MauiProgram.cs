@@ -78,10 +78,11 @@ namespace PTANonCrown
             {
                 var dbService = serviceProvider.GetRequiredService<DatabaseService>();
                 options.UseSqlite($"Data Source={dbService.CurrentDbPath}");
-
+                dbService.DbIsNew = true; //will force the user to choose save location
 
             });
 
+            
 
             var app = builder.Build();
             Services.AppLogger.Log($"DBContext end ", "MauiProgram.cs");

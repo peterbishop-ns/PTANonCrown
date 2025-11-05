@@ -6,6 +6,7 @@ namespace PTANonCrown.Data.Services
     public class DatabaseService
     {
         public string CurrentDbPath { get; private set; }
+        public bool DbIsNew{ get; set; }
 
         public DatabaseService(string dbPath)
         {

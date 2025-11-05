@@ -15,7 +15,8 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using PTANonCrown.Data.Services;
-using System.Reflection;
+using Microsoft.Maui.Storage;
+using System.IO;
 
 namespace PTANonCrown.ViewModel
 {
@@ -1381,6 +1382,8 @@ new Command<string>(method => OpenFile());
                 // Update the database service with the new path               
 
                 _databaseService.SetDatabasePath(result.FullPath);
+                _databaseService.DbIsNew = false;
+
 
                 // 2. Reload from new context if needed
                 using var db = _databaseService.GetContext();
@@ -1479,7 +1482,7 @@ new Command<string>(method => OpenFile());
             }
         }
 
-        private void SaveAll()
+        private async void SaveAll()
         {
             AppLogger.Log("SaveAll", "MainViewModel");
 
@@ -1511,8 +1514,49 @@ new Command<string>(method => OpenFile());
 
             AppLogger.Log("SaveAll - Before actually saving", "MainViewModel");
 
-            _standRepository.Save(CurrentStand);
 
+
+
+            if (_databaseService.DbIsNew)
+            {
+
+                SaveFileAsAsync(_databaseService.CurrentDbPath);
+                
+            }
+            else
+
+                _standRepository.Save(CurrentStand);
+
+        }
+
+        public async Task SaveFileAsAsync(string tempFilePath)
+        {
+            if (!File.Exists(tempFilePath))
+            {
+                Console.WriteLine($"File not found: {tempFilePath}");
+                return;
+            }
+
+            // Copy to a readable temp file (avoids file locks)
+            var tempCopy = Path.Combine(FileSystem.CacheDirectory, "temp_save_copy.db");
+            File.Copy(tempFilePath, tempCopy, true);
+
+            using var stream = File.OpenRead(tempCopy);
+
+            var result = await FileSaver.Default.SaveAsync(
+                initialPath:_databaseService.CurrentDbPath,
+                fileName: "Default",
+                stream: stream);
+
+            if (result.IsSuccessful)
+            {
+                Console.WriteLine($"Saved to: {result.FilePath}");
+                _databaseService.SetDatabasePath(result.FilePath);
+                _databaseService.DbIsNew = false;
+
+            }
+            else
+                Console.WriteLine($"Save failed: {result.Exception?.Message}");
         }
 
 
