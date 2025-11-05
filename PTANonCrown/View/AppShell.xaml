@@ -10,7 +10,8 @@
     <Shell.ToolbarItems>
         <ToolbarItem Text="New"
                      Priority="0"
-                     IconImageSource="save_icon.png"
+                     IconImageSource="new_icon.png"
+                     
                      Command="{Binding NewFileCommand}">
         </ToolbarItem>
         <ToolbarItem Text="Open"

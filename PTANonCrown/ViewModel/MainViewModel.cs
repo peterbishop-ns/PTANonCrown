@@ -243,8 +243,8 @@ namespace PTANonCrown.ViewModel
         public ICommand NewPlotCommand =>
             new Command<string>(method => CreateNewPlot(CurrentStand));
 
-        public ICommand OpenFileCommand =>
-new Command<string>(method => OpenFile());
+        public ICommand OpenFileCommand => new Command<string>(method => OpenFile());
+        public ICommand NewFileCommand => new Command<string>(method => NewFile());
 
         public ICommand PickFolderCommand => new Command(async () => await ExecutePickFolderCommand());
 
