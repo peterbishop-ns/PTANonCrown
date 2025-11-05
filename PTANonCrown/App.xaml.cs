@@ -19,10 +19,17 @@ namespace PTANonCrown
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
 
-            // Fire-and-forget async refresh of lookups
+           
 
+            // Fire-and-forget async refresh of lookups
             MainPage = new AppShell(mainViewModel);
+
+
+            // Subscribe to event that allows navigation
+           // Shell.Current.Navigated += OnShellNavigated;
         }
+
+
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             LogException(e.ExceptionObject as Exception, "UnhandledException");

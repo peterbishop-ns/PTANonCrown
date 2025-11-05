@@ -26,3 +26,8 @@ Errors:
 - When doing `dotnet ef database update`:
 		- Message: `Applying migration '20250618123936_EastingNorthing'. The migration operation 'PRAGMA foreign_keys = 0;' from migration 'EastingNorthing' cannot be executed in a transaction. If the app is terminated or an unrecoverable error occurs while this operation is being executed then the migration will be left in a partially applied state and would need to be reverted manually before it can be applied again. Create a separate migration that contains just this operation. Done.`
 		- Solution: Delete the database in `C:\Users\<User>\AppData\Local\Packages\<AppFolder>\LocalState` and try again.
+
+
+
+Updating Lookups
+- RefreshLookupsAsync is done in App.xaml.cs

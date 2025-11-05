@@ -24,7 +24,6 @@
         }
 
         public int DBH_start { get; set; }
-        public int ID { get; set; }
         public Plot Plot { get; set; }
        // public int PlotID { get; set; }
 

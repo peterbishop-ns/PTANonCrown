@@ -12,6 +12,7 @@ namespace PTANonCrown.Data.Models
     public class BaseModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+        public int ID { get; set; }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {

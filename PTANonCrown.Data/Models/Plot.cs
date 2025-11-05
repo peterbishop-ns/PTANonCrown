@@ -138,7 +138,6 @@ namespace PTANonCrown.Data.Models
         }
 
         public int HorizontalStructure { get; set; }
-        public int ID { get; set; }
 
         public bool IsPlanted
         {

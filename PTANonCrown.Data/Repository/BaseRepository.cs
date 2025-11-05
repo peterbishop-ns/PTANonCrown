@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using PTANonCrown.Data.Models;
 using PTANonCrown.Data.Services;
 using System.Diagnostics;
 using System.Linq.Expressions;
@@ -24,10 +25,10 @@ public interface IBaseRepository<T> where T : class
 
     void ResetProperty<T>(T item, string propertyName) where T : class;
 
-    void Save(T entity);
+    T Save(T entity);
 }
 
-public class BaseRepository<T> : IBaseRepository<T> where T : class
+public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 {
     protected readonly DatabaseService _databaseService;
     protected readonly DbSet<T> _dbSet;
@@ -99,6 +100,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         using var context = _databaseService.GetContext();
 
         var entry = context.Entry(item);
+
+        AppLoggerData.Log($"GetEntry. entry = {entry} from item = {item}", "BaseRepository");
+
         return entry;
     }
 
@@ -117,47 +121,42 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         }
     }
 
-    public void Save(T entity)
+    public T Save(T entity)
     {
         using var context = _databaseService.GetContext();
         var dbSet = context.Set<T>();
 
-        var entry = context.Entry(entity);
-
-        if (entry.State == EntityState.Detached)
+        if (entity.ID != 0)
         {
-            dbSet.Add(entity); // Insert if not tracked
+            // Existing entity, fetch from DB
+            var existing = dbSet.Find(entity.ID);
+            if (existing != null)
+            {
+                AppLoggerData.Log($"Existing entity- {existing} {existing.ID}", "BaseRepository");
+
+                // Copy values into tracked entity
+                context.Entry(existing).CurrentValues.SetValues(entity);
+            }
+            else
+            {
+                // If not found, treat as new
+                AppLoggerData.Log($"Entity not found, adding as new- {entity}", "BaseRepository");
+                dbSet.Add(entity);
+            }
         }
         else
         {
-            dbSet.Update(entity); // Update if already tracked
+            // New entity
+            AppLoggerData.Log($"New entity- {entity}", "BaseRepository");
+            dbSet.Add(entity);
         }
 
-        try
-        {
-            context.SaveChanges(); // Commit changes
-        }
-        catch (DbUpdateException dbEx) when (dbEx.InnerException is SqliteException sqlEx)
-        {
-            // Log the raw SQLite error
-            AppLoggerData.Log("SQL Error", $"SQLite Error {sqlEx.SqliteErrorCode}: {sqlEx.Message}");
+        context.SaveChanges(); // EF updates ID for new entities automatically
+        AppLoggerData.Log($"Saved entity ID: {entity.ID}", "BaseRepository");
 
-            // Inspect the failing entries
-            foreach (var failedEntry in dbEx.Entries)
-            {
-                var entityName = failedEntry.Entity.GetType().Name;
-                AppLoggerData.Log("SQL Error", $"Entity: {entityName}, State: {failedEntry.State}");
-
-                foreach (var prop in failedEntry.CurrentValues.Properties)
-                {
-                    var value = failedEntry.CurrentValues[prop];
-                    AppLoggerData.Log("SQL Error", $"  {prop.Name} = {value ?? "NULL"}");
-                }
-            }
-
-            throw; // rethrow while preserving stack trace
-        }
+        return entity; // Return entity with updated ID
     }
+
 
 
     private static object GetPropertyValue(object obj, string propertyName)

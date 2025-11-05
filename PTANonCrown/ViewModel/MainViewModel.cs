@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using PTANonCrown.Data.Services;
+using System.Reflection;
 
 namespace PTANonCrown.ViewModel
 {
@@ -45,7 +46,7 @@ namespace PTANonCrown.ViewModel
 
         public MainViewModel(DatabaseService databaseService, StandRepository standRepository, LookupRepository lookupRepository)
         {
-            AppLogger.Log("Init", "MainViewModel");
+            AppLogger.Log("Init");
 
             _databaseService = databaseService;
             _standRepository = standRepository;
@@ -53,7 +54,7 @@ namespace PTANonCrown.ViewModel
 
             //_phaseToSoilTypes = LoadPhaseToSoilTypes(records);
 
-            AppLogger.Log("LoadLookupTables", "MainViewModel");
+            AppLogger.Log("LoadLookupTables", MethodBase.GetCurrentMethod().Name);
 
             LoadLookupTables();
             AppLogger.Log("GetOrCreateStand", "MainViewModel");
@@ -778,6 +779,10 @@ new Command<string>(method => OpenFile());
         private Plot CreateNewPlot(Stand stand)
         {
 
+            
+            RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+
+
             int newPlotNumber = (stand.Plots != null && stand.Plots.Any())
                 ? stand.Plots.Max(p => p.PlotNumber) + 1
                 : 1;
@@ -786,12 +791,10 @@ new Command<string>(method => OpenFile());
             {
                 PlotNumber = newPlotNumber,
                 //EcoDistrictCode = LookupEcodistricts.Select(v => v.ShortCode).FirstOrDefault(),
-                Soil = null,//LookupSoils.FirstOrDefault(),
+                Soil = null,
                 Exposure = "",
-                Vegetation = null,//LookupVeg.FirstOrDefault(),
-                EcositeGroup = EcositeGroup.None,// EcositeGroup.None,
+                Vegetation = null,
                 //AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
-                OldGrowthSpeciesID = 1,
 
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
@@ -800,7 +803,17 @@ new Command<string>(method => OpenFile());
                 }).ToList()
             };
 
-            _newPlot.PlotCoarseWoody = CreateDefaultCoarseWoody(_newPlot);
+
+            CurrentSoil = LookupSoils.Where(s => s.ShortCode == "ST1").FirstOrDefault();
+            CurrentVeg = LookupVeg.Where(v => v.ShortCode == "CA2").FirstOrDefault();
+            CurrentEcositeGroup = EcositeGroup.Acadian;
+
+            // Testing only
+            _newPlot.SoilCode = CurrentSoil?.ShortCode;
+            _newPlot.VegCode = CurrentVeg?.ShortCode;
+            _newPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
+
+                        _newPlot.PlotCoarseWoody = CreateDefaultCoarseWoody(_newPlot);
             _newPlot.PlotTreeDead = CreateDefaultTreeDead(_newPlot);
 
             _newPlot.Stand = stand;
@@ -822,6 +835,9 @@ new Command<string>(method => OpenFile());
             {
                 StandNumber = newStandNumber
             };
+
+            _stand.CruiseID = "Test123";
+            _stand.PlannerID = "Test123";
 
             CreateNewPlot(_stand);
             AllStands.Add(_stand);
@@ -856,7 +872,7 @@ new Command<string>(method => OpenFile());
             ).FirstOrDefault();
 
             Ecodistrict newEcodistrict = LookupEcodistricts.Where(e => e.ShortCode == matchingRecord?.EcodistrictCode).FirstOrDefault();
-           CurrentEcodistrict = newEcodistrict;
+            CurrentEcodistrict = newEcodistrict;
 
             OnPropertyChanged(nameof(EcodistrictErrorMessage));
 
@@ -1210,13 +1226,12 @@ new Command<string>(method => OpenFile());
                 plot = CreateNewPlot(stand);
             }
 
-            // needs to reference the same list that used in the loook up, or it will fail
-            // to display the correct item in the AgreTree picker list
-            //var match = LookupTrees.Where(t => t.ID == plot.AgeTreeSpecies.ID).FirstOrDefault();
+            // Refresh the comboboxes
 
-            //SelectedAgeTreeSpecies = match;
-
-            //plot.LookupTrees = LookupTrees;
+            CurrentSoil = plot.Soil;
+            CurrentVeg = plot.Vegetation;
+            CurrentEcositeGroup = plot.EcositeGroup;
+            RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
             SelectedOldGrowthSpecies =
                 LookupTrees
@@ -1369,14 +1384,18 @@ new Command<string>(method => OpenFile());
 
                 // 2. Reload from new context if needed
                 using var db = _databaseService.GetContext();
-                var stand = db.Stands.FirstOrDefault(); // or whatever logic you use
 
                 CurrentStand = null;
-                SetCurrentStand(stand);
+
+                AllStands = new ObservableCollection<Stand>(db.Stands);
+
+
+                var stand = AllStands.FirstOrDefault(); // or whatever logic you use
+
+                GetOrCreateStand();
+                GetOrCreatePlot(CurrentStand);
+               // SetCurrentStand(stand);
             }
-
-
-
         }
 
         private async void PromptDeleteStand(Stand stand)
@@ -1462,6 +1481,10 @@ new Command<string>(method => OpenFile());
 
         private void SaveAll()
         {
+            AppLogger.Log("SaveAll", "MainViewModel");
+
+
+
             ContainsError = false; // reset
             ValidateStand(CurrentStand);
             ValidatePlot(CurrentPlot);
@@ -1472,16 +1495,21 @@ new Command<string>(method => OpenFile());
             CurrentPlot.Easting = CurrentPlot.Easting ?? 0;
             CurrentPlot.Northing = CurrentPlot.Northing ?? 0;
 
+            AppLogger.Log("SaveAll - Before checking errors", "MainViewModel");
+
             if (ContainsError)
             {
                 Application.Current.MainPage.DisplayAlert("Error", "Please address errors", "OK");
                 return;
             }
 
-            CurrentPlot.SoilCode = CurrentSoil.ShortCode;
-            CurrentPlot.VegCode= CurrentVeg.ShortCode;
+
+            CurrentPlot.SoilCode = CurrentSoil?.ShortCode;
+            CurrentPlot.VegCode= CurrentVeg?.ShortCode;
             CurrentPlot.EcositeGroup = CurrentEcositeGroup;
-            CurrentPlot.EcodistrictCode = CurrentEcodistrict.ShortCode;
+            CurrentPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
+
+            AppLogger.Log("SaveAll - Before actually saving", "MainViewModel");
 
             _standRepository.Save(CurrentStand);
 
@@ -1735,7 +1763,7 @@ new Command<string>(method => OpenFile());
                 if (tree.TreeSpecies is null)
                 {
                     ErrorMessage = ErrorMessage + "\n" + $"Please enter a valid Tree Species for Tree #{tree.TreeNumber}";
-                    ContainsError = true;
+                    ContainsError = false;
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace PTANonCrown.Data.Models
         public string CruiseID { get; set; }
 
         public int Ecodistrict { get; set; }
-        public int ID { get; set; }
+
         public string? Location { get; set; }
 
         public float? Area_ha { get; set; } 

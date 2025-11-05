@@ -1,17 +1,22 @@
 
 using DocumentFormat.OpenXml.Drawing;
+using Microsoft.EntityFrameworkCore;
 using PTANonCrown.Data.Models;
 using PTANonCrown.ViewModel;
+using System.Runtime.Intrinsics.X86;
 
 namespace PTANonCrown;
 
 public partial class LiveTreePage : ContentPage
 {
-    public LiveTreePage(MainViewModel viewModel)
+    //private readonly DbContext _dbContext;
+
+
+    public LiveTreePage(MainViewModel viewModel)//, DbContext dbContext)
     {
         InitializeComponent();
         BindingContext = viewModel;
-
+     //   _dbContext = dbContext;
     }
 
     protected override void OnAppearing()
@@ -22,6 +27,21 @@ public partial class LiveTreePage : ContentPage
         if ((vm.CurrentPlot?.PlotTreeLive == null) | (vm.CurrentPlot?.PlotTreeLive.Count == 0)) {
             vm.AddNewTreeToPlot(vm.CurrentPlot, 1);
         }
+    }
+
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        /*var vm = BindingContext as MainViewModel;
+
+        var entry = _dbContext.Entry(vm.CurrentStand);
+        if (entry.State == EntityState.Modified || entry.State == EntityState.Added)
+        {
+            // The entity exists in the database but some property values have changed
+        }*/
+
 
     }
 
