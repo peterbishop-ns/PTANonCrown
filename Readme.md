@@ -10,7 +10,7 @@ How to Make Schema Changes:
 - Update the files in `PTANonCrown/PTANonCrown.Data/Models`
 - Open CMD prompt in root `PTANonCrown`
 - Delete the folder in AppData folder:
-	- e.g., `C:\Users\PETER21\AppData\Local\Packages\com.companyname.PTANonCrown_9tvtrkeae8602\LocalState\app.db`
+	- e.g., `C:\Users\PETER21\AppData\Local\Packages\com.companyname.PTANonCrown_9tvtrkeae8602\LocalCache\app.db`
 - Run `dotnet ef migrations add MyMigration --project PTANonCrown.Data`
 - Run `dotnet ef database update --project PTANonCrown.Data`
 

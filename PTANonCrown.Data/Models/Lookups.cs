@@ -121,6 +121,30 @@ namespace PTANonCrown.Data.Models
         public int ID { get; set; }
     }
 
+    public class TreeSpecies : BaseLookup
+    {
+        public int HardwoodSoftwood { get; set; }
+        private bool _lit;
+        public bool LIT
+        {
+            get => _lit;
+            set
+            {
+                if (_lit != value)
+                {
+                    _lit = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public bool LT { get; set; }
+        public int CustomOrder { get; set; }
+
+        [NotMapped]
+        public string DisplayName => $"{ShortCode} - {Name}";
+    }
+
+
     public class Vegetation : BaseLookup
     {
         public override string ToString()
@@ -153,9 +177,4 @@ namespace PTANonCrown.Data.Models
         public string EcositeGroup { get; set; } = null!;
 
     }
-
-
-
-
-
 }

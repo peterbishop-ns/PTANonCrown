@@ -209,9 +209,10 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        public int TreeSpeciesID { get; set; }
+        public string TreeSpeciesShortCode { get; set; }
 
 
+        [ForeignKey(nameof(TreeSpeciesShortCode))]
         public virtual TreeSpecies TreeSpecies
         {
             get => _treeSpecies;
@@ -266,11 +267,13 @@ namespace PTANonCrown.Data.Models
             if(TreeSpecies is null) { return; }
             switch (TreeSpecies.HardwoodSoftwood)
             {
-                case HardwoodSoftwood.Softwood: 
+                case 0: 
+                //case HardwoodSoftwood.Softwood: 
                     HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
                     break;
 
-                case HardwoodSoftwood.Hardwood:
+                //case HardwoodSoftwood.Hardwood:
+                case 1:
                     HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
                     break;
 

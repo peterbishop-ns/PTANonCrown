@@ -68,6 +68,7 @@ namespace PTANonCrown
                 dbService.DbIsNew = true; //will force the user to choose save location
             });
 
+
             var app = builder.Build();
 
 
@@ -87,6 +88,12 @@ namespace PTANonCrown
                     Services.AppLogger.Log($"DB Exception", ex.ToString());
                 }
             }
+
+            // After migrating, load the lookuptables
+         //   var lookupService = app.Services.GetRequiredService<LookupRefreshService>();
+           // _ = Task.Run(async () => await lookupService.RefreshLookupsAsync());
+
+
             return app;
 
         }

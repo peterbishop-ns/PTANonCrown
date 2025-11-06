@@ -41,6 +41,9 @@
 	  <None Update="Resources\EcodistrictSoilVeg.csv">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Resources\TreeSpecies.csv">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

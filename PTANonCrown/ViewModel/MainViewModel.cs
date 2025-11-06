@@ -1147,7 +1147,7 @@ namespace PTANonCrown.ViewModel
         private ObservableCollection<SummaryResultTreeSpecies> GenerateTreeSpeciesSummary(IEnumerable<Plot> plots)
         {
             var filtered = plots
-             .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeSpecies?.DisplayName }));
+             .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeSpecies?.Name }));
 
             ObservableCollection<SummaryResultTreeSpecies> result = new ObservableCollection<SummaryResultTreeSpecies>();
 
@@ -1158,11 +1158,11 @@ namespace PTANonCrown.ViewModel
 
             int total = filtered.Count();
 
-            var summary = filtered.GroupBy(t => new { t.PlotNumber, t.DisplayName })
+            var summary = filtered.GroupBy(t => new { t.PlotNumber, t.Name})
              .Select(g => new SummaryResultTreeSpecies
              {
                  PlotNumber = g.Key.PlotNumber,
-                 Species = g.Key.DisplayName,
+                 Species = g.Key.Name,
                  Count = g.Count(),
                  Percentage = Math.Round(100 * (double)g.Count() / total, 1)
 
@@ -1282,7 +1282,7 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        private void LoadLookupTables()
+        public void LoadLookupTables()
         {
             LookupTrees = _standRepository.GetTreeSpecies();
             LookupSoils = _lookupRepository.GetSoilLookups();

@@ -22,30 +22,31 @@ namespace PTANonCrown.Data.Services
 
         public async Task RefreshLookupsAsync()
         {
-            await RefreshTableAsync<Soil>("Soil.csv", s => s.ShortCode);
-            await RefreshTableAsync<Vegetation>("Vegetation.csv", v => v.ShortCode);
-            await RefreshTableAsync<Ecodistrict>("Ecodistrict.csv", e => e.ShortCode);
+           await RefreshTableAsync<Soil>("Soil.csv", s => s.ShortCode);
+           await RefreshTableAsync<Vegetation>("Vegetation.csv", v => v.ShortCode);
+           await RefreshTableAsync<Ecodistrict>("Ecodistrict.csv", e => e.ShortCode);
+           await RefreshTableAsync<TreeSpecies>("TreeSpecies.csv", t => t.ShortCode);
 
-            RefreshJunctionAsync("EcodistrictSoilVeg.csv");
+           await RefreshJunctionAsync("EcodistrictSoilVeg.csv");
 
             // --- ensure all changes are written ---
-            _db.SaveChangesAsync(); // commit any pending inserts/updates
-            _db.Database.ExecuteSqlRawAsync("PRAGMA wal_checkpoint(FULL);"); // flush WAL to app.db
+            await _db.SaveChangesAsync(); // commit any pending inserts/updates
+            await _db.Database.ExecuteSqlRawAsync("PRAGMA wal_checkpoint(FULL);"); // flush WAL to app.db
+
+            
         }
 
         private async Task RefreshTableAsync<T>(string csvPath, Func<T, string> keySelector) where T : class
         {
             var records = CsvLoader.LoadCsv<T>(csvPath);
 
-            foreach (var rec in records)
-            {
-                var key = keySelector(rec);
-                var existing = await _db.Set<T>().FindAsync(key);
-                if (existing == null)
-                    await _db.Set<T>().AddAsync(rec);
-                else
-                    _db.Entry(existing).CurrentValues.SetValues(rec); // update name if changed
-            }
+            var dbSet = _db.Set<T>();
+
+            // Delete all existing records
+            dbSet.RemoveRange(dbSet);
+
+            // Add all CSV records
+            await dbSet.AddRangeAsync(records);
 
             await _db.SaveChangesAsync();
         }
@@ -58,16 +59,18 @@ namespace PTANonCrown.Data.Services
                          && !string.IsNullOrWhiteSpace(r.EcositeGroup))
                 .ToList();
 
-            // Wipe existing data
-            var allExisting = _db.EcodistrictSoilVeg.ToList();
-            _db.EcodistrictSoilVeg.RemoveRange(allExisting);
+            foreach (var rec in records)
+            {
+                var existing = await _db.EcodistrictSoilVeg.FindAsync(rec.SoilCode, rec.VegCode, rec.EcositeGroup);
+                if (existing == null)
+                    await _db.EcodistrictSoilVeg.AddAsync(rec);
+                else
+                    _db.Entry(existing).CurrentValues.SetValues(rec);
+            }
+
             await _db.SaveChangesAsync();
 
-            // Add all records
-            await _db.EcodistrictSoilVeg.AddRangeAsync(records);
 
-            // Commit
-            await _db.SaveChangesAsync();
         }
     }
 }

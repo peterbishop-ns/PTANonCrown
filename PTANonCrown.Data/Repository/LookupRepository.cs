@@ -26,7 +26,6 @@ namespace PTANonCrown.Data.Repository
                 .ThenBy(s => s.ShortCode)
                 .ToList<Soil?>();
 
-           // soils.Insert(0, new Soil() { ShortCode = null, SoilType = -1, Name = null, SoilPhaseShort = null});  // prepend a null entry
 
             return soils;
         }
@@ -56,8 +55,6 @@ namespace PTANonCrown.Data.Repository
             var vegs = context.Vegetation
              .OrderBy(s => s.ShortCode)
              .ToList<Vegetation?>();
-
-           // vegs.Insert(0, new Vegetation() { ShortCode = null, Name = null });  // prepend a null entry
 
             return vegs;
         }     

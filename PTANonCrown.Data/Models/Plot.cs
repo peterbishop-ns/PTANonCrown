@@ -500,7 +500,7 @@ namespace PTANonCrown.Data.Models
 
         public string ForestGroup
         {
-            get => "OW";//""GetForestGroup(Vegetation.ShortCode);
+            get => GetForestGroup(Vegetation.ShortCode);
             
         }
 

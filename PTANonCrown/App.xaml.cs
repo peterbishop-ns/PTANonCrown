@@ -7,9 +7,12 @@ namespace PTANonCrown
 {
     public partial class App : Application
     {
+        private readonly MainViewModel _mainViewModel;
+        private readonly LookupRefreshService _lookupRefreshService;
+
         public App(MainViewModel mainViewModel, LookupRefreshService lookupRefreshService)
         {
-            _ = Task.Run(async () => await lookupRefreshService.RefreshLookupsAsync());
+         //   _ = Task.Run(async () => await lookupRefreshService.RefreshLookupsAsync());
 
 
             Services.AppLogger.Log($"Starting App", "App");
@@ -18,17 +21,35 @@ namespace PTANonCrown
             // Subscribe to events that allow logging
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
+            _mainViewModel = mainViewModel;
+            _lookupRefreshService = lookupRefreshService;
 
-           
+            _ = InitializeAsync();
 
-            // Fire-and-forget async refresh of lookups
-            MainPage = new AppShell(mainViewModel);
-
-
+            
             // Subscribe to event that allows navigation
-           // Shell.Current.Navigated += OnShellNavigated;
+            // Shell.Current.Navigated += OnShellNavigated;
         }
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                // Refresh lookups safely
+                await _lookupRefreshService.RefreshLookupsAsync();
 
+                // Make sure viewmodel has the data
+                _mainViewModel.LoadLookupTables();
+
+                // Once complete, show the main page
+                MainPage = new AppShell(_mainViewModel);
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                Services.AppLogger.Log($"Error during lookup refresh: {ex}", "App");
+                throw;
+            }
+        }
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
