@@ -1,6 +1,7 @@
 ﻿using PTANonCrown.Data.Models;
 using System.Collections.ObjectModel;
 using PTANonCrown.ViewModel;
+
 namespace PTANonCrown.Behaviours
 {
     public class EntryFormBehaviour : Behavior<Entry>
@@ -10,7 +11,6 @@ namespace PTANonCrown.Behaviours
             base.OnAttachedTo(bindable);
             bindable.Completed += OnCompleted; // Handles Enter key
             bindable.HandlerChanged += OnHandlerChanged;
-
 
         }
 
@@ -32,6 +32,7 @@ namespace PTANonCrown.Behaviours
         }
 
 #if WINDOWS
+
         private void OnKeyDown(Entry entry, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Tab)
@@ -40,6 +41,7 @@ namespace PTANonCrown.Behaviours
                 MoveFocus(entry);
             }
         }
+
 #endif
 
         private void OnCompleted(object? sender, System.EventArgs e)
@@ -52,74 +54,57 @@ namespace PTANonCrown.Behaviours
 
         private async void MoveFocus(Entry currentEntry)
         {
-            // need to access the view model to get the LookupTrees
             var mainVM = Application.Current.MainPage.BindingContext as MainViewModel;
-
-
-            var sorted = mainVM.CurrentPlot.PlotTreeLive.OrderBy(t => t.TreeNumber).ToList();
-
-            for (int i = 0; i < sorted.Count; i++)
-            {
-                if (!mainVM.CurrentPlot.PlotTreeLive[i].Equals(sorted[i]))
-                {
-                    var item = sorted[i];
-                    int oldIndex = mainVM.CurrentPlot.PlotTreeLive.IndexOf(item);
-                    mainVM.CurrentPlot.PlotTreeLive.Move(oldIndex, i);
-                }
-            }
+            if (mainVM == null) return;
 
             var parentCollection = currentEntry.FindParent<CollectionView>();
             if (parentCollection == null) return;
 
-            var entries = parentCollection
-                            .FindDescendants<Entry>()
-                            .OrderBy(e => ((TreeLive)e.BindingContext).TreeNumber)
-                            .ToList();
-            
+            var entries = GetSortedEntries(parentCollection);
             int currentIndex = entries.IndexOf(currentEntry);
 
-                    if (currentIndex >= 0 && currentIndex < entries.Count - 1)
+            //FIRST CASE: Tabbing over within a row; focus the next text box
+            if (currentIndex >= 0 && currentIndex < entries.Count - 1)
             {
+                // Make sure it is scrolled to the current item
                 parentCollection.ScrollTo(currentIndex + 1);
-                entries[currentIndex + 1].Focus();
-                entries[currentIndex + 1].SelectionLength = entries[currentIndex + 1].Text?.Length ?? 0;
+                
+                // Focus on the next Entry
+                var nextEntry = entries[currentIndex + 1];
+                nextEntry.Focus();
+                nextEntry.SelectionLength = nextEntry.Text?.Length ?? 0;
             }
-            else if (currentIndex == entries.Count - 1)
+
+            // SECOND CASE: tabbing over at the end of a row
+            // Create a new tree
+            else if (currentIndex == entries.Count - 1 &&
+                     parentCollection.ItemsSource is ObservableCollection<TreeLive> collection)
             {
-                var collection = parentCollection.ItemsSource as ObservableCollection<TreeLive>;
-                if (collection != null)
-                {
-                    int maxTreeNumber = collection.Max(t => t.TreeNumber);
-                    collection.Add(new TreeLive() { TreeNumber = maxTreeNumber + 1, 
-                    LookupTrees = mainVM.LookupTrees
-                    });
-                    mainVM.CurrentPlot.TreeCount = collection.Count();
-
-                  //  parentCollection.ScrollTo(currentIndex + 1);
-                    //entries[currentIndex + 1].Focus();
-                  //  entries[currentIndex + 1].SelectionLength = entries[currentIndex + 1].Text?.Length ?? 0;
-                    /*
-                    parentCollection.ScrollTo(collection.Last(), position: ScrollToPosition.End);
-
-                    // Wait for UI to update and then re-fetch the entries list
-                    await MainThread.InvokeOnMainThreadAsync(async () =>
-                    {
-                        await Task.Delay(100); // allow for rendering
-
-                        // Re-fetch entries after UI update
-                        var updatedEntries = parentCollection.FindDescendants<Entry>().ToList();
-
-                        // Focus the first entry in the new row
-                        var newlyAddedEntry = updatedEntries.ElementAtOrDefault(currentIndex + 1);
-                        if (newlyAddedEntry != null)
-                        {
-                            newlyAddedEntry.Focus();
-                            newlyAddedEntry.SelectionLength = newlyAddedEntry.Text?.Length ?? 0;
-                        }
-                    });*/
-                }
+                AddNewTree(collection, mainVM);
             }
         }
 
+
+        private List<Entry> GetSortedEntries(CollectionView collectionView)
+        {
+            return collectionView
+                    .FindDescendants<Entry>()
+                    .OrderBy(e => ((TreeLive)e.BindingContext).TreeNumber)
+                    .ToList();
+        }
+
+        private void AddNewTree(ObservableCollection<TreeLive> collection, MainViewModel mainVM)
+        {
+            int maxTreeNumber = collection.Max(t => t.TreeNumber);
+            collection.Add(new TreeLive
+            {
+                TreeNumber = maxTreeNumber + 1,
+                LookupTrees = mainVM.LookupTrees
+            });
+            mainVM.CurrentPlot.TreeCount = collection.Count;
+
+            // Note: was having difficulty making it scroll down to the new tree.
+            // Workaround was to put logic in the LiveTreePage.xaml.cs code-behind that detects changes to the collection of trees, regardless of how a tree is added
+        }
     }
 }

@@ -45,12 +45,6 @@ public partial class LiveTreePage : ContentPage
                     secondEntry?.Focus();
                 });
 
-               
-
-
-
-
-
             }
         }
     }
