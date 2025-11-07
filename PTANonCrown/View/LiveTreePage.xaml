@@ -269,6 +269,7 @@ Path=CurrentPlot.IsPlanted}">
                 </VerticalStackLayout>
             </Grid>
             <CollectionView Grid.Row="3"
+                            x:Name="TreeCollectionView"
                             VerticalOptions="FillAndExpand"
                             ItemsSource="{Binding CurrentPlot.PlotTreeLive}">
 

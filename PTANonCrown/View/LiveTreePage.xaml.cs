@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Drawing;
 using Microsoft.EntityFrameworkCore;
 using PTANonCrown.Data.Models;
 using PTANonCrown.ViewModel;
+using System.Collections.ObjectModel;
 using System.Runtime.Intrinsics.X86;
 
 namespace PTANonCrown;
@@ -16,7 +17,42 @@ public partial class LiveTreePage : ContentPage
     {
         InitializeComponent();
         BindingContext = viewModel;
-     //   _dbContext = dbContext;
+        if (BindingContext is MainViewModel vm)
+        {
+            if (vm.CurrentPlot?.PlotTreeLive is ObservableCollection<TreeLive> treeCollection)
+            {
+                treeCollection.CollectionChanged += TreeCollection_CollectionChanged;
+            }
+        }
+    }
+
+    private void TreeCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+        {
+            // Scroll to the last item whenever new tree is added
+            if (sender is ObservableCollection<TreeLive> collection && collection.Count > 0)
+            {
+                var lastItem = collection.Last();
+                // MainThread lambda marked async
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(300); // give UI time to render
+                    TreeCollectionView.ScrollTo(collection.Count-1, position: ScrollToPosition.End, animate: true);
+                    // Find the Entry inside the last item's container
+                    var entries = TreeCollectionView.FindDescendants<Entry>().ToList();
+                    var secondEntry = entries.ElementAtOrDefault(entries.Count() - 3); // index 1 = second item
+                    secondEntry?.Focus();
+                });
+
+               
+
+
+
+
+
+            }
+        }
     }
 
     protected override void OnAppearing()

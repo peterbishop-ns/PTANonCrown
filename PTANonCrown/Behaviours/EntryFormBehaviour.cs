@@ -56,14 +56,31 @@ namespace PTANonCrown.Behaviours
             var mainVM = Application.Current.MainPage.BindingContext as MainViewModel;
 
 
+            var sorted = mainVM.CurrentPlot.PlotTreeLive.OrderBy(t => t.TreeNumber).ToList();
+
+            for (int i = 0; i < sorted.Count; i++)
+            {
+                if (!mainVM.CurrentPlot.PlotTreeLive[i].Equals(sorted[i]))
+                {
+                    var item = sorted[i];
+                    int oldIndex = mainVM.CurrentPlot.PlotTreeLive.IndexOf(item);
+                    mainVM.CurrentPlot.PlotTreeLive.Move(oldIndex, i);
+                }
+            }
+
             var parentCollection = currentEntry.FindParent<CollectionView>();
             if (parentCollection == null) return;
 
-            var entries = parentCollection.FindDescendants<Entry>().ToList();
+            var entries = parentCollection
+                            .FindDescendants<Entry>()
+                            .OrderBy(e => ((TreeLive)e.BindingContext).TreeNumber)
+                            .ToList();
+            
             int currentIndex = entries.IndexOf(currentEntry);
 
-            if (currentIndex >= 0 && currentIndex < entries.Count - 1)
+                    if (currentIndex >= 0 && currentIndex < entries.Count - 1)
             {
+                parentCollection.ScrollTo(currentIndex + 1);
                 entries[currentIndex + 1].Focus();
                 entries[currentIndex + 1].SelectionLength = entries[currentIndex + 1].Text?.Length ?? 0;
             }
@@ -77,6 +94,11 @@ namespace PTANonCrown.Behaviours
                     LookupTrees = mainVM.LookupTrees
                     });
                     mainVM.CurrentPlot.TreeCount = collection.Count();
+
+                  //  parentCollection.ScrollTo(currentIndex + 1);
+                    //entries[currentIndex + 1].Focus();
+                  //  entries[currentIndex + 1].SelectionLength = entries[currentIndex + 1].Text?.Length ?? 0;
+                    /*
                     parentCollection.ScrollTo(collection.Last(), position: ScrollToPosition.End);
 
                     // Wait for UI to update and then re-fetch the entries list
@@ -94,7 +116,7 @@ namespace PTANonCrown.Behaviours
                             newlyAddedEntry.Focus();
                             newlyAddedEntry.SelectionLength = newlyAddedEntry.Text?.Length ?? 0;
                         }
-                    });
+                    });*/
                 }
             }
         }
