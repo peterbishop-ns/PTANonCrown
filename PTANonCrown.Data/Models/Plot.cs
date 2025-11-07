@@ -441,7 +441,7 @@ namespace PTANonCrown.Data.Models
             {
                 _vegetation = value;
                 OnPropertyChanged();
-
+                OnVegChanged();
             }
         }
 
@@ -505,8 +505,10 @@ namespace PTANonCrown.Data.Models
         }
 
 
+        
 
-        public void UpdateTreeLIT()
+
+        public void UpdatePlotTreeLIT()
         {
             if (PlotTreeLive?.Count() == 0)
             {
@@ -515,32 +517,9 @@ namespace PTANonCrown.Data.Models
 
             foreach (var tree in PlotTreeLive)
             {
-                var species = tree.TreeSpecies;
-                var name = species.Name.ToLowerInvariant();
-
-                if (name.Contains("red maple"))
-                {
-                    // Red maple is LIT only in tolerant hardwood
-                    species.LIT = ForestGroup == "TH";
-                    Console.WriteLine($"LIT for Red Maple is {species.LIT}. FG is {ForestGroup}");
-                }
-                else if (name.Contains("white spruce"))
-                {
-                    // White spruce is not LIT in these groups
-                    var notLitGroups = new[]
-                    {
-                "CB",
-                "OF",
-                "HL",
-                "PF"
-            };
-
-                    species.LIT = !notLitGroups.Contains(ForestGroup);
-
-                    Console.WriteLine($"LIT for White Spruce is {species.LIT}. FG is {ForestGroup}");
-
-                }
+                tree.UpdateTreeLIT();
             }
+        
         }
 
         private string GetForestGroup(string vegType)
@@ -612,7 +591,7 @@ namespace PTANonCrown.Data.Models
         private void OnVegChanged()
         {
             // whenever the Veg is changed, need to refresh the LIT status of all the trees
-            this.UpdateTreeLIT();
+            this.UpdatePlotTreeLIT();
 
         }
     }

@@ -227,9 +227,41 @@ namespace PTANonCrown.Data.Models
                     
             }
         }
+
+
+
+        public void UpdateTreeLIT()
+        {
+            var forestGroup = this.Plot.ForestGroup;
+
+            if (this.TreeSpecies == null)
+                return;
+
+            var species = this.TreeSpecies;
+            var name = species.Name.ToLowerInvariant();
+
+            if (name.Contains("red maple"))
+            {
+                // Red maple is LIT only in tolerant hardwood
+                species.LIT = forestGroup == "TH";
+                Console.WriteLine($"LIT for Red Maple is {species.LIT}. FG is {forestGroup}");
+            }
+            else if (name.Contains("white spruce"))
+            {
+                // White spruce is not LIT in these groups
+                var notLitGroups = new[] { "CB", "OF", "HL", "PF" };
+                species.LIT = !notLitGroups.Contains(forestGroup);
+                Console.WriteLine($"LIT for White Spruce is {species.LIT}. FG is {forestGroup}");
+            }
+        }
+
+
+
         private void OnTreeSpeciesChanged()
         {
             SearchSpecies = TreeSpecies?.ShortCode;
+            this.UpdateTreeLIT();
+
         }
 
         [NotMapped]

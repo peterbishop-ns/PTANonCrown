@@ -10,7 +10,6 @@ namespace PTANonCrown;
 
 public partial class LiveTreePage : ContentPage
 {
-    //private readonly DbContext _dbContext;
 
 
     public LiveTreePage(MainViewModel viewModel)//, DbContext dbContext)

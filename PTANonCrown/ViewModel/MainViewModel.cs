@@ -490,7 +490,8 @@ namespace PTANonCrown.ViewModel
             plot.PlotTreeLive.Add(new TreeLive()
             {
                 TreeNumber = treeNumber,
-                LookupTrees = LookupTrees
+                LookupTrees = LookupTrees,
+                Plot = plot
             });
 
         }
@@ -1312,7 +1313,7 @@ namespace PTANonCrown.ViewModel
             }
 
             // Refresh LIT status of trees
-            CurrentPlot.UpdateTreeLIT();
+            CurrentPlot.UpdatePlotTreeLIT();
 
             //Refres
             SetSummaryPlot(CurrentPlot);
@@ -1593,10 +1594,21 @@ namespace PTANonCrown.ViewModel
                 {
                     _currentVeg = value;
                     OnPropertyChanged();
+                    OnVegChanged(value);
                     RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
                 }
             }
+        }
+
+        private void OnVegChanged(Vegetation veg)
+        {
+            if (veg is null || CurrentPlot is null)
+            {
+                return;
+            }
+            CurrentPlot.Vegetation = veg;
+            CurrentPlot.VegCode = veg.ShortCode;
         }
 
         private EcositeGroup _currentEcositeGroup;
