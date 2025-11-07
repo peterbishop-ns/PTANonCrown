@@ -261,7 +261,7 @@ namespace PTANonCrown.Data.Models
         {
             SearchSpecies = TreeSpecies?.ShortCode;
             this.UpdateTreeLIT();
-
+            PredictHeight();
         }
 
         [NotMapped]
@@ -299,13 +299,13 @@ namespace PTANonCrown.Data.Models
             if(TreeSpecies is null) { return; }
             switch (TreeSpecies.HardwoodSoftwood)
             {
-                case 0: 
+                case 1: 
                 //case HardwoodSoftwood.Softwood: 
                     HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
                     break;
 
                 //case HardwoodSoftwood.Hardwood:
-                case 1:
+                case 2:
                     HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
                     break;
 
