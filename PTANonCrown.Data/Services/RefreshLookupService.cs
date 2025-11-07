@@ -26,6 +26,7 @@ namespace PTANonCrown.Data.Services
            await RefreshTableAsync<Vegetation>("Vegetation.csv", v => v.ShortCode);
            await RefreshTableAsync<Ecodistrict>("Ecodistrict.csv", e => e.ShortCode);
            await RefreshTableAsync<TreeSpecies>("TreeSpecies.csv", t => t.ShortCode);
+           await RefreshTableAsync<Treatment>("Treatments.csv", t => t.ShortCode);
 
            await RefreshJunctionAsync("EcodistrictSoilVeg.csv");
 

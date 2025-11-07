@@ -15,6 +15,18 @@ namespace PTANonCrown.Data.Models
         public int TreatmentId { get; set; }
         public Treatment Treatment { get; set; }
 
-        public bool IsActive { get; set; } 
+        private bool _isActive;
+        public bool IsActive
+        {
+            get => _isActive;
+            set
+            {
+                if (_isActive != value)
+                {
+                    _isActive = value;
+                    OnPropertyChanged(); // assuming you're using INotifyPropertyChanged
+                }
+            }
+        }
     }
 }

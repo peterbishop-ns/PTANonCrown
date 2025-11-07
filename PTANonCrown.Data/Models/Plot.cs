@@ -500,7 +500,7 @@ namespace PTANonCrown.Data.Models
 
         public string ForestGroup
         {
-            get => GetForestGroup(Vegetation.ShortCode);
+            get => GetForestGroup(Vegetation?.ShortCode);
             
         }
 
@@ -522,9 +522,14 @@ namespace PTANonCrown.Data.Models
         
         }
 
-        private string GetForestGroup(string vegType)
+        private string GetForestGroup(string? vegType)
         {
             var pattern = new Regex(@"^([A-Z]+)"); // capture letters at the start
+
+            if (vegType is null)
+            {
+                return "n/a";
+            }
 
             var match = pattern.Match(vegType);
             if (!match.Success)
