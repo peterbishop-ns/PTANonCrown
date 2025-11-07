@@ -45,13 +45,14 @@ namespace PTANonCrown.ViewModel
 
         private bool ContainsError = false;
 
-        public MainViewModel(DatabaseService databaseService, StandRepository standRepository, LookupRepository lookupRepository)
+        public MainViewModel(DatabaseService databaseService, StandRepository standRepository, LookupRepository lookupRepository, LookupRefreshService lookupRefreshService)
         {
             AppLogger.Log("Init");
 
             _databaseService = databaseService;
             _standRepository = standRepository;
             _lookupRepository = lookupRepository;
+          _lookupRefreshService = lookupRefreshService;
 
             //_phaseToSoilTypes = LoadPhaseToSoilTypes(records);
 
@@ -480,6 +481,7 @@ namespace PTANonCrown.ViewModel
         }
 
         private LookupRepository _lookupRepository { get; set; }
+        private LookupRefreshService _lookupRefreshService { get; set; }
         private DatabaseService _databaseService { get; set; }
         private Dictionary<string, List<string>> _phaseToSoilTypes { get; set; }
         private StandRepository _standRepository { get; set; }
@@ -1375,11 +1377,28 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        private void NewFile()
+        public void NewFile()
         {
 
-            var filePath = Path.Combine(FileSystem.CacheDirectory, "temp.db");
+            var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.db");
 
+
+
+            _databaseService.CreateNewDatabase(templatePath);
+            _ = Task.Run(async () => await _lookupRefreshService.RefreshLookupsAsync());
+            ResetForNewDatabase();
+        }
+
+        public void ResetForNewDatabase()
+        {
+            CurrentStand = GetOrCreateStand();
+            CurrentPlot = GetOrCreatePlot(CurrentStand);
+            LoadLookupTables();
+
+
+
+            // reload lookups from new DB if needed
+            //_ = Task.Run(async () => await _lookupRefreshService.RefreshLookupsAsync());
         }
 
         private async void OpenFile()

@@ -18,6 +18,30 @@ namespace PTANonCrown.Data.Services
          
         }
 
+        public void CreateNewDatabase(string templatePath)
+        {
+            if (!File.Exists(templatePath))
+                throw new FileNotFoundException("Template database not found.", templatePath);
+
+            // Get the directory of the template
+            var baseDir = Path.GetDirectoryName(templatePath);
+            if (string.IsNullOrEmpty(baseDir))
+                throw new InvalidOperationException("Cannot determine template directory.");
+
+            // Build a new working file path in the same directory
+            var newFileName = $"working_{Guid.NewGuid()}.db";
+            var newWorkingPath = Path.Combine(baseDir, newFileName);
+
+            // Copy the template to the new working DB
+            File.Copy(templatePath, newWorkingPath, overwrite: true);
+
+            // Set in DatabaseService
+            SetDatabasePath(newWorkingPath);
+            DbIsNew = true;
+
+
+        }
+
         public void SetDatabasePath(string newPath)
         {
             AppLoggerData.Log($"Changing DB path: {newPath}", "DatabaseService");
