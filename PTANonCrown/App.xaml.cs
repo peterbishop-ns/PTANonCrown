@@ -12,8 +12,6 @@ namespace PTANonCrown
 
         public App(MainViewModel mainViewModel, LookupRefreshService lookupRefreshService)
         {
-         //   _ = Task.Run(async () => await lookupRefreshService.RefreshLookupsAsync());
-
 
             Services.AppLogger.Log($"Starting App", "App");
             InitializeComponent();

@@ -1378,8 +1378,7 @@ namespace PTANonCrown.ViewModel
         private void NewFile()
         {
 
-            // get temp file path
-            // 
+            var filePath = Path.Combine(FileSystem.CacheDirectory, "temp.db");
 
         }
 
