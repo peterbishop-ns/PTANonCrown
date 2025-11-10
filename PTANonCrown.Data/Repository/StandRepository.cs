@@ -22,7 +22,7 @@ namespace PTANonCrown.Data.Repository
         public List<Stand>? GetAll()
         {
             AppLoggerData.Log("GetAll - start", "StandRepository");
-            using var context = _databaseService.GetContext();
+            var context = _databaseService.GetContext();
             var dbSet = context.Set<Stand>();
 
 

@@ -56,22 +56,33 @@ namespace PTANonCrown
             // ------------------------
             // Create template DB if needed
             // ------------------------
+            // ------------------------
+            // Template file path
+            // ------------------------
             var templateFilePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
+
+            // Only create template if it doesn't exist
             if (!File.Exists(templateFilePath))
             {
+                // Build options for template DB
                 var templateOptions = new DbContextOptionsBuilder<AppDbContext>()
                     .UseSqlite($"Data Source={templateFilePath}")
                     .Options;
 
+                
+
+                // Create the template DB context
                 using var templateDb = new AppDbContext(templateOptions);
+
+                // Apply any pending migrations
                 templateDb.Database.Migrate();
 
                 // ------------------------
-                // Populate the lookups in the template 
+                // Populate the lookups
                 // ------------------------
+                var lookupService = new LookupRefreshService(new DatabaseService(templateFilePath));
+                lookupService.RefreshLookupsAsync();
 
-                var lookupService = new LookupRefreshService(templateDb);
-                lookupService.RefreshLookupsAsync().Wait(); // populate template once
             }
 
             
@@ -79,20 +90,18 @@ namespace PTANonCrown
             // ------------------------
             // Copy template to working DB
             // ------------------------
-            var workingFilePath = Path.Combine(FileSystem.CacheDirectory, "working.pta");
+            var workingFilePath = Path.Combine(FileSystem.CacheDirectory, $"working_{Guid.NewGuid()}.pta");
             File.Copy(templateFilePath, workingFilePath, overwrite: true);
+            
 
-
-
-            // ------------------------
             // Register AppDbContext properly
             // ------------------------
             builder.Services.AddDbContext<AppDbContext>((sp, options) =>
             {
                 var dbService = sp.GetRequiredService<DatabaseService>();
-                options.UseSqlite($"Data Source={workingFilePath}");
                 dbService.SetDatabasePath(workingFilePath);
                 dbService.DbIsNew = true;
+                options.UseSqlite($"Data Source={workingFilePath}");
             });
 
             // ------------------------

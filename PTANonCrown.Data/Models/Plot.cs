@@ -423,9 +423,14 @@ namespace PTANonCrown.Data.Models
             {
                 _soil = value;
                 OnPropertyChanged();
+                OnSoilChanged(value);
             }
         }
 
+        private void OnSoilChanged(Soil soil)
+        {
+            SoilCode = soil?.ShortCode ?? string.Empty;
+        }
 
 
         public string? VegCode { get; set; }

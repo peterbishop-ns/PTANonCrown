@@ -102,6 +102,14 @@ public class AppDbContext : DbContext
             .IsRequired(false);
 
 
+        modelBuilder.Entity<PlotTreatment>()
+    .HasKey(pt => pt.ID);
+        modelBuilder.Entity<PlotTreatment>()
+            .Property(pt => pt.ID)
+            .ValueGeneratedOnAdd();
+
+
+
 
         modelBuilder.Entity<Soil>().HasKey(s => s.ShortCode);
         modelBuilder.Entity<Vegetation>().HasKey(v => v.ShortCode);

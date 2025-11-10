@@ -17,6 +17,8 @@ using System.Windows.Input;
 using PTANonCrown.Data.Services;
 using Microsoft.Maui.Storage;
 using System.IO;
+using CommunityToolkit.Maui.Storage;
+
 
 namespace PTANonCrown.ViewModel
 {
@@ -791,6 +793,9 @@ namespace PTANonCrown.ViewModel
                 ? stand.Plots.Max(p => p.PlotNumber) + 1
                 : 1;
 
+
+            //Treatments = _standRepository.GetTreatments(); // refresh this list... 
+
             var _newPlot = new Plot
             {
                 PlotNumber = newPlotNumber,
@@ -1287,11 +1292,12 @@ namespace PTANonCrown.ViewModel
         public void LoadLookupTables()
         {
             LookupTrees = _standRepository.GetTreeSpecies();
+            Treatments = _standRepository.GetTreatments();
+
             LookupSoils = _lookupRepository.GetSoilLookups();
             LookupEcodistricts = _lookupRepository.GetEcodistrictLookups();
             LookupEcodistrictSoilVeg = _lookupRepository.GetEcodistrictSoilVegLookups();
             LookupVeg = _lookupRepository.GetVegLookups();
-            Treatments = _standRepository.GetTreatments();
 
             TreeLookupFilteredList = new ObservableCollection<TreeSpecies>() { };
 
@@ -1381,7 +1387,7 @@ namespace PTANonCrown.ViewModel
 
             var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
            _databaseService.CreateNewDatabase(templatePath);
-
+            
             _ = Task.Run(async () => await _lookupRefreshService.RefreshLookupsAsync());
             ResetForNewDatabase();
         }
@@ -1405,23 +1411,27 @@ namespace PTANonCrown.ViewModel
             {
                 // Update the database service with the new path               
 
-                _databaseService.SetDatabasePath(result.FullPath);
+                _databaseService.SetSaveFilePath(result.FullPath);
+
+                var newWorkingFile = $"{Path.GetDirectoryName(_databaseService.WorkingDBPath)}_{Guid.NewGuid()}.pta";
+                File.Copy(result.FullPath, newWorkingFile);
+                _databaseService.SetDatabasePath(newWorkingFile);
+                _databaseService.ResetContext();
+                ResetForNewDatabase();
+
+
                 _databaseService.DbIsNew = false;
 
 
                 // 2. Reload from new context if needed
-                using var db = _databaseService.GetContext();
+                var db = _databaseService.GetContext();
 
                 CurrentStand = null;
 
                 AllStands = new ObservableCollection<Stand>(db.Stands);
-
-
                 var stand = AllStands.FirstOrDefault(); // or whatever logic you use
-
                 GetOrCreateStand();
                 GetOrCreatePlot(CurrentStand);
-               // SetCurrentStand(stand);
             }
         }
 
@@ -1527,7 +1537,7 @@ namespace PTANonCrown.ViewModel
             if (ContainsError)
             {
                 Application.Current.MainPage.DisplayAlert("Error", "Please address errors", "OK");
-                return;
+                return; 
             }
 
 
@@ -1536,54 +1546,86 @@ namespace PTANonCrown.ViewModel
             CurrentPlot.EcositeGroup = CurrentEcositeGroup;
             CurrentPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
 
+
+
             AppLogger.Log("SaveAll - Before actually saving", "MainViewModel");
 
+
+            _standRepository.Save(CurrentStand); // always save to the current Database Context (working database file)
+            SaveFileAsAsync();  // copy the working file to the save location
+
+           
+        }
+
+        public async Task SaveFileAsAsync()
+        {
+
+            // to maintain cleaner database connections, we don't actually maintain a connection 
+            // to the save location... we always save in the cache location, and then copy that file to the Save Directory
+            // to the user, it looks like we just save to their directory
 
             if (_databaseService.DbIsNew)
             {
 
-                await SaveFileAsAsync(_databaseService.CurrentDbPath);
-                _standRepository.Save(CurrentStand);
+                await SaveAsAsync();
 
             }
+
             else
             {
-                _standRepository.Save(CurrentStand);
+                Save();
             }
+
+
         }
 
-        public async Task SaveFileAsAsync(string tempFilePath)
+
+
+        private async Task SaveAsAsync()
         {
-            if (!File.Exists(tempFilePath))
+            try
             {
-                Console.WriteLine($"File not found: {tempFilePath}");
-                return;
+                //  using var stream = File.OpenRead(_databaseService.WorkingDBPath);
+                // Copy to a readable temp file (avoids file locks)
+                var temp = Path.Combine(FileSystem.CacheDirectory, "temp");
+                File.Copy(_databaseService.WorkingDBPath, temp, true);
+
+                using var stream = File.OpenRead(temp);
+
+                var result = await FileSaver.Default.SaveAsync(
+                    initialPath: _databaseService.WorkingDBPath,
+                    stream: stream,
+                    fileName: "PTAFile.pta"
+                );
+
+                if (result != null)
+                {
+                    // Copy your working DB to chosen location
+                    File.Copy(_databaseService.WorkingDBPath, result.FilePath, overwrite: true);
+                    AppLogger.Log($"Saved to: {result.FilePath}");
+                    _databaseService.SetSaveFilePath(result.FilePath);
+                    _databaseService.DbIsNew = false;
+                }
+
             }
-
-            // Copy to a readable temp file (avoids file locks)
-            var tempCopy = Path.Combine(FileSystem.CacheDirectory, "temp_save_copy.pta");
-            File.Copy(tempFilePath, tempCopy, true);
-
-            using var stream = File.OpenRead(tempCopy);
-
-            var result = await FileSaver.Default.SaveAsync(
-                initialPath:_databaseService.CurrentDbPath,
-                fileName: "PTAFile.pta",
-                stream: stream);
-
-
-            if (result.IsSuccessful)
+            catch (Exception ex)
             {
-                AppLogger.Log($"Saved to: {result.FilePath}");
-                _databaseService.SetDatabasePath(result.FilePath);
-                _databaseService.DbIsNew = false;
-               // await Application.Current.MainPage.DisplayAlert("File Saved", $"File saved succesfully to: {result.FilePath}.", "OK");
-
+                Console.WriteLine($"Error saving file: {ex.Message}");
             }
-            else
-                Console.WriteLine($"Save failed: {result.Exception?.Message}");
         }
-
+        private void Save()
+        {
+            try
+            {
+                File.Copy(_databaseService.WorkingDBPath, _databaseService.SaveFilePath, overwrite: true);
+                AppLogger.Log($"Saved to: {_databaseService.SaveFilePath}");
+                _databaseService.DbIsNew = false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving file: {ex.Message}");
+            }
+        }
 
         private Soil? _currentSoil;
         public Soil? CurrentSoil

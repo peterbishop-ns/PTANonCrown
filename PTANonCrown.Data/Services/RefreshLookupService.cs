@@ -13,35 +13,42 @@ namespace PTANonCrown.Data.Services
 {
     public class LookupRefreshService
     {
-        private readonly AppDbContext _db;
+        private readonly DatabaseService _databaseService;
 
-        public LookupRefreshService(AppDbContext db)
+        public LookupRefreshService(DatabaseService databaseService)
         {
-            _db = db;
+            _databaseService = databaseService;
         }
+
 
         public async Task RefreshLookupsAsync()
         {
-           await RefreshTableAsync<Soil>("Soil.csv", s => s.ShortCode);
-           await RefreshTableAsync<Vegetation>("Vegetation.csv", v => v.ShortCode);
-           await RefreshTableAsync<Ecodistrict>("Ecodistrict.csv", e => e.ShortCode);
-           await RefreshTableAsync<TreeSpecies>("TreeSpecies.csv", t => t.ShortCode);
-           await RefreshTableAsync<Treatment>("Treatments.csv", t => t.ShortCode);
+            // Get the shared AppDbContext from DatabaseService
+            var db = _databaseService.GetContext();
 
-           await RefreshJunctionAsync("EcodistrictSoilVeg.csv");
+            await RefreshTableAsync<Soil>(db, "Soil.csv", s => s.ShortCode);
+           await RefreshTableAsync<Vegetation>(db, "Vegetation.csv", v => v.ShortCode);
+           await RefreshTableAsync<Ecodistrict>(db, "Ecodistrict.csv", e => e.ShortCode);
+           await RefreshTableAsync<TreeSpecies>(db, "TreeSpecies.csv", t => t.ShortCode);
+           await RefreshTableAsync<Treatment>(db, "Treatments.csv", t => t.ShortCode);
+
+           await RefreshJunctionAsync(db, "EcodistrictSoilVeg.csv");
 
             // --- ensure all changes are written ---
-            await _db.SaveChangesAsync(); // commit any pending inserts/updates
-            await _db.Database.ExecuteSqlRawAsync("PRAGMA wal_checkpoint(FULL);"); // flush WAL to app.db
+            await db.SaveChangesAsync(); // commit any pending inserts/updates
+            await db.Database.ExecuteSqlRawAsync("PRAGMA wal_checkpoint(FULL);"); // flush WAL to app.db
 
             
         }
 
-        private async Task RefreshTableAsync<T>(string csvPath, Func<T, string> keySelector) where T : class
+        private async Task RefreshTableAsync<T>(
+              AppDbContext db,
+              string csvPath,
+              Func<T, string> keySelector) where T : class
         {
             var records = CsvLoader.LoadCsv<T>(csvPath);
 
-            var dbSet = _db.Set<T>();
+            var dbSet = db.Set<T>();
 
             // Delete all existing records
             dbSet.RemoveRange(dbSet);
@@ -49,9 +56,10 @@ namespace PTANonCrown.Data.Services
             // Add all CSV records
             await dbSet.AddRangeAsync(records);
 
-            await _db.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
-        private async Task RefreshJunctionAsync(string csvPath)
+        private async Task RefreshJunctionAsync(AppDbContext db,
+                string csvPath)
         {
             // Load CSV
             var records = CsvLoader.LoadCsv<EcodistrictSoilVeg>(csvPath)
@@ -62,14 +70,14 @@ namespace PTANonCrown.Data.Services
 
             foreach (var rec in records)
             {
-                var existing = await _db.EcodistrictSoilVeg.FindAsync(rec.SoilCode, rec.VegCode, rec.EcositeGroup);
+                var existing = await db.EcodistrictSoilVeg.FindAsync(rec.SoilCode, rec.VegCode, rec.EcositeGroup);
                 if (existing == null)
-                    await _db.EcodistrictSoilVeg.AddAsync(rec);
+                    await db.EcodistrictSoilVeg.AddAsync(rec);
                 else
-                    _db.Entry(existing).CurrentValues.SetValues(rec);
+                    db.Entry(existing).CurrentValues.SetValues(rec);
             }
 
-            await _db.SaveChangesAsync();
+            await db.SaveChangesAsync();
 
 
         }

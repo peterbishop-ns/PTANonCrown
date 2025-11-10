@@ -125,6 +125,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
             using var context = _databaseService.GetContext();
             var dbSet = context.Set<T>();
 
+         
             T? existing = null;
 
             if (entity.ID != 0)
@@ -166,6 +167,15 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
                 throw;
             }
 
+            // FLush the WAL file so; when the working db gets copied to the save directory, we need all changes included int he db file. 
+
+            using var command = context.Database.GetDbConnection().CreateCommand();
+            command.CommandText = "PRAGMA wal_checkpoint(FULL);";
+            context.Database.OpenConnection();
+            command.ExecuteNonQuery();
+
+
+
             return entity;
         }
         catch (Exception ex)
@@ -173,6 +183,10 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
             AppLoggerData.Log($"Save failed for {entity.GetType().Name}: {ex}", "BaseRepository");
             throw;
         }
+
+
+
+       
     }
 
 
