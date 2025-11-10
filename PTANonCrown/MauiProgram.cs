@@ -65,13 +65,24 @@ namespace PTANonCrown
 
                 using var templateDb = new AppDbContext(templateOptions);
                 templateDb.Database.Migrate();
+
+                // ------------------------
+                // Populate the lookups in the template 
+                // ------------------------
+
+                var lookupService = new LookupRefreshService(templateDb);
+                lookupService.RefreshLookupsAsync().Wait(); // populate template once
             }
+
+            
 
             // ------------------------
             // Copy template to working DB
             // ------------------------
             var workingFilePath = Path.Combine(FileSystem.CacheDirectory, "working.pta");
             File.Copy(templateFilePath, workingFilePath, overwrite: true);
+
+
 
             // ------------------------
             // Register AppDbContext properly

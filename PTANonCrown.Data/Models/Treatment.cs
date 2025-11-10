@@ -10,9 +10,6 @@ namespace PTANonCrown.Data.Models
 
     {
 
-        public int ID { get; set; }
-
-
         private ICollection<PlotTreatment> _plotTreatments;
         public ICollection<PlotTreatment> PlotTreatments
         {

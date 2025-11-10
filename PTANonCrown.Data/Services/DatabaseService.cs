@@ -7,6 +7,7 @@ namespace PTANonCrown.Data.Services
     {
         public string CurrentDbPath { get; private set; }
         public bool DbIsNew{ get; set; }
+        private DbContextOptions<AppDbContext>? _options;
 
         public DatabaseService(string? dbPath = null)
         {
@@ -45,18 +46,30 @@ namespace PTANonCrown.Data.Services
         public void SetDatabasePath(string newPath)
         {
             AppLoggerData.Log($"Changing DB path: {newPath}", "DatabaseService");
-            CurrentDbPath = newPath;
+            CurrentDbPath = newPath; 
+
+            _options = BuildOptions(newPath);
+
+
         }
+
+        private DbContextOptions<AppDbContext> BuildOptions(string dbPath)
+        {
+            return new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlite($"Data Source={dbPath}")
+                 .EnableSensitiveDataLogging()
+                .Options;
+        }
+
+
 
         public AppDbContext GetContext()
         {
-            AppLoggerData.Log($"Getting Context: {CurrentDbPath}", "DatabaseService");
+            if (string.IsNullOrEmpty(CurrentDbPath))
+                throw new InvalidOperationException("Database path not set.");
 
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlite($"Data Source={CurrentDbPath}")
-                .Options;
-
-            return new AppDbContext(options);
+            _options ??= BuildOptions(CurrentDbPath);
+            return new AppDbContext(_options);
         }
     }
 }

@@ -120,39 +120,61 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
     public T Save(T entity)
     {
-        using var context = _databaseService.GetContext();
-        var dbSet = context.Set<T>();
-
-        if (entity.ID != 0)
+        try
         {
-            // Existing entity, fetch from DB
-            var existing = dbSet.Find(entity.ID);
+            using var context = _databaseService.GetContext();
+            var dbSet = context.Set<T>();
+
+            T? existing = null;
+
+            if (entity.ID != 0)
+            {
+                try
+                {
+                    existing = dbSet.Find(entity.ID);
+                }
+                catch (Exception ex)
+                {
+                    AppLoggerData.Log($"Error fetching entity {entity.GetType().Name} (ID: {entity.ID}): {ex}", "DatabaseService");
+                }
+            }
+
             if (existing != null)
             {
-                AppLoggerData.Log($"Existing entity- {existing} {existing.ID}", "BaseRepository");
-
-                // Copy values into tracked entity
+                AppLoggerData.Log($"Updating existing entity - {existing} {existing.ID}", "BaseRepository");
                 context.Entry(existing).CurrentValues.SetValues(entity);
             }
             else
             {
-                // If not found, treat as new
-                AppLoggerData.Log($"Entity not found, adding as new- {entity}", "BaseRepository");
+                AppLoggerData.Log($"Adding new entity - {entity}", "BaseRepository");
                 dbSet.Add(entity);
             }
+
+            try
+            {
+                context.SaveChanges(); 
+                AppLoggerData.Log($"Saved entity ID: {entity.ID}", "BaseRepository");
+            }
+            catch (DbUpdateException dbEx)
+            {
+                AppLoggerData.Log($"DbUpdateException saving {entity.GetType().Name} ID: {entity.ID}. SQLite error: {dbEx.InnerException?.Message ?? dbEx.Message}", "BaseRepository");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                AppLoggerData.Log($"Unexpected exception saving {entity.GetType().Name} ID: {entity.ID}: {ex}", "BaseRepository");
+                throw;
+            }
+
+            return entity;
         }
-        else
+        catch (Exception ex)
         {
-            // New entity
-            AppLoggerData.Log($"New entity- {entity}", "BaseRepository");
-            dbSet.Add(entity);
+            AppLoggerData.Log($"Save failed for {entity.GetType().Name}: {ex}", "BaseRepository");
+            throw;
         }
-
-        context.SaveChanges(); // EF updates ID for new entities automatically
-        AppLoggerData.Log($"Saved entity ID: {entity.ID}", "BaseRepository");
-
-        return entity; // Return entity with updated ID
     }
+
 
 
 

@@ -802,7 +802,8 @@ namespace PTANonCrown.ViewModel
 
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
-                    Treatment = t, // Associate the full treatment entity
+                    TreatmentId = t.ID,
+                    Treatment = null,
                     IsActive = false // Default status
                 }).ToList()
             };
@@ -1241,9 +1242,7 @@ namespace PTANonCrown.ViewModel
                 LookupTrees
                     .FirstOrDefault();
 
-            //SelectedAgeTreeSpecies =
-            //  LookupTrees
-            //      .FirstOrDefault(t => t.ID == plot.AgeTreeSpeciesID);
+       
 
             SetCurrentPlot(plot);
             return plot;
@@ -1381,10 +1380,9 @@ namespace PTANonCrown.ViewModel
         {
 
             var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
-
-
-
             _databaseService.CreateNewDatabase(templatePath);
+
+
             _ = Task.Run(async () => await _lookupRefreshService.RefreshLookupsAsync());
             ResetForNewDatabase();
         }
@@ -1542,13 +1540,12 @@ namespace PTANonCrown.ViewModel
             AppLogger.Log("SaveAll - Before actually saving", "MainViewModel");
 
 
-
-
             if (_databaseService.DbIsNew)
             {
 
-                SaveFileAsAsync(_databaseService.CurrentDbPath);
-                
+                await SaveFileAsAsync(_databaseService.CurrentDbPath);
+                _standRepository.Save(CurrentStand);
+
             }
             else
             {
