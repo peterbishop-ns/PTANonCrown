@@ -1376,12 +1376,11 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        public void NewFile()
+        public async void NewFile()
         {
 
             var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
-            _databaseService.CreateNewDatabase(templatePath);
-
+           _databaseService.CreateNewDatabase(templatePath);
 
             _ = Task.Run(async () => await _lookupRefreshService.RefreshLookupsAsync());
             ResetForNewDatabase();
