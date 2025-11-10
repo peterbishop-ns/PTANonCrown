@@ -1380,7 +1380,7 @@ namespace PTANonCrown.ViewModel
         public void NewFile()
         {
 
-            var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.db");
+            var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
 
 
 
@@ -1551,9 +1551,9 @@ namespace PTANonCrown.ViewModel
                 
             }
             else
-
+            {
                 _standRepository.Save(CurrentStand);
-
+            }
         }
 
         public async Task SaveFileAsAsync(string tempFilePath)
@@ -1565,21 +1565,23 @@ namespace PTANonCrown.ViewModel
             }
 
             // Copy to a readable temp file (avoids file locks)
-            var tempCopy = Path.Combine(FileSystem.CacheDirectory, "temp_save_copy.db");
+            var tempCopy = Path.Combine(FileSystem.CacheDirectory, "temp_save_copy.pta");
             File.Copy(tempFilePath, tempCopy, true);
 
             using var stream = File.OpenRead(tempCopy);
 
             var result = await FileSaver.Default.SaveAsync(
                 initialPath:_databaseService.CurrentDbPath,
-                fileName: "Default",
+                fileName: "PTAFile.pta",
                 stream: stream);
+
 
             if (result.IsSuccessful)
             {
-                Console.WriteLine($"Saved to: {result.FilePath}");
+                AppLogger.Log($"Saved to: {result.FilePath}");
                 _databaseService.SetDatabasePath(result.FilePath);
                 _databaseService.DbIsNew = false;
+               // await Application.Current.MainPage.DisplayAlert("File Saved", $"File saved succesfully to: {result.FilePath}.", "OK");
 
             }
             else

@@ -56,7 +56,7 @@ namespace PTANonCrown
             // ------------------------
             // Create template DB if needed
             // ------------------------
-            var templateFilePath = Path.Combine(FileSystem.CacheDirectory, "template.db");
+            var templateFilePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
             if (!File.Exists(templateFilePath))
             {
                 var templateOptions = new DbContextOptionsBuilder<AppDbContext>()
@@ -70,7 +70,7 @@ namespace PTANonCrown
             // ------------------------
             // Copy template to working DB
             // ------------------------
-            var workingFilePath = Path.Combine(FileSystem.CacheDirectory, "working.db");
+            var workingFilePath = Path.Combine(FileSystem.CacheDirectory, "working.pta");
             File.Copy(templateFilePath, workingFilePath, overwrite: true);
 
             // ------------------------
