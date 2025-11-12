@@ -3,6 +3,7 @@ using PTANonCrown.Data.Context;
 using PTANonCrown.Data.Models;
 using PTANonCrown.Data.Services;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PTANonCrown.Data.Repository
 {
@@ -43,6 +44,17 @@ namespace PTANonCrown.Data.Repository
 
             return query.ToList();
         }
+
+        public EntityState GetEntityState<T>(T obj) where T : BaseModel
+        {
+            var context = _databaseService.GetContext();
+
+            // Ensure the object is attached to the context
+            var entry = context.Entry(obj);
+
+            return entry.State;
+        }
+
 
         public async Task<List<Treatment>> GetTreatmentsAsync()
         {

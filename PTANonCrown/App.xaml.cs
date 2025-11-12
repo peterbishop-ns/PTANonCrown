@@ -25,9 +25,11 @@ namespace PTANonCrown
             _ = InitializeAsync();
 
             
-            // Subscribe to event that allows navigation
-            // Shell.Current.Navigated += OnShellNavigated;
         }
+
+
+
+
         private async Task InitializeAsync()
         {
             try

@@ -18,6 +18,7 @@ using PTANonCrown.Data.Services;
 using Microsoft.Maui.Storage;
 using System.IO;
 using CommunityToolkit.Maui.Storage;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace PTANonCrown.ViewModel
@@ -81,7 +82,32 @@ namespace PTANonCrown.ViewModel
             TreatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
             TreatmentSummary.CollectionChanged += OnTreatmentSummaryChanged;
 
+
+            // Subscribe to event that allows navigation
+          //  Shell.Current.Navigating += OnShellNavigatingAsync;
         }
+
+        public async Task OnShellNavigatedAsync(object sender, ShellNavigatedEventArgs e)
+        {
+            var db = _databaseService.GetContext(); 
+            var changeTracker = db.ChangeTracker;
+
+            if (changeTracker.HasChanges())
+            {
+                bool save = await Shell.Current.DisplayAlert(
+                    "Unsaved Changes",
+                    "There are unsaved changes. Do you want to save before switching tab?",
+                    "Yes", "No");
+
+                if (save)
+                {
+                    SaveAll();
+                }
+
+            }
+        }
+
+
 
         public ObservableCollection<Plot> _allPlots { get; set; }
         public ObservableCollection<Stand> _allStands { get; set; }
@@ -537,13 +563,16 @@ namespace PTANonCrown.ViewModel
 
         public void AddNewTreeToPlot(Plot plot, int treeNumber)
         {
-
-            plot.PlotTreeLive.Add(new TreeLive()
+            var tree = new TreeLive()
             {
                 TreeNumber = treeNumber,
                 LookupTrees = LookupTrees,
                 Plot = plot
-            });
+            };
+
+            plot.PlotTreeLive.Add(tree);
+
+            _databaseService.GetContext().Add(tree);
 
         }
 
@@ -870,13 +899,19 @@ namespace PTANonCrown.ViewModel
             _newPlot.VegCode = CurrentVeg?.ShortCode;
             _newPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
 
-                        _newPlot.PlotCoarseWoody = CreateDefaultCoarseWoody(_newPlot);
+            _newPlot.PlotCoarseWoody = CreateDefaultCoarseWoody(_newPlot);
             _newPlot.PlotTreeDead = CreateDefaultTreeDead(_newPlot);
 
+       
             _newPlot.Stand = stand;
 
+
             _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
+
+
             stand.Plots.Add(_newPlot);
+
+            _databaseService.GetContext().Add(_newPlot);  // ensures EF knows about them
 
             SetCurrentPlot(_newPlot);
             return _newPlot;
@@ -1297,9 +1332,6 @@ namespace PTANonCrown.ViewModel
             SelectedOldGrowthSpecies =
                 LookupTrees
                     .FirstOrDefault();
-
-       
-
             SetCurrentPlot(plot);
             return plot;
 
@@ -1669,11 +1701,28 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+        private void ClearSingleEmptyTree()
+        {// for convenience, we automatically add an empty tree.
+            // but, if it is not filled in, we don't want to save it.
+            if (CurrentPlot.PlotTreeLive.Count() == 1)
+            {
+                var tree = CurrentPlot.PlotTreeLive.FirstOrDefault();
+                if (tree.TreeSpecies is null )
+                {
+                    CurrentPlot.PlotTreeLive.Remove(tree);
+                    _databaseService.GetContext().Set<TreeLive>().Remove(tree);
+
+                }
+            }
+        }
+
         private async void SaveAll()
         {
             AppLogger.Log("SaveAll", "MainViewModel");
 
 
+
+            ClearSingleEmptyTree(); 
 
             ContainsError = false; // reset
             ValidateStand(CurrentStand);
@@ -1868,6 +1917,8 @@ namespace PTANonCrown.ViewModel
                 tree.TreeSpecies = match;
 
             }
+
+
 
         }
 

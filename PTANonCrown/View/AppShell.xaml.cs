@@ -11,6 +11,9 @@ namespace PTANonCrown
 
             InitializeComponent();
             BindingContext = mainViewModel;
+
+            this.Navigated += async (s, e) => await mainViewModel.OnShellNavigatedAsync(s, e);
+
         }
     }
 }
