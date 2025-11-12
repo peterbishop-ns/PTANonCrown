@@ -42,6 +42,11 @@ namespace PTANonCrown
 
                 // Once complete, show the main page
                 MainPage = new AppShell(_mainViewModel);
+
+
+
+
+
             }
             catch (Exception ex)
             {

@@ -1,12 +1,18 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
 using PTANonCrown.Data.Context;
 using PTANonCrown.Data.Repository;
 using PTANonCrown.Data.Services;
 using PTANonCrown.Services;
 using PTANonCrown.ViewModel;
-
+#if WINDOWS
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using WinRT.Interop;
+#endif
 namespace PTANonCrown
 {
     public static class MauiProgram
@@ -85,7 +91,38 @@ namespace PTANonCrown
 
             }
 
-            
+
+            // -------------------------
+            // 
+            // --------------------------
+
+            builder.ConfigureLifecycleEvents(events =>
+            {
+#if WINDOWS
+                events.AddWindows(windows =>
+                {
+                    windows.OnWindowCreated(window =>
+                    {
+                        IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+                        WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hwnd);
+                        AppWindow appWindow = AppWindow.GetFromWindowId(windowId);
+
+                        appWindow.Closing += async (sender, args) =>
+                        {
+                            args.Cancel = true; // stop immediate close
+
+                            if (Microsoft.Maui.Controls.Application.Current?.MainPage?.BindingContext is MainViewModel vm)
+                            {
+                                bool canClose = await vm.HandleUnsavedChangesOnExitAsync();
+                                if (canClose)
+                                    appWindow.Destroy(); // manually close
+                            }
+                        };
+                    });
+                });
+#endif
+            });
+  
 
             // ------------------------
             // Copy template to working DB

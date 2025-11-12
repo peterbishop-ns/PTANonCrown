@@ -19,6 +19,7 @@ using Microsoft.Maui.Storage;
 using System.IO;
 using CommunityToolkit.Maui.Storage;
 using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 
 namespace PTANonCrown.ViewModel
@@ -89,6 +90,16 @@ namespace PTANonCrown.ViewModel
 
         public async Task OnShellNavigatedAsync(object sender, ShellNavigatedEventArgs e)
         {
+            // if user navigating from main page, just continue - this is where they start
+            // some objects (=stand, plot, have beebn created in the background at this point, but we
+            // don't want to count these as unsaved changes
+
+            var previous = e.Previous?.Location.ToString().ToUpper();
+            if (previous == "//MAINPAGE")
+            {
+                return; 
+            }
+            
             var db = _databaseService.GetContext(); 
             var changeTracker = db.ChangeTracker;
 
@@ -101,10 +112,30 @@ namespace PTANonCrown.ViewModel
 
                 if (save)
                 {
-                    SaveAll();
+                    SaveAllAsync();
                 }
 
             }
+        }
+
+        public async Task<bool> HandleUnsavedChangesOnExitAsync()
+        {
+            var context = _databaseService.GetContext();
+
+            if (!context.ChangeTracker.HasChanges())
+                return true;
+
+            // Prompt user
+            bool save = await Shell.Current.DisplayAlert(
+                "Unsaved Changes",
+                "There are unsaved changes. Do you want to save before exiting?",
+                "Yes", "No");
+
+            if (save)
+                await SaveAllAsync(); // your save logic
+           
+
+            return true; // safe to exit
         }
 
 
@@ -331,7 +362,7 @@ namespace PTANonCrown.ViewModel
         public ICommand PromptDeleteStandCommand => new Command<Stand>(stand => PromptDeleteStand(stand));
 
         public ICommand SaveAllCommand =>
-        new Command<string>(method => SaveAll());
+        new Command<string>(method => SaveAllAsync());
 
         // TODO - in progress - trying to get Selected Age Species working
         /* public TreeSpecies SelectedAgeTreeSpecies
@@ -979,7 +1010,7 @@ namespace PTANonCrown.ViewModel
                 CurrentStand.Plots.Remove(plot);
 
                 GetOrCreatePlot(CurrentStand);
-                SaveAll();
+                SaveAllAsync();
             }
 
         }
@@ -1648,7 +1679,7 @@ namespace PTANonCrown.ViewModel
                         CreateNewStand();
                     }
 
-                    SaveAll();
+                    SaveAllAsync();
                 }
                 else
                 {
@@ -1716,9 +1747,9 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        private async void SaveAll()
+        private async Task SaveAllAsync()
         {
-            AppLogger.Log("SaveAll", "MainViewModel");
+            AppLogger.Log("SaveAllAsync", "MainViewModel");
 
 
 
@@ -1734,7 +1765,7 @@ namespace PTANonCrown.ViewModel
             CurrentPlot.Easting = CurrentPlot.Easting ?? 0;
             CurrentPlot.Northing = CurrentPlot.Northing ?? 0;
 
-            AppLogger.Log("SaveAll - Before checking errors", "MainViewModel");
+            AppLogger.Log("SaveAllAsync - Before checking errors", "MainViewModel");
 
             if (ContainsError)
             {
@@ -1748,15 +1779,12 @@ namespace PTANonCrown.ViewModel
             CurrentPlot.EcositeGroup = CurrentEcositeGroup;
             CurrentPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
 
-
-
-            AppLogger.Log("SaveAll - Before actually saving", "MainViewModel");
+            AppLogger.Log("SaveAllAsync - Before actually saving", "MainViewModel");
 
 
             _standRepository.Save(CurrentStand); // always save to the current Database Context (working database file)
-            SaveFileAsAsync();  // copy the working file to the save location
+            await SaveFileAsAsync();  // copy the working file to the save location
 
-           
         }
 
         public async Task SaveFileAsAsync()
