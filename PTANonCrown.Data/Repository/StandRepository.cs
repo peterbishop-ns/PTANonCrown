@@ -47,7 +47,7 @@ namespace PTANonCrown.Data.Repository
         public List<Treatment>? GetTreatments()
         {
             AppLoggerData.Log("GetTreatments", "StandRepository");
-            using var context = _databaseService.GetContext();
+            var context = _databaseService.GetContext();
             var dbSet = context.Set<Treatment>();
 
             IQueryable<Treatment> query = context.Set<Treatment>();
@@ -58,7 +58,7 @@ namespace PTANonCrown.Data.Repository
         public List<TreeSpecies> GetTreeSpecies()
         {
             AppLoggerData.Log("GetTreeSpecies", "StandRepository");
-            using var context = _databaseService.GetContext();
+            var context = _databaseService.GetContext();
             var dbSet = context.Set<TreeSpecies>();
             return context.Set<TreeSpecies>()
                 .OrderBy(i => i.Name == "Unknown" ? 0 : 1)  // "Unknown" gets priority

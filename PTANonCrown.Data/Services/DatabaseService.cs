@@ -56,7 +56,7 @@ namespace PTANonCrown.Data.Services
 
         
 
-        public void SetSaveFilePath(string filePath)
+        public void SetSaveFilePath(string? filePath)
         {
             SaveFilePath = filePath;
         }
@@ -84,11 +84,15 @@ namespace PTANonCrown.Data.Services
 
         public AppDbContext GetContext()
         {
-            if (string.IsNullOrEmpty(WorkingDBPath))
-                throw new InvalidOperationException("Database path not set.");
+            if (_context == null)
+            {
+                if (string.IsNullOrEmpty(WorkingDBPath))
+                    throw new InvalidOperationException("Database path not set.");
 
-            var options = BuildOptions(WorkingDBPath);
-            return new AppDbContext(options);
+                var options = BuildOptions(WorkingDBPath);
+                _context = new AppDbContext(options);
+            }
+            return _context;
         }
 
 

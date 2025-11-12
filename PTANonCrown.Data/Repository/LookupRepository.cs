@@ -19,7 +19,7 @@ namespace PTANonCrown.Data.Repository
         public List<Soil?> GetSoilLookups()
         {
             AppLoggerData.Log("GetSoilLookups", "LookupRepository");
-            using var context = _databaseService.GetContext();
+            var context = _databaseService.GetContext();
 
             var soils = context.Soil
                 .OrderBy(s => s.SoilType)
@@ -32,7 +32,7 @@ namespace PTANonCrown.Data.Repository
         public List<Ecodistrict> GetEcodistrictLookups()
         {
             AppLoggerData.Log("GetEcodistrictLookups", "LookupRepository");
-            using var context = _databaseService.GetContext();
+            var context = _databaseService.GetContext();
             var ecodistricts = context.Ecodistrict.ToList<Ecodistrict>();
             return ecodistricts;
         }
@@ -43,7 +43,7 @@ namespace PTANonCrown.Data.Repository
                 public List<EcodistrictSoilVeg> GetEcodistrictSoilVegLookups()
         {
             AppLoggerData.Log("GetEcodistrictSoilVegLookups", "LookupRepository");
-            using var context = _databaseService.GetContext();
+            var context = _databaseService.GetContext();
             return context.EcodistrictSoilVeg.ToList();
         }
 
@@ -51,7 +51,7 @@ namespace PTANonCrown.Data.Repository
         public List<Vegetation> GetVegLookups()
         {
             AppLoggerData.Log("GetVegLookups", "LookupRepository");
-            using var context = _databaseService.GetContext();
+            var context = _databaseService.GetContext();
             var vegs = context.Vegetation
              .OrderBy(s => s.ShortCode)
              .ToList<Vegetation?>();

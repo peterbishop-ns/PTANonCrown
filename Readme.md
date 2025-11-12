@@ -34,6 +34,7 @@ Database Contexts:
 - Solution is to maintain a single connection to a working file in the LocalCache folder. When you save, it saves to that location, and then simply copies that 
 file to the save location. It is never actually creating a database connection with the save location, even if it looks 
 to the user like you are saving directly there.
+- Need to maintain the context alive during the editing sessions, so no "using var context"; instead, "var context". And then the GetContext() method returns the existing context.
 
 Updating Lookups
 - RefreshLookupsAsync is done in App.xaml.cs

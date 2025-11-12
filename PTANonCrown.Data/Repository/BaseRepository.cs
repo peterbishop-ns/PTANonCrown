@@ -37,7 +37,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
     public void Add(T entity)
     {
-        using var context = _databaseService.GetContext();
+        var context = _databaseService.GetContext();
         var dbSet = context.Set<T>();
         dbSet.Add(entity);
         context.SaveChanges();
@@ -45,7 +45,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
     public void Delete(int id)
     {
-        using var context = _databaseService.GetContext();
+        var context = _databaseService.GetContext();
         var dbSet = context.Set<T>();
         var entity = dbSet.Find(id);
         if (entity != null)
@@ -57,7 +57,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
     public List<T>? GetAll()
     {
-        using var context = _databaseService.GetContext();
+        var context = _databaseService.GetContext();
         IQueryable<T> query = context.Set<T>();
 
         var entityType = context.Model.FindEntityType(typeof(T));
@@ -74,13 +74,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
     public T? GetById(int id)
     {
-        using var context = _databaseService.GetContext();
+        var context = _databaseService.GetContext();
         return context.Set<T>().Find(id);
     }
     public List<T> GetBySearch(string searchString, string propertyNameToSearch)
     { // method to search  a set by a searchString, Looking at a specific Property Name
       // e.g. Search all trials by Location
-        using var context = _databaseService.GetContext();
+        var context = _databaseService.GetContext();
 
         IQueryable<T> query = context.Set<T>();
         var results = query
@@ -94,7 +94,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
     public EntityEntry<T> GetEntry<T>(T item) where T : class
     {
-        using var context = _databaseService.GetContext();
+        var context = _databaseService.GetContext();
 
         var entry = context.Entry(item);
 
@@ -105,7 +105,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
     public void ResetProperty<T>(T entity, string property) where T : class
     {
-        using var context = _databaseService.GetContext();
+        var context = _databaseService.GetContext();
 
         var entry = context.Entry(entity);
         if (entry.State != EntityState.Detached)
@@ -122,33 +122,27 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
     {
         try
         {
-            using var context = _databaseService.GetContext();
-            var dbSet = context.Set<T>();
 
-         
-            T? existing = null;
+            var context = _databaseService.GetContext();
 
-            if (entity.ID != 0)
+            var entry = context.Entry(entity);
+
+            AppLoggerData.Log($"Trying to save entity {entity} - ({entry.State})", "BaseRepository");
+
+
+            if (entry.State == EntityState.Detached)
             {
-                try
+                // Entity not tracked yet — decide add vs update based on key
+                if (entity.ID == 0)
                 {
-                    existing = dbSet.Find(entity.ID);
+                    context.Add(entity);
                 }
-                catch (Exception ex)
+                else
                 {
-                    AppLoggerData.Log($"Error fetching entity {entity.GetType().Name} (ID: {entity.ID}): {ex}", "DatabaseService");
+                    // Attach but mark as modified
+                    context.Attach(entity);
+                    entry.State = EntityState.Modified;
                 }
-            }
-
-            if (existing != null)
-            {
-                AppLoggerData.Log($"Updating existing entity - {existing} {existing.ID}", "BaseRepository");
-                context.Entry(existing).CurrentValues.SetValues(entity);
-            }
-            else
-            {
-                AppLoggerData.Log($"Adding new entity - {entity}", "BaseRepository");
-                dbSet.Add(entity);
             }
 
             try

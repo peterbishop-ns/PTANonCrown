@@ -1406,29 +1406,26 @@ namespace PTANonCrown.ViewModel
                 return;
             }
 
-
-        // CREATE NEW FILE
-        var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
-        _databaseService.CreateNewDatabase(templatePath);
-            ResetSaveFilePath();
-
-
-            _ = Task.Run(async () => await _lookupRefreshService.RefreshLookupsAsync());
-        ResetBindingsForNewDatabase();
-            
-
+            CreateNewWorkingFile(isNewFile: true);
 
         }
 
-        private void ResetSaveFilePath()
+
+
+        private void SetSaveFilePath(string? saveFilePath)
         {
-            _databaseService.SetSaveFilePath(null);
-            OnPropertyChanged(nameof(SaveFilePath));
+            AppLogger.Log($"Setting SAVE path {saveFilePath}", "SetSaveFilePath");
+
+            _databaseService.SetSaveFilePath(saveFilePath);
+            OnPropertyChanged(nameof(SaveFilePath)); // GUIW
 
         }
 
         public void ResetBindingsForNewDatabase()
         {
+            CurrentStand = null;
+            CurrentPlot = null;
+
             CurrentStand = GetOrCreateStand();
             CurrentPlot = GetOrCreatePlot(CurrentStand);
             LoadLookupTables();
@@ -1451,40 +1448,92 @@ namespace PTANonCrown.ViewModel
             }
 
             var result = await FilePicker.Default.PickAsync();
-            if (result != null)
+            if (result is null)
             {
-                // Update the database service with the new path               
-
-                _databaseService.SetSaveFilePath(result.FullPath);
-
-                var newWorkingFile = $"{Path.GetDirectoryName(_databaseService.WorkingDBPath)}_{Guid.NewGuid()}.pta";
-                File.Copy(result.FullPath, newWorkingFile);
-                _databaseService.SetDatabasePath(newWorkingFile);
-                _databaseService.ResetContext();
-                ResetBindingsForNewDatabase();
-
-
-                OnPropertyChanged(nameof(SaveFilePath));
-
-                _databaseService.DbIsNew = false;
-
-
-                // 2. Reload from new context if needed
-                var db = _databaseService.GetContext();
-
-                CurrentStand = null;
-
-                AllStands = new ObservableCollection<Stand>(db.Stands);
-                var stand = AllStands.FirstOrDefault(); // or whatever logic you use
-                GetOrCreateStand();
-                GetOrCreatePlot(CurrentStand);
+                return;
             }
 
-
-                
+            CreateNewWorkingFile(isNewFile:false, result.FullPath);
+  
         }
 
-        private async void PromptDeleteStand(Stand stand)
+
+        public void CleanupOldWorkingFiles()
+        {
+            string directoryPath = FileSystem.CacheDirectory;
+            try
+            {
+                if (!Directory.Exists(directoryPath))
+                    return;
+
+                AppLogger.Log($"Clearing old working files", "Cleanup");
+
+                var today = DateTime.Today;
+
+                var files = Directory.GetFiles(directoryPath, "working_*.pta*", SearchOption.TopDirectoryOnly);
+
+                foreach (var file in files)
+                {
+                    try
+                    {
+                        var creationTime = File.GetCreationTime(file);
+
+                        // Delete only if created before today (clean old files only)
+                       if (creationTime.Date < today)
+                        {
+                            File.Delete(file);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        AppLogger.Log($"Failed to delete {file}: {ex.Message}", "Cleanup");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AppLogger.Log($"Cleanup error: {ex.Message}", "Cleanup");
+            }
+        }
+
+
+
+
+        private void CreateNewWorkingFile(bool isNewFile, string? sourceFile = null)
+        {
+            //the app always saves to a temp file in LocalCache, not directly to the save location 
+            // for a NEW file, we need to create this database from the template (so that the lookups are pre-populated)
+            // for EXISTING file (OPEN file), we need to create this from the original Saved file
+
+            CleanupOldWorkingFiles();
+
+            SetSaveFilePath(sourceFile);
+
+            // NEW FILE
+            if (isNewFile) {
+                AppLogger.Log($"Creating new file from template", "CreateNewWorkingFile");
+
+                var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
+                _databaseService.CreateNewDatabase(templatePath);
+
+            }
+            else
+            {
+                AppLogger.Log($"Creating new working file from existing: {sourceFile}", "CreateNewWorkingFile");
+
+                // EXISTING FILE
+                var newWorkingFile = Path.Combine(FileSystem.CacheDirectory, $"working_{Guid.NewGuid()}.pta");
+
+                File.Copy(sourceFile, newWorkingFile);
+                _databaseService.SetDatabasePath(newWorkingFile);
+                _databaseService.DbIsNew = false;
+                _databaseService.ResetContext();
+            }
+
+            ResetBindingsForNewDatabase();
+        }
+
+            private async void PromptDeleteStand(Stand stand)
         {
             if (stand is not null)
             {
