@@ -482,6 +482,16 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+        public string SaveFilePath
+        {
+            get
+            {
+                var path = _databaseService.SaveFilePath;
+                var displayText = string.IsNullOrEmpty(path) ? "Unsaved" : path;
+                return $"Pre-Treatment Assessment ({displayText})";
+            }
+        }
+
         private LookupRepository _lookupRepository { get; set; }
         private LookupRefreshService _lookupRefreshService { get; set; }
         private DatabaseService _databaseService { get; set; }
@@ -1385,27 +1395,61 @@ namespace PTANonCrown.ViewModel
         public async void NewFile()
         {
 
-            var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
-           _databaseService.CreateNewDatabase(templatePath);
-            
+            bool isYes = await Application.Current.MainPage.DisplayAlert(
+                 "New File",
+                 "Create new file? Any unsaved changes will be lost.",
+                 "New File",
+                 "Cancel");
+
+            if (!isYes)
+            {
+                return;
+            }
+
+
+        // CREATE NEW FILE
+        var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
+        _databaseService.CreateNewDatabase(templatePath);
+            ResetSaveFilePath();
+
+
             _ = Task.Run(async () => await _lookupRefreshService.RefreshLookupsAsync());
-            ResetForNewDatabase();
+        ResetBindingsForNewDatabase();
+            
+
+
         }
 
-        public void ResetForNewDatabase()
+        private void ResetSaveFilePath()
+        {
+            _databaseService.SetSaveFilePath(null);
+            OnPropertyChanged(nameof(SaveFilePath));
+
+        }
+
+        public void ResetBindingsForNewDatabase()
         {
             CurrentStand = GetOrCreateStand();
             CurrentPlot = GetOrCreatePlot(CurrentStand);
             LoadLookupTables();
 
 
-
-            // reload lookups from new DB if needed
-            //_ = Task.Run(async () => await _lookupRefreshService.RefreshLookupsAsync());
         }
 
         private async void OpenFile()
         {
+            bool isYes = await Application.Current.MainPage.DisplayAlert(
+                 "Open File",
+                 "Open file? Any unsaved changes will be lost.",
+                 "Open",
+                 "Cancel");
+
+
+            if (!isYes)
+            {
+                return;
+            }
+
             var result = await FilePicker.Default.PickAsync();
             if (result != null)
             {
@@ -1417,8 +1461,10 @@ namespace PTANonCrown.ViewModel
                 File.Copy(result.FullPath, newWorkingFile);
                 _databaseService.SetDatabasePath(newWorkingFile);
                 _databaseService.ResetContext();
-                ResetForNewDatabase();
+                ResetBindingsForNewDatabase();
 
+
+                OnPropertyChanged(nameof(SaveFilePath));
 
                 _databaseService.DbIsNew = false;
 
@@ -1433,6 +1479,9 @@ namespace PTANonCrown.ViewModel
                 GetOrCreateStand();
                 GetOrCreatePlot(CurrentStand);
             }
+
+
+                
         }
 
         private async void PromptDeleteStand(Stand stand)
@@ -1604,6 +1653,8 @@ namespace PTANonCrown.ViewModel
                     File.Copy(_databaseService.WorkingDBPath, result.FilePath, overwrite: true);
                     AppLogger.Log($"Saved to: {result.FilePath}");
                     _databaseService.SetSaveFilePath(result.FilePath);
+                    OnPropertyChanged(nameof(SaveFilePath));
+
                     _databaseService.DbIsNew = false;
                 }
 

@@ -28,6 +28,12 @@ Errors:
 		- Solution: Delete the database in `C:\Users\<User>\AppData\Local\Packages\<AppFolder>\LocalState` and try again.
 
 
+Database Contexts:
+- Database connections were causing a lot of headaches, because I was trying to switch database connections midway, when the user opens/saves/creates new file. 
+- The issue stemps that when you e.g. save a temp file to a new location, it creates a new DB connection, but then all the Entity Framework tracking gets messed up. 
+- Solution is to maintain a single connection to a working file in the LocalCache folder. When you save, it saves to that location, and then simply copies that 
+file to the save location. It is never actually creating a database connection with the save location, even if it looks 
+to the user like you are saving directly there.
 
 Updating Lookups
 - RefreshLookupsAsync is done in App.xaml.cs

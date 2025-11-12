@@ -5,9 +5,10 @@
        xmlns:local="clr-namespace:PTANonCrown"
        Shell.FlyoutBehavior="Flyout"
        WidthRequest="600"
-       Title="PTANonCrown">
+       Title="{Binding SaveFilePath}">
 
     <Shell.ToolbarItems>
+
         <ToolbarItem Text="New"
                      Priority="0"
                      IconImageSource="new_icon.png"

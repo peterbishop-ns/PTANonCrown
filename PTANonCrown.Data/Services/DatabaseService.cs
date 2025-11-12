@@ -6,7 +6,7 @@ namespace PTANonCrown.Data.Services
     public class DatabaseService
     {
         public string WorkingDBPath { get; private set; }
-        public string SaveFilePath { get; private set; }
+        public string? SaveFilePath { get; private set; }
         public bool DbIsNew{ get; set; }
         private DbContextOptions<AppDbContext>? _options;
         private AppDbContext? _context;
