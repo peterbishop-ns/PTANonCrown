@@ -156,7 +156,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                         <Grid ColumnDefinitions="50,Auto">
                                             <CheckBox IsChecked="{Binding IsActive}"
                                                       Grid.Column="0" />
-                                            <Label Text="{Binding Treatment.Name}"
+                                            <Label Text="{Binding TreatmentName}"
                                                    VerticalOptions="Center"
                                                    Grid.Column="1" />
                                         </Grid>

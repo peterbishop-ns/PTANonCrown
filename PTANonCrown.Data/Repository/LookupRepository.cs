@@ -1,7 +1,9 @@
-﻿using PTANonCrown.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using PTANonCrown.Data.Context;
 using PTANonCrown.Data.Models;
 using PTANonCrown.Data.Services;
 using System.Collections.ObjectModel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PTANonCrown.Data.Repository
 {
@@ -16,51 +18,52 @@ namespace PTANonCrown.Data.Repository
 
         }
 
-        public List<Soil?> GetSoilLookups()
+        public async Task<List<Soil>> GetSoilLookupsAsync()
         {
-            AppLoggerData.Log("GetSoilLookups", "LookupRepository");
+            AppLoggerData.Log("GetSoilLookupsAsync", "LookupRepository");
+
             var context = _databaseService.GetContext();
 
-            var soils = context.Soil
+            var query = context.Soil
                 .OrderBy(s => s.SoilType)
-                .ThenBy(s => s.ShortCode)
-                .ToList<Soil?>();
+                .ThenBy(s => s.ShortCode);
 
-
-            return soils;
+            return await query.ToListAsync();
         }
-        public List<Ecodistrict> GetEcodistrictLookups()
+
+
+        public async Task<List<Ecodistrict>> GetEcodistrictLookups()
         {
             AppLoggerData.Log("GetEcodistrictLookups", "LookupRepository");
             var context = _databaseService.GetContext();
-            var ecodistricts = context.Ecodistrict.ToList<Ecodistrict>();
-            return ecodistricts;
+            var query = context.Ecodistrict;
+            return await query.ToListAsync();
         }
 
 
 
 
-                public List<EcodistrictSoilVeg> GetEcodistrictSoilVegLookups()
+        public async Task<List<EcodistrictSoilVeg>> GetEcodistrictSoilVegLookups()
         {
             AppLoggerData.Log("GetEcodistrictSoilVegLookups", "LookupRepository");
             var context = _databaseService.GetContext();
-            return context.EcodistrictSoilVeg.ToList();
+            var query = context.EcodistrictSoilVeg;
+            return await query.ToListAsync();
         }
 
 
-        public List<Vegetation> GetVegLookups()
+        public async Task<List<Vegetation>> GetVegLookups()
         {
             AppLoggerData.Log("GetVegLookups", "LookupRepository");
             var context = _databaseService.GetContext();
-            var vegs = context.Vegetation
-             .OrderBy(s => s.ShortCode)
-             .ToList<Vegetation?>();
+            var query = context.Vegetation
+             .OrderBy(s => s.ShortCode);
 
-            return vegs;
-        }     
-        
+            return await query.ToListAsync();
+        }
 
-        
+
+
 
 
     }

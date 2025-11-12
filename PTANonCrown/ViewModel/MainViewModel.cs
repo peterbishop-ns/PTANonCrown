@@ -232,16 +232,53 @@ namespace PTANonCrown.ViewModel
         }
 
         public List<int> ListPercentage { get; set; }
-        public List<string> ListExposure { get; set; }
+
+        private List<string> _listExposure;
+        public List<string> ListExposure
+        {
+            get => _listExposure;
+            set
+            {
+                _listExposure = value;
+                OnPropertyChanged();
+            }
+        }
+
+
 
         public List<Ecodistrict> LookupEcodistricts { get; set; }
+
+
+
+
+
         public List<EcodistrictSoilVeg> LookupEcodistrictSoilVeg { get; set; }
 
 
-        public List<Soil> LookupSoils { get; set; }
+        private List<Soil> _lookupSoils;
+        public List<Soil> LookupSoils
+        {
+            get => _lookupSoils;
+            set
+            {
+                _lookupSoils = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private List<Vegetation> _lookupVeg;
+        public List<Vegetation> LookupVeg
+        {
+            get => _lookupVeg;
+            set
+            {
+                _lookupVeg = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public List<TreeSpecies> LookupTrees { get; set; }
-        public List<Vegetation> LookupVeg { get; set; }
 
         public ICommand NewPlotCommand =>
             new Command<string>(method => CreateNewPlot(CurrentStand));
@@ -804,7 +841,7 @@ namespace PTANonCrown.ViewModel
                 : 1;
 
 
-            //Treatments = _standRepository.GetTreatments(); // refresh this list... 
+            //Treatments = _standRepository.GetTreatmentsAsync(); // refresh this list... 
 
             var _newPlot = new Plot
             {
@@ -818,7 +855,7 @@ namespace PTANonCrown.ViewModel
                 PlotTreatments = Treatments.Select(t => new PlotTreatment
                 {
                     TreatmentId = t.ID,
-                    Treatment = null,
+                    Treatment = t,
                     IsActive = false // Default status
                 }).ToList()
             };
@@ -1145,7 +1182,7 @@ namespace PTANonCrown.ViewModel
             {
                 var treatments = plot.PlotTreatments
                                         .Where(pt => pt.IsActive == true)
-                                        .Select(pt => pt.Treatment.Name);
+                                        .Select(pt => pt.Treatment?.Name);
 
                 if (treatments.Count() != 0)
                 {
@@ -1251,6 +1288,10 @@ namespace PTANonCrown.ViewModel
             CurrentSoil = plot.Soil;
             CurrentVeg = plot.Vegetation;
             CurrentEcositeGroup = plot.EcositeGroup;
+            foreach(var trt in plot.PlotTreatments)
+            {
+                trt.Treatment = Treatments.Where(t => t.ID == trt.TreatmentId).FirstOrDefault();
+            }
             RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
             SelectedOldGrowthSpecies =
@@ -1299,15 +1340,15 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        public void LoadLookupTables()
+        public async Task LoadLookupTables()
         {
-            LookupTrees = _standRepository.GetTreeSpecies();
-            Treatments = _standRepository.GetTreatments();
+            LookupTrees = await _standRepository.GetTreeSpeciesAsync();
+            Treatments = await _standRepository.GetTreatmentsAsync();
 
-            LookupSoils = _lookupRepository.GetSoilLookups();
-            LookupEcodistricts = _lookupRepository.GetEcodistrictLookups();
-            LookupEcodistrictSoilVeg = _lookupRepository.GetEcodistrictSoilVegLookups();
-            LookupVeg = _lookupRepository.GetVegLookups();
+            LookupSoils = await _lookupRepository.GetSoilLookupsAsync();
+            LookupEcodistricts = await _lookupRepository.GetEcodistrictLookups();
+            LookupEcodistrictSoilVeg = await _lookupRepository.GetEcodistrictSoilVegLookups();
+            LookupVeg = await _lookupRepository.GetVegLookups();
 
             TreeLookupFilteredList = new ObservableCollection<TreeSpecies>() { };
 
@@ -1421,16 +1462,30 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        public void ResetBindingsForNewDatabase()
+        public async Task ResetBindingsForNewDatabase()
         {
             CurrentStand = null;
             CurrentPlot = null;
 
             CurrentStand = GetOrCreateStand();
             CurrentPlot = GetOrCreatePlot(CurrentStand);
-            LoadLookupTables();
+            await LoadLookupTables();
+
+            //Refreshdropdrowns
+            CurrentSoil = LookupSoils.Where(s => s.ShortCode == CurrentPlot.SoilCode).FirstOrDefault();
+            CurrentVeg = LookupVeg.Where(v =>v.ShortCode == CurrentPlot.VegCode).FirstOrDefault();
+
+            //foreach (var trt in CurrentPlot.PlotTreatments)
+            //{
+            //    trt.Treatment = Treatments.Where(t => t.ID == trt.TreatmentId).FirstOrDefault();
+           // }
 
 
+            CurrentEcositeGroup = CurrentPlot.EcositeGroup;
+
+            OnPropertyChanged(nameof(CurrentSoil));
+            OnPropertyChanged(nameof(CurrentVeg));
+            OnPropertyChanged(nameof(CurrentEcositeGroup));
         }
 
         private async void OpenFile()
@@ -1683,7 +1738,6 @@ namespace PTANonCrown.ViewModel
         {
             try
             {
-                //  using var stream = File.OpenRead(_databaseService.WorkingDBPath);
                 // Copy to a readable temp file (avoids file locks)
                 var temp = Path.Combine(FileSystem.CacheDirectory, "temp");
                 File.Copy(_databaseService.WorkingDBPath, temp, true);

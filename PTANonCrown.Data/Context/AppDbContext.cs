@@ -70,18 +70,13 @@ public class AppDbContext : DbContext
 
         // Treatments
         modelBuilder.Entity<PlotTreatment>()
-            .HasKey(sc => new { sc.PlotId, sc.TreatmentId });
+            .HasKey(pt => new { pt.PlotId, pt.TreatmentId });
 
         modelBuilder.Entity<PlotTreatment>()
             .HasOne(pt => pt.Plot)
-            .WithMany(p => p.PlotTreatments);
+            .WithMany(p => p.PlotTreatments)
+            .HasForeignKey(pt => pt.PlotId);
 
-        modelBuilder.Entity<PlotTreatment>()
-            .HasOne(pt => pt.Treatment)
-            .WithMany(t => t.PlotTreatments);
-
-        // Lookups
-        // Use codes as keys instead of IDs
 
         modelBuilder.Entity<Plot>()
             .HasOne(p => p.Soil)
@@ -102,12 +97,6 @@ public class AppDbContext : DbContext
             .IsRequired(false);
 
 
-        modelBuilder.Entity<PlotTreatment>()
-    .HasKey(pt => pt.ID);
-        modelBuilder.Entity<PlotTreatment>()
-            .Property(pt => pt.ID)
-            .ValueGeneratedOnAdd();
-
 
 
 
@@ -115,6 +104,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Vegetation>().HasKey(v => v.ShortCode);
         modelBuilder.Entity<Ecodistrict>().HasKey(e => e.ShortCode);
         modelBuilder.Entity<TreeSpecies>().HasKey(e => e.ShortCode);
+        modelBuilder.Entity<Treatment>().HasKey(t => t.ID);
 
         modelBuilder.Entity<EcodistrictSoilVeg>()
             .HasKey(ev => new { ev.SoilCode, ev.VegCode, ev.EcositeGroup });

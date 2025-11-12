@@ -44,26 +44,28 @@ namespace PTANonCrown.Data.Repository
             return query.ToList();
         }
 
-        public List<Treatment>? GetTreatments()
+        public async Task<List<Treatment>> GetTreatmentsAsync()
         {
-            AppLoggerData.Log("GetTreatments", "StandRepository");
+            AppLoggerData.Log("GetTreatmentsAsync", "StandRepository");
+
             var context = _databaseService.GetContext();
-            var dbSet = context.Set<Treatment>();
 
-            IQueryable<Treatment> query = context.Set<Treatment>();
+            // Use AsNoTracking() directly
+            var query = context.Set<Treatment>().AsNoTracking();
 
-            return query.ToList();
+            return await query.ToListAsync();
         }
 
-        public List<TreeSpecies> GetTreeSpecies()
+        public async Task<List<TreeSpecies>> GetTreeSpeciesAsync()
         {
-            AppLoggerData.Log("GetTreeSpecies", "StandRepository");
+            AppLoggerData.Log("GetTreeSpeciesAsync", "StandRepository");
             var context = _databaseService.GetContext();
             var dbSet = context.Set<TreeSpecies>();
-            return context.Set<TreeSpecies>()
+            var query = context.Set<TreeSpecies>()
                 .OrderBy(i => i.Name == "Unknown" ? 0 : 1)  // "Unknown" gets priority
-                .ThenBy(i => i.Name)                        // Then sort the rest alphabetically
-                .ToList();
+                .ThenBy(i => i.Name);                        // Then sort the rest alphabetically
+                
+            return await query.ToListAsync();
         }
     }
 }
