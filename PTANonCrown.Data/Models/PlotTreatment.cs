@@ -19,7 +19,7 @@ namespace PTANonCrown.Data.Models
 
         private Treatment _treatment;
 
-        [NotMapped]
+
         public Treatment Treatment
         {
             get => _treatment;

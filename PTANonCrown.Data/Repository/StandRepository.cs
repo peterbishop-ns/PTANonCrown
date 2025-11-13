@@ -62,8 +62,7 @@ namespace PTANonCrown.Data.Repository
 
             var context = _databaseService.GetContext();
 
-            // Use AsNoTracking() directly
-            var query = context.Set<Treatment>().AsNoTracking();
+            var query = context.Set<Treatment>();
 
             return await query.ToListAsync();
         }

@@ -26,11 +26,11 @@ namespace PTANonCrown.Data.Services
             // Get the shared AppDbContext from DatabaseService
             var db = _databaseService.GetContext();
 
-            await RefreshTableAsync<Soil>(db, "Soil.csv", s => s.ShortCode);
-           await RefreshTableAsync<Vegetation>(db, "Vegetation.csv", v => v.ShortCode);
-           await RefreshTableAsync<Ecodistrict>(db, "Ecodistrict.csv", e => e.ShortCode);
-           await RefreshTableAsync<TreeSpecies>(db, "TreeSpecies.csv", t => t.ShortCode);
-           await RefreshTableAsync<Treatment>(db, "Treatments.csv", t => t.ShortCode);
+            await RefreshTableAsync<Soil>(db, "Soil.csv");
+           await RefreshTableAsync<Vegetation>(db, "Vegetation.csv");
+           await RefreshTableAsync<Ecodistrict>(db, "Ecodistrict.csv");
+           await RefreshTableAsync<TreeSpecies>(db, "TreeSpecies.csv");
+           await RefreshTableAsync<Treatment>(db, "Treatments.csv");
 
            await RefreshJunctionAsync(db, "EcodistrictSoilVeg.csv");
 
@@ -42,22 +42,17 @@ namespace PTANonCrown.Data.Services
         }
 
         private async Task RefreshTableAsync<T>(
-              AppDbContext db,
-              string csvPath,
-              Func<T, string> keySelector) where T : class
+            AppDbContext db,
+            string csvPath) where T : class
         {
             var records = CsvLoader.LoadCsv<T>(csvPath);
-
             var dbSet = db.Set<T>();
 
-            // Delete all existing records
             dbSet.RemoveRange(dbSet);
-
-            // Add all CSV records
             await dbSet.AddRangeAsync(records);
-
             await db.SaveChangesAsync();
         }
+
         private async Task RefreshJunctionAsync(AppDbContext db,
                 string csvPath)
         {

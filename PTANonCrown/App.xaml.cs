@@ -35,7 +35,7 @@ namespace PTANonCrown
             try
             {
                 // Refresh lookups safely
-                await _lookupRefreshService.RefreshLookupsAsync();
+               // await _lookupRefreshService.RefreshLookupsAsync();
 
                 // Make sure viewmodel has the data
                 _mainViewModel.LoadLookupTables();

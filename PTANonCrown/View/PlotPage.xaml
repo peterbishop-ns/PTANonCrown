@@ -149,7 +149,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             <CollectionView HorizontalOptions="StartAndExpand"
                                             Margin="20,0,0,0"
                                             IsVisible="{Binding PlotWasTreated}"
-                                            ItemsSource="{Binding CurrentPlot.PlotTreatments, Mode=TwoWay}">
+                                            ItemsSource="{Binding UiPlotTreatments, Mode=TwoWay}">
 
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>

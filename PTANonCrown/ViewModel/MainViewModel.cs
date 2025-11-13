@@ -79,11 +79,25 @@ namespace PTANonCrown.ViewModel
 
             TreatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
             TreatmentSummary.CollectionChanged += OnTreatmentSummaryChanged;
+            
 
+            // a UI only list of Plot Treatments
+            // This is to prevent conflicts when saving to the database (by binding directly 
+            // to the plot's PlotTreatment objects, there were Key insert errors, which 
+            // were not resolved even after 'hydrating' the colleciton
 
-            // Subscribe to event that allows navigation
-          //  Shell.Current.Navigating += OnShellNavigatingAsync;
+            UiPlotTreatments = new ObservableCollection<PlotTreatment>(
+                Treatments.Select(t => new PlotTreatment
+                {
+                    TreatmentId = t.ID,
+                    Treatment = t,
+                    IsActive = CurrentPlot.PlotTreatments?.Any(pt => pt.TreatmentId == t.ID && pt.IsActive) == true
+                })
+            );
+
         }
+
+
 
         public async Task OnShellNavigatedAsync(object sender, ShellNavigatedEventArgs e)
         {
@@ -344,6 +358,7 @@ namespace PTANonCrown.ViewModel
         public ICommand NewFileCommand => new Command<string>(method => NewFile());
 
         public ICommand PickFolderCommand => new Command(async () => await ExecutePickFolderCommand());
+        public ObservableCollection<PlotTreatment> UiPlotTreatments { get; set; }
 
         public bool PlotWasTreated
         {
@@ -915,11 +930,16 @@ namespace PTANonCrown.ViewModel
                 PlotTreatments = new ObservableCollection<PlotTreatment>(Treatments.Select(t => new PlotTreatment
                 {
                     TreatmentId = t.ID,
-                    Treatment = t,
+                    //Treatment = t,
                     IsActive = false // Default status
                 }))
             };
 
+
+            foreach (var pt in _newPlot.PlotTreatments)
+            {
+                pt.Treatment = Treatments.First(t => t.ID == pt.TreatmentId);
+            }
 
             CurrentSoil = LookupSoils.Where(s => s.ShortCode == "ST1").FirstOrDefault();
             CurrentVeg = LookupVeg.Where(v => v.ShortCode == "CA2").FirstOrDefault();
@@ -1754,12 +1774,26 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+
+        private void PopulatePlotTreatmentsFromUI()
+        {
+            // Populate the Plot's PlotTreatments with the checkboxes in the UI
+            CurrentPlot.PlotTreatments = new ObservableCollection<PlotTreatment>(
+                    UiPlotTreatments
+                        .Where(t => t.IsActive)
+                        .Select(t => new PlotTreatment
+                        {
+                            TreatmentId = t.TreatmentId,
+                            IsActive = true
+                        })
+                );
+        }
+
         private async Task SaveAllAsync()
         {
             AppLogger.Log("SaveAllAsync", "MainViewModel");
 
-
-
+            PopulatePlotTreatmentsFromUI();
             ClearSingleEmptyTree(); 
 
             ContainsError = false; // reset
@@ -1785,6 +1819,8 @@ namespace PTANonCrown.ViewModel
             CurrentPlot.VegCode= CurrentVeg?.ShortCode;
             CurrentPlot.EcositeGroup = CurrentEcositeGroup;
             CurrentPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
+
+ 
 
             AppLogger.Log("SaveAllAsync - Before actually saving", "MainViewModel");
 
