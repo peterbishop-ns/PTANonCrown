@@ -5,12 +5,24 @@ namespace PTANonCrown;
 
 public partial class SummaryPage : ContentPage
 {
+    private readonly MainViewModel _viewModel;
     public SummaryPage(MainViewModel viewModel)
     {
         InitializeComponent();
 
-        BindingContext = viewModel;
+        _viewModel = viewModel;      // save to field
+        BindingContext = _viewModel; // set binding context
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (_viewModel.CurrentPlot != null)
+        {
+            _viewModel.SetSummaryPlot(_viewModel.CurrentPlot);
+        }
+    }
+
 
     void ShowSoil(object sender, EventArgs e)
     {

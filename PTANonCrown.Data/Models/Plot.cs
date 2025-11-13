@@ -28,7 +28,7 @@ namespace PTANonCrown.Data.Models
         private PlantedType _plantedType;
         private int _plotNumber;
 
-        private ICollection<PlotTreatment> _plotTreatments;
+        private ObservableCollection<PlotTreatment> _plotTreatments;
         private ObservableCollection<TreeDead> _plotTreeDead;
         private ObservableCollection<TreeLive> _plotTreeLive = new ObservableCollection<TreeLive>();
         private CardinalDirections _transectDirection;
@@ -261,7 +261,7 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        public ICollection<PlotTreatment> PlotTreatments
+        public ObservableCollection<PlotTreatment> PlotTreatments
         {
             get => _plotTreatments;
             set

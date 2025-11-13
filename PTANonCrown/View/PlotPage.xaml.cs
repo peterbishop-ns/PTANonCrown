@@ -12,18 +12,13 @@ public partial class PlotPage : ContentPage
         BindingContext = viewModel;
     }
 
-    
-    void LogError(string where, Exception ex)
-    {
-        var path = "c:\\temp\\crashlog.txt";
-        File.AppendAllText(path, $"[{DateTime.Now}] {where}: {ex}\n");
-    }
+  
     private void OnlyIntegerAllowed(object sender, TextChangedEventArgs e)
     {
         var entry = (Entry)sender;
         string newText = new string(e.NewTextValue?.Where(char.IsDigit).ToArray() ?? Array.Empty<char>());
 
-             if (entry.Text != newText)
+        if (entry.Text != newText)
             entry.Text = newText;
     }
 }

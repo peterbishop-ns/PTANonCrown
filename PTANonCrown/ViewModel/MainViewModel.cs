@@ -70,9 +70,6 @@ namespace PTANonCrown.ViewModel
             AppLogger.Log("GetOrCreatePlot", "MainViewModel");
             GetOrCreatePlot(CurrentStand);
 
-            SelectedSoil = CurrentPlot.Soil;
-            //SelectedSoilPhase = SoilPhases.Where(x => x == CurrentPlot.SoilPhase).FirstOrDefault();
-
             ValidationMessage = string.Empty;
             RefreshTreeCount();
 
@@ -90,12 +87,15 @@ namespace PTANonCrown.ViewModel
 
         public async Task OnShellNavigatedAsync(object sender, ShellNavigatedEventArgs e)
         {
+            // MAIN PAGE
             // if user navigating from main page, just continue - this is where they start
             // some objects (=stand, plot, have beebn created in the background at this point, but we
             // don't want to count these as unsaved changes
 
+            // SUMMARY PAGE
+            // on summary page, things just get generated on the fly; so, do not count these as changes.
             var previous = e.Previous?.Location.ToString().ToUpper();
-            if (previous == "//MAINPAGE")
+            if (previous is null || previous == "//MAINPAGE" || previous == "//SUMMARYPAGE")
             {
                 return; 
             }
@@ -912,12 +912,12 @@ namespace PTANonCrown.ViewModel
                 Vegetation = null,
                 //AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
 
-                PlotTreatments = Treatments.Select(t => new PlotTreatment
+                PlotTreatments = new ObservableCollection<PlotTreatment>(Treatments.Select(t => new PlotTreatment
                 {
                     TreatmentId = t.ID,
                     Treatment = t,
                     IsActive = false // Default status
-                }).ToList()
+                }))
             };
 
 
@@ -1553,17 +1553,24 @@ namespace PTANonCrown.ViewModel
 
         private async void OpenFile()
         {
-            bool isYes = await Application.Current.MainPage.DisplayAlert(
-                 "Open File",
-                 "Open file? Any unsaved changes will be lost.",
-                 "Open",
-                 "Cancel");
+            bool changesExist = _databaseService.GetContext().ChangeTracker.HasChanges();
 
+            var currentPage = AppShell.Current.CurrentItem?.CurrentItem.Title;
 
-            if (!isYes)
+            if (changesExist)
             {
-                return;
+                bool isYes = await Application.Current.MainPage.DisplayAlert(
+                "Open File",
+                "Open file? Any unsaved changes will be lost.",
+                "Open",
+                "Cancel");
+                if (!isYes)
+                {
+                    return; // leave early
+                }
             }
+
+                      
 
             var result = await FilePicker.Default.PickAsync();
             if (result is null)
@@ -1978,7 +1985,7 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        private void SetSummaryPlot(Plot plot)
+        public void SetSummaryPlot(Plot plot)
         {
             if (plot is not null)
             {

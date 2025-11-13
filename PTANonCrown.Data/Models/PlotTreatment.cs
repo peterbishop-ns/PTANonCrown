@@ -18,6 +18,7 @@ namespace PTANonCrown.Data.Models
         public int TreatmentId { get; set; }
 
         private Treatment _treatment;
+
         [NotMapped]
         public Treatment Treatment
         {
