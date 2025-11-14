@@ -53,9 +53,7 @@ public partial class LiveTreePage : ContentPage
         base.OnAppearing();
         var vm = BindingContext as MainViewModel;
 
-        if ((vm.CurrentPlot?.PlotTreeLive == null) | (vm.CurrentPlot?.PlotTreeLive.Count == 0)) {
-            vm.AddNewTreeToPlot(vm.CurrentPlot, 1);
-        }
+
     }
 
 

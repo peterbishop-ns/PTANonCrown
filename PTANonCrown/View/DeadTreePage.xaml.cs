@@ -4,10 +4,11 @@ namespace PTANonCrown;
 
 public partial class DeadTreePage : ContentPage
 {
+    private MainViewModel mainViewModel;
     public DeadTreePage(MainViewModel viewModel)
     {
         InitializeComponent();
-
+        mainViewModel = viewModel;
         BindingContext = viewModel;
     }
 
@@ -22,4 +23,11 @@ public partial class DeadTreePage : ContentPage
         if (entry.Text != newText)
             entry.Text = newText;
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        mainViewModel.InitializeTreeDead(mainViewModel.CurrentPlot);
+    }
+
 }

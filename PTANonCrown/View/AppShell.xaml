@@ -3,9 +3,18 @@
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:PTANonCrown"
+       xmlns:converter="clr-namespace:PTANonCrown.Converter"
        Shell.FlyoutBehavior="Flyout"
        WidthRequest="600"
        Title="{Binding SaveFilePath}">
+    <Shell.Resources>
+        <ResourceDictionary>
+            <converter:NullToBoolConverter x:Key="NullToBoolConverter" />
+            <converter:NullToBoolConverter x:Key="NotNullToBoolConverter"
+                                            Invert="True" />
+
+        </ResourceDictionary>
+    </Shell.Resources>
 
     <Shell.ToolbarItems>
 
@@ -42,25 +51,38 @@
 
         <Tab Title="Plot">
             <ShellContent Title="Overview"
-                          ContentTemplate="{DataTemplate local:PlotPage}" />
+                          ContentTemplate="{DataTemplate local:PlotPage}"
+                          Route="PlotPage"
+                          IsVisible="{Binding CurrentStand, Converter={StaticResource NotNullToBoolConverter}}"/>
         </Tab>
         <Tab Title="Living Trees">
             <ShellContent Title="Living Trees"
-                          ContentTemplate="{DataTemplate local:LiveTreePage}" />
+                          ContentTemplate="{DataTemplate local:LiveTreePage}"
+                          Route="LiveTreePage"
+                          IsVisible="{Binding CurrentPlot, Converter={StaticResource NotNullToBoolConverter}}" />
+
         </Tab>
         <Tab Title="Snags">
             <ShellContent Title="Snags"
-                          ContentTemplate="{DataTemplate local:DeadTreePage}" />
+                          ContentTemplate="{DataTemplate local:DeadTreePage}"
+                          Route="DeadTreePage"
+                          IsVisible="{Binding CurrentPlot, Converter={StaticResource NotNullToBoolConverter}}" />
+
         </Tab>
         <Tab Title="Coarse Woody">
             <ShellContent Title="Coarse Woody"
-                          ContentTemplate="{DataTemplate local:CoarseWoodyMaterialPage}" />
+                          ContentTemplate="{DataTemplate local:CoarseWoodyMaterialPage}"
+                          Route="CoarseWoodyMaterialPage"
+                          IsVisible="{Binding CurrentPlot, Converter={StaticResource NotNullToBoolConverter}}" />
+
         </Tab>
 
         <Tab Title="Summary">
             <ShellContent Title="Summary"
                           ContentTemplate="{DataTemplate local:SummaryPage}"
-                          Route="SummaryPage" />
+                          Route="SummaryPage"
+                          IsVisible="{Binding CurrentPlot, Converter={StaticResource NotNullToBoolConverter}}" />
+
         </Tab>
     </TabBar>
 </Shell>

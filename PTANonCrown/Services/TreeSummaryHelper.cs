@@ -9,7 +9,11 @@ namespace PTANonCrown.Services
     {
         public static bool CheckTreesValid(IEnumerable<TreeLive> trees)
         {
-            return trees.All(t => (t.TreeSpecies is not null) & (t.DBH_cm > 0) & (t.Height_m > 0));
+            bool atLeastOneTree = trees.Count() > 0;
+            bool speciesExists = trees.All(t => (t.TreeSpecies is not null));
+            bool validMeasurements = trees.All(t => (t.TreeSpecies is not null) & (t.DBH_cm > 0) & (t.Height_m > 0));
+
+            return atLeastOneTree && speciesExists && validMeasurements;
         }
 
 

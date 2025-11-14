@@ -7,6 +7,7 @@ namespace PTANonCrown.Data.Services
     {
         public string WorkingDBPath { get; private set; }
         public string? SaveFilePath { get; private set; }
+
         public bool DbIsNew{ get; set; }
         private DbContextOptions<AppDbContext>? _options;
         private AppDbContext? _context;
@@ -18,7 +19,8 @@ namespace PTANonCrown.Data.Services
                 AppLoggerData.Log($"Initiating DB path: {dbPath}", "DatabaseService");
                 SetDatabasePath(dbPath);
             }
-         
+
+           
         }
 
         public void ResetContext()
@@ -89,8 +91,10 @@ namespace PTANonCrown.Data.Services
                 if (string.IsNullOrEmpty(WorkingDBPath))
                     throw new InvalidOperationException("Database path not set.");
 
-                var options = BuildOptions(WorkingDBPath);
-                _context = new AppDbContext(options);
+                _options = BuildOptions(WorkingDBPath);
+                _context = new AppDbContext(_options);
+
+               
             }
             return _context;
         }

@@ -38,11 +38,11 @@ namespace PTANonCrown.ViewModel
         private Soil _selectedSoil;
         private ObservableCollection<SummarySoilResult> _soilSummary;
         private ObservableCollection<SummaryResultTreeSpecies> _speciesSummary;
-        private ObservableCollection<SummaryItem> _summaryItems;
+        private ObservableCollection<SummaryItem> _summaryItems = new ObservableCollection<SummaryItem>();
         private string _summaryPageMessage;
         private Plot _summaryPlot;
         private bool _summarySectionIsVisible;
-        private ObservableCollection<SummaryTreatmentResult> _treatmentSummary;
+        private ObservableCollection<SummaryTreatmentResult> _treatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
         private string _validationMessage;
 
         private ObservableCollection<SummaryVegetationResult> _vegetationSummary;
@@ -56,30 +56,14 @@ namespace PTANonCrown.ViewModel
             _databaseService = databaseService;
             _standRepository = standRepository;
             _lookupRepository = lookupRepository;
-          _lookupRefreshService = lookupRefreshService;
+            _lookupRefreshService = lookupRefreshService;
 
-            //_phaseToSoilTypes = LoadPhaseToSoilTypes(records);
 
             AppLogger.Log("LoadLookupTables", MethodBase.GetCurrentMethod().Name);
-
             LoadLookupTables();
-            AppLogger.Log("GetOrCreateStand", "MainViewModel");
-
-            GetOrCreateStand();
-
-            AppLogger.Log("GetOrCreatePlot", "MainViewModel");
-            GetOrCreatePlot(CurrentStand);
 
             ValidationMessage = string.Empty;
-            RefreshTreeCount();
 
-            // If summaryItems changes, notify the Bool that is used to show/hide the section
-            SummaryItems = new ObservableCollection<SummaryItem>();
-
-            TreatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
-
-
-            PopulateUiTreatments();
 
         }
 
@@ -103,57 +87,117 @@ namespace PTANonCrown.ViewModel
 
         }
 
+
+
         public async Task OnShellNavigatedAsync(object sender, ShellNavigatedEventArgs e)
         {
-            // MAIN PAGE
-            // if user navigating from main page, just continue - this is where they start
-            // some objects (=stand, plot, have beebn created in the background at this point, but we
-            // don't want to count these as unsaved changes
-
-            // SUMMARY PAGE
-            // on summary page, things just get generated on the fly; so, do not count these as changes.
+            // PROMPT User To Save 
             var previous = e.Previous?.Location.ToString().ToUpper();
-            if (previous is null || previous == "//MAINPAGE" || previous == "//SUMMARYPAGE")
+            bool promptUserToSave = previous is not null && previous != "//MAINPAGE" && previous != "//SUMMARYPAGE";
+            if (promptUserToSave)
             {
-                return; 
-            }
-            
-            var db = _databaseService.GetContext(); 
-            var changeTracker = db.ChangeTracker;
+                var db = _databaseService.GetContext();
+                var changeTracker = db.ChangeTracker;
+                var hasChanges = changeTracker.HasChanges();
+                var entries = db.ChangeTracker
+                    .Entries();
+                var Stands = entries.Where(e => e.Entity is Stand);
 
-            if (changeTracker.HasChanges())
-            {
-                bool save = await Shell.Current.DisplayAlert(
-                    "Unsaved Changes",
-                    "There are unsaved changes. Do you want to save before switching tab?",
-                    "Yes", "No");
-
-                if (save)
+                var changes = entries
+                    .Where(e => e.State != EntityState.Unchanged);
+                if (hasChanges)
                 {
-                    SaveAllAsync();
-                }
+                    OnPropertyChanged(nameof(SaveFilePath));
+                    /*bool save = await Shell.Current.DisplayAlert(
+                        "Unsaved Changes",
+                        "There are unsaved changes. Do you want to save before switching tab?",
+                        "Yes", "No");
 
+
+                    if (save)
+                    {
+                        await SaveAllAsync();
+                    }*/
+
+                }
             }
+
+            
+
+            // Logic that fires only when navigating to each page
+            // put here, because OnAppearing method was firing BEFORE the Navigated method, which was causing the 
+            // saving to happen out of order
+            var navigatingTo = e.Current?.Location.ToString().ToUpper();
+            switch (navigatingTo)
+            {
+                case "//MAINPAGE":
+                    break;
+                case "//STANDPAGE":
+                    AppLogger.Log("GetOrCreateStand", "MainViewModel");
+                    GetOrCreateStand();
+                    break;
+                case "//PLOTPAGE":
+                    AppLogger.Log("GetOrCreatePlot", "MainViewModel");
+                    GetOrCreatePlot(CurrentStand);
+                    PopulateUiTreatments();
+                    break;
+                case "//COARSEWOODYMATERIALPAGE":
+
+                    InitializeCoarseWoody(CurrentPlot);
+                    break;
+                case "//LIVETREEPAGE":
+                  
+                    InitializeFirstTree(CurrentPlot);
+                    RefreshTreeCount();
+                    break;
+                case "//DEADTREEPAGE":
+
+                    InitializeTreeDead(CurrentPlot);
+                    break;
+                case "//SUMMARYPAGE":
+                
+                    SetSummaryPlot(CurrentPlot);
+                    break;
+                default:
+                    AppLogger.Log($"Unsupported page navigation: {navigatingTo}", "MainViewModel");
+
+                    throw new Exception($"Unsupported page navigation: {navigatingTo}");
+            }
+           
         }
 
         public async Task<bool> HandleUnsavedChangesOnExitAsync()
         {
             var context = _databaseService.GetContext();
-
+            OnPropertyChanged(nameof(SaveFilePath));
             if (!context.ChangeTracker.HasChanges())
                 return true;
 
+
             // Prompt user
-            bool save = await Shell.Current.DisplayAlert(
-                "Unsaved Changes",
-                "There are unsaved changes. Do you want to save before exiting?",
-                "Yes", "No");
+            // Show Yes / No / Cancel
+            string choice = await Shell.Current.DisplayActionSheet(
+                "Save before exiting?",
+                null,
+                null,       // destruction button (optional)
+                "Save", 
+                "Don't Save",// other buttons
+                "Cancel"   // cancel button
+            );
 
-            if (save)
-                await SaveAllAsync(); // your save logic
-           
+            switch (choice)
+            {
+                case "Save":
+                    await SaveAllAsync();
+                    return true;  // safe to exit after saving
 
-            return true; // safe to exit
+                case "Don't Save":
+                    return true;  // discard changes, safe to exit
+
+                case "Cancel":
+                default:
+                    return false; // don't exit
+            }
         }
 
 
@@ -455,7 +499,7 @@ namespace PTANonCrown.ViewModel
 
         public ICommand SetPlotSummaryCommand => new Command<Plot>(plot => SetSummaryPlot(plot));
 
-        public ICommand SetStandOnlyCommand => new Command<Plot>(plot => SetStandOnly());
+        public ICommand SetStandOnlyCommand => new Command<Plot>(plot => SetSummaryStandOnly());
 
         public ObservableCollection<string> SoilPhases { get; } = new ObservableCollection<string>();
 
@@ -587,8 +631,14 @@ namespace PTANonCrown.ViewModel
             get
             {
                 var path = _databaseService.SaveFilePath;
-                var displayText = string.IsNullOrEmpty(path) ? "Unsaved" : path;
-                return $"Pre-Treatment Assessment ({displayText})";
+                bool hasChanges = _databaseService.GetContext().ChangeTracker.HasChanges();
+
+                string displayText = string.IsNullOrEmpty(path) ? "Unsaved" : $"({path})";
+
+                if (hasChanges)
+                    displayText += "                        * UNSAVED changes *";
+
+                return $"Pre-Treatment Assessment {displayText}";
             }
         }
 
@@ -870,21 +920,35 @@ namespace PTANonCrown.ViewModel
             return result;
         }
 
-        private ObservableCollection<CoarseWoody> CreateDefaultCoarseWoody(Plot parentPlot)
+        public void InitializeCoarseWoody(Plot parentPlot)
         {
-            return new ObservableCollection<CoarseWoody>
-    {
-        new CoarseWoody { Plot = parentPlot, DBH_start = 21, DBH_end = 30 },
-        new CoarseWoody { Plot = parentPlot, DBH_start = 31, DBH_end = 40 },
-        new CoarseWoody { Plot = parentPlot, DBH_start = 41, DBH_end = 50 },
-        new CoarseWoody { Plot = parentPlot, DBH_start = 51, DBH_end = 60 },
-        new CoarseWoody { Plot = parentPlot, DBH_start = 60, DBH_end = -1 }
-    };
+            if (parentPlot.PlotCoarseWoody is not null)
+            {
+                return;
+            }
+            var coarseWoody = new ObservableCollection<CoarseWoody>
+            {
+                new CoarseWoody { Plot = parentPlot, DBH_start = 21, DBH_end = 30 },
+                new CoarseWoody { Plot = parentPlot, DBH_start = 31, DBH_end = 40 },
+                new CoarseWoody { Plot = parentPlot, DBH_start = 41, DBH_end = 50 },
+                new CoarseWoody { Plot = parentPlot, DBH_start = 51, DBH_end = 60 },
+                new CoarseWoody { Plot = parentPlot, DBH_start = 60, DBH_end = -1 }
+            };
+            parentPlot.PlotCoarseWoody = coarseWoody;
         }
 
-        private ObservableCollection<TreeDead> CreateDefaultTreeDead(Plot parentPlot)
+        public void InitializeFirstTree(Plot parentPlot)
         {
-            return new ObservableCollection<TreeDead>
+            if ((parentPlot?.PlotTreeLive == null) | (parentPlot?.PlotTreeLive.Count == 0))
+            {
+                AddNewTreeToPlot(parentPlot, 1);
+            }
+        }
+
+        public void InitializeTreeDead(Plot parentPlot)
+        {
+            if (parentPlot.PlotTreeDead is not null) { return; }
+            var treeDead = new ObservableCollection<TreeDead>
             {
                 new TreeDead() { Plot = parentPlot, DBH_start = 21, DBH_end = 30 },
                 new TreeDead() { Plot = parentPlot, DBH_start = 31, DBH_end = 40 },
@@ -892,6 +956,8 @@ namespace PTANonCrown.ViewModel
                 new TreeDead() { Plot = parentPlot, DBH_start = 51, DBH_end = 60 },
                 new TreeDead() { Plot = parentPlot, DBH_start = 60, DBH_end = -1 }
             };
+
+            parentPlot.PlotTreeDead = treeDead;
 
         }
 
@@ -941,10 +1007,10 @@ namespace PTANonCrown.ViewModel
             _newPlot.VegCode = CurrentVeg?.ShortCode;
             _newPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
 
-            _newPlot.PlotCoarseWoody = CreateDefaultCoarseWoody(_newPlot);
-            _newPlot.PlotTreeDead = CreateDefaultTreeDead(_newPlot);
 
-       
+            //_newPlot.PlotCoarseWoody = InitializeCoarseWoody(_newPlot);
+            //_newPlot.PlotTreeDead = InitializeTreeDead(_newPlot);
+
             _newPlot.Stand = stand;
 
 
@@ -958,7 +1024,11 @@ namespace PTANonCrown.ViewModel
             SetCurrentPlot(_newPlot);
             return _newPlot;
 
+
         }
+
+
+        
 
         private Stand CreateNewStand()
         {
@@ -970,11 +1040,18 @@ namespace PTANonCrown.ViewModel
                 StandNumber = newStandNumber
             };
 
-            _stand.CruiseID = "Test123";
-            _stand.PlannerID = "Test123";
+            _stand.CruiseID = string.Empty;
+            _stand.PlannerID = string.Empty;
 
-            CreateNewPlot(_stand);
+            //CreateNewPlot(_stand);
             AllStands.Add(_stand);
+
+
+            // Add to context so it is tracked
+            var db = _databaseService.GetContext();
+            db.Stands.Add(_stand);
+
+
             SetCurrentStand(_stand);
             return _stand;
 
@@ -1069,22 +1146,36 @@ namespace PTANonCrown.ViewModel
         private async void DisplayTreeWarningMessage(Plot plot)
         {
 
-            if (Application.Current?.MainPage != null)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Incomplete Information",
-                    $"Trees in Plot {plot.PlotNumber} missing DBH, heights or species. " +
-                    $"Cruise Summary cannot be generated.",
-                    "Continue", "Cancel");
-            }
+            string message = $"Plot {plot.PlotNumber}: Cruise Summary cannot be genrated; tree(s) missing DBH, heights or species. ";
+
+            ErrorMessage = string.IsNullOrEmpty(ErrorMessage)
+                ? message
+                : $"{ErrorMessage}\n{message}";
 
         }
 
         private async Task ExecutePickFolderCommand()
         {
+
+            bool hasInvalidPlots = false;
+            ErrorMessage = null;
+            foreach (Plot plot in CurrentStand.Plots)
+            {
+                if (!TreeSummaryHelper.CheckTreesValid(plot.PlotTreeLive))
+                {
+                    DisplayTreeWarningMessage(plot);
+                    hasInvalidPlots = true;
+                }
+            }
+
+            // If any plots were invalid, exit early
+            if (hasInvalidPlots)
+                await Application.Current.MainPage.DisplayAlert("Invalid Trees", "Some plots have invalid trees - summary cannot be exported.", "OK");
+                return;
+
+
             try
             {
-
                 // Pick a folder from the file system
                 var selectedFolder = await FolderPicker.PickAsync(default);
 
@@ -1093,6 +1184,8 @@ namespace PTANonCrown.ViewModel
                     // Extract folder information
                     string folderPath = $"Folder Name: {selectedFolder.Folder}";
 
+
+                    
                     ExportSummary(folder: selectedFolder.Folder);
                     ExportAllTrees(folder: selectedFolder.Folder);
                 }
@@ -1350,6 +1443,10 @@ namespace PTANonCrown.ViewModel
 
         private Plot GetOrCreatePlot(Stand stand)
         {
+            if (CurrentPlot is not null)
+            {
+                return CurrentPlot;
+            }
             Plot plot = null;
 
             // Get first one
@@ -1361,11 +1458,6 @@ namespace PTANonCrown.ViewModel
             // Otherwise create one
             else
             {
-                Application.Current.MainPage.DisplayAlert(
-                "Creating new plot",
-                "No more plots. Creating a new Plot.",
-                "Continue",
-                "Cancel");
                 plot = CreateNewPlot(stand);
             }
 
@@ -1459,8 +1551,6 @@ namespace PTANonCrown.ViewModel
             // Refresh LIT status of trees
             CurrentPlot.UpdatePlotTreeLIT();
 
-            //Refres
-            SetSummaryPlot(CurrentPlot);
             //Refresh the count
             RefreshTreeCount();
         }
@@ -1750,15 +1840,15 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        private void ClearSingleEmptyTree()
+        private void ClearSingleEmptyTree(Plot plot)
         {// for convenience, we automatically add an empty tree.
             // but, if it is not filled in, we don't want to save it.
-            if (CurrentPlot.PlotTreeLive.Count() == 1)
+            if (plot.PlotTreeLive.Count() == 1)
             {
-                var tree = CurrentPlot.PlotTreeLive.FirstOrDefault();
+                var tree = plot.PlotTreeLive.FirstOrDefault();
                 if (tree.TreeSpecies is null )
                 {
-                    CurrentPlot.PlotTreeLive.Remove(tree);
+                    plot.PlotTreeLive.Remove(tree);
                     _databaseService.GetContext().Set<TreeLive>().Remove(tree);
 
                 }
@@ -1768,6 +1858,10 @@ namespace PTANonCrown.ViewModel
 
         private void PopulatePlotTreatmentsFromUI()
         {
+            if (CurrentPlot is null)
+            {
+                return;
+            }
             // Populate the Plot's PlotTreatments with the checkboxes in the UI
             CurrentPlot.PlotTreatments = new ObservableCollection<PlotTreatment>(
                     UiPlotTreatments
@@ -1780,22 +1874,39 @@ namespace PTANonCrown.ViewModel
                 );
         }
 
+        private void UpdatePlotFields(Plot plot)
+        {
+            if (plot is null) { return; }
+            // Nullable to allow field to be empty in GUI, but need to save as a zero bec
+            plot.Easting = CurrentPlot.Easting ?? 0;
+            plot.Northing = CurrentPlot.Northing ?? 0;
+            plot.SoilCode = CurrentSoil?.ShortCode;
+            plot.VegCode = CurrentVeg?.ShortCode;
+            plot.EcositeGroup = CurrentEcositeGroup;
+            plot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
+        }
+
         private async Task SaveAllAsync()
         {
             AppLogger.Log("SaveAllAsync", "MainViewModel");
 
             PopulatePlotTreatmentsFromUI();
-            ClearSingleEmptyTree(); 
 
             ContainsError = false; // reset
             ValidateStand(CurrentStand);
-            ValidatePlot(CurrentPlot);
-            ValidateTrees(CurrentPlot.PlotTreeLive);
-            //ValidateDeadTree(CurrentPlot.PlotTreeDead);
 
-            // Nullable to allow field to be empty in GUI, but need to save as a zero bec
-            CurrentPlot.Easting = CurrentPlot.Easting ?? 0;
-            CurrentPlot.Northing = CurrentPlot.Northing ?? 0;
+
+
+            if (CurrentPlot is not null)
+            {
+                ClearSingleEmptyTree(CurrentPlot);
+
+                UpdatePlotFields(CurrentPlot);
+                ValidatePlot(CurrentPlot);
+                ValidateTrees(CurrentPlot.PlotTreeLive);
+            }
+
+            //ValidateDeadTree(CurrentPlot.PlotTreeDead);
 
             AppLogger.Log("SaveAllAsync - Before checking errors", "MainViewModel");
 
@@ -1805,20 +1916,12 @@ namespace PTANonCrown.ViewModel
                 return; 
             }
 
-
-            CurrentPlot.SoilCode = CurrentSoil?.ShortCode;
-            CurrentPlot.VegCode= CurrentVeg?.ShortCode;
-            CurrentPlot.EcositeGroup = CurrentEcositeGroup;
-            CurrentPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
-
- 
-
             AppLogger.Log("SaveAllAsync - Before actually saving", "MainViewModel");
 
 
             _standRepository.Save(CurrentStand); // always save to the current Database Context (working database file)
             await SaveFileAsAsync();  // copy the working file to the save location
-
+            OnPropertyChanged(nameof(SaveFilePath));
         }
 
         public async Task SaveFileAsAsync()
@@ -1989,12 +2092,14 @@ namespace PTANonCrown.ViewModel
             CurrentStand = stand;
         }
 
-        private void SetStandOnly()
+        private void SetSummaryStandOnly()
         {
             StandOnlySummary = true;
             SummaryPlot = null;
             SummarySectionIsVisible = true;
 
+
+            ErrorMessage = null;
             foreach (Plot plot in CurrentStand.Plots)
             {
                 if (!TreeSummaryHelper.CheckTreesValid(plot.PlotTreeLive))
@@ -2020,6 +2125,7 @@ namespace PTANonCrown.ViewModel
                 StandOnlySummary = false;
                 SummarySectionIsVisible = true;
 
+                ErrorMessage = null;
                 if (!TreeSummaryHelper.CheckTreesValid(plot.PlotTreeLive))
                 {
                     DisplayTreeWarningMessage(plot);
@@ -2068,6 +2174,10 @@ namespace PTANonCrown.ViewModel
 
         private void ValidatePlot(Plot plot)
         {
+            if (plot is null)
+            {
+                return;
+            }
 
             if ((plot.IsPlanted) && (plot.PlantedType == PlantedType.None))
             {
@@ -2123,30 +2233,11 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        // Get list of unique Veg Types
-        /* private void UpdateSoilPhases()
-         {
-             SoilPhases.Clear();
-
-             if (SelectedSoil is not null)
-             {
-                 var soilCode = SelectedSoil.ShortCode;
-
-                 var phases = _phaseToSoilTypes
-                 .Where(kvp => kvp.Value.Contains(soilCode, StringComparer.OrdinalIgnoreCase))
-                     .Select(kvp => kvp.Key);
-
-                 foreach (var phase in phases)
-                     SoilPhases.Add(phase);
-             }
-
-             SelectedSoilPhase = null;
-         }
-
-         */
+     
 
         private void ValidateTrees(ObservableCollection<TreeLive> trees)
         {
+            if (trees is null) { return; }
             foreach (TreeLive tree in trees)
             {
                 if (tree.TreeSpecies is null)

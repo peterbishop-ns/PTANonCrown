@@ -13,15 +13,7 @@ public partial class SummaryPage : ContentPage
         _viewModel = viewModel;      // save to field
         BindingContext = _viewModel; // set binding context
     }
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
 
-        if (_viewModel.CurrentPlot != null)
-        {
-            _viewModel.SetSummaryPlot(_viewModel.CurrentPlot);
-        }
-    }
 
 
     void ShowSoil(object sender, EventArgs e)

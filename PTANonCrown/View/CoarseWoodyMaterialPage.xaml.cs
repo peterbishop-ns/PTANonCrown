@@ -4,11 +4,19 @@ namespace PTANonCrown;
 
 public partial class CoarseWoodyMaterialPage : ContentPage
 {
+
+    private MainViewModel mainViewModel;
     public CoarseWoodyMaterialPage(MainViewModel viewModel)
     {
         InitializeComponent();
-
+        mainViewModel = viewModel;
         BindingContext = viewModel;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+       // mainViewModel.InitializeCoarseWoody(mainViewModel.CurrentPlot);
     }
 
     private void OnlyIntegerAllowed(object sender, TextChangedEventArgs e)
