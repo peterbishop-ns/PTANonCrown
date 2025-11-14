@@ -362,7 +362,7 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetMerchConifer_perc(IEnumerable<TreeLive> trees)
         {
-            var filteredTrees = FilterMerchantableTrees(trees).Where(t => t.TreeSpecies.HardwoodSoftwood == 2);
+            var filteredTrees = FilterMerchantableTrees(trees).Where(t => t.TreeSpecies.HardwoodSoftwood == 1);
 
             int countMerchConifer = filteredTrees.Count();
             int totalCount = trees.Count();

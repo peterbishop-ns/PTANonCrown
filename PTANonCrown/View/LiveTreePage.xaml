@@ -77,6 +77,7 @@
                                        Grid.Column="3">
                     <Button Text="Use Predicted Heights"
                             Grid.Row="1"
+                            HeightRequest="45"
                             Grid.Column="3"
                             Command="{Binding UsePredictedHeightsCommand}" />
                     <ImageButton Source="info.png"
@@ -87,7 +88,7 @@
                 </HorizontalStackLayout>
             </Grid>
             <Grid Grid.Row="2"
-                  ColumnDefinitions="30,70,350,80,100,100,60,60,60,60,80,80,80,270"
+                  ColumnDefinitions="30,70,350,80,100,100,60,60,60,60,80,80,80,200"
                   RowDefinitions="40,70"
                   Padding="5">
                 <BoxView Grid.Row="1"
@@ -256,7 +257,7 @@
                 <VerticalStackLayout Grid.Column="12"
                                      Grid.Row="1"
                                      Grid.ColumnSpan="2"
-                                     HorizontalOptions="CenterAndExpand"
+                                     HorizontalOptions="Center"
                                      IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
 Path=CurrentPlot.IsPlanted}">
                     <Label Text="Planted"

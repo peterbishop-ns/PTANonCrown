@@ -119,7 +119,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <Label Text="Cruise Summary"
                            Style="{StaticResource LabelParent}"
                            Margin="0,0,0,20" />
-                <Label Text="Please add trees before generating a cruise summary."
+                <Label Text="Please address all warnings before generating. All trees require a species and DBH measurement."
                        Style="{StaticResource Warning}"
                        IsVisible="{Binding SummaryItems, 
                         Converter={StaticResource CollectionCountToBoolConverter}, 
@@ -252,7 +252,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     
                 <CollectionView ItemsSource="{Binding SpeciesSummary}"
                                     x:Name="collectionSpeciesSummary"
-                                    MaximumWidthRequest="600"
+                                    MaximumWidthRequest="650"
                                 MaximumHeightRequest="500"
                                 HorizontalOptions="Start"
                                 BackgroundColor="LightGrey"
@@ -260,7 +260,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     Converter={StaticResource CollectionCountToBoolConverter}}" >
 
                 <CollectionView.Header>
-                            <Grid ColumnDefinitions="100,300,100,100"
+                            <Grid ColumnDefinitions="100,300,100,140"
                                   BackgroundColor="DarkGray">
                                 <Label Text="Plot #"
                                        Style="{StaticResource GridHeader}"
@@ -286,7 +286,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                     <BoxView HeightRequest="1"
                                              Color="DarkGray"
                                              HorizontalOptions="Fill" />
-                                    <Grid ColumnDefinitions="100,300,100,100"
+                                <Grid ColumnDefinitions="100,300,100,140"
                                           BackgroundColor="LightGrey">
                                         <Label Grid.Column="0"
                                                Text="{Binding PlotNumber}"

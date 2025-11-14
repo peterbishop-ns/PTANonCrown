@@ -28,11 +28,11 @@ namespace PTANonCrown.Data.Services
 
             await RefreshTableAsync<Soil>(db, "Soil.csv");
            await RefreshTableAsync<Vegetation>(db, "Vegetation.csv");
-           await RefreshTableAsync<Ecodistrict>(db, "Ecodistrict.csv");
+           await RefreshTableAsync<Ecosite>(db, "Ecosite.csv");
            await RefreshTableAsync<TreeSpecies>(db, "TreeSpecies.csv");
            await RefreshTableAsync<Treatment>(db, "Treatments.csv");
 
-           await RefreshJunctionAsync(db, "EcodistrictSoilVeg.csv");
+           await RefreshJunctionAsync(db, "EcositeSoilVeg.csv");
 
             // --- ensure all changes are written ---
             await db.SaveChangesAsync(); // commit any pending inserts/updates
@@ -57,7 +57,7 @@ namespace PTANonCrown.Data.Services
                 string csvPath)
         {
             // Load CSV
-            var records = CsvLoader.LoadCsv<EcodistrictSoilVeg>(csvPath)
+            var records = CsvLoader.LoadCsv<EcositeSoilVeg>(csvPath)
                 .Where(r => !string.IsNullOrWhiteSpace(r.SoilCode)
                          && !string.IsNullOrWhiteSpace(r.VegCode)
                          && !string.IsNullOrWhiteSpace(r.EcositeGroup))
@@ -65,9 +65,9 @@ namespace PTANonCrown.Data.Services
 
             foreach (var rec in records)
             {
-                var existing = await db.EcodistrictSoilVeg.FindAsync(rec.SoilCode, rec.VegCode, rec.EcositeGroup);
+                var existing = await db.EcositeSoilVeg.FindAsync(rec.SoilCode, rec.VegCode, rec.EcositeGroup);
                 if (existing == null)
-                    await db.EcodistrictSoilVeg.AddAsync(rec);
+                    await db.EcositeSoilVeg.AddAsync(rec);
                 else
                     db.Entry(existing).CurrentValues.SetValues(rec);
             }

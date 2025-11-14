@@ -67,7 +67,7 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        private void PopulateUiTreatments()
+        public void PopulateUiTreatments()
         {
             // a UI only list of Plot Treatments
             // This is to prevent conflicts when saving to the database (by binding directly 
@@ -123,46 +123,8 @@ namespace PTANonCrown.ViewModel
             }
 
             
-
-            // Logic that fires only when navigating to each page
-            // put here, because OnAppearing method was firing BEFORE the Navigated method, which was causing the 
-            // saving to happen out of order
-            var navigatingTo = e.Current?.Location.ToString().ToUpper();
-            switch (navigatingTo)
-            {
-                case "//MAINPAGE":
-                    break;
-                case "//STANDPAGE":
-                    AppLogger.Log("GetOrCreateStand", "MainViewModel");
-                    GetOrCreateStand();
-                    break;
-                case "//PLOTPAGE":
-                    AppLogger.Log("GetOrCreatePlot", "MainViewModel");
-                    GetOrCreatePlot(CurrentStand);
-                    PopulateUiTreatments();
-                    break;
-                case "//COARSEWOODYMATERIALPAGE":
-
-                    InitializeCoarseWoody(CurrentPlot);
-                    break;
-                case "//LIVETREEPAGE":
-                  
-                    InitializeFirstTree(CurrentPlot);
-                    RefreshTreeCount();
-                    break;
-                case "//DEADTREEPAGE":
-
-                    InitializeTreeDead(CurrentPlot);
-                    break;
-                case "//SUMMARYPAGE":
-                
-                    SetSummaryPlot(CurrentPlot);
-                    break;
-                default:
-                    AppLogger.Log($"Unsupported page navigation: {navigatingTo}", "MainViewModel");
-
-                    throw new Exception($"Unsupported page navigation: {navigatingTo}");
-            }
+           // var navigatingTo = e.Current?.Location.ToString().ToUpper();
+ 
            
         }
 
@@ -365,13 +327,13 @@ namespace PTANonCrown.ViewModel
 
 
 
-        public List<Ecodistrict> LookupEcodistricts { get; set; }
+        public List<Ecosite> LookupEcosites { get; set; }
 
 
 
 
 
-        public List<EcodistrictSoilVeg> LookupEcodistrictSoilVeg { get; set; }
+        public List<EcositeSoilVeg> LookupEcositeSoilVeg { get; set; }
 
 
         private List<Soil> _lookupSoils;
@@ -633,7 +595,7 @@ namespace PTANonCrown.ViewModel
                 var path = _databaseService.SaveFilePath;
                 bool hasChanges = _databaseService.GetContext().ChangeTracker.HasChanges();
 
-                string displayText = string.IsNullOrEmpty(path) ? "Unsaved" : $"({path})";
+                string displayText = string.IsNullOrEmpty(path) ? string.Empty : $"({path})";
 
                 if (hasChanges)
                     displayText += "                        * UNSAVED changes *";
@@ -676,7 +638,6 @@ namespace PTANonCrown.ViewModel
                 treeCount++;
             }
 
-            RefreshTreeCount();
 
         }
 
@@ -965,7 +926,7 @@ namespace PTANonCrown.ViewModel
         {
 
             
-            RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+            RefreshEcosite(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
 
             int newPlotNumber = (stand.Plots != null && stand.Plots.Any())
@@ -978,7 +939,7 @@ namespace PTANonCrown.ViewModel
             var _newPlot = new Plot
             {
                 PlotNumber = newPlotNumber,
-                //EcoDistrictCode = LookupEcodistricts.Select(v => v.ShortCode).FirstOrDefault(),
+                //EcositeCode = LookupEcosites.Select(v => v.ShortCode).FirstOrDefault(),
                 Soil = null,
                 Exposure = "",
                 Vegetation = null,
@@ -998,14 +959,14 @@ namespace PTANonCrown.ViewModel
                 pt.Treatment = Treatments.First(t => t.ID == pt.TreatmentId);
             }
 
-            CurrentSoil = LookupSoils.Where(s => s.ShortCode == "ST1").FirstOrDefault();
-            CurrentVeg = LookupVeg.Where(v => v.ShortCode == "CA2").FirstOrDefault();
+            CurrentSoil = LookupSoils.Where(s => s.ShortCode is null || s.ShortCode == string.Empty).FirstOrDefault();
+            CurrentVeg = LookupVeg.Where(v => v.ShortCode is null || v.ShortCode == string.Empty).FirstOrDefault();
             CurrentEcositeGroup = EcositeGroup.Acadian;
 
             // Testing only
             _newPlot.SoilCode = CurrentSoil?.ShortCode;
             _newPlot.VegCode = CurrentVeg?.ShortCode;
-            _newPlot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
+            _newPlot.EcositeCode = CurrentEcosite?.ShortCode;
 
 
             //_newPlot.PlotCoarseWoody = InitializeCoarseWoody(_newPlot);
@@ -1069,23 +1030,23 @@ namespace PTANonCrown.ViewModel
             /*
             if (e.PropertyName == nameof(Plot.Soil) || e.PropertyName == nameof(Plot.Vegetation) || e.PropertyName == nameof(Plot.EcositeGroup))
             {
-                RefreshEcodistrict(CurrentSoil, CurrentSoil, CurrentPlot.EcositeGroup.ToString());
+                RefreshEcosite(CurrentSoil, CurrentSoil, CurrentPlot.EcositeGroup.ToString());
             }*/
         }
 
-        private void RefreshEcodistrict(Soil? soil, Vegetation? veg, string ecositeGroup)
+        private void RefreshEcosite(Soil? soil, Vegetation? veg, string ecositeGroup)
         {
             // Step 1 - look it up in the soil.
-            EcodistrictSoilVeg? matchingRecord = LookupEcodistrictSoilVeg.Where(r => r.SoilCode == soil?.ShortCode &&
+            EcositeSoilVeg? matchingRecord = LookupEcositeSoilVeg.Where(r => r.SoilCode == soil?.ShortCode &&
             r.VegCode == veg?.ShortCode &&
             r.EcositeGroup == ecositeGroup
 
             ).FirstOrDefault();
 
-            Ecodistrict newEcodistrict = LookupEcodistricts.Where(e => e.ShortCode == matchingRecord?.EcodistrictCode).FirstOrDefault();
-            CurrentEcodistrict = newEcodistrict;
+            Ecosite newEcosite = LookupEcosites.Where(e => e.ShortCode == matchingRecord?.EcositeCode).FirstOrDefault();
+            CurrentEcosite = newEcosite;
 
-            OnPropertyChanged(nameof(EcodistrictErrorMessage));
+            OnPropertyChanged(nameof(EcositeErrorMessage));
 
 
         }
@@ -1121,18 +1082,18 @@ namespace PTANonCrown.ViewModel
             );
         }
 
-        public string EcodistrictErrorMessage
+        public string EcositeErrorMessage
         {
             get
             {
                 if (CurrentSoil is null || CurrentVeg is null || CurrentEcositeGroup == EcositeGroup.None)
                 {
-                    return "Please select a Soil Type, Vegetation Type, and Ecosite Group to determine the Ecodistrict.";
+                    return "Please select a Soil Type, Vegetation Type, and Ecosite Group to determine the Ecosite.";
                 }
                 // If any selection is missing, or combination is invalid
-                if (CurrentEcodistrict == null)
+                if (CurrentEcosite == null)
                 {
-                    return "This combination of Soil Type, Vegetation Type and Ecosite Group has no matching EcoDistrict.";
+                    return "This combination of Soil Type, Vegetation Type and Ecosite Group has no matching Ecosite.";
                 }
 
 
@@ -1347,12 +1308,7 @@ namespace PTANonCrown.ViewModel
         private ObservableCollection<SummaryTreatmentResult> GenerateTreatmentSummary(IEnumerable<Plot> plots)
         {
 
-            // Before generating summary, make sure the CurrentPlot's Treatments sync'd with the 
-            // UI
-            PopulatePlotTreatmentsFromUI();
-            
 
-            // Plot.PlotTreatments.Treatment needs to get refreshed; only the TreatmentID was being stored
             ObservableCollection<SummaryTreatmentResult> treatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
             foreach (Plot plot in plots)
             {
@@ -1441,8 +1397,10 @@ namespace PTANonCrown.ViewModel
                 : 0;
         }
 
-        private Plot GetOrCreatePlot(Stand stand)
+        public Plot GetOrCreatePlot(Stand stand)
         {
+            AllPlots = stand?.Plots;
+
             if (CurrentPlot is not null)
             {
                 return CurrentPlot;
@@ -1450,9 +1408,9 @@ namespace PTANonCrown.ViewModel
             Plot plot = null;
 
             // Get first one
-            if (stand.Plots?.Count > 0)
+            if (AllPlots?.Count > 0)
             {
-                plot = stand.Plots[0];
+                plot = AllPlots[0];
             }
 
             // Otherwise create one
@@ -1470,7 +1428,7 @@ namespace PTANonCrown.ViewModel
             {
                 trt.Treatment = Treatments.Where(t => t.ID == trt.TreatmentId).FirstOrDefault();
             }
-            RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+            RefreshEcosite(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
             SelectedOldGrowthSpecies =
                 LookupTrees
@@ -1480,7 +1438,7 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        private Stand GetOrCreateStand()
+        public Stand GetOrCreateStand()
         {
             AppLogger.Log("GetOrCreateStand", "MainViewModel");
 
@@ -1521,8 +1479,8 @@ namespace PTANonCrown.ViewModel
             Treatments = await _standRepository.GetTreatmentsAsync();
 
             LookupSoils = await _lookupRepository.GetSoilLookupsAsync();
-            LookupEcodistricts = await _lookupRepository.GetEcodistrictLookups();
-            LookupEcodistrictSoilVeg = await _lookupRepository.GetEcodistrictSoilVegLookups();
+            LookupEcosites = await _lookupRepository.GetEcositeLookups();
+            LookupEcositeSoilVeg = await _lookupRepository.GetEcositeSoilVegLookups();
             LookupVeg = await _lookupRepository.GetVegLookups();
 
             TreeLookupFilteredList = new ObservableCollection<TreeSpecies>() { };
@@ -1545,14 +1503,10 @@ namespace PTANonCrown.ViewModel
                 PlotWasTreated = false;
             }
 
-            //Populate treatments
-            PopulateUiTreatments();
 
             // Refresh LIT status of trees
             CurrentPlot.UpdatePlotTreeLIT();
 
-            //Refresh the count
-            RefreshTreeCount();
         }
 
         private async void OnIsCheckedBiodiversityChanged()
@@ -1798,11 +1752,6 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        private void RefreshTreeCount()
-        {
-            //Refresh Tree Count
-            CurrentPlot.TreeCount = CurrentPlot.PlotTreeLive.Count;
-        }
 
         private async void RemoveTrees(int currentTreeCount)
         {
@@ -1856,7 +1805,7 @@ namespace PTANonCrown.ViewModel
         }
 
 
-        private void PopulatePlotTreatmentsFromUI()
+        public void PopulatePlotTreatmentsFromUI()
         {
             if (CurrentPlot is null)
             {
@@ -1883,7 +1832,7 @@ namespace PTANonCrown.ViewModel
             plot.SoilCode = CurrentSoil?.ShortCode;
             plot.VegCode = CurrentVeg?.ShortCode;
             plot.EcositeGroup = CurrentEcositeGroup;
-            plot.EcodistrictCode = CurrentEcodistrict?.ShortCode;
+            plot.EcositeCode = CurrentEcosite?.ShortCode;
         }
 
         private async Task SaveAllAsync()
@@ -1912,16 +1861,20 @@ namespace PTANonCrown.ViewModel
 
             if (ContainsError)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Please address errors", "OK");
+                Application.Current.MainPage.DisplayAlert("Error", "Please address errors before saving.", "OK");
                 return; 
+            }
+            else
+            {
+                _standRepository.Save(CurrentStand); // always save to the current Database Context (working database file)
+                await SaveFileAsAsync();  // copy the working file to the save location
+                OnPropertyChanged(nameof(SaveFilePath));
             }
 
             AppLogger.Log("SaveAllAsync - Before actually saving", "MainViewModel");
 
 
-            _standRepository.Save(CurrentStand); // always save to the current Database Context (working database file)
-            await SaveFileAsAsync();  // copy the working file to the save location
-            OnPropertyChanged(nameof(SaveFilePath));
+
         }
 
         public async Task SaveFileAsAsync()
@@ -2005,7 +1958,7 @@ namespace PTANonCrown.ViewModel
                 {
                     _currentSoil = value;
                     OnPropertyChanged();
-                    RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+                    RefreshEcosite(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
                 }
             }
         }
@@ -2021,7 +1974,7 @@ namespace PTANonCrown.ViewModel
                     _currentVeg = value;
                     OnPropertyChanged();
                     OnVegChanged(value);
-                    RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+                    RefreshEcosite(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
                 }
             }
@@ -2047,7 +2000,7 @@ namespace PTANonCrown.ViewModel
                 {
                     _currentEcositeGroup = value;
                     OnPropertyChanged();
-                    RefreshEcodistrict(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
+                    RefreshEcosite(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
                 }
             }
@@ -2055,15 +2008,15 @@ namespace PTANonCrown.ViewModel
         }
 
 
-        private Ecodistrict? _currentEcodistrict;
-        public Ecodistrict? CurrentEcodistrict
+        private Ecosite? _CurrentEcosite;
+        public Ecosite? CurrentEcosite
         {
-            get => _currentEcodistrict;
+            get => _CurrentEcosite;
             set
             {
-                if (_currentEcodistrict != value)
+                if (_CurrentEcosite != value)
                 {
-                    _currentEcodistrict = value;
+                    _CurrentEcosite = value;
                     OnPropertyChanged();
                 }
             }
@@ -2177,6 +2130,11 @@ namespace PTANonCrown.ViewModel
             if (plot is null)
             {
                 return;
+            }
+
+            if ((plot.Ecodistrict != 0) && (plot.Ecodistrict < 100 || plot.Ecodistrict > 999)){
+                ErrorMessage = "Ecodistict must be 3 digits long.";
+                ContainsError = true;
             }
 
             if ((plot.IsPlanted) && (plot.PlantedType == PlantedType.None))

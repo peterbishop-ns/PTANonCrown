@@ -32,22 +32,22 @@ namespace PTANonCrown.Data.Repository
         }
 
 
-        public async Task<List<Ecodistrict>> GetEcodistrictLookups()
+        public async Task<List<Ecosite>> GetEcositeLookups()
         {
-            AppLoggerData.Log("GetEcodistrictLookups", "LookupRepository");
+            AppLoggerData.Log("GetEcositeLookups", "LookupRepository");
             var context = _databaseService.GetContext();
-            var query = context.Ecodistrict;
+            var query = context.Ecosite;
             return await query.ToListAsync();
         }
 
 
 
 
-        public async Task<List<EcodistrictSoilVeg>> GetEcodistrictSoilVegLookups()
+        public async Task<List<EcositeSoilVeg>> GetEcositeSoilVegLookups()
         {
-            AppLoggerData.Log("GetEcodistrictSoilVegLookups", "LookupRepository");
+            AppLoggerData.Log("GetEcositeSoilVegLookups", "LookupRepository");
             var context = _databaseService.GetContext();
-            var query = context.EcodistrictSoilVeg;
+            var query = context.EcositeSoilVeg;
             return await query.ToListAsync();
         }
 

@@ -28,10 +28,10 @@ public class AppDbContext : DbContext
     // Lookup Tables
     public DbSet<Vegetation> Vegetation { get; set; }
     public DbSet<Soil> Soil { get; set; }
-    public DbSet<Ecodistrict> Ecodistrict { get; set; }
+    public DbSet<Ecosite> Ecosite { get; set; }
 
     //Junction table
-    public DbSet<EcodistrictSoilVeg> EcodistrictSoilVeg { get; set; } = null!;
+    public DbSet<EcositeSoilVeg> EcositeSoilVeg { get; set; } = null!;
 
     public AppDbContext CreateDbContext(string[] args)
     {
@@ -91,9 +91,9 @@ public class AppDbContext : DbContext
             .IsRequired(false);
 
         modelBuilder.Entity<Plot>()
-            .HasOne(p => p.EcoDistrict)
+            .HasOne(p => p.Ecosite)
             .WithMany()
-            .HasForeignKey(p => p.EcodistrictCode)
+            .HasForeignKey(p => p.EcositeCode)
             .IsRequired(false);
 
 
@@ -102,11 +102,11 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Soil>().HasKey(s => s.ShortCode);
         modelBuilder.Entity<Vegetation>().HasKey(v => v.ShortCode);
-        modelBuilder.Entity<Ecodistrict>().HasKey(e => e.ShortCode);
+        modelBuilder.Entity<Ecosite>().HasKey(e => e.ShortCode);
         modelBuilder.Entity<TreeSpecies>().HasKey(e => e.ShortCode);
         modelBuilder.Entity<Treatment>().HasKey(t => t.ID);
 
-        modelBuilder.Entity<EcodistrictSoilVeg>()
+        modelBuilder.Entity<EcositeSoilVeg>()
             .HasKey(ev => new { ev.SoilCode, ev.VegCode, ev.EcositeGroup });
       
     }

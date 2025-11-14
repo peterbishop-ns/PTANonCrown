@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\EcositeSoilVeg.csv" />
     <None Remove="Resources\Soil.csv" />
     <None Remove="Resources\Vegetation.csv" />
   </ItemGroup>
@@ -40,6 +39,12 @@
 	  </None>
 	  <None Update="Resources\EcodistrictSoilVeg.csv">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Ecosite.csv">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\EcositeSoilVeg.csv">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Resources\Treatments.csv">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

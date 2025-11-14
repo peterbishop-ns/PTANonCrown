@@ -17,7 +17,7 @@ namespace PTANonCrown.Data.Models
         private int _ageTreeDBH;
 
         private int _ageTreeSpeciesID;
-        private Ecodistrict _ecodistrictLookup;
+        private Ecosite _ecositeLookup;
         private EcositeGroup _ecositeGroup;
        // private ForestGroup _forestGroup;
         private int _oldGrowthAge;
@@ -450,20 +450,36 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        public string? EcodistrictCode { get; set; }
+        public string? EcositeCode { get; set; }
 
 
-        private Ecodistrict? _ecoDistrict = null!;
-        public Ecodistrict? EcoDistrict
+        private Ecosite? _ecosite = null!;
+        public Ecosite? Ecosite
         {
-            get => _ecoDistrict;
+            get => _ecosite;
             set
             {
-                _ecoDistrict = value;
+                _ecosite = value;
                 OnPropertyChanged();
 
             }
         }
+
+
+
+        private int _ecodistrict;
+        public int Ecodistrict
+        {
+            get => _ecodistrict;
+            set
+            {
+                _ecodistrict = value;
+                OnPropertyChanged();
+
+            }
+        }
+
+
 
 
         public string? Exposure { get; set; } = null!;

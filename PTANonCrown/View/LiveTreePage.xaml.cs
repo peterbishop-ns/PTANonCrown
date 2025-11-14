@@ -11,11 +11,17 @@ namespace PTANonCrown;
 public partial class LiveTreePage : ContentPage
 {
 
+    private MainViewModel _mainViewModel;
+    protected override void OnAppearing()
+    {
+        _mainViewModel.InitializeFirstTree(_mainViewModel.CurrentPlot);
+    }
 
     public LiveTreePage(MainViewModel viewModel)//, DbContext dbContext)
     {
         InitializeComponent();
         BindingContext = viewModel;
+        _mainViewModel = viewModel;
         if (BindingContext is MainViewModel vm)
         {
             if (vm.CurrentPlot?.PlotTreeLive is ObservableCollection<TreeLive> treeCollection)
@@ -48,27 +54,12 @@ public partial class LiveTreePage : ContentPage
         }
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        var vm = BindingContext as MainViewModel;
 
-
-    }
 
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-
-        /*var vm = BindingContext as MainViewModel;
-
-        var entry = _dbContext.Entry(vm.CurrentStand);
-        if (entry.State == EntityState.Modified || entry.State == EntityState.Added)
-        {
-            // The entity exists in the database but some property values have changed
-        }*/
-
 
     }
 

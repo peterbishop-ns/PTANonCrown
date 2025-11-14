@@ -28,6 +28,7 @@ public partial class DeadTreePage : ContentPage
     {
         base.OnAppearing();
         mainViewModel.InitializeTreeDead(mainViewModel.CurrentPlot);
+
     }
 
 }

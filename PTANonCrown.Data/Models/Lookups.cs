@@ -102,7 +102,7 @@ namespace PTANonCrown.Data.Models
 
         public override string ToString()
         {
-            if (SoilType == -1)
+            if (ID == -1)
             {
                 return "unknown";
             }
@@ -150,7 +150,7 @@ namespace PTANonCrown.Data.Models
         public override string ToString()
         {
 
-            if (ShortCode is null)
+            if (ID == -1)
             {
                 return "unknown";
             }
@@ -159,20 +159,20 @@ namespace PTANonCrown.Data.Models
         }
     }
 
-    public class Ecodistrict : BaseLookup
+    public class Ecosite : BaseLookup
     {
 
         
     }
 
     // Junction table
-    public class EcodistrictSoilVeg
+    public class EcositeSoilVeg
     {
 
         public string SoilCode { get; set; } = null!;
         public string VegCode { get; set; } = null!;
 
-        public string EcodistrictCode { get; set; } = null!;
+        public string EcositeCode { get; set; } = null!;
 
         public string EcositeGroup { get; set; } = null!;
 

@@ -209,7 +209,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                 <Label Style="{StaticResource LabelPlot}"
                        Text="Forest Ecosystem Classification (FEC)" />
                 <Border>
-                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                           ColumnDefinitions="Auto"
                           RowSpacing="10"
                           ColumnSpacing="20">
@@ -283,7 +283,6 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 SelectedItem="{Binding CurrentVeg}"
                                 WidthRequest="350"
                                 HorizontalOptions="Start" />
-
                         <HorizontalStackLayout Grid.Row="8"
                                                Grid.Column="0">
                             <Label Text="Ecodistrict"
@@ -292,18 +291,41 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Style="{StaticResource ImageButtonHelper}"
                                          Margin="10,0,0,0"
                                          Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="Ecodistrict" />
+                                         CommandParameter="Ecosite" />
                         </HorizontalStackLayout>
-                        <Label  Grid.Row="9"
-                                Text="{Binding CurrentEcodistrict}"
+
+
+                        <Entry Text="{Binding CurrentPlot.Ecodistrict, 
+     Converter={StaticResource ZeroToEmptyStringConverter}}"
+                               Grid.Row="9"
+                               HorizontalOptions="Start"
+                               TextChanged="OnlyIntegerAllowed"
+                               WidthRequest="50" />
+
+                        
+                        
+                        
+
+                        <HorizontalStackLayout Grid.Row="10"
+                                               Grid.Column="0">
+                            <Label Text="Ecosite"
+                                   Style="{StaticResource LabelPlot}" />
+                            <ImageButton Source="info.png"
+                                         Style="{StaticResource ImageButtonHelper}"
+                                         Margin="10,0,0,0"
+                                         Command="{Binding ShowHelperTextCommand}"
+                                         CommandParameter="Ecosite" />
+                        </HorizontalStackLayout>
+                        <Label  Grid.Row="11"
+                                Text="{Binding CurrentEcosite}"
                                 WidthRequest="350"
                                 HorizontalOptions="Start" />
-                        <Label  Grid.Row="9"
-                                Text="{Binding EcodistrictErrorMessage}"
+                        <Label  Grid.Row="11"
+                                Text="{Binding EcositeErrorMessage}"
                                 TextColor="Red"
                                 WidthRequest="350"
                                 HorizontalOptions="Start" />
-                        <HorizontalStackLayout Grid.Row="10"
+                        <HorizontalStackLayout Grid.Row="12"
                                                Grid.Column="0">
                             <Label Text="Exposure"
                                    Style="{StaticResource LabelPlot}" />
@@ -313,7 +335,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="Exposure" />
                         </HorizontalStackLayout>
-                        <Picker  Grid.Row="11"
+                        <Picker  Grid.Row="13"
                                  ItemsSource="{Binding ListExposure}"
                                  SelectedItem="{Binding CurrentPlot.Exposure}"
                                  WidthRequest="350"

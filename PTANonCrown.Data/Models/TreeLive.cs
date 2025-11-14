@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using PTANonCrown.Data.Services;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -8,56 +9,103 @@ namespace PTANonCrown.Data.Models
     public class TreeLive : BaseModel
     {
         private static readonly Dictionary<int, int> _dbhHeightLookupHardwood = new Dictionary<int, int>
-    {
-        {2, 2 },
-        {4, 3 },
-        {6, 5 },
-        {8,  6 },
-        {10, 7 },
-        {12, 8 },
-        {14, 8 },
-        {16, 9 },
-        {18, 10 },
-        {20, 10 },
-        {22, 11 },
-        {24, 12 },
-        {26,  12 },
-        {28,  13},
-        {30, 14 },
-        {32, 14 },
-        {34, 14 },
-        {36, 15 },
-        {38, 16 },
-        {40, 16 },
-        {42, 16 },
-        {44, 16 },
-        {46, 17 },
-        {98, 17 }
+   {{10, 7},
+{12, 8},
+{14, 8},
+{16, 9},
+{18, 10},
+{20, 10},
+{22, 11},
+{24, 12},
+{26, 12},
+{28, 13},
+{30, 14},
+{32, 14},
+{34, 14},
+{36, 15},
+{38, 16},
+{40, 16},
+{42, 16},
+{44, 16},
+{46, 17},
+{48, 17},
+{50, 17},
+{52, 17},
+{54, 17},
+{56, 17},
+{58, 17},
+{60, 17},
+{62, 17},
+{64, 17},
+{66, 17},
+{68, 17},
+{70, 17},
+{72, 17},
+{74, 17},
+{76, 17},
+{78, 17},
+{80, 17},
+{82, 17},
+{84, 17},
+{86, 17},
+{88, 17},
+{90, 17},
+{92, 17},
+{94, 17},
+{96, 17},
+{98, 17},
 };
 
         private static readonly Dictionary<int, int> _dbhHeightLookupSoftwood = new Dictionary<int, int>
-    {{10,   2},
-        {12,    3},
-        {14,    5},
-        {16,    7},
-        {18,    9},
-        {20,    10},
-        {22,    10},
-        {24,    11},
-        {26,    12},
-        {28,    13},
-        {30,    14},
-        {32,    15},
-        {34,    16},
-        {36,    17},
-        {38,    17},
-        {40,    17},
-        {42,    18},
-        {44,    18},
-        {46,    19},
-        {48,    19},
-        {50,    20},
-        { 90,  20}};
+    {{2, 2},
+{4, 3},
+{6, 5},
+{8, 7},
+{10, 9},
+{12, 10},
+{14, 10},
+{16, 11},
+{18, 12},
+{20, 13},
+{22, 14},
+{24, 15},
+{26, 16},
+{28, 17},
+{30, 17},
+{32, 17},
+{34, 18},
+{36, 18},
+{38, 19},
+{40, 19},
+{42, 20},
+{44, 20},
+{46, 20},
+{48, 20},
+{50, 20},
+{52, 20},
+{54, 20},
+{56, 20},
+{58, 20},
+{60, 20},
+{62, 20},
+{64, 20},
+{66, 20},
+{68, 20},
+{70, 20},
+{72, 20},
+{74, 20},
+{76, 20},
+{78, 20},
+{80, 20},
+{82, 20},
+{84, 20},
+{86, 20},
+{88, 20},
+{90, 20},
+{92, 20},
+{94, 20},
+{96, 20},
+{98, 20}};
 
         private int _dbh_cm;
         private int _heightPredicted_m;
@@ -105,7 +153,6 @@ namespace PTANonCrown.Data.Models
                     OnPropertyChanged(nameof(DBH_cm));
                     OnPropertyChanged(nameof(IsMerchantable));
                     OnDBHChanged();
-                    OnPropertyChanged(nameof(HeightPredicted_m)); // Notify UI that BasalArea changed
 
                 }
             }
@@ -296,24 +343,35 @@ namespace PTANonCrown.Data.Models
         public void PredictHeight()
         {
             
-            if(TreeSpecies is null) { return; }
-            switch (TreeSpecies.HardwoodSoftwood)
+            if(TreeSpecies is null || DBH_cm == 0) { return; }
+
+            try
             {
-                case 1: 
-                //case HardwoodSoftwood.Softwood: 
-                    HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
-                    break;
+                switch (TreeSpecies.HardwoodSoftwood)
+                {
+                    case 1:
+                        //case HardwoodSoftwood.Softwood: 
+                        HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
+                        break;
 
-                //case HardwoodSoftwood.Hardwood:
-                case 2:
-                    HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
-                    break;
+                    //case HardwoodSoftwood.Hardwood:
+                    case 2:
+                        HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
+                        break;
 
-                default:
-                    break;
-                    // Handle unexpected values
-                    //throw new InvalidOperationException($"Unknown HardwoodSoftwood value: {TreeSpecies.HardwoodSoftwood}. Expected 1 (Softwood) or 2 (Hardwood).");
+                    default:
+                        break;
+                        // Handle unexpected values
+                        //throw new InvalidOperationException($"Unknown HardwoodSoftwood value: {TreeSpecies.HardwoodSoftwood}. Expected 1 (Softwood) or 2 (Hardwood).");
+                }
+                OnPropertyChanged(nameof(HeightPredicted_m));
+
             }
+            catch (Exception ex)
+            {
+                AppLoggerData.Log($"{ex.InnerException.ToString()}", "PredictHeight");
+            }
+            
         }
 
 

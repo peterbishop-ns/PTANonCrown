@@ -16,7 +16,7 @@ public partial class CoarseWoodyMaterialPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-       // mainViewModel.InitializeCoarseWoody(mainViewModel.CurrentPlot);
+        mainViewModel.InitializeCoarseWoody(mainViewModel.CurrentPlot);
     }
 
     private void OnlyIntegerAllowed(object sender, TextChangedEventArgs e)

@@ -30,7 +30,7 @@ namespace PTANonCrown.Services
         { "DeadwoodGeneral", " The deadwood information includes both standing dead trees (i.e., snags) that are tallied in the prism sweep and coarse woody material (CWM) that is measured in a separate transect. The transect should be a straight, 20-m line in a consistent direction (e.g., always north). A dead tree is considered a snag if it is standing at a 45 degrees or greater from the horizontal and is Coarse Woody Material when under 45 degrees." },
         { "Diversity", "Trees is unusual in context, representing a small portion of the stand, or providing for diversity within the stand (e.g. ironwood tree, black cherry, or a large yellow birch in a softwood stand). Column is active if Include Biodiversity is enabled." },
         { "Easting", "Easting coordinate." },
-        { "Ecodistrict", "The ecodistrict where the PTA is situated. See Nova Scotia’s Ecological Land Classification (ELC) for details. Ecoregion is needed to determine nutrient-sustainable harvest levels, along with the FEC information described below." },
+        { "Ecosite", "The Ecosite where the PTA is situated. See Nova Scotia’s Ecological Land Classification (ELC) for details. Ecoregion is needed to determine nutrient-sustainable harvest levels, along with the FEC information described below." },
         { "EcositeGroup", "Forest Ecosystem Classification (FEC) Ecosite Group." },
         { "Exposure", 
                 "Exposure refers to the relative openness of a site to weather conditions, particularly wind. Exposure can affect moisture conditions on a site and severely impact the windthrow hazard of stands." },
