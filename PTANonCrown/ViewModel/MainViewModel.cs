@@ -75,12 +75,16 @@ namespace PTANonCrown.ViewModel
 
             // If summaryItems changes, notify the Bool that is used to show/hide the section
             SummaryItems = new ObservableCollection<SummaryItem>();
-            SummaryItems.CollectionChanged += OnSummaryItemsChanged;
 
             TreatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
-            TreatmentSummary.CollectionChanged += OnTreatmentSummaryChanged;
-            
 
+
+            PopulateUiTreatments();
+
+        }
+
+        private void PopulateUiTreatments()
+        {
             // a UI only list of Plot Treatments
             // This is to prevent conflicts when saving to the database (by binding directly 
             // to the plot's PlotTreatment objects, there were Key insert errors, which 
@@ -95,9 +99,9 @@ namespace PTANonCrown.ViewModel
                 })
             );
 
+            OnPropertyChanged(nameof(UiPlotTreatments));
+
         }
-
-
 
         public async Task OnShellNavigatedAsync(object sender, ShellNavigatedEventArgs e)
         {
@@ -494,17 +498,9 @@ namespace PTANonCrown.ViewModel
             {
                 if (_summaryItems != value)
                 {
-                    if (_summaryItems != null)
-                        _summaryItems.CollectionChanged -= OnSummaryItemsChanged;
-
                     _summaryItems = value;
-
-                    if (_summaryItems != null)
-                        _summaryItems.CollectionChanged += OnSummaryItemsChanged;
-
                     OnPropertyChanged();
-                    OnPropertyChanged(nameof(HasSummaryItems));
-                    OnPropertyChanged(nameof(HasNoSummaryItems));
+       
                 }
             }
         }
@@ -552,17 +548,12 @@ namespace PTANonCrown.ViewModel
             get => _treatmentSummary;
             set
             {
-                if (_treatmentSummary != null)
-                    _treatmentSummary.CollectionChanged -= OnTreatmentSummaryChanged;
-
+                
                 _treatmentSummary = value;
 
-                if (_treatmentSummary != null)
-                    _treatmentSummary.CollectionChanged += OnTreatmentSummaryChanged;
+   
+                OnPropertyChanged();
 
-                OnPropertyChanged(nameof(TreatmentSummary));
-                OnPropertyChanged(nameof(HasTreatments));
-                OnPropertyChanged(nameof(HasNoTreatments));
             }
         }
 
@@ -1245,31 +1236,38 @@ namespace PTANonCrown.ViewModel
 
             // Group plots by Soil object
             var groupedBySoil = plots
-                .GroupBy(p => p.Soil?.ShortCode);
-
+                .GroupBy(p => new { Code = p.Soil?.ShortCode});
             foreach (var group in groupedBySoil)
             {
                 var count = group.Count();
                 soilSummary.Add(new SummarySoilResult
                 {
-                    SoilCode = group.Key,
+                    SoilCode = group.Key.Code,
                     Count = count,
                     Percentage = Math.Round(100.0 * count / totalCount, 1)
                 });
             }
 
-            return soilSummary;
+            return soilSummary; 
         }
 
         private ObservableCollection<SummaryTreatmentResult> GenerateTreatmentSummary(IEnumerable<Plot> plots)
         {
+
+            // Before generating summary, make sure the CurrentPlot's Treatments sync'd with the 
+            // UI
+            PopulatePlotTreatmentsFromUI();
+            
+
+            // Plot.PlotTreatments.Treatment needs to get refreshed; only the TreatmentID was being stored
             ObservableCollection<SummaryTreatmentResult> treatmentSummary = new ObservableCollection<SummaryTreatmentResult>();
             foreach (Plot plot in plots)
             {
                 var treatments = plot.PlotTreatments
-                                        .Where(pt => pt.IsActive == true)
-                                        .Select(pt => pt.Treatment?.Name);
-
+                     .Where(pt => pt.IsActive)
+                     .Select(pt =>
+                         Treatments.FirstOrDefault(t => t.ID == pt.TreatmentId)?.Name 
+                     );
                 if (treatments.Count() != 0)
                 {
                     SummaryTreatmentResult summary = new SummaryTreatmentResult()
@@ -1288,6 +1286,8 @@ namespace PTANonCrown.ViewModel
 
         private ObservableCollection<SummaryResultTreeSpecies> GenerateTreeSpeciesSummary(IEnumerable<Plot> plots)
         {
+
+
             var filtered = plots
              .SelectMany(plot => plot.PlotTreeLive.Select(tree => new { plot.PlotNumber, tree.TreeSpecies?.Name }));
 
@@ -1453,6 +1453,9 @@ namespace PTANonCrown.ViewModel
                 PlotWasTreated = false;
             }
 
+            //Populate treatments
+            PopulateUiTreatments();
+
             // Refresh LIT status of trees
             CurrentPlot.UpdatePlotTreeLIT();
 
@@ -1502,19 +1505,7 @@ namespace PTANonCrown.ViewModel
             //  UpdateSoilPhases();
         }
 
-        private void OnSummaryItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(HasSummaryItems));
-            OnPropertyChanged(nameof(HasNoSummaryItems));
 
-        }
-
-        private void OnTreatmentSummaryChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(HasTreatments));
-            OnPropertyChanged(nameof(HasNoTreatments));
-
-        }
 
         public async void NewFile()
         {

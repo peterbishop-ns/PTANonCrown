@@ -600,6 +600,7 @@ namespace PTANonCrown.Data.Models
 
         private void OnVegChanged()
         {
+            OnPropertyChanged(nameof(ForestGroup));
             // whenever the Veg is changed, need to refresh the LIT status of all the trees
             this.UpdatePlotTreeLIT();
 

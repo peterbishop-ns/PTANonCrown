@@ -60,7 +60,7 @@ namespace PTANonCrown.Services
 
             return result;
         }
-
+            
         public static SummaryItem GetAGSLIT_NS_WS_RP(IEnumerable<TreeLive> trees)
 
         {

@@ -83,6 +83,20 @@
         <Setter Property="VerticalOptions"
                 Value="CenterAndExpand" />
     </Style>
+
+
+    <Style TargetType="Label"
+           x:Key="Warning">
+        <Setter Property="HorizontalOptions"
+                Value="Start" />
+        <Setter Property="VerticalOptions"
+                Value="Center" />
+        <Setter Property="TextColor"
+                Value="Red" />
+    </Style>
+    
+    
+    
     <Style TargetType="Label"
            x:Key="LabelParent">
         <Setter Property="HorizontalOptions"
