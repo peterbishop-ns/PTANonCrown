@@ -164,24 +164,11 @@ namespace PTANonCrown.ViewModel
 
 
 
-        public ObservableCollection<Plot> _allPlots { get; set; }
         public ObservableCollection<Stand> _allStands { get; set; }
 
         public ICommand AddTreeCommand => new Command(_ => AddTrees(1));
 
-        public ObservableCollection<Plot> AllPlots
-        {
-            get => _allPlots;
-            set
-            {
-                if (_allPlots != value)
-                {
-                    _allPlots = value;
-                    OnPropertyChanged();
-                }
-            }
 
-        }
 
         public ObservableCollection<Stand> AllStands
         {
@@ -203,26 +190,23 @@ namespace PTANonCrown.ViewModel
             get => _currentPlot;
             set
             {
-                if (value is not null)
+
+                // Unsubscribe from the old collection's property change notifications
+                if (_currentPlot != null)
                 {
-                    // Unsubscribe from the old collection's property change notifications
-                    if (_currentPlot != null)
-                    {
 
-                        _currentPlot.PropertyChanged -= CurrentPlot_PropertyChanged;
+                    _currentPlot.PropertyChanged -= CurrentPlot_PropertyChanged;
 
-                    }
+                }
 
-                    _currentPlot = value;
-                    OnPropertyChanged();
-                    OnCurrentPlotChanged();
+                _currentPlot = value;
+                OnPropertyChanged();
+                OnCurrentPlotChanged();
 
-                    // Subscribe to the new collection's property change notifications
-                    if (_currentPlot != null)
-                    {
-                        _currentPlot.PropertyChanged += CurrentPlot_PropertyChanged;
-                    }
-
+                // Subscribe to the new collection's property change notifications
+                if (_currentPlot != null)
+                {
+                    _currentPlot.PropertyChanged += CurrentPlot_PropertyChanged;
                 }
             }
         }
@@ -241,7 +225,6 @@ namespace PTANonCrown.ViewModel
 
                 _currentStand = value;
                 OnPropertyChanged();
-                OnCurrentStandChanged();
 
                 if (_currentStand != null)
                 {
@@ -359,7 +342,16 @@ namespace PTANonCrown.ViewModel
         }
 
 
-        public List<TreeSpecies> LookupTrees { get; set; }
+        private List<TreeSpecies> _lookupTrees;
+        public List<TreeSpecies> LookupTreeSpecies
+        {
+            get => _lookupTrees;
+            set
+            {
+                _lookupTrees = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand NewPlotCommand =>
             new Command<string>(method => CreateNewPlot(CurrentStand));
@@ -388,30 +380,31 @@ namespace PTANonCrown.ViewModel
 
         public ICommand SaveAllCommand =>
         new Command<string>(method => SaveAllAsync());
-
+        /*
         // TODO - in progress - trying to get Selected Age Species working
-        /* public TreeSpecies SelectedAgeTreeSpecies
+        public TreeSpecies SelectedAgeTreeSpecies
          {
              get
              {
-                 var spec = LookupTrees.FirstOrDefault(t => t.ID == CurrentPlot.AgeTreeSpecies?.ID);
+                 var spec = LookupTreeSpecies.FirstOrDefault(t => t.ID == CurrentPlot.AgeTreeSpecies?.ID);
 
                  return spec;
              }
              set
              {
-                 if (value != null && CurrentPlot.AgeTreeSpeciesID? != value.ID)
+                 if (value != null & CurrentPlot.AgeTreeSpeciesID? != value.ID)
                  {
                      CurrentPlot.AgeTreeSpecies = value;
                      OnPropertyChanged(nameof(SelectedAgeTreeSpecies));
                  }
              }
          }
+
          public TreeSpecies SelectedOldGrowthSpecies
          {
              get
              {
-                 var spec = LookupTrees.FirstOrDefault(t => t.ID == CurrentPlot.OldGrowthSpecies?.ID);
+                 var spec = LookupTreeSpecies.FirstOrDefault(t => t.ID == CurrentPlot.OldGrowthSpecies?.ID);
 
                  return spec;
              }
@@ -423,11 +416,11 @@ namespace PTANonCrown.ViewModel
                      OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
                  }
              }
-         }*/
+         }
 
         public TreeSpecies SelectedOldGrowthSpecies
         {
-            get => LookupTrees?.FirstOrDefault();
+            get => LookupTreeSpecies?.FirstOrDefault();
             set
             {
                 if (value != null && CurrentPlot != null)
@@ -436,7 +429,7 @@ namespace PTANonCrown.ViewModel
                     OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
                 }
             }
-        }
+        }*/
 
         public Soil SelectedSoil
         {
@@ -615,7 +608,7 @@ namespace PTANonCrown.ViewModel
             var tree = new TreeLive()
             {
                 TreeNumber = treeNumber,
-                LookupTrees = LookupTrees,
+                LookupTrees = LookupTreeSpecies,
                 Plot = plot
             };
 
@@ -713,79 +706,8 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        public Dictionary<string, List<string>> LoadPhaseToSoilTypes(List<dynamic> csvRecords)
-        {
 
-            var dict = new Dictionary<string, List<string>>();
-
-            var soils = csvRecords.Select(r => (string)r.Soil)
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct()
-                .ToList();
-            var pattern = new Regex(@"^([A-Z0-9]+?)([A-Z]*)$");
-
-            var dictSoil = soils.
-                Select(s =>
-                {
-                    var match = pattern.Match(s);
-                    var numberPart = match.Groups[1].Value;
-                    var charPart = match.Groups[2].Value;
-                    return (numberPart, charPart);
-                })
-                .GroupBy(x => x.charPart)
-                .ToDictionary(g => g.Key, g => g.Select(x => x.numberPart).ToList());
-
-            return dictSoil;
-            /*
-
-            foreach (var row in records)
-        {
-            string soilType = row.SoilType;
-            string soilPhase = row.SoilPhase;
-
-            string phaseName = soilPhase?.ToUpper() switch
-            {
-                "B" => "Boulder Phase",
-                "S" => "Stony Phase",
-                "SB" => "Stony-Boulder Phase",
-                "C" => "Coarse Phase",
-                "CB" => "Coarse-Boulder Phase",
-                "CS" => "Coarse-Stony Phase",
-                "CSB" => "Coarse-Stony-Boulder Phase",
-                "L" => "Loamy Phase",
-                "LB" => "Loamy-Boulder Phase",
-                "LS" => "Loamy-Stony Phase",
-                "LSB" => "Loamy-Stony-Boulder Phase",
-                "U" => "Upland Phase",
-                "UB" => "Upland-Boulder Phase",
-                "US" => "Upland-Stony Phase",
-                "USB" => "Upland-Stony-Boulder Phase",
-                _ => "n/a Unknown"
-            };
-
-            if (!dict.TryGetValue(phaseName, out var list))
-            {
-                list = new List<string>();
-                dict[phaseName] = list;
-            }
-
-            if (!string.IsNullOrWhiteSpace(soilType))
-                list.Add("st" + soilType);
-        }
-
-        return dict;*/
-        }
-
-        public void OnCurrentStandChanged()
-        {
-            AllPlots = _currentStand?.Plots;
-            if ((AllPlots != null) & AllPlots?.Count() != 0)
-            {
-                CurrentPlot = AllPlots.OrderBy(p => p.PlotNumber).FirstOrDefault();
-
-            }
-        }
-
+     
         // Method that takes soil type, soil phase, veg type, and returns an eco group
         public List<dynamic> ReadCsvRecords(string csvFileName)
         {
@@ -797,23 +719,6 @@ namespace PTANonCrown.ViewModel
             return csv.GetRecords<dynamic>().ToList();
         }
 
-        public void RefreshAllPlots()
-        {
-            var tempCurrentPlot = CurrentPlot;
-
-            var tempList = AllPlots.ToList();
-            AllPlots.Clear();
-            foreach (var plot in tempList)
-            {
-                AllPlots.Add(plot);
-            }
-
-            // Now reassign CurrentPlot to the matching instance from AllPlots
-            if (tempCurrentPlot != null)
-            {
-                CurrentPlot = AllPlots.FirstOrDefault(p => p.PlotNumber == tempCurrentPlot.PlotNumber);
-            }
-        }
 
         public void RefreshAllStands()
         {
@@ -943,7 +848,7 @@ namespace PTANonCrown.ViewModel
                 Soil = null,
                 Exposure = "",
                 Vegetation = null,
-                //AgeTreeSpecies = LookupTrees.Where(x => x.ID == 1).FirstOrDefault(),
+                AgeTreeSpecies = null,
 
                 PlotTreatments = new ObservableCollection<PlotTreatment>(Treatments.Select(t => new PlotTreatment
                 {
@@ -962,18 +867,15 @@ namespace PTANonCrown.ViewModel
             CurrentSoil = LookupSoils.Where(s => s.ShortCode is null || s.ShortCode == string.Empty).FirstOrDefault();
             CurrentVeg = LookupVeg.Where(v => v.ShortCode is null || v.ShortCode == string.Empty).FirstOrDefault();
             CurrentEcositeGroup = EcositeGroup.Acadian;
+            CurrentAgeTreeSpecies = LookupTreeSpecies.FirstOrDefault();
 
-            // Testing only
             _newPlot.SoilCode = CurrentSoil?.ShortCode;
             _newPlot.VegCode = CurrentVeg?.ShortCode;
             _newPlot.EcositeCode = CurrentEcosite?.ShortCode;
-
-
-            //_newPlot.PlotCoarseWoody = InitializeCoarseWoody(_newPlot);
-            //_newPlot.PlotTreeDead = InitializeTreeDead(_newPlot);
+            _newPlot.AgeTreeSpeciesCode = CurrentAgeTreeSpecies?.ShortCode;
+            
 
             _newPlot.Stand = stand;
-
 
             _newPlot.PlotTreeLive = new ObservableCollection<TreeLive>();
 
@@ -1024,14 +926,10 @@ namespace PTANonCrown.ViewModel
             if (e.PropertyName == nameof(Plot.PlotNumber))
             {
                 Console.WriteLine($"PlotNumber changed: {(sender as Plot)?.PlotNumber}");
-                RefreshAllPlots();
 
             }
-            /*
-            if (e.PropertyName == nameof(Plot.Soil) || e.PropertyName == nameof(Plot.Vegetation) || e.PropertyName == nameof(Plot.EcositeGroup))
-            {
-                RefreshEcosite(CurrentSoil, CurrentSoil, CurrentPlot.EcositeGroup.ToString());
-            }*/
+    
+     
         }
 
         private void RefreshEcosite(Soil? soil, Vegetation? veg, string ecositeGroup)
@@ -1248,7 +1146,7 @@ namespace PTANonCrown.ViewModel
                 .ToArray();
 
             // Define the list of property names to exclude
-            string[] excludeProps = { "SearchSpecies", "TreeSpeciesID", "TreeSpeciesFilteredList", "LookupTrees" };
+            string[] excludeProps = { "SearchSpecies", "TreeSpeciesID", "TreeSpeciesFilteredList", "LookupTreeSpecies" };
 
             propertiesSorted = FilterProperties(propertiesSorted, excludeProps);
             // Add headers (column names) to the first row
@@ -1290,7 +1188,7 @@ namespace PTANonCrown.ViewModel
 
             // Group plots by Soil object
             var groupedBySoil = plots
-                .GroupBy(p => new { Code = p.Soil?.ShortCode});
+                .GroupBy(p => new { Code = p.SoilCode});
             foreach (var group in groupedBySoil)
             {
                 var count = group.Count();
@@ -1399,7 +1297,6 @@ namespace PTANonCrown.ViewModel
 
         public Plot GetOrCreatePlot(Stand stand)
         {
-            AllPlots = stand?.Plots;
 
             if (CurrentPlot is not null)
             {
@@ -1408,9 +1305,9 @@ namespace PTANonCrown.ViewModel
             Plot plot = null;
 
             // Get first one
-            if (AllPlots?.Count > 0)
+            if (stand.Plots?.Count > 0)
             {
-                plot = AllPlots[0];
+                plot = stand.Plots?[0];
             }
 
             // Otherwise create one
@@ -1420,62 +1317,64 @@ namespace PTANonCrown.ViewModel
             }
 
             // Refresh the comboboxes
-
-            CurrentSoil = plot.Soil;
-            CurrentVeg = plot.Vegetation;
+            CurrentSoil = LookupSoils.Where(s=> s.ShortCode == plot.SoilCode).FirstOrDefault();
+            CurrentVeg = LookupVeg.Where(v => v.ShortCode ==  plot.VegCode).FirstOrDefault();
             CurrentEcositeGroup = plot.EcositeGroup;
-            foreach(var trt in plot.PlotTreatments)
+            CurrentAgeTreeSpecies = LookupTreeSpecies
+                .FirstOrDefault(t => string.Equals(t.ShortCode, plot.AgeTreeSpeciesCode, StringComparison.OrdinalIgnoreCase));
+            foreach (var t in LookupTreeSpecies)
+            {
+                Console.WriteLine($"'{t.ShortCode}' vs '{plot.AgeTreeSpeciesCode}'");
+            }
+            foreach (var trt in plot.PlotTreatments)
             {
                 trt.Treatment = Treatments.Where(t => t.ID == trt.TreatmentId).FirstOrDefault();
             }
             RefreshEcosite(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
-            SelectedOldGrowthSpecies =
-                LookupTrees
-                    .FirstOrDefault();
+            //SelectedOldGrowthSpecies =
+             //   LookupTreeSpecies
+              //      .FirstOrDefault();
             SetCurrentPlot(plot);
             return plot;
 
         }
 
-        public Stand GetOrCreateStand()
+        public async Task<Stand> GetOrCreateStandAsync()
         {
-            AppLogger.Log("GetOrCreateStand", "MainViewModel");
+            AppLogger.Log("GetOrCreateStandAsync", "MainViewModel");
 
             try
             {
                 Stand _stand;
 
-                AllStands = new ObservableCollection<Stand>(_standRepository.GetAll());
-                // Get first stand if any exist
+                // Await the async GetAll
+                var stands = await _standRepository.GetAllAsync();
+                AllStands = new ObservableCollection<Stand>(stands);
+
                 if (AllStands.Count > 0)
                 {
-
                     _stand = AllStands[0];
-
                 }
-                // Otherwise create a new one (Stand #1)
                 else
                 {
                     _stand = CreateNewStand();
                 }
-                // AllPlots = _stand.Plots;
+
                 SetCurrentStand(_stand);
                 return _stand;
-
             }
             catch (Exception ex)
             {
-
-                AppLogger.Log($"GetOrCreateStand Failed: {ex}", "MainViewModel");
+                AppLogger.Log($"GetOrCreateStandAsync Failed: {ex}", "MainViewModel");
                 throw;
             }
-
         }
+
 
         public async Task LoadLookupTables()
         {
-            LookupTrees = await _standRepository.GetTreeSpeciesAsync();
+            LookupTreeSpecies = await _standRepository.GetTreeSpeciesAsync();
             Treatments = await _standRepository.GetTreatmentsAsync();
 
             LookupSoils = await _lookupRepository.GetSoilLookupsAsync();
@@ -1493,6 +1392,8 @@ namespace PTANonCrown.ViewModel
             
         private void OnCurrentPlotChanged()
         {
+
+            if (CurrentPlot is null) return;
             //Ensure correct GUI Checkbox of Plot Was Treated
             if (CurrentPlot.PlotTreatments.Any(pt => pt.IsActive))
             {
@@ -1582,28 +1483,16 @@ namespace PTANonCrown.ViewModel
 
         public async Task ResetBindingsForNewDatabase()
         {
-            CurrentStand = null;
+            AllStands?.Clear();
+            
             CurrentPlot = null;
+            CurrentStand = null;
 
-            CurrentStand = GetOrCreateStand();
-            CurrentPlot = GetOrCreatePlot(CurrentStand);
+            // Need to reload lookup tables, because switching databases breaks references to the lookups
+            // Selected values, and their corresponding lookups, must come from the same database
             await LoadLookupTables();
 
-            //Refreshdropdrowns
-            CurrentSoil = LookupSoils.Where(s => s.ShortCode == CurrentPlot.SoilCode).FirstOrDefault();
-            CurrentVeg = LookupVeg.Where(v =>v.ShortCode == CurrentPlot.VegCode).FirstOrDefault();
-
-            //foreach (var trt in CurrentPlot.PlotTreatments)
-            //{
-            //    trt.Treatment = Treatments.Where(t => t.ID == trt.TreatmentId).FirstOrDefault();
-           // }
-
-
-            CurrentEcositeGroup = CurrentPlot.EcositeGroup;
-
-            OnPropertyChanged(nameof(CurrentSoil));
-            OnPropertyChanged(nameof(CurrentVeg));
-            OnPropertyChanged(nameof(CurrentEcositeGroup));
+           
         }
 
         private async void OpenFile()
@@ -1677,8 +1566,6 @@ namespace PTANonCrown.ViewModel
         }
 
 
-
-
         private void CreateNewWorkingFile(bool isNewFile, string? sourceFile = null)
         {
             //the app always saves to a temp file in LocalCache, not directly to the save location 
@@ -1711,6 +1598,7 @@ namespace PTANonCrown.ViewModel
             }
 
             ResetBindingsForNewDatabase();
+            
         }
 
             private async void PromptDeleteStand(Stand stand)
@@ -1741,7 +1629,7 @@ namespace PTANonCrown.ViewModel
                         CreateNewStand();
                     }
 
-                    SaveAllAsync();
+                    await SaveAllAsync();
                 }
                 else
                 {
@@ -1807,10 +1695,11 @@ namespace PTANonCrown.ViewModel
 
         public void PopulatePlotTreatmentsFromUI()
         {
-            if (CurrentPlot is null)
+            if ((CurrentPlot is null) || (UiPlotTreatments is null))
             {
                 return;
             }
+
             // Populate the Plot's PlotTreatments with the checkboxes in the UI
             CurrentPlot.PlotTreatments = new ObservableCollection<PlotTreatment>(
                     UiPlotTreatments
@@ -1831,6 +1720,7 @@ namespace PTANonCrown.ViewModel
             plot.Northing = CurrentPlot.Northing ?? 0;
             plot.SoilCode = CurrentSoil?.ShortCode;
             plot.VegCode = CurrentVeg?.ShortCode;
+            plot.AgeTreeSpeciesCode = CurrentAgeTreeSpecies?.ShortCode;
             plot.EcositeGroup = CurrentEcositeGroup;
             plot.EcositeCode = CurrentEcosite?.ShortCode;
         }
@@ -1863,7 +1753,7 @@ namespace PTANonCrown.ViewModel
             {
                 Application.Current.MainPage.DisplayAlert("Error", "Please address errors before saving.", "OK");
                 return; 
-            }
+            }   
             else
             {
                 _standRepository.Save(CurrentStand); // always save to the current Database Context (working database file)
@@ -1963,6 +1853,8 @@ namespace PTANonCrown.ViewModel
             }
         }
 
+
+
         private Vegetation? _currentVeg;
         public Vegetation? CurrentVeg
         {
@@ -2008,15 +1900,29 @@ namespace PTANonCrown.ViewModel
         }
 
 
-        private Ecosite? _CurrentEcosite;
+        private Ecosite? _currentEcosite;
         public Ecosite? CurrentEcosite
         {
-            get => _CurrentEcosite;
+            get => _currentEcosite;
             set
             {
-                if (_CurrentEcosite != value)
+                if (_currentEcosite != value)
                 {
-                    _CurrentEcosite = value;
+                    _currentEcosite = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private TreeSpecies? _currentAgeTreeSpecies;
+        public TreeSpecies? CurrentAgeTreeSpecies
+        {
+            get => _currentAgeTreeSpecies;
+            set
+            {
+                if (_currentAgeTreeSpecies != value)
+                {
+                    _currentAgeTreeSpecies = value;
                     OnPropertyChanged();
                 }
             }
@@ -2027,10 +1933,10 @@ namespace PTANonCrown.ViewModel
         {
             CurrentPlot = plot;
 
-            // Need to populate each tree with the full LookupTrees to ensure dropdown bindings work
+            // Need to populate each tree with the full LookupTreeSpecies to ensure dropdown bindings work
             foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
             {
-                tree.LookupTrees = LookupTrees;
+                tree.LookupTrees = LookupTreeSpecies;
                 var match = tree.LookupTrees.Where(t => t.ShortCode == tree.TreeSpecies.ShortCode).FirstOrDefault();
                 tree.TreeSpecies = match;
 
@@ -2043,6 +1949,7 @@ namespace PTANonCrown.ViewModel
         private void SetCurrentStand(Stand stand)
         {
             CurrentStand = stand;
+
         }
 
         private void SetSummaryStandOnly()

@@ -74,19 +74,6 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        public int AgeTreeSpeciesID
-        {
-            get => _ageTreeSpeciesID;
-            set
-            {
-                if (_ageTreeSpeciesID != value)
-                {
-                    _ageTreeSpeciesID = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public int AGSPatches
         {
             get => _agsPatches;
@@ -452,6 +439,8 @@ namespace PTANonCrown.Data.Models
 
         public string? EcositeCode { get; set; }
 
+        public string? AgeTreeSpeciesCode { get; set; }
+
 
         private Ecosite? _ecosite = null!;
         public Ecosite? Ecosite
@@ -465,6 +454,25 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+        private TreeSpecies? _ageTreeSpecies = null!;
+        public TreeSpecies? AgeTreeSpecies
+        {
+            get => _ageTreeSpecies;
+            set
+            {
+                _ageTreeSpecies = value;
+                OnPropertyChanged();
+                OnAgeTreeSpeciesChanged(value);
+
+            }
+        }
+
+        private void OnAgeTreeSpeciesChanged(TreeSpecies treeSpecies)
+        {
+
+            AgeTreeSpeciesCode = treeSpecies?.ShortCode ?? string.Empty;
+     
+        }   
 
 
         private int _ecodistrict;

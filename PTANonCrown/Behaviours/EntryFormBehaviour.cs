@@ -99,7 +99,7 @@ namespace PTANonCrown.Behaviours
             collection.Add(new TreeLive
             {
                 TreeNumber = maxTreeNumber + 1,
-                LookupTrees = mainVM.LookupTrees,
+                LookupTrees = mainVM.LookupTreeSpecies,
                 Plot = mainVM.CurrentPlot
             });
             mainVM.CurrentPlot.TreeCount = collection.Count;

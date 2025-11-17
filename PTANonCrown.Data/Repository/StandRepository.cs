@@ -20,30 +20,28 @@ namespace PTANonCrown.Data.Repository
 
         }
 
-        public List<Stand>? GetAll()
+        public async Task<List<Stand>> GetAllAsync()
         {
-            AppLoggerData.Log("GetAll - start", "StandRepository");
+            AppLoggerData.Log("GetAllAsync - start", "StandRepository");
             var context = _databaseService.GetContext();
-            var dbSet = context.Set<Stand>();
 
-
-            var hashStand = context.GetHashCode();
-
-            IQueryable<Stand> query = context.Set<Stand>()
+            var query = context.Set<Stand>()
                 .Include(s => s.Plots)
                     .ThenInclude(p => p.PlotTreeLive)
                 .Include(s => s.Plots)
                     .ThenInclude(p => p.PlotTreatments)
                 .Include(s => s.Plots)
                     .ThenInclude(p => p.PlotCoarseWoody)
-                 .Include(s => s.Plots)
+                .Include(s => s.Plots)
                     .ThenInclude(p => p.PlotTreeDead);
-            
 
-            AppLoggerData.Log("GetAll - end", "StandRepository");
+            var result = await query.ToListAsync();
 
-            return query.ToList();
+            AppLoggerData.Log("GetAllAsync - end", "StandRepository");
+
+            return result;
         }
+
 
         public EntityState GetEntityState<T>(T obj) where T : BaseModel
         {

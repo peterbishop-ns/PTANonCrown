@@ -38,7 +38,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                      CommandParameter="PlotNumber" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Spacing="20">
-                        <Picker ItemsSource="{Binding AllPlots, Mode=TwoWay}"
+                        <Picker ItemsSource="{Binding CurrentStand.Plots, Mode=TwoWay}"
                                 WidthRequest="150"
                                 SelectedItem="{Binding CurrentPlot, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding PlotNumber, Mode=TwoWay}"
@@ -668,8 +668,8 @@ ConverterParameter=collapsed}"
                         <Picker Grid.Row="0"
                                 Grid.Column="1"
                                 WidthRequest="200"
-                                SelectedItem="{Binding SelectedAgeTreeSpecies, Mode=TwoWay}"
-                                ItemsSource="{Binding LookupTrees}"
+                                SelectedItem="{Binding CurrentAgeTreeSpecies, Mode=TwoWay}"
+                                ItemsSource="{Binding LookupTreeSpecies}"
                                 ItemDisplayBinding="{Binding Name}" />
 
                         <HorizontalStackLayout Grid.Row="1"

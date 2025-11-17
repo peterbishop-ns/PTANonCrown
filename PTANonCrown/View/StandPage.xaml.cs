@@ -18,10 +18,9 @@ public partial class StandPage : ContentPage
         _mainViewModel = viewModel;
     }
 
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
-        _mainViewModel.GetOrCreateStand();
-
+        await _mainViewModel.GetOrCreateStandAsync();
     }
 }

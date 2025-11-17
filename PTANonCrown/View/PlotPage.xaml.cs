@@ -14,9 +14,13 @@ public partial class PlotPage : ContentPage
         _mainViewModel = viewModel;
     }
 
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
+
+
+        //await _mainViewModel.GetOrCreateStandAsync();
+
         _mainViewModel.GetOrCreatePlot(_mainViewModel.CurrentStand);
 
         _mainViewModel.PopulateUiTreatments();
