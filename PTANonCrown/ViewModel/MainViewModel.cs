@@ -380,56 +380,7 @@ namespace PTANonCrown.ViewModel
 
         public ICommand SaveAllCommand =>
         new Command<string>(method => SaveAllAsync());
-        /*
-        // TODO - in progress - trying to get Selected Age Species working
-        public TreeSpecies SelectedAgeTreeSpecies
-         {
-             get
-             {
-                 var spec = LookupTreeSpecies.FirstOrDefault(t => t.ID == CurrentPlot.AgeTreeSpecies?.ID);
-
-                 return spec;
-             }
-             set
-             {
-                 if (value != null & CurrentPlot.AgeTreeSpeciesID? != value.ID)
-                 {
-                     CurrentPlot.AgeTreeSpecies = value;
-                     OnPropertyChanged(nameof(SelectedAgeTreeSpecies));
-                 }
-             }
-         }
-
-         public TreeSpecies SelectedOldGrowthSpecies
-         {
-             get
-             {
-                 var spec = LookupTreeSpecies.FirstOrDefault(t => t.ID == CurrentPlot.OldGrowthSpecies?.ID);
-
-                 return spec;
-             }
-             set
-             {
-                 if (value != null && CurrentPlot.OldGrowthSpecies?.ID != value.ID)
-                 {
-                     CurrentPlot.OldGrowthSpecies = value;
-                     OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
-                 }
-             }
-         }
-
-        public TreeSpecies SelectedOldGrowthSpecies
-        {
-            get => LookupTreeSpecies?.FirstOrDefault();
-            set
-            {
-                if (value != null && CurrentPlot != null)
-                {
-                    // CurrentPlot.OldGrowthSpeciesID = value.ID;
-                    OnPropertyChanged(nameof(SelectedOldGrowthSpecies));
-                }
-            }
-        }*/
+        
 
         public Soil SelectedSoil
         {
@@ -441,11 +392,6 @@ namespace PTANonCrown.ViewModel
                     _selectedSoil = value;
                     OnPropertyChanged();
 
-                    // 1️⃣ update Plot's soil
-                    //   CurrentPlot.SoilCode = _selectedSoil;
-
-                    // 2️⃣ update dependent things, e.g., phases
-                    //UpdateSoilPhases();
                 }
             }
         }
@@ -839,8 +785,6 @@ namespace PTANonCrown.ViewModel
                 : 1;
 
 
-            //Treatments = _standRepository.GetTreatmentsAsync(); // refresh this list... 
-
             var _newPlot = new Plot
             {
                 PlotNumber = newPlotNumber,
@@ -868,11 +812,13 @@ namespace PTANonCrown.ViewModel
             CurrentVeg = LookupVeg.Where(v => v.ShortCode is null || v.ShortCode == string.Empty).FirstOrDefault();
             CurrentEcositeGroup = EcositeGroup.Acadian;
             CurrentAgeTreeSpecies = LookupTreeSpecies.FirstOrDefault();
+            CurrentOGTreeSpecies = LookupTreeSpecies.FirstOrDefault();
 
             _newPlot.SoilCode = CurrentSoil?.ShortCode;
             _newPlot.VegCode = CurrentVeg?.ShortCode;
             _newPlot.EcositeCode = CurrentEcosite?.ShortCode;
             _newPlot.AgeTreeSpeciesCode = CurrentAgeTreeSpecies?.ShortCode;
+            _newPlot.OGTreeSpeciesCode = CurrentOGTreeSpecies?.ShortCode;
             
 
             _newPlot.Stand = stand;
@@ -1005,7 +951,7 @@ namespace PTANonCrown.ViewModel
         private async void DisplayTreeWarningMessage(Plot plot)
         {
 
-            string message = $"Plot {plot.PlotNumber}: Cruise Summary cannot be genrated; tree(s) missing DBH, heights or species. ";
+            string message = $"Stand {plot.Stand.StandNumber} | Plot {plot.PlotNumber}: Cruise Summary cannot be genrated; tree(s) missing DBH, heights or species. ";
 
             ErrorMessage = string.IsNullOrEmpty(ErrorMessage)
                 ? message
@@ -1322,19 +1268,17 @@ namespace PTANonCrown.ViewModel
             CurrentEcositeGroup = plot.EcositeGroup;
             CurrentAgeTreeSpecies = LookupTreeSpecies
                 .FirstOrDefault(t => string.Equals(t.ShortCode, plot.AgeTreeSpeciesCode, StringComparison.OrdinalIgnoreCase));
-            foreach (var t in LookupTreeSpecies)
-            {
-                Console.WriteLine($"'{t.ShortCode}' vs '{plot.AgeTreeSpeciesCode}'");
-            }
+
+            CurrentOGTreeSpecies = LookupTreeSpecies
+                .FirstOrDefault(t => string.Equals(t.ShortCode, plot.OGTreeSpeciesCode, StringComparison.OrdinalIgnoreCase));
+
             foreach (var trt in plot.PlotTreatments)
             {
                 trt.Treatment = Treatments.Where(t => t.ID == trt.TreatmentId).FirstOrDefault();
             }
             RefreshEcosite(CurrentSoil, CurrentVeg, CurrentEcositeGroup.ToString());
 
-            //SelectedOldGrowthSpecies =
-             //   LookupTreeSpecies
-              //      .FirstOrDefault();
+
             SetCurrentPlot(plot);
             return plot;
 
@@ -1721,6 +1665,7 @@ namespace PTANonCrown.ViewModel
             plot.SoilCode = CurrentSoil?.ShortCode;
             plot.VegCode = CurrentVeg?.ShortCode;
             plot.AgeTreeSpeciesCode = CurrentAgeTreeSpecies?.ShortCode;
+            plot.OGTreeSpeciesCode = CurrentOGTreeSpecies?.ShortCode;
             plot.EcositeGroup = CurrentEcositeGroup;
             plot.EcositeCode = CurrentEcosite?.ShortCode;
         }
@@ -1923,6 +1868,20 @@ namespace PTANonCrown.ViewModel
                 if (_currentAgeTreeSpecies != value)
                 {
                     _currentAgeTreeSpecies = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+                private TreeSpecies? _currentOGTreeSpecies;
+        public TreeSpecies? CurrentOGTreeSpecies
+        {
+            get => _currentOGTreeSpecies;
+            set
+            {
+                if (_currentOGTreeSpecies != value)
+                {
+                    _currentOGTreeSpecies = value;
                     OnPropertyChanged();
                 }
             }

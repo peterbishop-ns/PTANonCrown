@@ -762,8 +762,8 @@ ConverterParameter=collapsed}">
                                 IsVisible="{Binding CurrentPlot.HasOldGrowth,
             Converter={StaticResource BoolToVisibilityConverter},
 ConverterParameter=collapsed}"
-                                SelectedItem="{Binding SelectedOldGrowthSpecies, Mode=TwoWay}"
-                                ItemsSource="{Binding LookupTrees}"
+                                SelectedItem="{Binding CurrentOGTreeSpecies, Mode=TwoWay}"
+                                ItemsSource="{Binding LookupTreeSpecies}"
                                 ItemDisplayBinding="{Binding Name}" />
 
                         <HorizontalStackLayout Grid.Row="2"
@@ -771,8 +771,6 @@ ConverterParameter=collapsed}"
                                                IsVisible="{Binding CurrentPlot.HasOldGrowth,
             Converter={StaticResource BoolToVisibilityConverter},
 ConverterParameter=collapsed}">
-                            <Label Text="{Binding SelectedOldGrowthSpecies.Name}" />
-
                             <Label  Text="Age" />
                             <ImageButton Source="info.png"
                                          Style="{StaticResource ImageButtonHelper}"

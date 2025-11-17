@@ -48,7 +48,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                    Grid.Row="1"
                    Grid.Column="0"
                    Style="{StaticResource LabelPlot}" />
-            <Picker ItemsSource="{Binding AllPlots, Mode=TwoWay}"
+            <Picker ItemsSource="{Binding CurrentStand.Plots, Mode=TwoWay}"
                     Grid.Row="1"
                     Grid.Column="1"
                     SelectedItem="{Binding CurrentPlot, Mode=TwoWay}"

@@ -440,6 +440,7 @@ namespace PTANonCrown.Data.Models
         public string? EcositeCode { get; set; }
 
         public string? AgeTreeSpeciesCode { get; set; }
+        public string? OGTreeSpeciesCode { get; set; }
 
 
         private Ecosite? _ecosite = null!;
