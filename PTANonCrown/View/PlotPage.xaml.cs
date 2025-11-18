@@ -23,14 +23,14 @@ public partial class PlotPage : ContentPage
 
         _mainViewModel.GetOrCreatePlot(_mainViewModel.CurrentStand);
 
-        _mainViewModel.PopulateUiTreatments();
+        _mainViewModel.PopulateUiTreatments(_mainViewModel.CurrentPlot);
 
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        _mainViewModel.PopulatePlotTreatmentsFromUI();
+        _mainViewModel.PopulatePlotFromUi(_mainViewModel.CurrentPlot);
     }
     private void OnlyIntegerAllowed(object sender, TextChangedEventArgs e)
     {

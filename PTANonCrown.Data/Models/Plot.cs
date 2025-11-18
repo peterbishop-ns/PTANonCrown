@@ -15,11 +15,11 @@ namespace PTANonCrown.Data.Models
         public ObservableCollection<CoarseWoody> _plotCoarseWoody;
         private int _ageTreeAge;
         private int _ageTreeDBH;
+        private string? _comment;
 
         private int _ageTreeSpeciesID;
         private Ecosite _ecositeLookup;
         private EcositeGroup _ecositeGroup;
-       // private ForestGroup _forestGroup;
         private int _oldGrowthAge;
         private int _oldGrowthDBH;
 
@@ -45,7 +45,7 @@ namespace PTANonCrown.Data.Models
             StockingRegenCommercialSpecies = 0;
             StockingRegenLITSpecies = 0;
             TransectLength = 20; //default
-
+            PlotTreeLive.CollectionChanged += OnTreeLiveCollectionChanged;
         }
 
         public int AgeTreeAge
@@ -91,6 +91,21 @@ namespace PTANonCrown.Data.Models
         public int AverageSampleTreeDBH_cm { get; set; }
         public int AverageSampleTreeSpecies { get; set; }
         public int Blowdown { get; set; }
+
+        public string? Comment
+        {
+            get => _comment;
+            set
+            {
+                if (_comment != value)
+                {
+                    _comment = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
         public int? Easting { get; set; }
 
      
