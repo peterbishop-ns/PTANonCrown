@@ -1,12 +1,14 @@
-﻿using PTANonCrown.Data.Services;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using PTANonCrown.Data.Services;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace PTANonCrown.Data.Models
 
 {
-    public class TreeLive : BaseModel
+    public partial class TreeLive : BaseModel
     {
         private static readonly Dictionary<int, int> _dbhHeightLookupHardwood = new Dictionary<int, int>
    {{10, 7},
@@ -111,7 +113,6 @@ namespace PTANonCrown.Data.Models
         private int _heightPredicted_m;
         private PlantedMethod _plantedMethod;
         private bool _pLInSitu;
-        private TreeSpecies _treeSpecies;
 
         public TreeLive()
         {
@@ -229,9 +230,19 @@ namespace PTANonCrown.Data.Models
 
         public bool SCanopy { get; set; }
 
+
+
+
+
+
+        public string TreeSpeciesShortCode { get; set; }
+
+        // -----------------------------
+        // Observable SearchSpecies
+        // -----------------------------
+
         private string _searchSpecies;
-
-
+        [Required(ErrorMessage = "Species is required.")]
         public string SearchSpecies
         {
             get => _searchSpecies;
@@ -239,28 +250,33 @@ namespace PTANonCrown.Data.Models
             {
                 if (_searchSpecies != value)
                 {
-                    _searchSpecies = value;
-                    OnPropertyChanged();
-                    OnSearchSpeciesChanged(value);
+                    SetProperty(ref _searchSpecies, value, true);
+                  
+
+                    // Run any dependent logic
+                    OnSearchSpeciesChanged(_searchSpecies);
                 }
             }
-
         }
-
-        private async void OnSearchSpeciesChanged(string searchString)
+        // Called automatically when SearchSpecies changes
+        private void OnSearchSpeciesChanged(string value)
         {
-            var result = LookupTrees
-                .FirstOrDefault(t => string.Equals(t.ShortCode, searchString, StringComparison.OrdinalIgnoreCase));
+            // Only update TreeSpecies if different to avoid recursion
+            if (TreeSpecies?.ShortCode != value)
+            {
+                var result = LookupTrees
+                    .FirstOrDefault(t => string.Equals(t.ShortCode, value, StringComparison.OrdinalIgnoreCase));
                 TreeSpecies = result;
-
+            }
         }
 
-
-        public string TreeSpeciesShortCode { get; set; }
-
+        // -----------------------------
+        // Observable TreeSpecies
+        // -----------------------------
+        private TreeSpecies _treeSpecies;
 
         [ForeignKey(nameof(TreeSpeciesShortCode))]
-        public virtual TreeSpecies TreeSpecies
+        public TreeSpecies TreeSpecies
         {
             get => _treeSpecies;
             set
@@ -269,9 +285,15 @@ namespace PTANonCrown.Data.Models
                 {
                     _treeSpecies = value;
                     OnPropertyChanged();
-                    OnTreeSpeciesChanged();
+
+                    // Only update SearchSpecies if different to avoid recursion
+                    if (SearchSpecies != _treeSpecies?.ShortCode)
+                        SearchSpecies = _treeSpecies?.ShortCode;
+                    OnPropertyChanged(nameof(SearchSpecies));   
+                    // Any additional dependent logic
+                    UpdateTreeLIT();
+                    PredictHeight();
                 }
-                    
             }
         }
 
@@ -304,12 +326,7 @@ namespace PTANonCrown.Data.Models
 
 
 
-        private void OnTreeSpeciesChanged()
-        {
-            SearchSpecies = TreeSpecies?.ShortCode;
-            this.UpdateTreeLIT();
-            PredictHeight();
-        }
+
 
         [NotMapped]
         public ObservableCollection<TreeSpecies> TreeSpeciesFilteredList { get; set; } = new ObservableCollection<TreeSpecies>();

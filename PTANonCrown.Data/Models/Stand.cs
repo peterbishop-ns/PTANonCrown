@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace PTANonCrown.Data.Models
 {
@@ -18,17 +19,15 @@ namespace PTANonCrown.Data.Models
             Plots = new ObservableCollection<Plot>();
         }
 
+
+
+
+        [Required]
         public string CruiseID
         {
             get => _cruiseID;
-            set
-            {
-                if (_cruiseID != value)
-                {
-                    _cruiseID = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _cruiseID, value, true);
+
         }
 
         public int Ecodistrict
@@ -44,84 +43,52 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+        [Required]
         public string? Location
         {
             get => _location;
-            set
-            {
-                if (_location != value)
-                {
-                    _location = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _location, value, true);
+
         }
 
         public float? Area_ha
         {
             get => _area_ha;
-            set
-            {
-                if (_area_ha != value)
-                {
-                    _area_ha = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _area_ha, value, false);
+
         }
 
         public string? Organization
         {
             get => _organization;
-            set
-            {
-                if (_organization != value)
-                {
-                    _organization = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _organization, value, false);
+
         }
 
         public string? Comment
         {
             get => _comment;
-            set
-            {
-                if (_comment != value)
-                {
-                    _comment = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _comment, value, false);
         }
 
+        [Required]
         public string PlannerID
         {
             get => _plannerID;
-            set
-            {
-                if (_plannerID != value)
-                {
-                    _plannerID = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _plannerID, value, true);
+
         }
 
         public virtual ObservableCollection<Plot> Plots { get; set; }
 
+
+        [Required(ErrorMessage = "Stand Number is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Stand Number must be a positive number")]
         public int StandNumber
         {
             get => _standNumber;
-            set
-            {
-                if (_standNumber != value)
-                {
-                    _standNumber = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _standNumber, value, true);
+
         }
     }
 }

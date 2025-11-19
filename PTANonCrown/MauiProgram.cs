@@ -35,12 +35,12 @@ namespace PTANonCrown
             // ------------------------
             // Pages
             // ------------------------
-            builder.Services.AddSingleton<StandPage>();
-            builder.Services.AddSingleton<PlotPage>();
-            builder.Services.AddSingleton<LiveTreePage>();
-            builder.Services.AddSingleton<DeadTreePage>();
-            builder.Services.AddSingleton<CoarseWoodyMaterialPage>();
-            builder.Services.AddSingleton<SummaryPage>();
+            builder.Services.AddTransient<StandPage>();
+            builder.Services.AddTransient<PlotPage>();
+            builder.Services.AddTransient<LiveTreePage>();
+            builder.Services.AddTransient<DeadTreePage>();
+            builder.Services.AddTransient<CoarseWoodyMaterialPage>();
+            builder.Services.AddTransient<SummaryPage>();
 
             // ------------------------
             // Repositories
@@ -65,9 +65,9 @@ namespace PTANonCrown
             // ------------------------
             // Template file path
             // ------------------------
-            var templateFilePath = Path.Combine(FileSystem.AppDataDirectory, "template.pta");
-
             Directory.CreateDirectory(FileSystem.AppDataDirectory);
+
+            var templateFilePath = Path.Combine(FileSystem.AppDataDirectory, "template.pta");
 
             // Only create template if it doesn't exist
             if (!File.Exists(templateFilePath))
@@ -93,12 +93,10 @@ namespace PTANonCrown
 
             }
 
-            // todo - should not be running migrations in MauiProgram.cs. Apparently this is better done in App.xaml.cs
-            // todo - lookupservice should not instantiate a new Database service; it shouold use the one from DI
-
 
             // -------------------------
-            // 
+            // Special code to intercept attempt to close, so we can check if there are unsaved changes
+
             // --------------------------
 
             builder.ConfigureLifecycleEvents(events =>

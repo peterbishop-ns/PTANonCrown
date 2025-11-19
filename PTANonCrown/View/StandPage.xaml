@@ -13,18 +13,26 @@
         <ResourceDictionary>
             <converter:ZeroToEmptyStringConverter x:Key="ZeroToEmptyStringConverter" />
             <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
-        
-        <ScrollView>
-        <VerticalStackLayout Padding="5"
-                             Spacing="5">
 
+    <Grid RowDefinitions="Auto,*">
+        <VerticalStackLayout Grid.Row="0">
             <Label Text="{Binding ErrorMessage}"
-                   Background="Pink"
+                   Background="Red"
+                   Padding="5"
                    IsVisible="{Binding ErrorMessage, 
-    Converter={StaticResource StringToVisibilityConverter}}" />
-            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+Converter={StaticResource StringToVisibilityConverter}}" />
+            <Label Text="{Binding AllStandAllsErrors}"
+                   Background="Pink"
+                   Padding="5"
+                   IsVisible="{Binding AllStandAllsErrors, 
+Converter={StaticResource StringToVisibilityConverter}}" />
+
+        </VerticalStackLayout>
+        <ScrollView Grid.Row="1">
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
                   ColumnDefinitions="Auto, *"
                   MaximumWidthRequest="500"
                   Padding="10"
@@ -62,6 +70,9 @@
                     <HorizontalStackLayout>
                         <Label Text="Edit Stand Number"
                                Style="{StaticResource LabelStand}" />
+                        <Label Text="*"
+                               Margin="5,0,5,0"
+                               TextColor="Red" />
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
@@ -75,19 +86,9 @@
                                Style="{StaticResource EntryStand}">
                         </Entry>
                     </HorizontalStackLayout>
-                    <HorizontalStackLayout Margin="0,20,0,0">
-                        <Label Text="Comment"
-                               Style="{StaticResource LabelStand}" />
-                        <ImageButton Source="info.png"
-                                     
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandComment" />
-                    </HorizontalStackLayout>
-                    <Editor Placeholder="Comment"
-                            Style="{StaticResource EditorComment}"
-                            Text="{Binding CurrentStand.Comment}"/>
+                   
                 </VerticalStackLayout>
+
 
                 <VerticalStackLayout Grid.Row="2"
                                      Style="{StaticResource VerticalStackLayoutStand}">
@@ -95,6 +96,9 @@
                     <HorizontalStackLayout>
                         <Label Text="Cruise ID"
                                Style="{StaticResource LabelStand}" />
+                        <Label Text="*"
+                               Margin="5,0,5,0"
+                               TextColor="Red" />
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
@@ -105,12 +109,14 @@
                            Placeholder="Cruise ID"
                            Style="{StaticResource EntryStand}" />
                 </VerticalStackLayout>
-
                 <VerticalStackLayout Grid.Row="3"
                                      Style="{StaticResource VerticalStackLayoutStand}">
                     <HorizontalStackLayout>
                         <Label Text="Planner ID"
                                Style="{StaticResource LabelStand}" />
+                        <Label Text="*"
+                               Margin="5,0,5,0"
+                               TextColor="Red" />
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
@@ -120,23 +126,25 @@
                            Placeholder="Planner ID"
                            Style="{StaticResource EntryStand}" />
                 </VerticalStackLayout>
-
                 <VerticalStackLayout Grid.Row="4"
                                      Style="{StaticResource VerticalStackLayoutStand}">
                     <HorizontalStackLayout>
-                        <Label Text="Area (ha)"
+                        <Label Text="Location"
                                Style="{StaticResource LabelStand}" />
+                        <Label Text="*"
+                               Margin="5,0,5,0"
+                               TextColor="Red" />
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandArea" />
+                                     CommandParameter="Location" />
                     </HorizontalStackLayout>
-                    <Entry Text="{Binding CurrentStand.Area_ha}"
-                           Placeholder="Area (ha)"
+
+                    <Entry Text="{Binding CurrentStand.Location}"
+                           Placeholder="Location"
                            Style="{StaticResource EntryStand}" />
+
                 </VerticalStackLayout>
-
-
                 <VerticalStackLayout Grid.Row="5"
                                      Style="{StaticResource VerticalStackLayoutStand}">
                     <HorizontalStackLayout>
@@ -151,24 +159,38 @@
                            Placeholder="Organization"
                            Style="{StaticResource EntryStand}" />
                 </VerticalStackLayout>
-
                 <VerticalStackLayout Grid.Row="6"
                                      Style="{StaticResource VerticalStackLayoutStand}">
                     <HorizontalStackLayout>
-                        <Label Text="Location"
+                        <Label Text="Area (ha)"
                                Style="{StaticResource LabelStand}" />
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="Location" />
+                                     CommandParameter="StandArea" />
                     </HorizontalStackLayout>
-                    <Entry Text="{Binding CurrentStand.Location}"
-                           Placeholder="Location"
+                    <Entry Text="{Binding CurrentStand.Area_ha}"
+                           Placeholder="Area (ha)"
                            Style="{StaticResource EntryStand}" />
                 </VerticalStackLayout>
-            </Grid>
-        </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="7">
+                    <HorizontalStackLayout>
+                        <Label Text="Comment"
+                               Style="{StaticResource LabelStand}" />
+                        <ImageButton Source="info.png"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="StandComment" />
+                    </HorizontalStackLayout>
+                   
+                    <Editor Placeholder="Comment"
+                            Style="{StaticResource EditorComment}"
+                            Text="{Binding CurrentStand.Comment}" />
+                </VerticalStackLayout>
 
-    </ScrollView>
+
+            </Grid>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

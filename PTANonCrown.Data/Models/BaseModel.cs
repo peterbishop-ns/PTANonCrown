@@ -6,18 +6,48 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Collections;
 
 namespace PTANonCrown.Data.Models
 {
-    public class BaseModel : INotifyPropertyChanged
+    public class BaseModel : ObservableValidator, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public int ID { get; set; }
-
+        public void ValidateAll()
+        {
+            this.ValidateAllProperties();
+        }
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public List<string> GetAllErrors()
+        {
+            var errors = new List<string>();
+
+            foreach (var prop in GetType().GetProperties())
+            {
+                var propErrors = GetErrors(prop.Name) as IEnumerable;
+                if (propErrors != null)
+                {
+                    foreach (var error in propErrors)
+                    {
+                        errors.Add(error.ToString());
+                    }
+                }
+            }
+
+            return errors;
+        }
+        public string GetAllErrorsAsString()
+        {
+            var allErrors = GetAllErrors();
+            return string.Join("\n", allErrors);
+        }
+
 
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {

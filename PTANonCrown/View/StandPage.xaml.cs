@@ -23,4 +23,5 @@ public partial class StandPage : ContentPage
         base.OnAppearing();
         await _mainViewModel.GetOrCreateStandAsync();
     }
+
 }
