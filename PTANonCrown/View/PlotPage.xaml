@@ -18,13 +18,17 @@
             <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <ScrollView>
-        <VerticalStackLayout Padding="5"
-                             Spacing="5">
+
+    <Grid RowDefinitions="Auto,*">
+        <VerticalStackLayout Grid.Row="0">
             <Label Text="{Binding ErrorMessage}"
                    Background="Pink"
+                   Padding="5"
                    IsVisible="{Binding ErrorMessage, 
 Converter={StaticResource StringToVisibilityConverter}}" />
+        </VerticalStackLayout>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout>
             <!-- PLOT NUMBERS -->
             <Grid RowDefinitions="Auto,Auto,Auto"
                   Margin="10,0,0,0">
@@ -54,7 +58,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 Command="{Binding NewPlotCommand}" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
- 
+
                 <VerticalStackLayout Grid.Row="1">
                     <HorizontalStackLayout>
                         <Label Text="Edit Plot Number"
@@ -81,7 +85,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
 
                     <Editor Placeholder="Comment"
                             Style="{StaticResource EditorComment}"
-                            Text="{Binding CurrentPlot.Comment}"/>
+                            Text="{Binding CurrentPlot.Comment}" />
                 </VerticalStackLayout>
             </Grid>
             <!-- PLOT LOCATION -->
@@ -121,9 +125,9 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                 </Border>
 
             </VerticalStackLayout>
-            
+
             <!-- PLOT HISTORY-->
-            
+
             <VerticalStackLayout>
                 <Label Text="Plot History"
                        Style="{StaticResource LabelPlot}" />
@@ -135,7 +139,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                              HorizontalOptions="Start">
                             <HorizontalStackLayout>
                                 <CheckBox IsChecked="{Binding PlotWasTreated}" />
-                                
+
                                 <!-- TODO: bind this and add logic to turn off any treatment if this is disabled -->
                                 <Label Text="Treated"
                                        VerticalOptions="Center"
@@ -222,14 +226,14 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="EcositeGroup" />
                         </HorizontalStackLayout>
-                    
+
                         <VerticalStackLayout Grid.Row="1"
                                              Spacing="0"
                                              Grid.ColumnSpan="2"
                                              Margin="0,0,0,0">
-       
-                                <VerticalStackLayout  Margin="20,0,0,0"
-                                                                Spacing="0"
+
+                            <VerticalStackLayout  Margin="20,0,0,0"
+                                                  Spacing="0"
                                                   RadioButtonGroup.GroupName="EcositeGroup"
                                                   RadioButtonGroup.SelectedValue="{Binding CurrentEcositeGroup, Mode=TwoWay}">
                                 <RadioButton Content="HIDDEN"
@@ -237,7 +241,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                              IsVisible="False"
                                              Value="{x:Static enum:EcositeGroup.None}" />
                                 <RadioButton Content="Acadian"
-                                                 Margin="0"
+                                             Margin="0"
                                              Value="{x:Static enum:EcositeGroup.Acadian}" />
 
 
@@ -247,7 +251,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
 
                             </VerticalStackLayout>
                         </VerticalStackLayout>
-                        
+
 
                         <HorizontalStackLayout Grid.Row="4"
                                                Grid.Column="0">
@@ -302,9 +306,9 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                TextChanged="OnlyIntegerAllowed"
                                WidthRequest="50" />
 
-                        
-                        
-                        
+
+
+
 
                         <HorizontalStackLayout Grid.Row="10"
                                                Grid.Column="0">
@@ -397,9 +401,9 @@ Converter={StaticResource StringToVisibilityConverter}}" />
 
             <!-- REGENERATION STOCKING -->
             <VerticalStackLayout>
-                    <Label Text="Regeneration Stocking"
-                           Style="{StaticResource SubHeadline}" />
-                 
+                <Label Text="Regeneration Stocking"
+                       Style="{StaticResource SubHeadline}" />
+
                 <Border>
 
                     <Grid ColumnDefinitions="250,Auto"
@@ -471,7 +475,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
 
                         <CheckBox Grid.Row="0"
                                   Grid.Column="1"
-                                  IsChecked="{Binding CurrentPlot.UnevenAged}" /> 
+                                  IsChecked="{Binding CurrentPlot.UnevenAged}" />
 
                         <HorizontalStackLayout Grid.Row="1"
                                                IsVisible="{Binding CurrentPlot.UnevenAged,
@@ -505,7 +509,7 @@ ConverterParameter=collapsed}">
                                   IsChecked="{Binding CurrentPlot.OneCohortSenescent}"
                                   IsVisible="{Binding CurrentPlot.UnevenAged,
             Converter={StaticResource BoolToVisibilityConverter},
-ConverterParameter=collapsed}"/>
+ConverterParameter=collapsed}" />
 
                         <Entry Grid.Row="1"
                                Grid.Column="1"
@@ -513,7 +517,7 @@ ConverterParameter=collapsed}"/>
                                IsVisible="{Binding CurrentPlot.UnevenAged,
             Converter={StaticResource BoolToVisibilityConverter},
 ConverterParameter=collapsed}"
-                            HorizontalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"
                                Text="{Binding CurrentPlot.AGSPatches}"
                                TextChanged="OnlyIntegerAllowed"
                                Style="{StaticResource EntryParent}" />
@@ -523,8 +527,8 @@ ConverterParameter=collapsed}"
 
                 </Border>
             </VerticalStackLayout>
-            
-            
+
+
             <!-- FOREST STRUCTURE -->
             <VerticalStackLayout>
                 <Label Text="Forest Structure"
@@ -566,10 +570,10 @@ ConverterParameter=collapsed}"
                                          CommandParameter="UnderstoryStrata" />
                         </HorizontalStackLayout>
 
-                        
+
                         <HorizontalStackLayout Grid.Row="6">
 
-                            <Label Text="Understory Dominated By"/>
+                            <Label Text="Understory Dominated By" />
                             <ImageButton Source="info.png"
                                          Style="{StaticResource ImageButtonHelper}"
                                          Margin="10,0,0,0"
@@ -605,7 +609,7 @@ ConverterParameter=collapsed}"
                                 SelectedItem="{Binding CurrentPlot.UnderstoryStrata}"
                                 HorizontalOptions="Start" />
 
-                      
+
 
 
                         <!-- UnderstoryDominated -->
@@ -623,16 +627,16 @@ ConverterParameter=collapsed}"
                                              Value="{x:Static enum:UnderstoryDominated.None}" />
 
                                 <RadioButton Content="Trees"
-             Value="{x:Static enum:UnderstoryDominated.Trees}" />
+                                             Value="{x:Static enum:UnderstoryDominated.Trees}" />
 
 
-                                             <RadioButton Content="Woody Shrubs"
-             Value="{x:Static enum:UnderstoryDominated.WoodyShrubs}" />
+                                <RadioButton Content="Woody Shrubs"
+                                             Value="{x:Static enum:UnderstoryDominated.WoodyShrubs}" />
 
                             </VerticalStackLayout>
                         </VerticalStackLayout>
-                        
-                        
+
+
                     </Grid>
                 </Border>
             </VerticalStackLayout>
@@ -640,14 +644,14 @@ ConverterParameter=collapsed}"
             <!-- AGE -->
             <VerticalStackLayout>
                 <HorizontalStackLayout>
-                    
+
                     <Label Text="Age Tree"
                            Style="{StaticResource LabelPlot}" />
-                <ImageButton Source="info.png"
-                             Style="{StaticResource ImageButtonHelper}"
-                             Margin="10,0,0,0"
-                             Command="{Binding ShowHelperTextCommand}"
-                             CommandParameter="AgeGeneral" />
+                    <ImageButton Source="info.png"
+                                 Style="{StaticResource ImageButtonHelper}"
+                                 Margin="10,0,0,0"
+                                 Command="{Binding ShowHelperTextCommand}"
+                                 CommandParameter="AgeGeneral" />
                 </HorizontalStackLayout>
 
                 <Border>
@@ -664,7 +668,7 @@ ConverterParameter=collapsed}"
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="AgeTreeSpecies" />
                         </HorizontalStackLayout>
-              
+
                         <Picker Grid.Row="0"
                                 Grid.Column="1"
                                 WidthRequest="200"
@@ -682,7 +686,7 @@ ConverterParameter=collapsed}"
                                          CommandParameter="AgeTreeAge" />
 
                         </HorizontalStackLayout>
-                 
+
                         <Entry Grid.Row="1"
                                WidthRequest="50"
                                HorizontalOptions="End"
@@ -699,7 +703,7 @@ ConverterParameter=collapsed}"
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="AgeDBH" />
                         </HorizontalStackLayout>
-                       
+
                         <Entry Grid.Row="2"
                                WidthRequest="50"
                                TextChanged="OnlyIntegerAllowed"
@@ -817,8 +821,9 @@ ConverterParameter=collapsed}"
                 </Border>
             </VerticalStackLayout>
 
-        </VerticalStackLayout>
 
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

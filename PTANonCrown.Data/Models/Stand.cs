@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace PTANonCrown.Data.Models
 {
@@ -18,6 +19,13 @@ namespace PTANonCrown.Data.Models
             Plots = new ObservableCollection<Plot>();
         }
 
+        public void ValidateAll()
+        {
+            this.ValidateAllProperties();
+        }
+
+
+        [Required]
         public string CruiseID
         {
             get => _cruiseID;
@@ -26,6 +34,8 @@ namespace PTANonCrown.Data.Models
                 if (_cruiseID != value)
                 {
                     _cruiseID = value;
+                    ValidateProperty(_cruiseID, nameof(CruiseID));
+
                     OnPropertyChanged();
                 }
             }
@@ -44,6 +54,7 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+        [Required]
         public string? Location
         {
             get => _location;
@@ -52,7 +63,10 @@ namespace PTANonCrown.Data.Models
                 if (_location != value)
                 {
                     _location = value;
+                    ValidateProperty(_location, nameof(Location)); // triggers validation
+
                     OnPropertyChanged();
+
                 }
             }
         }
@@ -96,6 +110,7 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+        [Required]
         public string PlannerID
         {
             get => _plannerID;
@@ -104,6 +119,8 @@ namespace PTANonCrown.Data.Models
                 if (_plannerID != value)
                 {
                     _plannerID = value;
+                    ValidateProperty(_plannerID, nameof(PlannerID)); 
+
                     OnPropertyChanged();
                 }
             }
@@ -111,6 +128,9 @@ namespace PTANonCrown.Data.Models
 
         public virtual ObservableCollection<Plot> Plots { get; set; }
 
+
+        [Required(ErrorMessage = "Stand Number is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Stand Number must be a positive integer")]
         public int StandNumber
         {
             get => _standNumber;
@@ -119,6 +139,7 @@ namespace PTANonCrown.Data.Models
                 if (_standNumber != value)
                 {
                     _standNumber = value;
+                    ValidateProperty(_standNumber, nameof(StandNumber)); 
                     OnPropertyChanged();
                 }
             }

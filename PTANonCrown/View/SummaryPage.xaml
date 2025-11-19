@@ -12,419 +12,425 @@
             <converter:CollectionCountToBoolConverter  x:Key="CollectionCountToBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <VerticalStackLayout Padding="5"
-                         Spacing="5">
-        <Label Text="{Binding ErrorMessage}"
-               Background="Pink"
-               IsVisible="{Binding ErrorMessage, 
+    <Grid RowDefinitions="Auto,*">
+        <VerticalStackLayout Grid.Row="0">
+            <Label Text="{Binding ErrorMessage}"
+                   Background="Pink"
+                   Padding="5"
+                   IsVisible="{Binding ErrorMessage, 
 Converter={StaticResource StringToVisibilityConverter}}" />
-        <Grid ColumnDefinitions="1*,1*,2*,3*"
-              WidthRequest="800"
-              HorizontalOptions="Start"
-              Margin="20,0,0,0"
-              RowDefinitions="Auto, Auto,Auto">
-            <Label Grid.Row="0"
-                   Grid.Column="0"
-                   Text="Stand Number"
-                   Style="{StaticResource LabelPlot}" />
-            <Label Grid.Row="0"
-                   Grid.Column="1"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   Text="{Binding CurrentStand.StandNumber}" />
-            <HorizontalStackLayout Grid.Row="0"
-                                   Grid.Column="2">
-                <Button Text="Stand Summary"
-                        Style="{StaticResource ButtonGreen}"
-                        Command="{Binding SetStandOnlyCommand}" />
-                <ImageButton Source="info.png"
-                             Style="{StaticResource ImageButtonHelper}"
-                             Command="{Binding ShowHelperTextCommand}"
-                             CommandParameter="StandSummary" />
-            </HorizontalStackLayout>
+            <Label Text="{Binding CurrentStandAllErrors}"
+                   TextColor="Red" />
+        </VerticalStackLayout>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="5"
+                                 Spacing="5">
+                <Grid ColumnDefinitions="1*,1*,2*,3*"
+                      WidthRequest="800"
+                      HorizontalOptions="Start"
+                      Margin="20,0,0,0"
+                      RowDefinitions="Auto, Auto,Auto">
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Stand Number"
+                           Style="{StaticResource LabelPlot}" />
+                    <Label Grid.Row="0"
+                           Grid.Column="1"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Text="{Binding CurrentStand.StandNumber}" />
+                    <HorizontalStackLayout Grid.Row="0"
+                                           Grid.Column="2">
+                        <Button Text="Stand Summary"
+                                Style="{StaticResource ButtonGreen}"
+                                Command="{Binding SetStandOnlyCommand}" />
+                        <ImageButton Source="info.png"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="StandSummary" />
+                    </HorizontalStackLayout>
 
 
-            <Label Text="Plot Number"
-                   Grid.Row="1"
-                   Grid.Column="0"
-                   Style="{StaticResource LabelPlot}" />
-            <Picker ItemsSource="{Binding CurrentStand.Plots, Mode=TwoWay}"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    SelectedItem="{Binding CurrentPlot, Mode=TwoWay}"
-                    WidthRequest="100"
-                    HeightRequest="20"
-                    ItemDisplayBinding="{Binding PlotNumber, Mode=TwoWay}" />
-            <HorizontalStackLayout Grid.Row="1"
-                                   Grid.Column="2">
-                <Button Text="Plot Summary"
-                    Style="{StaticResource ButtonGreen}"
-                    Command="{Binding SetPlotSummaryCommand}"
-                    CommandParameter="{Binding CurrentPlot}" />
-                <ImageButton Source="info.png"
-                             Style="{StaticResource ImageButtonHelper}"
-                             Command="{Binding ShowHelperTextCommand}"
-                             CommandParameter="PlotSummary" />
-            </HorizontalStackLayout>
+                    <Label Text="Plot Number"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           Style="{StaticResource LabelPlot}" />
+                    <Picker ItemsSource="{Binding CurrentStand.Plots, Mode=TwoWay}"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            SelectedItem="{Binding CurrentPlot, Mode=TwoWay}"
+                            WidthRequest="100"
+                            HeightRequest="20"
+                            ItemDisplayBinding="{Binding PlotNumber, Mode=TwoWay}" />
+                    <HorizontalStackLayout Grid.Row="1"
+                                           Grid.Column="2">
+                        <Button Text="Plot Summary"
+                                Style="{StaticResource ButtonGreen}"
+                                Command="{Binding SetPlotSummaryCommand}"
+                                CommandParameter="{Binding CurrentPlot}" />
+                        <ImageButton Source="info.png"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="PlotSummary" />
+                    </HorizontalStackLayout>
 
-            <HorizontalStackLayout 
-                Grid.Column="3"
-                Grid.Row="0">
-                <Button Text="Export All"
-                        
-                        Style="{StaticResource ButtonGreen}"
-                        Command="{Binding PickFolderCommand}" />
-                <ImageButton Source="info.png"
-                             Style="{StaticResource ImageButtonHelper}"
-                             Command="{Binding ShowHelperTextCommand}"
-                             CommandParameter="ExportAll" />
-            </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Column="3"
+                                           Grid.Row="0">
+                        <Button Text="Export All"
+                                Style="{StaticResource ButtonGreen}"
+                                Command="{Binding PickFolderCommand}" />
+                        <ImageButton Source="info.png"
+                                     Style="{StaticResource ImageButtonHelper}"
+                                     Command="{Binding ShowHelperTextCommand}"
+                                     CommandParameter="ExportAll" />
+                    </HorizontalStackLayout>
 
 
-            <Border Grid.Column="0"
-                    Grid.Row="2"
-                    Margin="0,20,0,20"
-                    HorizontalOptions="Start"
-                    IsVisible="{Binding SummarySectionIsVisible}"
-                    BackgroundColor="PaleGoldenrod"
-                    Grid.ColumnSpan="4">
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            Margin="0,20,0,20"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding SummarySectionIsVisible}"
+                            BackgroundColor="PaleGoldenrod"
+                            Grid.ColumnSpan="4">
 
-                <Label Text="{Binding SummaryPageMessage}"
-                       HorizontalOptions="Center"
-                       FontAttributes="Bold" />
-            </Border>
-        </Grid>
-            <VerticalStackLayout HorizontalOptions="Start"
-                                 Spacing="20"
-                                 IsVisible="{Binding SummarySectionIsVisible}">
-                <HorizontalStackLayout Spacing="10"
-                                       Grid.Row="0">
-                    <Button Text="Cruise"
-                            Clicked="ShowMain" />
-                    <Button Text="Treatment"
-                            Clicked="ShowTreatment" />
-                    <Button Text="Species"
-                            Clicked="ShowSpecies" />
-                    <Button Text="Soil"
-                            Clicked="ShowSoil" />
-                    <Button Text="Vegetation"
-                            Clicked="ShowVegetation" />
-                </HorizontalStackLayout>
+                        <Label Text="{Binding SummaryPageMessage}"
+                               HorizontalOptions="Center"
+                               FontAttributes="Bold" />
+                    </Border>
+                </Grid>
+                <VerticalStackLayout HorizontalOptions="Start"
+                                     Spacing="20"
+                                     IsVisible="{Binding SummarySectionIsVisible}">
+                    <HorizontalStackLayout Spacing="10"
+                                           Grid.Row="0">
+                        <Button Text="Cruise"
+                                Clicked="ShowMain" />
+                        <Button Text="Treatment"
+                                Clicked="ShowTreatment" />
+                        <Button Text="Species"
+                                Clicked="ShowSpecies" />
+                        <Button Text="Soil"
+                                Clicked="ShowSoil" />
+                        <Button Text="Vegetation"
+                                Clicked="ShowVegetation" />
+                    </HorizontalStackLayout>
 
 
-                <VerticalStackLayout
-                    x:Name="MainSummary"
-                                      IsVisible="true"
-                                      Margin="20,20,0,0">
-                    <Label Text="Cruise Summary"
-                           Style="{StaticResource LabelParent}"
-                           Margin="0,0,0,20" />
-                <Label Text="Please address all warnings before generating. All trees require a species and DBH measurement."
-                       Style="{StaticResource Warning}"
-                       IsVisible="{Binding SummaryItems, 
+                    <VerticalStackLayout x:Name="MainSummary"
+                                         IsVisible="true"
+                                         Margin="20,20,0,0">
+                        <Label Text="Cruise Summary"
+                               Style="{StaticResource LabelParent}"
+                               Margin="0,0,0,20" />
+                        <Label Text="Please address all warnings before generating. All trees require a species and DBH measurement."
+                               Style="{StaticResource Warning}"
+                               IsVisible="{Binding SummaryItems, 
                         Converter={StaticResource CollectionCountToBoolConverter}, 
                         ConverterParameter=Invert}" />
-                <CollectionView ItemsSource="{Binding SummaryItems, Mode=TwoWay}"
-                                x:Name="collectionSummaryItems"
-                                BackgroundColor="LightGrey"
-                                MaximumWidthRequest="400"
-                                MaximumHeightRequest="300"
-                                HorizontalOptions="Start"
-                                IsVisible="{Binding SummaryItems, 
+                        <CollectionView ItemsSource="{Binding SummaryItems, Mode=TwoWay}"
+                                        x:Name="collectionSummaryItems"
+                                        BackgroundColor="LightGrey"
+                                        MaximumWidthRequest="400"
+                                        MaximumHeightRequest="300"
+                                        HorizontalOptions="Start"
+                                        IsVisible="{Binding SummaryItems, 
                                     Converter={StaticResource CollectionCountToBoolConverter}}">
 
-                <CollectionView.Header>
-                            <Grid ColumnDefinitions="300,100"
-                                  BackgroundColor="DarkGray">
-                                <Label Text="Result Name"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="0" />
-                                <Label Text="Value"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="1" />
-                            </Grid>
-                        </CollectionView.Header>
+                            <CollectionView.Header>
+                                <Grid ColumnDefinitions="300,100"
+                                      BackgroundColor="DarkGray">
+                                    <Label Text="Result Name"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="0" />
+                                    <Label Text="Value"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="1" />
+                                </Grid>
+                            </CollectionView.Header>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout Spacing="0">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout Spacing="0">
 
-                                    <!-- Line Above -->
-                                    <BoxView HeightRequest="1"
-                                             Color="DarkGray"
-                                             HorizontalOptions="Fill" />
-                                    <Grid ColumnDefinitions="300,100"
-                                          Padding="12,0,0,0"
-                                          BackgroundColor="LightGrey">
-                                        <Label Grid.Column="0"
-                                               Text="{Binding DisplayName}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Start" />
-                                        <Label Grid.Column="1"
-                                               Text="{Binding DisplayValue}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                    </Grid>
-                                </VerticalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-                <VerticalStackLayout  x:Name="TreatmentSummary"
-                                      IsVisible="false"
-                                      Margin="20,20,0,0">
-                    
-                    
-                    <Label Text="Treatment Summary"
-                           Style="{StaticResource LabelParent}"
-                           Margin="0,0,0,20" />
+                                        <!-- Line Above -->
+                                        <BoxView HeightRequest="1"
+                                                 Color="DarkGray"
+                                                 HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="300,100"
+                                              Padding="12,0,0,0"
+                                              BackgroundColor="LightGrey">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding DisplayName}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start" />
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding DisplayValue}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout  x:Name="TreatmentSummary"
+                                          IsVisible="false"
+                                          Margin="20,20,0,0">
 
-                <Label Text="No treatments in selected plot(s)."
-                       Style="{StaticResource Warning}"
-                       IsVisible="{Binding TreatmentSummary, 
+
+                        <Label Text="Treatment Summary"
+                               Style="{StaticResource LabelParent}"
+                               Margin="0,0,0,20" />
+
+                        <Label Text="No treatments in selected plot(s)."
+                               Style="{StaticResource Warning}"
+                               IsVisible="{Binding TreatmentSummary, 
                       Converter={StaticResource CollectionCountToBoolConverter}, 
                       ConverterParameter=Invert}" />
 
-                <CollectionView ItemsSource="{Binding TreatmentSummary}"
-                                x:Name="collectionTreatmentSummary"
-                                BackgroundColor="LightGrey"
-                                MaximumWidthRequest="400"
-                                MaximumHeightRequest="500"
-                                HorizontalOptions="Start"
-                                IsVisible="{Binding TreatmentSummary, 
+                        <CollectionView ItemsSource="{Binding TreatmentSummary}"
+                                        x:Name="collectionTreatmentSummary"
+                                        BackgroundColor="LightGrey"
+                                        MaximumWidthRequest="400"
+                                        MaximumHeightRequest="500"
+                                        HorizontalOptions="Start"
+                                        IsVisible="{Binding TreatmentSummary, 
                                     Converter={StaticResource CollectionCountToBoolConverter}}">
-                    <CollectionView.Header>
-                            <Grid ColumnDefinitions="100,300"
-                                  BackgroundColor="DarkGray">
-                                <Label Text="Plot Number"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="0" />
-                                <Label Text="Treatments"
-                                       HorizontalOptions="Start"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="1" />
-                            </Grid>
-                        </CollectionView.Header>
+                            <CollectionView.Header>
+                                <Grid ColumnDefinitions="100,300"
+                                      BackgroundColor="DarkGray">
+                                    <Label Text="Plot Number"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="0" />
+                                    <Label Text="Treatments"
+                                           HorizontalOptions="Start"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="1" />
+                                </Grid>
+                            </CollectionView.Header>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout>
 
-                                    <!-- Line Above -->
-                                    <BoxView HeightRequest="1"
-                                             Color="DarkGray"
-                                             HorizontalOptions="Fill" />
-                                    <Grid ColumnDefinitions="100,300"
-                                          BackgroundColor="LightGrey">
-                                        <Label Grid.Column="0"
-                                               Text="{Binding PlotNumber}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                        <Label Grid.Column="1"
-                                               Text="{Binding Treatments}"
-                                               VerticalTextAlignment="Start"
-                                               HorizontalTextAlignment="Start" />
-                                    </Grid>
-                                </VerticalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-                <VerticalStackLayout IsVisible="false"
-                                     x:Name="SpeciesSummary"
-                                     Margin="20,20,0,0">
+                                        <!-- Line Above -->
+                                        <BoxView HeightRequest="1"
+                                                 Color="DarkGray"
+                                                 HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="100,300"
+                                              BackgroundColor="LightGrey">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding PlotNumber}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding Treatments}"
+                                                   VerticalTextAlignment="Start"
+                                                   HorizontalTextAlignment="Start" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout IsVisible="false"
+                                         x:Name="SpeciesSummary"
+                                         Margin="20,20,0,0">
 
 
 
-                <Label Text="Species Summary"
-                       Style="{StaticResource LabelParent}"
-                       Margin="0,0,0,20">
-                    
-                </Label>
+                        <Label Text="Species Summary"
+                               Style="{StaticResource LabelParent}"
+                               Margin="0,0,0,20">
 
-                <Label Text="Ensure all trees in plot(s) have a valid species, DBH and height."
-                       Margin="0,0,0,20"
-                       Style="{StaticResource Warning}"
-                       IsVisible="{Binding SpeciesSummary, 
+                        </Label>
+
+                        <Label Text="Ensure all trees in plot(s) have a valid species, DBH and height."
+                               Margin="0,0,0,20"
+                               Style="{StaticResource Warning}"
+                               IsVisible="{Binding SpeciesSummary, 
                    Converter={StaticResource CollectionCountToBoolConverter}, 
                    ConverterParameter=Invert}" />
-                    
-                    
-                <CollectionView ItemsSource="{Binding SpeciesSummary}"
-                                    x:Name="collectionSpeciesSummary"
-                                    MaximumWidthRequest="650"
-                                MaximumHeightRequest="500"
-                                HorizontalOptions="Start"
-                                BackgroundColor="LightGrey"
-                                IsVisible="{Binding SpeciesSummary, 
-                    Converter={StaticResource CollectionCountToBoolConverter}}" >
 
-                <CollectionView.Header>
-                            <Grid ColumnDefinitions="100,300,100,140"
-                                  BackgroundColor="DarkGray">
-                                <Label Text="Plot #"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="0" />
-                                <Label Text="Species"
-                                       HorizontalTextAlignment="Start"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="1" />
-                                <Label Text="Count"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="2" />
-                                <Label Text="% of Plot Trees"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="3" />
-                            </Grid>
-                        </CollectionView.Header>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout>
+                        <CollectionView ItemsSource="{Binding SpeciesSummary}"
+                                        x:Name="collectionSpeciesSummary"
+                                        MaximumWidthRequest="650"
+                                        MaximumHeightRequest="500"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="LightGrey"
+                                        IsVisible="{Binding SpeciesSummary, 
+                    Converter={StaticResource CollectionCountToBoolConverter}}">
 
-                                    <!-- Line Above -->
-                                    <BoxView HeightRequest="1"
-                                             Color="DarkGray"
-                                             HorizontalOptions="Fill" />
+                            <CollectionView.Header>
                                 <Grid ColumnDefinitions="100,300,100,140"
-                                          BackgroundColor="LightGrey">
-                                        <Label Grid.Column="0"
-                                               Text="{Binding PlotNumber}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                        <Label Grid.Column="1"
-                                               Text="{Binding Species}"
-                                               HorizontalOptions="Start"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                        <Label Grid.Column="2"
-                                               Text="{Binding Count}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                        <Label Grid.Column="3"
-                                               Text="{Binding Percentage, StringFormat='{0:F1}'}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                    </Grid>
-                                </VerticalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-                <VerticalStackLayout x:Name="SoilSummary"
-                                     IsVisible="false"
-                                     Margin="20,20,0,0">
-                    <Label Text="Soil Summary"
-                           Style="{StaticResource LabelParent}"
-                           Margin="0,0,0,20" />
+                                      BackgroundColor="DarkGray">
+                                    <Label Text="Plot #"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="0" />
+                                    <Label Text="Species"
+                                           HorizontalTextAlignment="Start"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="1" />
+                                    <Label Text="Count"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="2" />
+                                    <Label Text="% of Plot Trees"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="3" />
+                                </Grid>
+                            </CollectionView.Header>
 
-                    <CollectionView ItemsSource="{Binding SoilSummary}"
-                                    BackgroundColor="LightGrey"
-                                    MaximumWidthRequest="300"
-                                MaximumHeightRequest="500"
-                                HorizontalOptions="Start">
-                        <CollectionView.Header>
-                            <Grid ColumnDefinitions="100,100,100"
-                                  BackgroundColor="DarkGray">
-                                <Label Text="Soil"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="0" />
-                                
-                                <Label Text="# of Plots"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="1" />
-                                <Label Text="% of Total"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="2" />
-                            </Grid>
-                        </CollectionView.Header>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout>
+                                        <!-- Line Above -->
+                                        <BoxView HeightRequest="1"
+                                                 Color="DarkGray"
+                                                 HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="100,300,100,140"
+                                              BackgroundColor="LightGrey">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding PlotNumber}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding Species}"
+                                                   HorizontalOptions="Start"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                            <Label Grid.Column="2"
+                                                   Text="{Binding Count}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                            <Label Grid.Column="3"
+                                                   Text="{Binding Percentage, StringFormat='{0:F1}'}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout x:Name="SoilSummary"
+                                         IsVisible="false"
+                                         Margin="20,20,0,0">
+                        <Label Text="Soil Summary"
+                               Style="{StaticResource LabelParent}"
+                               Margin="0,0,0,20" />
 
-                                    <!-- Line Above -->
-                                    <BoxView HeightRequest="1"
-                                             Color="DarkGray"
-                                             HorizontalOptions="Fill" />
-                                    <Grid ColumnDefinitions="100,100,100"
-                                          BackgroundColor="LightGrey">
-                                        <Label Grid.Column="0"
-                                               Text="{Binding SoilCode}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                      
-                                        <Label Grid.Column="1"
-                                               Text="{Binding Count}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                        <Label Grid.Column="2"
-                                               Text="{Binding Percentage, StringFormat='{0:F1}'}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                    </Grid>
-                                </VerticalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-                <VerticalStackLayout x:Name="VegetationSummary"
-                                     IsVisible="false"
-                                     Margin="20,20,0,0">
-                    <Label Text="Vegetation Summary"
-                           Style="{StaticResource LabelParent}"
-                           Margin="0,0,0,20" />
+                        <CollectionView ItemsSource="{Binding SoilSummary}"
+                                        BackgroundColor="LightGrey"
+                                        MaximumWidthRequest="300"
+                                        MaximumHeightRequest="500"
+                                        HorizontalOptions="Start">
+                            <CollectionView.Header>
+                                <Grid ColumnDefinitions="100,100,100"
+                                      BackgroundColor="DarkGray">
+                                    <Label Text="Soil"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="0" />
 
-                    <CollectionView ItemsSource="{Binding VegetationSummary}"
-                                    BackgroundColor="LightGrey"
-                                    MaximumWidthRequest="300"
-                                MaximumHeightRequest="500"
-                                HorizontalOptions="Start">
-                        <CollectionView.Header>
-                            <Grid ColumnDefinitions="100,100,100"
-                                  BackgroundColor="DarkGray">
-                                <Label Text="Vegetation"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="0" />
-                               
-                                <Label Text="# of Plots"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="1" />
-                                <Label Text="% of Total"
-                                       Style="{StaticResource GridHeader}"
-                                       Grid.Column="2" />
-                            </Grid>
-                        </CollectionView.Header>
+                                    <Label Text="# of Plots"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="1" />
+                                    <Label Text="% of Total"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="2" />
+                                </Grid>
+                            </CollectionView.Header>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout>
 
-                                    <!-- Line Above -->
-                                    <BoxView HeightRequest="1"
-                                             Color="DarkGray"
-                                             HorizontalOptions="Fill" />
-                                    <Grid ColumnDefinitions="100,100,100"
-                                          BackgroundColor="LightGrey">
-                                        <Label Grid.Column="0"
-                                               Text="{Binding VegCode}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                     
-                                        <Label Grid.Column="1"
-                                               Text="{Binding Count}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                        <Label Grid.Column="2"
-                                               Text="{Binding Percentage, StringFormat='{0:F1}'}"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                    </Grid>
-                                </VerticalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                        <!-- Line Above -->
+                                        <BoxView HeightRequest="1"
+                                                 Color="DarkGray"
+                                                 HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="100,100,100"
+                                              BackgroundColor="LightGrey">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding SoilCode}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding Count}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                            <Label Grid.Column="2"
+                                                   Text="{Binding Percentage, StringFormat='{0:F1}'}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout x:Name="VegetationSummary"
+                                         IsVisible="false"
+                                         Margin="20,20,0,0">
+                        <Label Text="Vegetation Summary"
+                               Style="{StaticResource LabelParent}"
+                               Margin="0,0,0,20" />
+
+                        <CollectionView ItemsSource="{Binding VegetationSummary}"
+                                        BackgroundColor="LightGrey"
+                                        MaximumWidthRequest="300"
+                                        MaximumHeightRequest="500"
+                                        HorizontalOptions="Start">
+                            <CollectionView.Header>
+                                <Grid ColumnDefinitions="100,100,100"
+                                      BackgroundColor="DarkGray">
+                                    <Label Text="Vegetation"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="0" />
+
+                                    <Label Text="# of Plots"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="1" />
+                                    <Label Text="% of Total"
+                                           Style="{StaticResource GridHeader}"
+                                           Grid.Column="2" />
+                                </Grid>
+                            </CollectionView.Header>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout>
+
+                                        <!-- Line Above -->
+                                        <BoxView HeightRequest="1"
+                                                 Color="DarkGray"
+                                                 HorizontalOptions="Fill" />
+                                        <Grid ColumnDefinitions="100,100,100"
+                                              BackgroundColor="LightGrey">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding VegCode}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding Count}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                            <Label Grid.Column="2"
+                                                   Text="{Binding Percentage, StringFormat='{0:F1}'}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </VerticalStackLayout>
-    </VerticalStackLayout>
+        </ScrollView>
+        </Grid>
 </ContentPage>

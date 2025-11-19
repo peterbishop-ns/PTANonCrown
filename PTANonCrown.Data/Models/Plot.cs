@@ -415,7 +415,6 @@ namespace PTANonCrown.Data.Models
 
         public string? SoilCode { get; set; }
 
-        [Required]
         private Soil? _soil = null!;
 
         public Soil? Soil
@@ -439,7 +438,6 @@ namespace PTANonCrown.Data.Models
 
 
 
-        [Required]
         private Vegetation? _vegetation = null!;
         public Vegetation? Vegetation
         {
@@ -492,6 +490,8 @@ namespace PTANonCrown.Data.Models
 
 
         private int _ecodistrict;
+
+
         public int Ecodistrict
         {
             get => _ecodistrict;

@@ -13,17 +13,25 @@
         <ResourceDictionary>
             <converter:ZeroToEmptyStringConverter x:Key="ZeroToEmptyStringConverter" />
             <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
-        
-        <ScrollView>
-        <VerticalStackLayout Padding="5"
-                             Spacing="5">
 
+    <Grid RowDefinitions="Auto,*">
+        <VerticalStackLayout Grid.Row="0">
             <Label Text="{Binding ErrorMessage}"
-                   Background="Pink"
+                   Background="Red"
+                   Padding="5"
                    IsVisible="{Binding ErrorMessage, 
-    Converter={StaticResource StringToVisibilityConverter}}" />
+Converter={StaticResource StringToVisibilityConverter}}" />
+            <Label Text="{Binding AllStandAllsErrors}"
+                   Background="Pink"
+                   Padding="5"
+                   IsVisible="{Binding AllStandAllsErrors, 
+Converter={StaticResource StringToVisibilityConverter}}" />
+
+        </VerticalStackLayout>
+        <ScrollView Grid.Row="1">
             <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
                   ColumnDefinitions="Auto, *"
                   MaximumWidthRequest="500"
@@ -79,14 +87,13 @@
                         <Label Text="Comment"
                                Style="{StaticResource LabelStand}" />
                         <ImageButton Source="info.png"
-                                     
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="StandComment" />
                     </HorizontalStackLayout>
                     <Editor Placeholder="Comment"
                             Style="{StaticResource EditorComment}"
-                            Text="{Binding CurrentStand.Comment}"/>
+                            Text="{Binding CurrentStand.Comment}" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Row="2"
@@ -95,6 +102,7 @@
                     <HorizontalStackLayout>
                         <Label Text="Cruise ID"
                                Style="{StaticResource LabelStand}" />
+
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
@@ -111,6 +119,7 @@
                     <HorizontalStackLayout>
                         <Label Text="Planner ID"
                                Style="{StaticResource LabelStand}" />
+
                         <ImageButton Source="info.png"
                                      Style="{StaticResource ImageButtonHelper}"
                                      Command="{Binding ShowHelperTextCommand}"
@@ -162,13 +171,14 @@
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="Location" />
                     </HorizontalStackLayout>
+
                     <Entry Text="{Binding CurrentStand.Location}"
                            Placeholder="Location"
                            Style="{StaticResource EntryStand}" />
+
                 </VerticalStackLayout>
             </Grid>
-        </VerticalStackLayout>
-
-    </ScrollView>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>
