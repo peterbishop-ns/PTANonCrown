@@ -35,12 +35,12 @@ namespace PTANonCrown
             // ------------------------
             // Pages
             // ------------------------
-            builder.Services.AddSingleton<StandPage>();
-            builder.Services.AddSingleton<PlotPage>();
-            builder.Services.AddSingleton<LiveTreePage>();
-            builder.Services.AddSingleton<DeadTreePage>();
-            builder.Services.AddSingleton<CoarseWoodyMaterialPage>();
-            builder.Services.AddSingleton<SummaryPage>();
+            builder.Services.AddTransient<StandPage>();
+            builder.Services.AddTransient<PlotPage>();
+            builder.Services.AddTransient<LiveTreePage>();
+            builder.Services.AddTransient<DeadTreePage>();
+            builder.Services.AddTransient<CoarseWoodyMaterialPage>();
+            builder.Services.AddTransient<SummaryPage>();
 
             // ------------------------
             // Repositories
@@ -65,7 +65,9 @@ namespace PTANonCrown
             // ------------------------
             // Template file path
             // ------------------------
-            var templateFilePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
+
+            var templateFilePath = Path.Combine(FileSystem.AppDataDirectory, "template.pta");
 
             // Only create template if it doesn't exist
             if (!File.Exists(templateFilePath))
@@ -93,7 +95,8 @@ namespace PTANonCrown
 
 
             // -------------------------
-            // 
+            // Special code to intercept attempt to close, so we can check if there are unsaved changes
+
             // --------------------------
 
             builder.ConfigureLifecycleEvents(events =>
@@ -127,7 +130,7 @@ namespace PTANonCrown
             // ------------------------
             // Copy template to working DB
             // ------------------------
-            var workingFilePath = Path.Combine(FileSystem.CacheDirectory, $"working_{Guid.NewGuid()}.pta");
+            var workingFilePath = Path.Combine(FileSystem.AppDataDirectory, $"working_{Guid.NewGuid()}.pta");
             File.Copy(templateFilePath, workingFilePath, overwrite: true);
             
 

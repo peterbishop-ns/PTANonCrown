@@ -20,6 +20,7 @@ using System.IO;
 using CommunityToolkit.Maui.Storage;
 using Microsoft.EntityFrameworkCore;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Windows.Devices.SerialCommunication;
 
 
 namespace PTANonCrown.ViewModel
@@ -201,8 +202,20 @@ namespace PTANonCrown.ViewModel
             }
         }
 
-        public string AllStandAllsErrors =>
-            string.Join("\n", AllStands.SelectMany(s => s.GetAllErrors().Select(e => $"Stand {s.StandNumber}: {e}")));
+        public string AllStandAllsErrors
+        {
+            get
+            {
+                if (AllStands == null) return string.Empty;
+
+                var errorList = AllStands
+                    .SelectMany(s => (s.GetAllErrors() ?? Enumerable.Empty<string>())
+                                      .Select(e => $"Stand {s.StandNumber}: {e}"));
+
+                return string.Join("\n", errorList);
+            }
+        }
+
         private void CurrentStand_ErrorsChanged(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
         {
             OnPropertyChanged(nameof(AllStandAllsErrors));
@@ -1454,7 +1467,7 @@ private async void OnIsCheckedBiodiversityChanged()
 
         public void CleanupOldWorkingFiles()
         {
-            string directoryPath = FileSystem.CacheDirectory;
+            string directoryPath = FileSystem.AppDataDirectory;
             try
             {
                 if (!Directory.Exists(directoryPath))
@@ -1505,7 +1518,7 @@ private async void OnIsCheckedBiodiversityChanged()
             if (isNewFile) {
                 AppLogger.Log($"Creating new file from template", "CreateNewWorkingFile");
 
-                var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
+                var templatePath = Path.Combine(FileSystem.AppDataDirectory, "template.pta");
                 _databaseService.CreateNewDatabase(templatePath);
 
             }
@@ -1514,7 +1527,7 @@ private async void OnIsCheckedBiodiversityChanged()
                 AppLogger.Log($"Creating new working file from existing: {sourceFile}", "CreateNewWorkingFile");
 
                 // EXISTING FILE
-                var newWorkingFile = Path.Combine(FileSystem.CacheDirectory, $"working_{Guid.NewGuid()}.pta");
+                var newWorkingFile = Path.Combine(FileSystem.AppDataDirectory, $"working_{Guid.NewGuid()}.pta");
 
                 File.Copy(sourceFile, newWorkingFile);
                 _databaseService.SetDatabasePath(newWorkingFile);
@@ -1751,7 +1764,7 @@ private async void OnIsCheckedBiodiversityChanged()
             try
             {
                 // Copy to a readable temp file (avoids file locks)
-                var temp = Path.Combine(FileSystem.CacheDirectory, "temp");
+                var temp = Path.Combine(FileSystem.AppDataDirectory, "temp");
                 File.Copy(_databaseService.WorkingDBPath, temp, true);
 
                 using var stream = File.OpenRead(temp);
