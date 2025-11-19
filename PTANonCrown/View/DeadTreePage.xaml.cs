@@ -30,5 +30,10 @@ public partial class DeadTreePage : ContentPage
         mainViewModel.InitializeTreeDead(mainViewModel.CurrentPlot);
 
     }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        mainViewModel.RefreshErrors();
 
+    }
 }

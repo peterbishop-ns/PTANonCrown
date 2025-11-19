@@ -30,4 +30,11 @@ public partial class CoarseWoodyMaterialPage : ContentPage
         if (entry.Text != newText)
             entry.Text = newText;
     }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        mainViewModel.RefreshErrors();
+
+    }
 }

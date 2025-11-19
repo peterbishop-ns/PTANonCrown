@@ -109,8 +109,8 @@ namespace PTANonCrown.Data.Models
 {96, 20},
 {98, 20}};
 
-        private int _dbh_cm;
-        private int _heightPredicted_m;
+        private int? _dbh_cm;
+        private int? _heightPredicted_m;
         private PlantedMethod _plantedMethod;
         private bool _pLInSitu;
 
@@ -143,21 +143,23 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
-        public int DBH_cm
+
+        [Required]
+        public int? DBH_cm
         {
             get => _dbh_cm;
             set
             {
                 if (_dbh_cm != value)
                 {
-                    _dbh_cm = value;
-                    OnPropertyChanged(nameof(DBH_cm));
+                    SetProperty(ref _dbh_cm, value, true);
                     OnPropertyChanged(nameof(IsMerchantable));
                     OnDBHChanged();
-
                 }
             }
         }
+
+
 
         private bool _diversity;
         public bool Diversity
@@ -174,21 +176,19 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        private int _height_m;
-        public int Height_m
+        private int? _height_m;
+        [Required]
+        public int? Height_m
         {
             get => _height_m;
             set
             {
-                if (_height_m != value)
-                {
-                    _height_m = value;
-                    OnPropertyChanged();
-                }
+                SetProperty(ref _height_m, value, true);
+
             }
         }
 
-        public int HeightPredicted_m
+        public int? HeightPredicted_m
         {
             get => _heightPredicted_m;
             set
@@ -345,9 +345,12 @@ namespace PTANonCrown.Data.Models
             }
 
         }
-        public int GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int DBH_cm)
+        public int? GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int? DBH_cm)
         {
-            var height = Interpolate(lookup, DBH_cm);
+            if (DBH_cm is null || DBH_cm == 0)
+                return null;
+            
+            var height = Interpolate(lookup, DBH_cm.Value);
 
             return (int)Math.Round(height);
         }

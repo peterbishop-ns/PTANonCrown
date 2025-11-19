@@ -60,6 +60,7 @@ public partial class LiveTreePage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+        _mainViewModel.RefreshErrors();
 
     }
 

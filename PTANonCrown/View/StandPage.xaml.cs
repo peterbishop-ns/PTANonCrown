@@ -24,4 +24,11 @@ public partial class StandPage : ContentPage
         await _mainViewModel.GetOrCreateStandAsync();
     }
 
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        // Refresh UI bindings for error properties
+        _mainViewModel.RefreshErrors();
+    }
+
 }

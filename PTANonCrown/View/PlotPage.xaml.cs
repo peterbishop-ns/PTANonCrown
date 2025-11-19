@@ -31,6 +31,8 @@ public partial class PlotPage : ContentPage
     {
         base.OnDisappearing();
         _mainViewModel.PopulatePlotFromUi(_mainViewModel.CurrentPlot);
+        _mainViewModel.RefreshErrors();
+
     }
     private void OnlyIntegerAllowed(object sender, TextChangedEventArgs e)
     {

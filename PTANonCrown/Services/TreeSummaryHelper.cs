@@ -135,13 +135,20 @@ namespace PTANonCrown.Services
             return summaryItem;
         }
 
-        private static double GetTPH(IEnumerable<TreeLive> trees) {
+        private static double GetTPH(IEnumerable<TreeLive> trees)
+        {
+            // Fail early if any DBH is null or zero
+            if (trees.Any(t => !t.DBH_cm.HasValue || t.DBH_cm.Value == 0))
+                return 0;
 
             int BA_per_tree = 2;
-            double result = trees.Sum(t => BA_per_tree/ (Math.Pow(t.DBH_cm, 2) * 0.00007854 )) ;
+
+            double result = trees.Sum(t =>
+                BA_per_tree / (Math.Pow(t.DBH_cm.Value, 2) * 0.00007854)
+            );
+
             return result;
         }
-
 
         public static SummaryItem GetBasalAreaLT_m2ha(IEnumerable<TreeLive> trees, int plotCount)
         {
@@ -166,12 +173,16 @@ namespace PTANonCrown.Services
             //filter for merchantable only
             var merchantableTrees = FilterMerchantableTrees(trees);
 
+            if (merchantableTrees.Any(t => t.DBH_cm is null || t.DBH_cm == 0)) { return null; }
+
             // find BA and TPH
             int BAmerch = GetBasalArea(merchantableTrees);
             var TPHmerch = GetTPH(merchantableTrees);
 
+
             //find the QMD
             var avgBA_perTree_merchTrees = BAmerch / TPHmerch;
+
             var result = Math.Sqrt(avgBA_perTree_merchTrees / BA_conversionFactor);
             result = Math.Round(result, 2);
             var summaryItem = new SummaryItem()
@@ -233,15 +244,20 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetAverageHeight(IEnumerable<TreeLive> trees)
         {
-            var heights = trees.Select(trees => trees.Height_m);
-            decimal result = (decimal)Math.Round(heights.Average(),2);
-            var summaryItem = new SummaryItem()
+            // If any tree is missing a height, fail early
+            if (trees.Any(t => !t.Height_m.HasValue || t.Height_m == 0))
+                return null;
+
+            // Now all heights are guaranteed to have values
+            var heights = trees.Select(t => t.Height_m.Value);
+            double average = Math.Round(heights.Average(), 2);
+
+            return new SummaryItem
             {
                 DisplayName = "Average Height",
-                Value = result,
+                Value = average,
                 Units = "m"
             };
-            return summaryItem;
         }
 
         public static SummaryItem GetBasalArea_EH_RS_BF(IEnumerable<TreeLive> trees, int plotCount)

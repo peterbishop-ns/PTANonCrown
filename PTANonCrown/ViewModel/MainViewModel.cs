@@ -21,6 +21,7 @@ using CommunityToolkit.Maui.Storage;
 using Microsoft.EntityFrameworkCore;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Windows.Devices.SerialCommunication;
+using PTANonCrown.Helpers;
 
 
 namespace PTANonCrown.ViewModel
@@ -111,24 +112,9 @@ namespace PTANonCrown.ViewModel
                 if (hasChanges)
                 {
                     OnPropertyChanged(nameof(SaveFilePath));
-                    /*bool save = await Shell.Current.DisplayAlert(
-                        "Unsaved Changes",
-                        "There are unsaved changes. Do you want to save before switching tab?",
-                        "Yes", "No");
-
-
-                    if (save)
-                    {
-                        await SaveAllAsync();
-                    }*/
-
+                   
                 }
             }
-
-            
-           // var navigatingTo = e.Current?.Location.ToString().ToUpper();
- 
-           
         }
 
         public async Task<bool> HandleUnsavedChangesOnExitAsync()
@@ -137,7 +123,6 @@ namespace PTANonCrown.ViewModel
             OnPropertyChanged(nameof(SaveFilePath));
             if (!context.ChangeTracker.HasChanges())
                 return true;
-
 
             // Prompt user
             // Show Yes / No / Cancel
@@ -203,71 +188,25 @@ namespace PTANonCrown.ViewModel
 
                     OnPropertyChanged();
 
-
                 }
-
-
             }
         }
 
-        public string AllStandAllsErrors
+
+        public string StandErrors => ValidationHelpers.GetStandErrors(AllStands);
+        public string PlotErrors => ValidationHelpers.GetPlotErrors(AllStands);
+        public string TreeErrors => ValidationHelpers.GetTreeErrors(AllStands);
+        public string SummaryErrors => ValidationHelpers.GetSummaryErrors(AllStands);
+        public string AllStandAllsErrors => ValidationHelpers.GetAllErrors(AllStands);
+
+        public void RefreshErrors()
         {
-            get
-            {
-                if (AllStands == null)
-                    return string.Empty;
-
-
-                foreach (var stand in AllStands ?? Enumerable.Empty<Stand>())
-                {
-                    stand.ValidateAll();
-
-                    foreach (var plot in stand.Plots ?? Enumerable.Empty<Plot>())
-                    {
-                        plot.ValidateAll(); 
-
-                        foreach (var tree in plot.PlotTreeLive ?? Enumerable.Empty<TreeLive>())
-                        {
-                            tree.ValidateAll(); 
-                        }
-                    }
-                }
-
-
-
-                // Step 1: Collect errors from each Stand
-                var standErrors = AllStands
-                    .SelectMany(stand => (stand.GetAllErrors() ?? Enumerable.Empty<string>())
-                        .Select(e => $"Stand {stand.StandNumber}: {e}"))
-                    .ToList(); // convert to list for easier debugging
-
-                // Step 2: Collect errors from each Plot in each Stand
-                var plotErrors = AllStands
-                    .SelectMany(stand => (stand.Plots ?? Enumerable.Empty<Plot>())
-                        .SelectMany(plot => (plot.GetAllErrors() ?? Enumerable.Empty<string>())
-                            .Select(e => $"Stand {stand.StandNumber} - Plot {plot.PlotNumber}: {e}")))
-                    .ToList();
-
-
-
-                // Step 3: Collect errors from each Tree in each Plot
-                var treeErrors = AllStands
-                    .SelectMany(stand => (stand.Plots ?? Enumerable.Empty<Plot>())
-                        .SelectMany(plot => (plot.PlotTreeLive ?? Enumerable.Empty<TreeLive>())
-                            .SelectMany(tree => (tree.GetAllErrors() ?? Enumerable.Empty<string>())
-                                .Select(e => $"Stand {stand.StandNumber} - Plot {plot.PlotNumber} - Tree {tree.TreeNumber}: {e}"))))
-                    .ToList();
-
-                // Combine stand and plot errors
-                var allErrors = standErrors.Concat(plotErrors).Concat(treeErrors);
-
-                return string.Join("\n", allErrors);
-            }
+            OnPropertyChanged(nameof(StandErrors));
+            OnPropertyChanged(nameof(PlotErrors));
+            OnPropertyChanged(nameof(TreeErrors));
+            OnPropertyChanged(nameof(SummaryErrors));
+            OnPropertyChanged(nameof(AllStandAllsErrors));
         }
-
-
-
-
 
         public Stand CurrentStand
         {
@@ -301,19 +240,6 @@ namespace PTANonCrown.ViewModel
 
         public ICommand DeleteLiveTreeCommand => new Command<TreeLive>(tree => DeleteLiveTree(tree));
         public ICommand DeletePlotCommand => new Command<Plot>(plot => DeletePlot(plot));
-
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            set
-            {
-                if (_errorMessage != value)
-                {
-                    _errorMessage = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         public ICommand ExportSummaryCommand =>
             new Command<string>(method => ExecutePickFolderCommand());
@@ -1000,30 +926,19 @@ namespace PTANonCrown.ViewModel
 
             string message = $"Stand {plot.Stand.StandNumber} | Plot {plot.PlotNumber}: Cruise Summary cannot be generated; tree(s) missing DBH, heights or species. ";
 
-            ErrorMessage = string.IsNullOrEmpty(ErrorMessage)
-                ? message
-                : $"{ErrorMessage}\n{message}";
 
         }
 
         private async Task ExecutePickFolderCommand()
         {
 
-            bool hasInvalidPlots = false;
-            ErrorMessage = null;
-            foreach (Plot plot in CurrentStand.Plots)
+            RefreshErrors();
+            if (SummaryErrors != string.Empty)
             {
-                if (!TreeSummaryHelper.CheckTreesValid(plot.PlotTreeLive))
-                {
-                    DisplayTreeWarningMessage(plot);
-                    hasInvalidPlots = true;
-                }
+                await Application.Current.MainPage.DisplayAlert("Invalid Trees", "Some tree(s) are invalid - summary cannot be exported.", "OK");
+                return;
             }
 
-            // If any plots were invalid, exit early
-            if (hasInvalidPlots)
-                await Application.Current.MainPage.DisplayAlert("Invalid Trees", "Some plots have invalid trees - summary cannot be exported.", "OK");
-                return;
 
 
             try
@@ -1723,57 +1638,38 @@ private async void OnIsCheckedBiodiversityChanged()
         }
 
 
-        public List<string> ValidationErrors { get; private set; } = new();
 
-        public bool ErrorFlag => ValidationErrors.Count > 0;
 
-        public void RunValidation()
-        {
-                // Run validation on each stand to make sure errors are populated
-                foreach (var stand in AllStands)
-                    stand.ValidateAll();  
-            OnPropertyChanged(nameof(AllStandAllsErrors));
 
-        }
 
         private async Task SaveAllAsync()
         {
             AppLogger.Log("SaveAllAsync", "MainViewModel");
-
-            RunValidation();
-
-
             // Cleanup some properties before save
             // todo refactor
-            if (CurrentStand != null) 
-                {
+            if (CurrentStand != null)
+            {
                 ClearSingleEmptyTree(CurrentStand);
             }
 
-            // todo Need to clean up this validation approach
-            ValidationErrors.Clear();   
-            if (CurrentStand != null)
-            {
-                ValidateTrees(CurrentStand);
-            }
+            RefreshErrors();
 
-            if (ContainsError || (!(AllStandAllsErrors == string.Empty)))
+
+      
+
+            if (!(AllStandAllsErrors == string.Empty))
             {
                 Application.Current.MainPage.DisplayAlert("Error", "Please address errors before saving.", "OK");
 
-                ErrorMessage = string.Join("\n", ValidationErrors);
                 return; // cancel save
             }
 
-            ErrorMessage = string.Empty; // clear
             _standRepository.Save(CurrentStand); // always save to the current Database Context (working database file)
             await SaveFileAsAsync();  // copy the working file to the save location
             OnPropertyChanged(nameof(SaveFilePath));
 
 
         }
-        public bool ContainsError => ValidationErrors.Count > 0;
-
 
         public async Task SaveFileAsAsync()
         {
@@ -1801,37 +1697,59 @@ private async void OnIsCheckedBiodiversityChanged()
 
         private async Task SaveAsAsync()
         {
+            FileSaverResult result;
+
+
+            // Copy working DB to a temp location so it's safe to read
+            var tempPath = Path.Combine(FileSystem.AppDataDirectory, "temp.pta");
+            File.Copy(_databaseService.WorkingDBPath, tempPath, overwrite: true);
+
+                using var stream = File.OpenRead(tempPath);
             try
             {
-                // Copy to a readable temp file (avoids file locks)
-                var temp = Path.Combine(FileSystem.AppDataDirectory, "temp");
-                File.Copy(_databaseService.WorkingDBPath, temp, true);
-
-                using var stream = File.OpenRead(temp);
-
-                var result = await FileSaver.Default.SaveAsync(
-                    initialPath: _databaseService.WorkingDBPath,
-                    stream: stream,
-                    fileName: "PTAFile.pta"
+                // Save dialog – user may cancel
+                result = await FileSaver.Default.SaveAsync(
+                    "PTAFile.pta",   // fileName
+                    stream,          // stream
+                    default          // cancellation token
                 );
-
-                if (result != null)
-                {
-                    // Copy your working DB to chosen location
-                    File.Copy(_databaseService.WorkingDBPath, result.FilePath, overwrite: true);
-                    AppLogger.Log($"Saved to: {result.FilePath}");
-                    _databaseService.SetSaveFilePath(result.FilePath);
-                    OnPropertyChanged(nameof(SaveFilePath));
-
-                    _databaseService.DbIsNew = false;
-                }
-
+            }
+            catch (CommunityToolkit.Maui.Storage.FileSaveException ex)
+            {
+                // Normal user cancel → no UI error needed
+                AppLogger.Log("User cancelled save");
+                return;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error saving file: {ex.Message}");
+                // Actual unexpected error
+                AppLogger.Log($"Unexpected save error: {ex}");
+                return;
             }
+
+            // If user cancelled, result will be null or unsuccessful
+            if (result == null || !result.IsSuccessful)
+            {
+                AppLogger.Log("Save cancelled (no exception thrown)");
+                return;
+            }
+
+            // ✔ Success — copy the working DB to the chosen location
+            File.Copy(
+                _databaseService.WorkingDBPath,
+                result.FilePath,
+                overwrite: true
+            );
+
+            AppLogger.Log($"Saved to: {result.FilePath}");
+
+            // Update your application state
+            _databaseService.SetSaveFilePath(result.FilePath);
+            OnPropertyChanged(nameof(SaveFilePath));
+
+            _databaseService.DbIsNew = false;
         }
+
         private void Save()
         {
             try
@@ -2018,7 +1936,7 @@ private async void OnIsCheckedBiodiversityChanged()
             SummarySectionIsVisible = true;
 
 
-            ErrorMessage = null;
+
             foreach (Plot plot in CurrentStand.Plots)
             {
                 if (!TreeSummaryHelper.CheckTreesValid(plot.PlotTreeLive))
@@ -2044,7 +1962,7 @@ private async void OnIsCheckedBiodiversityChanged()
                 StandOnlySummary = false;
                 SummarySectionIsVisible = true;
 
-                ErrorMessage = null;
+
                 if (!TreeSummaryHelper.CheckTreesValid(plot.PlotTreeLive))
                 {
                     DisplayTreeWarningMessage(plot);
@@ -2089,26 +2007,6 @@ private async void OnIsCheckedBiodiversityChanged()
                 RefreshAllStands();
             }
         }
-
-            
-
-
-        private void ValidateTrees(Stand stand)
-        {
-            foreach (var plot in stand.Plots)
-            {
-                if (plot.PlotTreeLive == null) continue;
-
-                foreach (var tree in plot.PlotTreeLive)
-                {
-                    string prefix = $"Stand {plot.Stand.StandNumber} | Plot {plot.PlotNumber} | Tree {tree.TreeNumber}";
-
-                    if (tree.TreeSpecies is null)
-                        ValidationErrors.Add($"{prefix} : Tree Species is required.");
-                }
-            }
-        }
-
 
     }
 }

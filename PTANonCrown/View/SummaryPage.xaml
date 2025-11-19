@@ -20,20 +20,18 @@
                    Padding="5"
                    IsVisible="{Binding AllStandAllsErrors, 
 Converter={StaticResource StringToVisibilityConverter}}" />
-            
-            
-            
-            <Label Text="{Binding ErrorMessage}"
+
+
+            <Label Text="{Binding SummaryErrors}"
                    Background="Pink"
                    Padding="5"
-                   IsVisible="{Binding ErrorMessage, 
+                   IsVisible="{Binding SummaryErrors, 
 Converter={StaticResource StringToVisibilityConverter}}" />
-            <Label Text="{Binding CurrentStandAllErrors}"
-                   TextColor="Red" />
+            
+           
         </VerticalStackLayout>
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="5"
-                                 Spacing="5">
+            <VerticalStackLayout Padding="5" Spacing="5">
                 <Grid ColumnDefinitions="1*,1*,2*,3*"
                       WidthRequest="800"
                       HorizontalOptions="Start"

@@ -320,7 +320,9 @@ Path=CurrentPlot.IsPlanted}">
 
                                 <!-- DBH -->
                                 <Entry Grid.Column="3"
-                                       Text="{Binding DBH_cm, Mode=TwoWay, Converter={StaticResource IntEmptyToZeroConverter}}"
+                                       Text="{Binding DBH_cm, Mode=TwoWay,
+                      TargetNullValue='',
+                      FallbackValue=''}"
                                        Keyboard="Numeric"
                                        Focused="Entry_Focused"
                                        HorizontalOptions="Center"
@@ -331,7 +333,9 @@ Path=CurrentPlot.IsPlanted}">
                                 </Entry>
                                 <!-- Height -->
                                 <Entry Grid.Column="4"
-                                       Text="{Binding Height_m, Mode=TwoWay, Converter={StaticResource IntEmptyToZeroConverter}}"
+                                       Text="{Binding Height_m, Mode=TwoWay,
+                      TargetNullValue='',
+                      FallbackValue=''}"
                                        Keyboard="Numeric"
                                        Focused="Entry_Focused"
                                        HorizontalOptions="Center"
