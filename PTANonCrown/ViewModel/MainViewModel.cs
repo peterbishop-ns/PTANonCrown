@@ -189,15 +189,38 @@ namespace PTANonCrown.ViewModel
         public Plot CurrentPlot
         {
             get => _currentPlot;
+
             set
             {
+
+                if (_currentPlot != null)
+                {
+                    PopulatePlotFromUi(_currentPlot); // BEFORE Change: populate PREVIOUS plot with the CURRENT UI
+                    _currentPlot = value; // CHANGE value
+                    PopulateUiFromPlot(value); // AFTER Change: load the NEW plot's values into the UI
+
+                    OnPropertyChanged();
+
+                    // Unsubscribe 
+                    //_currentPlot.ErrorsChanged -= RefreshErrors;
+                    // COmmented out because we don't want to check for errors to early, the user hasn't had a chance to finish typing!
+
+
+
+                }
 
                 PopulatePlotFromUi(_currentPlot); // BEFORE Change: populate PREVIOUS plot with the CURRENT UI
                 _currentPlot = value; // CHANGE value
                 PopulateUiFromPlot(value); // AFTER Change: load the NEW plot's values into the UI
-                
+
                 OnPropertyChanged();
 
+                if (_currentPlot != null)
+                {
+                    // Subscribe to new CurrentPlot's property changes
+                    //_currentPlot.ErrorsChanged += RefreshErrors;
+
+                }
 
             }
         }
@@ -206,17 +229,37 @@ namespace PTANonCrown.ViewModel
         {
             get
             {
-                if (AllStands == null) return string.Empty;
+                if (AllStands == null)
+                    return string.Empty;
 
-                var errorList = AllStands
-                    .SelectMany(s => (s.GetAllErrors() ?? Enumerable.Empty<string>())
-                                      .Select(e => $"Stand {s.StandNumber}: {e}"));
+                // ------------------------
+                // Step 1: Collect errors from each Stand
+                // ------------------------
+                var standErrors = AllStands
+                    .SelectMany(stand => (stand.GetAllErrors() ?? Enumerable.Empty<string>())
+                        .Select(e => $"Stand {stand.StandNumber}: {e}"))
+                    .ToList(); // convert to list for easier debugging
 
-                return string.Join("\n", errorList);
+                // ------------------------
+                // Step 2: Collect errors from each Plot in each Stand
+                // ------------------------
+                var plotErrors = AllStands
+                    .SelectMany(stand => (stand.Plots ?? Enumerable.Empty<Plot>())
+                        .SelectMany(plot => (plot.GetAllErrors() ?? Enumerable.Empty<string>())
+                            .Select(e => $"Stand {stand.StandNumber} - Plot {plot.PlotNumber}: {e}")))
+                    .ToList();
+
+                // ------------------------
+                // Combine stand and plot errors
+                // ------------------------
+                var allErrors = standErrors.Concat(plotErrors);
+
+                return string.Join("\n", allErrors);
             }
         }
 
-        private void CurrentStand_ErrorsChanged(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
+
+        private void RefreshErrors(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
         {
             OnPropertyChanged(nameof(AllStandAllsErrors));
         }
@@ -231,7 +274,7 @@ namespace PTANonCrown.ViewModel
                 {
                     // Unsubscribe from old CurrentPlot's property changes
                     _currentStand.PropertyChanged -= Stand_PropertyChanged;
-                    _currentStand.ErrorsChanged -= CurrentStand_ErrorsChanged;
+                    //_currentStand.ErrorsChanged -= RefreshErrors;
 
 
                 }
@@ -243,7 +286,7 @@ namespace PTANonCrown.ViewModel
                 {
                     // Subscribe to new CurrentStand's property changes
                     _currentStand.PropertyChanged += Stand_PropertyChanged;
-                    _currentStand.ErrorsChanged += CurrentStand_ErrorsChanged;
+                   // _currentStand.ErrorsChanged += RefreshErrors;
 
                 }
 
@@ -1683,11 +1726,10 @@ private async void OnIsCheckedBiodiversityChanged()
         {
             AppLogger.Log("SaveAllAsync", "MainViewModel");
 
-            //CurrentStand.ValidateAll();
-
             foreach (Stand stand in AllStands)
             {
                 stand.ValidateAll();
+                
             }
 
             OnPropertyChanged(nameof(AllStandAllsErrors));

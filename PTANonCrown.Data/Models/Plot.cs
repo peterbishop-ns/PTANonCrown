@@ -95,32 +95,25 @@ namespace PTANonCrown.Data.Models
         public string? Comment
         {
             get => _comment;
-            set
-            {
-                if (_comment != value)
-                {
-                    _comment = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _comment, value, false);
+
         }
 
 
-        public int? Easting { get; set; }
+        [Range(100000, 999999, ErrorMessage = "Easting must be a six digit number.")]
+        public int? Easting
+        {
+            get => _easting;
+            set => SetProperty(ref _easting, value, true); 
+        }
+        private int? _easting;
 
-     
 
         public EcositeGroup EcositeGroup
         {
             get => _ecositeGroup;
-            set
-            {
-                if (_ecositeGroup != value)
-                {
-                    _ecositeGroup = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _ecositeGroup, value, false);
+
         }
 
 
@@ -164,7 +157,15 @@ namespace PTANonCrown.Data.Models
         [NotMapped]
         public List<TreeSpecies> LookupTrees { get; set; }
 
-        public int? Northing { get; set; }
+
+        [Range(1000000, 9999999, ErrorMessage = "Northing must be a seven digit number.")]
+        public int? Northing
+        {
+            get => _northing;
+            set => SetProperty(ref _northing, value, true);
+        }
+        private int? _northing;
+        
         public int OGFSampleTreeAge { get; set; }
 
         public int OGFSampleTreeDBH_cm { get; set; }
@@ -174,53 +175,29 @@ namespace PTANonCrown.Data.Models
         public int OldGrowthAge
         {
             get => _oldGrowthAge;
-            set
-            {
-                if (_oldGrowthAge != value)
-                {
-                    _oldGrowthAge = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _oldGrowthAge, value, false);
+
         }
 
         public int OldGrowthDBH
         {
             get => _oldGrowthDBH;
-            set
-            {
-                if (_oldGrowthDBH != value)
-                {
-                    _oldGrowthDBH = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _oldGrowthDBH, value, false);
+
         }
 
         public int OldGrowthSpeciesID
         {
             get => _oldGrowthSpeciesID;
-            set
-            {
-                if (_oldGrowthSpeciesID != value)
-                {
-                    _oldGrowthSpeciesID = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _oldGrowthSpeciesID, value, false);
+
         }
 
         public bool OneCohortSenescent
         {
             get => _oneCohortSenescent;
-            set
-            {
-                if (_oneCohortSenescent != value)
-                {
-                    _oneCohortSenescent = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _oneCohortSenescent, value, false);
+
         }
 
         public PlantedType PlantedType
@@ -250,17 +227,14 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Plot Number must be a positive number")]
         public int PlotNumber
         {
             get => _plotNumber;
-            set
-            {
-                if (_plotNumber != value)
-                {
-                    _plotNumber = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _plotNumber, value, true);
+
         }
 
         public ObservableCollection<PlotTreatment> PlotTreatments
@@ -341,27 +315,15 @@ namespace PTANonCrown.Data.Models
         public CardinalDirections TransectDirection
         {
             get => _transectDirection;
-            set
-            {
-                if (_transectDirection != value)
-                {
-                    _transectDirection = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _transectDirection, value, false);
+
         }
 
         public decimal TransectLength
         {
             get => _transectLength;
-            set
-            {
-                if (_transectLength != value)
-                {
-                    _transectLength = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _transectLength, value, false);
+
         }
 
         [NotMapped]
@@ -377,14 +339,8 @@ namespace PTANonCrown.Data.Models
         public UnderstoryDominated UnderstoryDominated
         {
             get => _understoryDominated;
-            set
-            {
-                if (_understoryDominated != value)
-                {
-                    _understoryDominated = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _understoryDominated, value, false);
+
         }
 
         public int UnderstoryStrata { get; set; }
@@ -460,12 +416,8 @@ namespace PTANonCrown.Data.Models
         public Ecosite? Ecosite
         {
             get => _ecosite;
-            set
-            {
-                _ecosite = value;
-                OnPropertyChanged();
+            set => SetProperty(ref _ecosite, value, false);
 
-            }
         }
 
         private TreeSpecies? _ageTreeSpecies = null!;
@@ -495,12 +447,8 @@ namespace PTANonCrown.Data.Models
         public int Ecodistrict
         {
             get => _ecodistrict;
-            set
-            {
-                _ecodistrict = value;
-                OnPropertyChanged();
+            set => SetProperty(ref _ecodistrict, value, false);
 
-            }
         }
 
 

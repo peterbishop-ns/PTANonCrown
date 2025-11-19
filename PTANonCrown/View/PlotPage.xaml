@@ -22,9 +22,14 @@
     <Grid RowDefinitions="Auto,*">
         <VerticalStackLayout Grid.Row="0">
             <Label Text="{Binding ErrorMessage}"
-                   Background="Pink"
+                   Background="Red"
                    Padding="5"
                    IsVisible="{Binding ErrorMessage, 
+Converter={StaticResource StringToVisibilityConverter}}" />
+            <Label Text="{Binding AllStandAllsErrors}"
+                   Background="Pink"
+                   Padding="5"
+                   IsVisible="{Binding AllStandAllsErrors, 
 Converter={StaticResource StringToVisibilityConverter}}" />
         </VerticalStackLayout>
         <ScrollView Grid.Row="1">
@@ -68,7 +73,8 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                      Command="{Binding ShowHelperTextCommand}"
                                      CommandParameter="PlotNumberEdit" />
                     </HorizontalStackLayout>
-                    <Entry Text="{Binding CurrentPlot.PlotNumber}"
+                        <Entry Text="{Binding CurrentPlot.PlotNumber, 
+                            Converter={StaticResource ZeroToEmptyStringConverter}, Mode=TwoWay}"
                            Style="{StaticResource EntryStand}"
                            HorizontalOptions="Start"
                            WidthRequest="80" />

@@ -29,16 +29,8 @@ namespace PTANonCrown.Data.Models
         public string CruiseID
         {
             get => _cruiseID;
-            set
-            {
-                if (_cruiseID != value)
-                {
-                    _cruiseID = value;
-                    ValidateProperty(_cruiseID, nameof(CruiseID));
+            set => SetProperty(ref _cruiseID, value, true);
 
-                    OnPropertyChanged();
-                }
-            }
         }
 
         public int Ecodistrict
@@ -58,91 +50,48 @@ namespace PTANonCrown.Data.Models
         public string? Location
         {
             get => _location;
-            set
-            {
-                if (_location != value)
-                {
-                    _location = value;
-                    ValidateProperty(_location, nameof(Location)); // triggers validation
+            set => SetProperty(ref _location, value, true);
 
-                    OnPropertyChanged();
-
-                }
-            }
         }
 
         public float? Area_ha
         {
             get => _area_ha;
-            set
-            {
-                if (_area_ha != value)
-                {
-                    _area_ha = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _area_ha, value, false);
+
         }
 
         public string? Organization
         {
             get => _organization;
-            set
-            {
-                if (_organization != value)
-                {
-                    _organization = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _organization, value, false);
+
         }
 
         public string? Comment
         {
             get => _comment;
-            set
-            {
-                if (_comment != value)
-                {
-                    _comment = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _comment, value, false);
         }
 
         [Required]
         public string PlannerID
         {
             get => _plannerID;
-            set
-            {
-                if (_plannerID != value)
-                {
-                    _plannerID = value;
-                    ValidateProperty(_plannerID, nameof(PlannerID)); 
+            set => SetProperty(ref _plannerID, value, true);
 
-                    OnPropertyChanged();
-                }
-            }
         }
 
         public virtual ObservableCollection<Plot> Plots { get; set; }
 
 
         [Required(ErrorMessage = "Stand Number is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "Stand Number must be a positive integer")]
+        [Range(1, int.MaxValue, ErrorMessage = "Stand Number must be a positive number")]
         public int StandNumber
         {
             get => _standNumber;
-            set
-            {
-                if (_standNumber != value)
-                {
-                    _standNumber = value;
-                    ValidateProperty(_standNumber, nameof(StandNumber)); 
-                    OnPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _standNumber, value, true);
+
         }
     }
 }
