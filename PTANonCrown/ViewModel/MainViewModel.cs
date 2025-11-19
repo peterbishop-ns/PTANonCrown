@@ -1459,7 +1459,7 @@ private async void OnIsCheckedBiodiversityChanged()
 
         public void CleanupOldWorkingFiles()
         {
-            string directoryPath = FileSystem.CacheDirectory;
+            string directoryPath = FileSystem.AppDataDirectory;
             try
             {
                 if (!Directory.Exists(directoryPath))
@@ -1510,7 +1510,7 @@ private async void OnIsCheckedBiodiversityChanged()
             if (isNewFile) {
                 AppLogger.Log($"Creating new file from template", "CreateNewWorkingFile");
 
-                var templatePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
+                var templatePath = Path.Combine(FileSystem.AppDataDirectory, "template.pta");
                 _databaseService.CreateNewDatabase(templatePath);
 
             }
@@ -1519,7 +1519,7 @@ private async void OnIsCheckedBiodiversityChanged()
                 AppLogger.Log($"Creating new working file from existing: {sourceFile}", "CreateNewWorkingFile");
 
                 // EXISTING FILE
-                var newWorkingFile = Path.Combine(FileSystem.CacheDirectory, $"working_{Guid.NewGuid()}.pta");
+                var newWorkingFile = Path.Combine(FileSystem.AppDataDirectory, $"working_{Guid.NewGuid()}.pta");
 
                 File.Copy(sourceFile, newWorkingFile);
                 _databaseService.SetDatabasePath(newWorkingFile);
@@ -1734,7 +1734,7 @@ private async void OnIsCheckedBiodiversityChanged()
             try
             {
                 // Copy to a readable temp file (avoids file locks)
-                var temp = Path.Combine(FileSystem.CacheDirectory, "temp");
+                var temp = Path.Combine(FileSystem.AppDataDirectory, "temp");
                 File.Copy(_databaseService.WorkingDBPath, temp, true);
 
                 using var stream = File.OpenRead(temp);

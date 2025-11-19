@@ -65,7 +65,9 @@ namespace PTANonCrown
             // ------------------------
             // Template file path
             // ------------------------
-            var templateFilePath = Path.Combine(FileSystem.CacheDirectory, "template.pta");
+            var templateFilePath = Path.Combine(FileSystem.AppDataDirectory, "template.pta");
+
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
 
             // Only create template if it doesn't exist
             if (!File.Exists(templateFilePath))
@@ -90,6 +92,9 @@ namespace PTANonCrown
                 lookupService.RefreshLookupsAsync();
 
             }
+
+            // todo - should not be running migrations in MauiProgram.cs. Apparently this is better done in App.xaml.cs
+            // todo - lookupservice should not instantiate a new Database service; it shouold use the one from DI
 
 
             // -------------------------
@@ -127,7 +132,7 @@ namespace PTANonCrown
             // ------------------------
             // Copy template to working DB
             // ------------------------
-            var workingFilePath = Path.Combine(FileSystem.CacheDirectory, $"working_{Guid.NewGuid()}.pta");
+            var workingFilePath = Path.Combine(FileSystem.AppDataDirectory, $"working_{Guid.NewGuid()}.pta");
             File.Copy(templateFilePath, workingFilePath, overwrite: true);
             
 
