@@ -196,18 +196,18 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 Mode=TwoWay}"
                                                   Spacing="0">
                                 <RadioButton Content="Acadian"
-                                             Value="{x:Static enum:PlantedType.Acadian}" />
+                                             Value="{x:Static enum:PlantedTypeEnum.Acadian}" />
 
                                 <RadioButton Content="Maritime Boreal"
-                                             Value="{x:Static enum:PlantedType.MaritimeBoreal}" />
+                                             Value="{x:Static enum:PlantedTypeEnum.MaritimeBoreal}" />
 
                                 <RadioButton Content="Coastal (Maritime Boreal)"
-                                             Value="{x:Static enum:PlantedType.Coastal}" />
+                                             Value="{x:Static enum:PlantedTypeEnum.Coastal}" />
 
 
                                 <RadioButton Content="None"
                                              IsVisible="False"
-                                             Value="{x:Static enum:PlantedType.None}" />
+                                             Value="{x:Static enum:PlantedTypeEnum.None}" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </Grid>

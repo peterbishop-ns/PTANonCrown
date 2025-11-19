@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PTANonCrown.Data.Validation;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -6,12 +9,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
-
+using PTANonCrown.Data.Validation;
 namespace PTANonCrown.Data.Models
 {
-    public class Plot : BaseModel
+    public partial class Plot : BaseModel
     {
-        public bool _isPlanted;
         public ObservableCollection<CoarseWoody> _plotCoarseWoody;
         private int _ageTreeAge;
         private int _ageTreeDBH;
@@ -25,7 +27,6 @@ namespace PTANonCrown.Data.Models
 
         private int _oldGrowthSpeciesID;
         private bool _oneCohortSenescent;
-        private PlantedType _plantedType;
         private int _plotNumber;
 
         private ObservableCollection<PlotTreatment> _plotTreatments;
@@ -134,19 +135,35 @@ namespace PTANonCrown.Data.Models
 
         public int HorizontalStructure { get; set; }
 
-        public bool IsPlanted
+
+        [CustomValidation(typeof(Plot), nameof(ConditionalRequired))]
+        [ObservableProperty]
+        private bool _isPlanted;
+
+        partial void OnIsPlantedChanged(bool value)
         {
-            get => _isPlanted;
-            set
+            ValidateProperty(value, nameof(IsPlanted));
+            
+            if (!IsPlanted)
             {
-                if (_isPlanted != value)
+                PlantedType = PlantedTypeEnum.None;
+
+                // Reset the planted method for all trees to none
+                foreach (TreeLive tree in PlotTreeLive)
                 {
-                    _isPlanted = value;
-                    OnPropertyChanged();
-                    OnIsPlantedChanged();
+                    tree.PlantedMethod = PlantedMethod.NotPlanted;
+
                 }
+
             }
+
         }
+
+
+
+
+
+
 
         // Keeping LookupTrees list on the Plot itself is a workaround.
         // Was running into issues with the Picker list, where it wouldn't set SelectedItem Correctly
@@ -200,19 +217,53 @@ namespace PTANonCrown.Data.Models
 
         }
 
-        public PlantedType PlantedType
+
+
+        [ObservableProperty] // exposes hook "On___Changed"
+        private PlantedTypeEnum _plantedType;
+        partial void OnPlantedTypeChanged(PlantedTypeEnum value)
         {
-            get => _plantedType;
-            set
+            // Keep the two Groups in sync
+            if (value == PlantedTypeEnum.Acadian)
+                EcositeGroup = EcositeGroup.Acadian;
+            else if (value == PlantedTypeEnum.Coastal || value == PlantedTypeEnum.MaritimeBoreal)
+                EcositeGroup = EcositeGroup.MaritimeBoreal;
+
+            ValidateProperty(value, nameof(PlantedType));
+        }
+
+
+
+        public static ValidationResult ConditionalRequired(object value, ValidationContext context)
+        {
+            // value is the bool property being validated (IsPlanted)
+            if (value is bool isPlanted)
             {
-                if (_plantedType != value)
+                // get the other property (PlantedType) via reflection
+                var instance = context.ObjectInstance;
+                var plantedTypeProp = instance.GetType().GetProperty("PlantedType");
+
+                if (plantedTypeProp == null)
+                    return new ValidationResult("PlantedType property not found.");
+
+                var plantedTypeValue = plantedTypeProp.GetValue(instance);
+
+                // make sure it's the enum type before comparing
+                if (plantedTypeValue is PlantedTypeEnum pt)
                 {
-                    _plantedType = value;
-                    OnPropertyChanged();
-                    OnPlantedTypeChanged();
+                    if (isPlanted && pt != PlantedTypeEnum.None)
+                        return ValidationResult.Success;
+
                 }
             }
+
+            return new ValidationResult("You must select a PlantedType if IsPlanted is true.");
         }
+
+
+
+
+
 
         public ObservableCollection<CoarseWoody> PlotCoarseWoody
         {
@@ -441,16 +492,11 @@ namespace PTANonCrown.Data.Models
         }   
 
 
+
+
+        [ObservableProperty]
+        [Range(100, 999, ErrorMessage = "Ecodistict must be three digit number.")]
         private int _ecodistrict;
-
-
-        public int Ecodistrict
-        {
-            get => _ecodistrict;
-            set => SetProperty(ref _ecodistrict, value, false);
-
-        }
-
 
 
 
@@ -472,12 +518,12 @@ namespace PTANonCrown.Data.Models
         public void OnPlantedTypeChanged()
         {
             // Keep the two Groups in sync
-            if (PlantedType == PlantedType.Acadian)
+            if (PlantedType == PlantedTypeEnum.Acadian)
             {
                 EcositeGroup = EcositeGroup.Acadian;
             }
-            else if (PlantedType == PlantedType.Coastal ||
-                PlantedType == PlantedType.MaritimeBoreal)
+            else if (PlantedType == PlantedTypeEnum.Coastal ||
+                PlantedType == PlantedTypeEnum.MaritimeBoreal)
             {
                 EcositeGroup = EcositeGroup.MaritimeBoreal;
             }
@@ -553,22 +599,6 @@ namespace PTANonCrown.Data.Models
 
         }
 
-        private async void OnIsPlantedChanged()
-        {
-            if (!IsPlanted)
-            {
-                PlantedType = PlantedType.None;
-
-                // Reset the planted method for all trees to none
-                foreach (TreeLive tree in PlotTreeLive)
-                {
-                    tree.PlantedMethod = PlantedMethod.NotPlanted;
-
-                }
-
-            }
-
-        }
 
         private void OnTreeLiveCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

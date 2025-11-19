@@ -73,7 +73,7 @@ namespace PTANonCrown.Data.Models
         [Description("Planted Forest")]
         PlantedForest = 16
     }
-    public enum PlantedType
+    public enum PlantedTypeEnum
     {
         None = 0,
         Acadian = 1,

@@ -16,7 +16,10 @@ namespace PTANonCrown.Data.Models
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public int ID { get; set; }
-
+        public void ValidateAll()
+        {
+            this.ValidateAllProperties();
+        }
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

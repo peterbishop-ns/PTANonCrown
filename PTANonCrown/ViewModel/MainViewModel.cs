@@ -73,6 +73,8 @@ namespace PTANonCrown.ViewModel
             // to the plot's PlotTreatment objects, there were Key insert errors, which 
             // were not resolved even after 'hydrating' the colleciton
 
+            if (plot is null) { return; }
+
             UiPlotTreatments = new ObservableCollection<PlotTreatment>(
                 Treatments.Select(t => new PlotTreatment
                 {
@@ -201,26 +203,9 @@ namespace PTANonCrown.ViewModel
 
                     OnPropertyChanged();
 
-                    // Unsubscribe 
-                    //_currentPlot.ErrorsChanged -= RefreshErrors;
-                    // COmmented out because we don't want to check for errors to early, the user hasn't had a chance to finish typing!
-
-
 
                 }
 
-                PopulatePlotFromUi(_currentPlot); // BEFORE Change: populate PREVIOUS plot with the CURRENT UI
-                _currentPlot = value; // CHANGE value
-                PopulateUiFromPlot(value); // AFTER Change: load the NEW plot's values into the UI
-
-                OnPropertyChanged();
-
-                if (_currentPlot != null)
-                {
-                    // Subscribe to new CurrentPlot's property changes
-                    //_currentPlot.ErrorsChanged += RefreshErrors;
-
-                }
 
             }
         }
@@ -232,26 +217,23 @@ namespace PTANonCrown.ViewModel
                 if (AllStands == null)
                     return string.Empty;
 
-                // ------------------------
+
+
+
                 // Step 1: Collect errors from each Stand
-                // ------------------------
                 var standErrors = AllStands
                     .SelectMany(stand => (stand.GetAllErrors() ?? Enumerable.Empty<string>())
                         .Select(e => $"Stand {stand.StandNumber}: {e}"))
                     .ToList(); // convert to list for easier debugging
 
-                // ------------------------
                 // Step 2: Collect errors from each Plot in each Stand
-                // ------------------------
                 var plotErrors = AllStands
                     .SelectMany(stand => (stand.Plots ?? Enumerable.Empty<Plot>())
                         .SelectMany(plot => (plot.GetAllErrors() ?? Enumerable.Empty<string>())
                             .Select(e => $"Stand {stand.StandNumber} - Plot {plot.PlotNumber}: {e}")))
                     .ToList();
 
-                // ------------------------
                 // Combine stand and plot errors
-                // ------------------------
                 var allErrors = standErrors.Concat(plotErrors);
 
                 return string.Join("\n", allErrors);
@@ -259,10 +241,8 @@ namespace PTANonCrown.ViewModel
         }
 
 
-        private void RefreshErrors(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(AllStandAllsErrors));
-        }
+
+
 
         public Stand CurrentStand
         {
@@ -1722,17 +1702,21 @@ private async void OnIsCheckedBiodiversityChanged()
 
         public bool ErrorFlag => ValidationErrors.Count > 0;
 
+        public void RunValidation()
+        {
+            // Run validation on each stand to make sure errors are populated
+            foreach (var stand in AllStands)
+                stand.ValidateAll();
+            OnPropertyChanged(nameof(AllStandAllsErrors));
+
+        }
+
         private async Task SaveAllAsync()
         {
             AppLogger.Log("SaveAllAsync", "MainViewModel");
 
-            foreach (Stand stand in AllStands)
-            {
-                stand.ValidateAll();
-                
-            }
+            RunValidation();
 
-            OnPropertyChanged(nameof(AllStandAllsErrors));
 
             // Cleanup some properties before save
             // todo refactor
@@ -1747,7 +1731,6 @@ private async void OnIsCheckedBiodiversityChanged()
             ValidateStand(CurrentStand);
             if (CurrentStand != null)
             {
-                ValidatePlots(CurrentStand.Plots);
                 ValidateTrees(CurrentStand);
             }
 
@@ -1766,7 +1749,6 @@ private async void OnIsCheckedBiodiversityChanged()
 
 
         }
-        public bool ContainsError => ValidationErrors.Count > 0;
 
 
         private void SetEastingNorthingNullToZero(IEnumerable<Plot> plots)
@@ -2094,37 +2076,9 @@ private async void OnIsCheckedBiodiversityChanged()
 
             
 
-        private void ValidateStand(Stand stand)
-        {
 
-            string prefix = $"Stand {stand.StandNumber}";
 
-            if (stand.StandNumber == 0)
-                ValidationErrors.Add($"{prefix} : Stand Number cannot be empty");
-            else if (AllStands.Count(s => s.StandNumber == stand.StandNumber) > 1)
-                ValidationErrors.Add($"{prefix} : Stand Number already exists. Must be unique.");
 
-        }
-
-        private void ValidatePlots(IEnumerable<Plot> plots)
-        {
-            foreach (var plot in plots)
-            {
-                string prefix = $"Stand {plot.Stand.StandNumber} | Plot {plot.PlotNumber}";
-
-                if (plot.Ecodistrict != 0 && (plot.Ecodistrict < 100 || plot.Ecodistrict > 999))
-                    ValidationErrors.Add($"{prefix} : Ecodistrict must be 3 digits.");
-
-                if (plot.IsPlanted && plot.PlantedType == PlantedType.None)
-                    ValidationErrors.Add($"{prefix} : Planted plot must have a Planted Type.");
-
-                if (plot.Easting != 0 && CountDigits(plot.Easting ?? 0) != 6)
-                    ValidationErrors.Add($"{prefix} : Easting should be 6 digits.");
-
-                if (plot.Northing != 0 && CountDigits(plot.Northing ?? 0) != 7)
-                    ValidationErrors.Add($"{prefix} : Northing should be 7 digits.");
-            }
-        }
 
         private void ValidateTrees(Stand stand)
         {

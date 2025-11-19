@@ -19,10 +19,7 @@ namespace PTANonCrown.Data.Models
             Plots = new ObservableCollection<Plot>();
         }
 
-        public void ValidateAll()
-        {
-            this.ValidateAllProperties();
-        }
+
 
 
         [Required]
