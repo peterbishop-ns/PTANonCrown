@@ -195,7 +195,7 @@ namespace PTANonCrown.ViewModel
             set
             {
 
-                if (_currentPlot != null)
+                if (value != null)
                 {
                     PopulatePlotFromUi(_currentPlot); // BEFORE Change: populate PREVIOUS plot with the CURRENT UI
                     _currentPlot = value; // CHANGE value
@@ -218,6 +218,21 @@ namespace PTANonCrown.ViewModel
                     return string.Empty;
 
 
+                foreach (var stand in AllStands ?? Enumerable.Empty<Stand>())
+                {
+                    stand.ValidateAll();
+
+                    foreach (var plot in stand.Plots ?? Enumerable.Empty<Plot>())
+                    {
+                        plot.ValidateAll(); 
+
+                        foreach (var tree in plot.PlotTreeLive ?? Enumerable.Empty<TreeLive>())
+                        {
+                            tree.ValidateAll(); 
+                        }
+                    }
+                }
+
 
 
                 // Step 1: Collect errors from each Stand
@@ -233,8 +248,18 @@ namespace PTANonCrown.ViewModel
                             .Select(e => $"Stand {stand.StandNumber} - Plot {plot.PlotNumber}: {e}")))
                     .ToList();
 
+
+
+                // Step 3: Collect errors from each Tree in each Plot
+                var treeErrors = AllStands
+                    .SelectMany(stand => (stand.Plots ?? Enumerable.Empty<Plot>())
+                        .SelectMany(plot => (plot.PlotTreeLive ?? Enumerable.Empty<TreeLive>())
+                            .SelectMany(tree => (tree.GetAllErrors() ?? Enumerable.Empty<string>())
+                                .Select(e => $"Stand {stand.StandNumber} - Plot {plot.PlotNumber} - Tree {tree.TreeNumber}: {e}"))))
+                    .ToList();
+
                 // Combine stand and plot errors
-                var allErrors = standErrors.Concat(plotErrors);
+                var allErrors = standErrors.Concat(plotErrors).Concat(treeErrors);
 
                 return string.Join("\n", allErrors);
             }
@@ -1683,8 +1708,8 @@ private async void OnIsCheckedBiodiversityChanged()
         {
             if (plot is null) { return; }
             // Nullable to allow field to be empty in GUI, but need to save as a zero because of database requirements
-            plot.Easting = CurrentPlot.Easting ?? 0;
-            plot.Northing = CurrentPlot.Northing ?? 0;
+            plot.Easting = CurrentPlot.Easting;
+            plot.Northing = CurrentPlot.Northing;
 
             plot.SoilCode = CurrentSoil?.ShortCode;
             plot.VegCode = CurrentVeg?.ShortCode;
@@ -1704,9 +1729,9 @@ private async void OnIsCheckedBiodiversityChanged()
 
         public void RunValidation()
         {
-            // Run validation on each stand to make sure errors are populated
-            foreach (var stand in AllStands)
-                stand.ValidateAll();
+                // Run validation on each stand to make sure errors are populated
+                foreach (var stand in AllStands)
+                    stand.ValidateAll();  
             OnPropertyChanged(nameof(AllStandAllsErrors));
 
         }
@@ -1723,12 +1748,10 @@ private async void OnIsCheckedBiodiversityChanged()
             if (CurrentStand != null) 
                 {
                 ClearSingleEmptyTree(CurrentStand);
-                SetEastingNorthingNullToZero(CurrentStand.Plots);
             }
 
             // todo Need to clean up this validation approach
             ValidationErrors.Clear();   
-            ValidateStand(CurrentStand);
             if (CurrentStand != null)
             {
                 ValidateTrees(CurrentStand);
@@ -1749,16 +1772,9 @@ private async void OnIsCheckedBiodiversityChanged()
 
 
         }
+        public bool ContainsError => ValidationErrors.Count > 0;
 
 
-        private void SetEastingNorthingNullToZero(IEnumerable<Plot> plots)
-        {
-            foreach (Plot plot in plots)
-            {
-                plot.Easting = plot.Easting ?? 0;
-                plot.Northing = plot.Northing ?? 0;
-            }
-        }
         public async Task SaveFileAsAsync()
         {
 
@@ -2075,9 +2091,6 @@ private async void OnIsCheckedBiodiversityChanged()
         }
 
             
-
-
-
 
 
         private void ValidateTrees(Stand stand)

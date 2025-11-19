@@ -14,13 +14,11 @@
     </ContentPage.Resources>
     <Grid RowDefinitions="Auto,*">
         <VerticalStackLayout Grid.Row="0">
-            <Label Text="{Binding ErrorMessage}"
+            <Label Text="{Binding AllStandAllsErrors}"
                    Background="Pink"
                    Padding="5"
-                   IsVisible="{Binding ErrorMessage, 
+                   IsVisible="{Binding AllStandAllsErrors, 
 Converter={StaticResource StringToVisibilityConverter}}" />
-            <Label Text="{Binding CurrentStandAllErrors}"
-                   TextColor="Red" />
         </VerticalStackLayout>
         <ScrollView Grid.Row="1">
             <VerticalStackLayout>

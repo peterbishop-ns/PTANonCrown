@@ -105,7 +105,7 @@ namespace PTANonCrown.Data.Models
         public int? Easting
         {
             get => _easting;
-            set => SetProperty(ref _easting, value, true); 
+            set => SetProperty(ref _easting, value, value.HasValue && value != 0);  // only validate if it has a value
         }
         private int? _easting;
 
@@ -179,7 +179,7 @@ namespace PTANonCrown.Data.Models
         public int? Northing
         {
             get => _northing;
-            set => SetProperty(ref _northing, value, true);
+            set => SetProperty(ref _northing, value, value.HasValue &&  value != 0);
         }
         private int? _northing;
         
@@ -253,7 +253,8 @@ namespace PTANonCrown.Data.Models
                 {
                     if (isPlanted && pt != PlantedTypeEnum.None)
                         return ValidationResult.Success;
-
+                    if(!isPlanted)
+                        return ValidationResult.Success;
                 }
             }
 
@@ -496,7 +497,7 @@ namespace PTANonCrown.Data.Models
 
         [ObservableProperty]
         [Range(100, 999, ErrorMessage = "Ecodistict must be three digit number.")]
-        private int _ecodistrict;
+        private int? _ecodistrict;
 
 
 
