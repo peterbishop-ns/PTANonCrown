@@ -516,17 +516,6 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        private bool _includeBiodiversity;
-        public bool IncludeBiodiversity
-        {
-            get => _includeBiodiversity;
-            set
-            {
-                _includeBiodiversity = value;
-                OnPropertyChanged();
-            }
-        }
-
 
         public string? EcositeCode { get; set; }
 

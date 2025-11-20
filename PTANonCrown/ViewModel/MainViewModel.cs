@@ -1426,7 +1426,7 @@ namespace PTANonCrown.ViewModel
 private async void OnIsCheckedBiodiversityChanged()
         {
             // only prompty user if some trees actually have Biodiversity Data associated
-            if (!value && CurrentPlot.PlotTreeLive.Any(t => t.Cavity || t.Diversity))
+            if (!IsCheckedBiodiversity && CurrentPlot.PlotTreeLive.Any(t => t.Cavity || t.Diversity))
             {
                 bool confirm = await Application.Current.MainPage.DisplayAlert(
                       "Clear Biodiversity data?",
@@ -1439,7 +1439,7 @@ private async void OnIsCheckedBiodiversityChanged()
                     foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
                     {
                         tree.Cavity = false;
-                        tree.Diversity = false;
+          tree.Diversity = false;
                         tree.Mast = false;
                     }
                 }
