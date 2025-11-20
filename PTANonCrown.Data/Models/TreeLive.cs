@@ -109,15 +109,14 @@ namespace PTANonCrown.Data.Models
 {96, 20},
 {98, 20}};
 
-        private int? _dbh_cm;
-        private int? _heightPredicted_m;
+        private int _dbh_cm;
+        private int _heightPredicted_m = 0;
         private PlantedMethod _plantedMethod;
         private bool _pLInSitu;
 
         public TreeLive()
         {
-            //TreeSpecies = new TreeSpecies();
-            //TreeSpeciesFilteredList = new ObservableCollection<TreeSpecies>();
+
         }
 
 
@@ -144,8 +143,8 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        [Required]
-        public int? DBH_cm
+        [Range(1, int.MaxValue, ErrorMessage = "DBH is required.")]
+        public int DBH_cm
         {
             get => _dbh_cm;
             set
@@ -159,6 +158,7 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+      
 
 
         private bool _diversity;
@@ -176,19 +176,20 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        private int? _height_m;
-        [Required]
-        public int? Height_m
+        private int _height_m;
+        [Range(1, int.MaxValue, ErrorMessage = "Height is required.")]
+
+        public int Height_m
         {
             get => _height_m;
             set
             {
                 SetProperty(ref _height_m, value, true);
-
+                OnPropertyChanged();
             }
         }
 
-        public int? HeightPredicted_m
+        public int HeightPredicted_m
         {
             get => _heightPredicted_m;
             set
@@ -227,14 +228,9 @@ namespace PTANonCrown.Data.Models
 
         public Plot Plot { get; set; }
 
-
         public bool SCanopy { get; set; }
 
-
-
-
-
-
+        [Required(ErrorMessage = "Tree Species is required.")]
         public string TreeSpeciesShortCode { get; set; }
 
         // -----------------------------
@@ -242,7 +238,6 @@ namespace PTANonCrown.Data.Models
         // -----------------------------
 
         private string _searchSpecies;
-        [Required(ErrorMessage = "Species is required.")]
         public string SearchSpecies
         {
             get => _searchSpecies;
@@ -251,7 +246,7 @@ namespace PTANonCrown.Data.Models
                 if (_searchSpecies != value)
                 {
                     SetProperty(ref _searchSpecies, value, true);
-                  
+                    OnPropertyChanged();
 
                     // Run any dependent logic
                     OnSearchSpeciesChanged(_searchSpecies);
@@ -274,7 +269,7 @@ namespace PTANonCrown.Data.Models
         // Observable TreeSpecies
         // -----------------------------
         private TreeSpecies _treeSpecies;
-
+        [NotMapped]
         [ForeignKey(nameof(TreeSpeciesShortCode))]
         public TreeSpecies TreeSpecies
         {
@@ -289,6 +284,7 @@ namespace PTANonCrown.Data.Models
                     // Only update SearchSpecies if different to avoid recursion
                     if (SearchSpecies != _treeSpecies?.ShortCode)
                         SearchSpecies = _treeSpecies?.ShortCode;
+                    TreeSpeciesShortCode = _treeSpecies?.ShortCode;
                     OnPropertyChanged(nameof(SearchSpecies));   
                     // Any additional dependent logic
                     UpdateTreeLIT();
@@ -345,12 +341,12 @@ namespace PTANonCrown.Data.Models
             }
 
         }
-        public int? GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int? DBH_cm)
+        public int GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int DBH_cm)
         {
-            if (DBH_cm is null || DBH_cm == 0)
-                return null;
+            if (DBH_cm == 0)
+                return 0;
             
-            var height = Interpolate(lookup, DBH_cm.Value);
+            var height = Interpolate(lookup, DBH_cm);
 
             return (int)Math.Round(height);
         }

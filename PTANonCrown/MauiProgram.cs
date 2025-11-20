@@ -59,39 +59,30 @@ namespace PTANonCrown
             builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddSingleton<LookupRefreshService>();
 
-            // ------------------------
-            // Create template DB if needed
-            // ------------------------
-            // ------------------------
-            // Template file path
-            // ------------------------
-            Directory.CreateDirectory(FileSystem.AppDataDirectory);
-
             var templateFilePath = Path.Combine(FileSystem.AppDataDirectory, "template.pta");
 
-            // Only create template if it doesn't exist
+            // Ensure the folder exists
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
+
+            File.WriteAllText(Path.Combine(FileSystem.AppDataDirectory, "test.txt"), "hello");
+
             if (!File.Exists(templateFilePath))
             {
-                // Build options for template DB
                 var templateOptions = new DbContextOptionsBuilder<AppDbContext>()
                     .UseSqlite($"Data Source={templateFilePath}")
                     .Options;
 
-                
-
-                // Create the template DB context
                 using var templateDb = new AppDbContext(templateOptions);
-
-                // Apply any pending migrations
-                templateDb.Database.Migrate();
-
-                // ------------------------
-                // Populate the lookups
-                // ------------------------
-                var lookupService = new LookupRefreshService(new DatabaseService(templateFilePath));
-                lookupService.RefreshLookupsAsync();
-
+                templateDb.Database.EnsureCreated();
             }
+
+            // ------------------------
+            // Populate the lookups
+            // ------------------------
+            var lookupService = new LookupRefreshService(new DatabaseService(templateFilePath));
+            lookupService.RefreshLookupsAsync();
+
+           
 
 
             // -------------------------

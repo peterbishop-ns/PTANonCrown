@@ -12,7 +12,7 @@
         <ResourceDictionary>
             <converter:SpeciesConverter x:Key="SpeciesConverter" />
             <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-            <converter:IntEmptyToZeroConverter x:Key="IntEmptyToZeroConverter" />
+            <converter:ZeroToEmptyStringConverter x:Key="ZeroToEmptyStringConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -27,8 +27,8 @@
 Converter={StaticResource StringToVisibilityConverter}}" />
             </VerticalStackLayout>
         </VerticalStackLayout>
-        <ScrollView Grid.Row="1">
-            <Grid VerticalOptions="FillAndExpand"
+            <Grid Grid.Row="1" 
+                  VerticalOptions="FillAndExpand"
                   RowDefinitions="Auto,Auto,Auto,*,Auto"
                   RowSpacing="10">
 
@@ -314,17 +314,14 @@ Path=CurrentPlot.IsPlanted}">
                                            Text="{Binding SearchSpecies, Mode=TwoWay}" />
                                     <Picker WidthRequest="250"
                                             ItemsSource="{Binding LookupTrees}"
-                                            SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
-                                            ItemDisplayBinding="{Binding DisplayName}" />
+                                            SelectedItem="{Binding TreeSpecies, Mode=TwoWay}" />
                                 </HorizontalStackLayout>
 
                                 <!-- DBH -->
                                 <Entry Grid.Column="3"
-                                       Text="{Binding DBH_cm, Mode=TwoWay,
-                      TargetNullValue='',
-                      FallbackValue=''}"
+                                       Text="{Binding DBH_cm, Mode=TwoWay, Converter={StaticResource ZeroToEmptyStringConverter}}"
                                        Keyboard="Numeric"
-                                       Focused="Entry_Focused"
+                                Focused="Entry_Focused"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center">
                                     <Entry.Behaviors>
@@ -333,9 +330,7 @@ Path=CurrentPlot.IsPlanted}">
                                 </Entry>
                                 <!-- Height -->
                                 <Entry Grid.Column="4"
-                                       Text="{Binding Height_m, Mode=TwoWay,
-                      TargetNullValue='',
-                      FallbackValue=''}"
+                                       Text="{Binding Height_m, Mode=TwoWay, Converter={StaticResource ZeroToEmptyStringConverter}}"
                                        Keyboard="Numeric"
                                        Focused="Entry_Focused"
                                        HorizontalOptions="Center"
@@ -429,6 +424,5 @@ Path=CurrentPlot.IsPlanted}">
                             HeightRequest="40"
                             Command="{Binding AddTreeCommand}" />
             </Grid>
-        </ScrollView>
     </Grid>
 </ContentPage>

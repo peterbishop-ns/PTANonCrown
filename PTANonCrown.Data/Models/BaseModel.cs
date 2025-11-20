@@ -14,16 +14,12 @@ namespace PTANonCrown.Data.Models
 {
     public class BaseModel : ObservableValidator, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
         public int ID { get; set; }
         public void ValidateAll()
         {
             this.ValidateAllProperties();
         }
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
         public List<string> GetAllErrors()
         {
             var errors = new List<string>();
@@ -49,17 +45,6 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (!EqualityComparer<T>.Default.Equals(field, value))
-            {
-                field = value;
-                OnPropertyChanged(propertyName);
-                return true;
-            }
-            return false;
-        }
-  
 
         public static decimal Interpolate(Dictionary<int, int> lookup, int input)
         {

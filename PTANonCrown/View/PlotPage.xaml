@@ -104,8 +104,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                          Command="{Binding ShowHelperTextCommand}"
                                          CommandParameter="PlotEasting" />
                         </HorizontalStackLayout>
-                        <Entry Text="{Binding CurrentPlot.Easting, 
-                            Converter={StaticResource ZeroToEmptyStringConverter}}"
+                            <Entry Text="{Binding CurrentPlot.Easting, Converter={StaticResource ZeroToEmptyStringConverter}}"
                                Placeholder="Easting"
                                TextChanged="OnlyIntegerAllowed"
                                Style="{StaticResource EntryPlot}" />
@@ -769,7 +768,7 @@ ConverterParameter=collapsed}">
 ConverterParameter=collapsed}"
                                 SelectedItem="{Binding CurrentOGTreeSpecies, Mode=TwoWay}"
                                 ItemsSource="{Binding LookupTreeSpecies}"
-                                ItemDisplayBinding="{Binding Name}" />
+                                    ItemDisplayBinding="{Binding Name, TargetNullValue=''}" />
 
                         <HorizontalStackLayout Grid.Row="2"
                                                Grid.Column="0"

@@ -137,11 +137,38 @@ namespace PTANonCrown.Data.Models
                 }
             }
         }
+
+
+        private string? _name;
+
+        public string? Name
+        {
+            get => _name ?? string.Empty;  // for pick lists
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
         public bool LT { get; set; }
         public int CustomOrder { get; set; }
 
-        [NotMapped]
-        public string DisplayName => $"{ShortCode} - {Name}";
+
+        public override string ToString()
+        {
+
+            if (ID == -1)
+            {
+                return string.Empty;
+            }
+
+            return $"{ShortCode} - {Name}";
+        }
     }
 
 

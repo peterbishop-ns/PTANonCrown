@@ -40,6 +40,8 @@ namespace PTANonCrown.Data.Models
 
         public Plot()
         {
+            AgeTreeAge = 0;
+            AgeTreeDBH = 0;
             Blowdown = 0;
             UnderstoryStrata = 0;
             StockingLITSeedTree = 0;
@@ -101,13 +103,13 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        [Range(100000, 999999, ErrorMessage = "Easting must be a six digit number.")]
-        public int? Easting
+        [CustomValidation(typeof(Plot), nameof(ValidateEasting))]
+        public int Easting
         {
             get => _easting;
-            set => SetProperty(ref _easting, value, value.HasValue && value != 0);  // only validate if it has a value
+            set => SetProperty(ref _easting, value, value != 0);  // only validate if it has a value
         }
-        private int? _easting;
+        private int _easting;
 
 
         public EcositeGroup EcositeGroup
@@ -175,13 +177,16 @@ namespace PTANonCrown.Data.Models
         public List<TreeSpecies> LookupTrees { get; set; }
 
 
-        [Range(1000000, 9999999, ErrorMessage = "Northing must be a seven digit number.")]
-        public int? Northing
+
+        // custom validaiton required because ints are non-nullable, so defaults to 0, but then 
+        // if use out of box Range(1000000,999999) validation, it fails.
+        [CustomValidation(typeof(Plot), nameof(ValidateNorthing))]
+        public int Northing
         {
             get => _northing;
-            set => SetProperty(ref _northing, value, value.HasValue &&  value != 0);
+            set => SetProperty(ref _northing, value, value != 0);
         }
-        private int? _northing;
+        private int _northing;
         
         public int OGFSampleTreeAge { get; set; }
 
@@ -231,6 +236,57 @@ namespace PTANonCrown.Data.Models
 
             ValidateProperty(value, nameof(PlantedType));
         }
+        public static ValidationResult ValidateEasting(object value, ValidationContext context)
+        {
+            // value is expected to be an int
+            if (value is int eastingValue)
+            {
+                // skip validation if it's 0 (Entry is blank or default)
+                if (eastingValue == 0)
+                    return ValidationResult.Success;
+
+                // validate range
+                if (eastingValue >= 100000 && eastingValue <= 999999)
+                    return ValidationResult.Success;
+            }
+
+            return new ValidationResult("Easting must be a six-digit number.");
+        }
+
+        public static ValidationResult ValidateNorthing(object value, ValidationContext context)
+        {
+            // value is expected to be an int
+            if (value is int northingValue)
+            {
+                // skip validation if it's 0 (Entry is blank or default)
+                if (northingValue == 0)
+                    return ValidationResult.Success;
+
+                // validate range
+                if (northingValue >= 1000000 && northingValue <= 9999999)
+                    return ValidationResult.Success;
+            }
+
+            return new ValidationResult("Northing must be a seven-digit number.");
+        }
+
+        public static ValidationResult ValidateEcodistrict(object value, ValidationContext context)
+        {
+            // value is expected to be an int
+            if (value is int eco)
+            {
+                // skip validation if it's 0 (Entry is blank or default)
+                if (eco == 0)
+                    return ValidationResult.Success;
+
+                // validate range
+                if (eco >= 100 && eco <= 999)
+                    return ValidationResult.Success;
+            }
+
+            return new ValidationResult("Ecodistrict must be a 3 digit number");
+        }
+
 
 
 
@@ -385,6 +441,7 @@ namespace PTANonCrown.Data.Models
             set
             {
                 SetProperty(ref _treeCount, value);
+                OnPropertyChanged();
             }
         }
 
@@ -458,6 +515,19 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+
+        private bool _includeBiodiversity;
+        public bool IncludeBiodiversity
+        {
+            get => _includeBiodiversity;
+            set
+            {
+                _includeBiodiversity = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public string? EcositeCode { get; set; }
 
         public string? AgeTreeSpeciesCode { get; set; }
@@ -496,8 +566,8 @@ namespace PTANonCrown.Data.Models
 
 
         [ObservableProperty]
-        [Range(100, 999, ErrorMessage = "Ecodistict must be three digit number.")]
-        private int? _ecodistrict;
+        [CustomValidation(typeof(Plot), nameof(ValidateEcodistrict))]
+        private int _ecodistrict;
 
 
 
