@@ -708,10 +708,8 @@ namespace PTANonCrown.ViewModel
             
             var coarseWoody = new ObservableCollection<CoarseWoody>
             {
-                new CoarseWoody { Plot = parentPlot, DBH_start = 21, DBH_end = 30 },
-                new CoarseWoody { Plot = parentPlot, DBH_start = 31, DBH_end = 40 },
-                new CoarseWoody { Plot = parentPlot, DBH_start = 41, DBH_end = 50 },
-                new CoarseWoody { Plot = parentPlot, DBH_start = 51, DBH_end = 60 },
+                new CoarseWoody { Plot = parentPlot, DBH_start = 21, DBH_end = 40 },
+                new CoarseWoody { Plot = parentPlot, DBH_start = 41, DBH_end = 60 },
                 new CoarseWoody { Plot = parentPlot, DBH_start = 60, DBH_end = -1 }
             };
             parentPlot.PlotCoarseWoody = coarseWoody;
@@ -1374,8 +1372,6 @@ namespace PTANonCrown.ViewModel
                 throw;
             }
         }
-
-
         public async Task LoadLookupTables()
         {
             LookupTreeSpecies = await _standRepository.GetTreeSpeciesAsync();
@@ -1389,18 +1385,13 @@ namespace PTANonCrown.ViewModel
             TreeLookupFilteredList = new ObservableCollection<TreeSpecies>() { };
 
             ListPercentage = new List<int> { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
-            ListExposure = new List<string?> { null, "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
+            ListExposure = new List<string?> { null, "Sheltered", "Moderately" ,"Sheltered", "Moderate", "Moderately Exposed", "Exposed" };
         }
 
-
-            
         private void OnCurrentPlotChanged(Plot plot)
         {
 
             if (plot is null) return;
-
-
-
 
             // Populate UI Dropdowns whenever the current plot changes
 
@@ -1419,9 +1410,6 @@ namespace PTANonCrown.ViewModel
                 PlotWasTreated = false;
             }
         }
-
-
-
 
 private async void OnIsCheckedBiodiversityChanged()
         {

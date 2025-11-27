@@ -534,111 +534,136 @@ ConverterParameter=collapsed}"
                 <Label Text="Forest Structure"
                        Style="{StaticResource SubHeadline}" />
                 <Border>
-                    <Grid ColumnDefinitions="250,Auto"
-                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                          RowSpacing="5"
-                          ColumnSpacing="20">
-                        <!--- LEFT HAND SIDE -->
-                        <HorizontalStackLayout Grid.Row="0">
-                            <Label Text="LIT Seed Tree Stocking (%)"
-                                   Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="StockingLITSeedTree" />
-                        </HorizontalStackLayout>
+                        <Grid ColumnDefinitions="250,Auto"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                              RowSpacing="5"
+                              ColumnSpacing="20">
+                            <!--- LEFT HAND SIDE -->
+                            <HorizontalStackLayout Grid.Row="0">
+                                <Label Text="LIT Seed Tree Stocking (%)"
+                                       Style="{StaticResource LabelSubheading}" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="StockingLITSeedTree" />
+                            </HorizontalStackLayout>
 
-                        <HorizontalStackLayout Grid.Row="1">
-                            <Label Text="Blowdown (%)"
-                                   Style="{StaticResource LabelSubheading}"
-                                   Grid.Row="6" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="Blowdown" />
-                        </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Row="1">
+                                <Label Text="Blowdown (%)"
+                                       Style="{StaticResource LabelSubheading}"
+                                       Grid.Row="6" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="Blowdown" />
+                            </HorizontalStackLayout>
 
-                        <HorizontalStackLayout Grid.Row="5">
-                            <Label Text="Understory Strata (%)"
-                                   Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="UnderstoryStrata" />
-                        </HorizontalStackLayout>
-
-
-                        <HorizontalStackLayout Grid.Row="6">
-
-                            <Label Text="Understory Dominated By" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="UnderStoryDominatedBy" />
-                        </HorizontalStackLayout>
-
-                        <!--- RIGHT HAND SIDE -->
-                        <Picker Grid.Row="0"
-                                Grid.Column="1"
-                                Background="White"
-                                WidthRequest="85"
-                                ItemDisplayBinding="{Binding .}"
-                                ItemsSource="{Binding ListPercentage}"
-                                SelectedItem="{Binding CurrentPlot.StockingLITSeedTree}"
-                                HorizontalOptions="Start" />
-
-                        <Picker Grid.Row="1"
-                                Grid.Column="1"
-                                Background="White"
-                                WidthRequest="85"
-                                ItemDisplayBinding="{Binding .}"
-                                ItemsSource="{Binding ListPercentage}"
-                                SelectedItem="{Binding CurrentPlot.Blowdown, Mode=TwoWay}"
-                                HorizontalOptions="Start" />
-
-                        <Picker Grid.Row="5"
-                                Grid.Column="1"
-                                Background="White"
-                                WidthRequest="85"
-                                ItemDisplayBinding="{Binding .}"
-                                ItemsSource="{Binding ListPercentage}"
-                                SelectedItem="{Binding CurrentPlot.UnderstoryStrata}"
-                                HorizontalOptions="Start" />
+                            <HorizontalStackLayout Grid.Row="5">
+                                <Label Text="Understory Strata (%)"
+                                       Style="{StaticResource LabelSubheading}" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="UnderstoryStrata" />
+                            </HorizontalStackLayout>
 
 
+                            <HorizontalStackLayout Grid.Row="6">
+
+                                <Label Text="Understory Dominated By" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="UnderStoryDominatedBy" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Row="8">
+
+                                <Label Text="Horizontal Structure" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="HorizontalStructure" />
+                            </HorizontalStackLayout>
+
+                            <!--- RIGHT HAND SIDE -->
+                            <Picker Grid.Row="0"
+                                    Grid.Column="1"
+                                    Background="White"
+                                    WidthRequest="85"
+                                    ItemDisplayBinding="{Binding .}"
+                                    ItemsSource="{Binding ListPercentage}"
+                                    SelectedItem="{Binding CurrentPlot.StockingLITSeedTree}"
+                                    HorizontalOptions="Start" />
+
+                            <Picker Grid.Row="1"
+                                    Grid.Column="1"
+                                    Background="White"
+                                    WidthRequest="85"
+                                    ItemDisplayBinding="{Binding .}"
+                                    ItemsSource="{Binding ListPercentage}"
+                                    SelectedItem="{Binding CurrentPlot.Blowdown, Mode=TwoWay}"
+                                    HorizontalOptions="Start" />
+
+                            <Picker Grid.Row="5"
+                                    Grid.Column="1"
+                                    Background="White"
+                                    WidthRequest="85"
+                                    ItemDisplayBinding="{Binding .}"
+                                    ItemsSource="{Binding ListPercentage}"
+                                    SelectedItem="{Binding CurrentPlot.UnderstoryStrata}"
+                                    HorizontalOptions="Start" />
+                            
+                            <!-- UnderstoryDominated -->
+                            <VerticalStackLayout Grid.Row="7"
+                                                 Grid.Column="0"
+                                                 Spacing="0"
+                                                 Grid.ColumnSpan="2"
+                                                 Margin="220,0,0,0">
+                                <VerticalStackLayout  RadioButtonGroup.GroupName="UnderstoryDominated"
+                                                      RadioButtonGroup.SelectedValue="{Binding CurrentPlot.UnderstoryDominated, Mode=TwoWay}"
+                                                      Spacing="0">
+                                    <RadioButton Content="Trees"
+                                                 IsVisible="False"
+                                                 Value="{x:Static enum:UnderstoryDominated.None}" />
+
+                                    <RadioButton Content="Trees"
+                                                 Value="{x:Static enum:UnderstoryDominated.Trees}" />
 
 
-                        <!-- UnderstoryDominated -->
-                        <VerticalStackLayout Grid.Row="7"
-                                             Grid.Column="0"
-                                             Spacing="0"
-                                             Grid.ColumnSpan="2"
-                                             Margin="40,0,0,0">
-                            <VerticalStackLayout  Margin="20,0,0,0"
-                                                  RadioButtonGroup.GroupName="UnderstoryDominated"
-                                                  RadioButtonGroup.SelectedValue="{Binding CurrentPlot.UnderstoryDominated, Mode=TwoWay}"
-                                                  Spacing="0">
-                                <RadioButton Content="Trees"
-                                             IsVisible="False"
-                                             Value="{x:Static enum:UnderstoryDominated.None}" />
+                                    <RadioButton Content="Woody Shrubs"
+                                                 Value="{x:Static enum:UnderstoryDominated.WoodyShrubs}" />
 
-                                <RadioButton Content="Trees"
-                                             Value="{x:Static enum:UnderstoryDominated.Trees}" />
-
-
-                                <RadioButton Content="Woody Shrubs"
-                                             Value="{x:Static enum:UnderstoryDominated.WoodyShrubs}" />
-
+                                </VerticalStackLayout>
                             </VerticalStackLayout>
-                        </VerticalStackLayout>
+
+                            <!-- Patchy -->
+                            <VerticalStackLayout Grid.Row="9"
+                                                 Grid.Column="0"
+                                                 Spacing="0"
+                                                 Grid.ColumnSpan="2"
+                                                 Margin="220,0,0,0">
+                                <VerticalStackLayout  RadioButtonGroup.GroupName="HorizontalStructure"
+                                                      RadioButtonGroup.SelectedValue="{Binding CurrentPlot.HorizontalStructure, Mode=TwoWay}"
+                                                      Spacing="0">
+                                    <RadioButton Content="HorizontalStructure"
+                                                 IsVisible="False"
+                                                 Value="{x:Static enum:HorizontalStructure.None}" />
+                                    <RadioButton Content="Patchy"
+                                                 Value="{x:Static enum:HorizontalStructure.Patchy}" />
+
+                                    <RadioButton Content="Uniform"
+                                                 Value="{x:Static enum:HorizontalStructure.Uniform}" />
 
 
-                    </Grid>
-                </Border>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
             </VerticalStackLayout>
 
             <!-- AGE -->

@@ -135,7 +135,7 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-        public int HorizontalStructure { get; set; }
+        public HorizontalStructure HorizontalStructure { get; set; }
 
 
         [CustomValidation(typeof(Plot), nameof(ConditionalRequired))]

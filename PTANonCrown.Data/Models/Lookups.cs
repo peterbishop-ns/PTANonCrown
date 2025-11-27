@@ -123,7 +123,7 @@ namespace PTANonCrown.Data.Models
 
     public class TreeSpecies : BaseLookup
     {
-        public int HardwoodSoftwood { get; set; }
+        public HardwoodSoftwood HardwoodSoftwood { get; set; }
         private bool _lit;
         public bool LIT
         {

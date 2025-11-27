@@ -152,7 +152,7 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetBasalAreaLT_m2ha(IEnumerable<TreeLive> trees, int plotCount)
         {
-            var legacyTrees = trees.Where(t => t.Legacy == true);
+            var legacyTrees = trees.Where(t => t.TreeSpecies.LT == true);
             int result = 2 * legacyTrees.Count() / plotCount;
 
            
@@ -341,7 +341,7 @@ namespace PTANonCrown.Services
         public static SummaryItem GetDeciduousLIT_perc(IEnumerable<TreeLive> trees)
         {
 
-            var filteredTrees = trees.Where(t => (t.TreeSpecies.HardwoodSoftwood == 1) & (t.TreeSpecies.LIT == true));
+            var filteredTrees = trees.Where(t => (t.TreeSpecies.HardwoodSoftwood == HardwoodSoftwood.Hardwood) & (t.TreeSpecies.LIT == true));
             //todo account for LIT planted vs. LIT not planted; difference in LIT status for at least one tree 
 
 
@@ -378,7 +378,7 @@ namespace PTANonCrown.Services
 
         public static SummaryItem GetMerchConifer_perc(IEnumerable<TreeLive> trees)
         {
-            var filteredTrees = FilterMerchantableTrees(trees).Where(t => t.TreeSpecies.HardwoodSoftwood == 1);
+            var filteredTrees = FilterMerchantableTrees(trees).Where(t => t.TreeSpecies.HardwoodSoftwood == HardwoodSoftwood.Softwood);
 
             int countMerchConifer = filteredTrees.Count();
             int totalCount = trees.Count();

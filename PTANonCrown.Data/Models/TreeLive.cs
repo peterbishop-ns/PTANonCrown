@@ -207,7 +207,6 @@ namespace PTANonCrown.Data.Models
         // Calculated
         public bool IsMerchantable => DBH_cm > 9 ? true : false;
 
-        public bool Legacy { get; set; }
 
         public bool LIT { get; set; }
 
@@ -365,13 +364,13 @@ namespace PTANonCrown.Data.Models
             {
                 switch (TreeSpecies.HardwoodSoftwood)
                 {
-                    case 1:
+                    case HardwoodSoftwood.Softwood:
                         //case HardwoodSoftwood.Softwood: 
                         HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
                         break;
 
                     //case HardwoodSoftwood.Hardwood:
-                    case 2:
+                    case HardwoodSoftwood.Hardwood:
                         HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
                         break;
 

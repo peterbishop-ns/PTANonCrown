@@ -113,6 +113,14 @@ namespace PTANonCrown.Data.Models
         WoodyShrubs = 2
     }
 
+    public enum HorizontalStructure
+    {
+        None = 0,
+        Patchy = 1,
+        Uniform = 2
+    }
+
+
     public enum HardwoodSoftwood
     {
         Unknown = 0, 
