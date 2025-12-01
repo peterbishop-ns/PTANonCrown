@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using PTANonCrown.Data.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -153,6 +154,7 @@ namespace PTANonCrown.Data.Models
                 {
                     SetProperty(ref _dbh_cm, value, true);
                     OnPropertyChanged(nameof(IsMerchantable));
+                    OnPropertyChanged(nameof(HeightToDiameter));
                     OnDBHChanged();
                 }
             }
@@ -186,9 +188,13 @@ namespace PTANonCrown.Data.Models
             {
                 SetProperty(ref _height_m, value, true);
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(HeightToDiameter));
+
             }
         }
 
+
+        /*
         public int HeightPredicted_m
         {
             get => _heightPredicted_m;
@@ -200,7 +206,7 @@ namespace PTANonCrown.Data.Models
                     OnPropertyChanged();
                 }
             }
-        }
+        }*/
 
         public int ID { get; set; }
 
@@ -284,8 +290,10 @@ namespace PTANonCrown.Data.Models
                     if (SearchSpecies != _treeSpecies?.ShortCode)
                         SearchSpecies = _treeSpecies?.ShortCode;
                     TreeSpeciesShortCode = _treeSpecies?.ShortCode;
-                    OnPropertyChanged(nameof(SearchSpecies));   
+                    OnPropertyChanged(nameof(SearchSpecies));
                     // Any additional dependent logic
+                    Height_m = PredictHeight() ?? 0;
+
                     UpdateTreeLIT();
                     PredictHeight();
                 }
@@ -340,6 +348,13 @@ namespace PTANonCrown.Data.Models
             }
 
         }
+
+        [NotMapped]
+        public float HeightToDiameter => DBH_cm > 0
+                    ? (float)Height_m / DBH_cm
+                    : 0f;
+
+
         public int GetHeightPredictedFromDBH(Dictionary<int, int> lookup, int DBH_cm)
         {
             if (DBH_cm == 0)
@@ -352,13 +367,13 @@ namespace PTANonCrown.Data.Models
 
         public void OnDBHChanged()
         {
-            PredictHeight();
+            Height_m = PredictHeight() ?? 0;
         }
 
-        public void PredictHeight()
+        public int? PredictHeight()
         {
-            
-            if(TreeSpecies is null || DBH_cm == 0) { return; }
+            int? result = null;
+            if(TreeSpecies is null || DBH_cm == 0) { return null; }
 
             try
             {
@@ -366,12 +381,12 @@ namespace PTANonCrown.Data.Models
                 {
                     case HardwoodSoftwood.Softwood:
                         //case HardwoodSoftwood.Softwood: 
-                        HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
+                        result = GetHeightPredictedFromDBH(_dbhHeightLookupSoftwood, DBH_cm);
                         break;
 
                     //case HardwoodSoftwood.Hardwood:
                     case HardwoodSoftwood.Hardwood:
-                        HeightPredicted_m = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
+                        result = GetHeightPredictedFromDBH(_dbhHeightLookupHardwood, DBH_cm);
                         break;
 
                     default:
@@ -379,14 +394,13 @@ namespace PTANonCrown.Data.Models
                         // Handle unexpected values
                         //throw new InvalidOperationException($"Unknown HardwoodSoftwood value: {TreeSpecies.HardwoodSoftwood}. Expected 1 (Softwood) or 2 (Hardwood).");
                 }
-                OnPropertyChanged(nameof(HeightPredicted_m));
-
             }
             catch (Exception ex)
             {
                 AppLoggerData.Log($"{ex.InnerException.ToString()}", "PredictHeight");
             }
-            
+            return result;
+
         }
 
 
