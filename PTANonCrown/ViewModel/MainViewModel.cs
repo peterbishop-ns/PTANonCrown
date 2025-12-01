@@ -854,14 +854,26 @@ namespace PTANonCrown.ViewModel
 
         private void RefreshEcosite(Soil? soil, Vegetation? veg, string ecositeGroup)
         {
-            // Step 1 - look it up in the soil.
-            EcositeSoilVeg? matchingRecord = LookupEcositeSoilVeg.Where(r => r.SoilCode == soil?.ShortCode &&
-            r.VegCode == veg?.ShortCode &&
-            r.EcositeGroup == ecositeGroup
+            List<string> planted = ["PF1", "PF2", "PF3", "PF4", "PF5", "PF6"];
+            Ecosite? newEcosite = null;
 
-            ).FirstOrDefault();
+            // There is no real ecosite associated with Planted; it is a new Veg Type 'in development'
+            if (planted.Contains(veg?.ShortCode)){
+                newEcosite = LookupEcosites.Where(e => e.ShortCode == "PF").FirstOrDefault();
+            }
 
-            Ecosite newEcosite = LookupEcosites.Where(e => e.ShortCode == matchingRecord?.EcositeCode).FirstOrDefault();
+            // If not planted, set based on the lookup
+            else
+            {
+                EcositeSoilVeg? matchingRecord = LookupEcositeSoilVeg.Where(r => r.SoilCode == soil?.ShortCode &&
+                      r.VegCode == veg?.ShortCode &&
+                      r.EcositeGroup == ecositeGroup
+                      ).FirstOrDefault();
+                newEcosite = LookupEcosites.Where(e => e.ShortCode == matchingRecord?.EcositeCode).FirstOrDefault();
+            }
+
+
+          
             CurrentEcosite = newEcosite;
 
             OnPropertyChanged(nameof(EcositeErrorMessage));
