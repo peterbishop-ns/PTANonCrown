@@ -485,7 +485,7 @@ namespace PTANonCrown.ViewModel
 
         public ObservableCollection<TreeSpecies> TreeLookupFilteredList { get; set; }
 
-        public ICommand UsePredictedHeightsCommand => new Command(_ => UsePredictedHeights());
+        //public ICommand UsePredictedHeightsCommand => new Command(_ => UsePredictedHeights());
 
         public string ValidationMessage
         {
@@ -668,13 +668,14 @@ namespace PTANonCrown.ViewModel
 
         }
 
+        /*
         public void UsePredictedHeights()
         {
             foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
             {
                 tree.Height_m = tree.HeightPredicted_m;
             }
-        }
+        }*/
 
 
 

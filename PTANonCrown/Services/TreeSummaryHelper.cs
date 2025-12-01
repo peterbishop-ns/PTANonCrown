@@ -59,6 +59,7 @@ namespace PTANonCrown.Services
             result.Add(GetAGSLIT_NS_WS_RP(trees));
             result.Add(GetQMDMerchTrees_cm(trees));
             result.Add(GetAverageHeight(trees));
+            result.Add(GetAverageHeightToDiameter(trees));
 
             result.Add(GetAge(plots));
 
@@ -259,6 +260,25 @@ namespace PTANonCrown.Services
                 Units = "m"
             };
         }
+
+        public static SummaryItem GetAverageHeightToDiameter(IEnumerable<TreeLive> trees)
+        {
+            // If any tree is missing a height, fail early
+            if (trees.Any(t => t.HeightToDiameter == 0))
+                return null;
+
+            // Now all heights are guaranteed to have values
+            var heightToDiams = trees.Select(t => t.HeightToDiameter);
+            double average = Math.Round(heightToDiams.Average(), 2);
+
+            return new SummaryItem
+            {
+                DisplayName = "Average Height To Diameter",
+                Value = average,
+                Units = "m/cm"
+            };
+        }
+
 
         public static SummaryItem GetBasalArea_EH_RS_BF(IEnumerable<TreeLive> trees, int plotCount)
         {

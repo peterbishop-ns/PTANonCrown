@@ -77,19 +77,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             Grid.Column="2"
                             Command="{Binding SpecifyTreeCountInPlotCommand}" />
 
-                    <HorizontalStackLayout Grid.Row="1"
-                                           Grid.Column="3">
-                        <Button Text="Use Predicted Heights"
-                                Grid.Row="1"
-                                HeightRequest="45"
-                                Grid.Column="3"
-                                Command="{Binding UsePredictedHeightsCommand}" />
-                        <ImageButton Source="info.png"
-                                     HorizontalOptions="Center"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="UsePredictedHeights" />
-                    </HorizontalStackLayout>
+                    
                 </Grid>
                 <Grid Grid.Row="2"
                       ColumnDefinitions="30,70,350,80,100,100,60,60,60,60,80,80,80,200"
@@ -159,14 +147,14 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     </VerticalStackLayout>
                     <VerticalStackLayout Grid.Column="5"
                                          Grid.Row="1">
-                        <Label Text="Predicted Height (m)"
+                    <Label Text="Height:Diam (m/cm)"
                                FontAttributes="Bold"
                                HorizontalOptions="Center" />
                         <ImageButton Source="info.png"
                                      HorizontalOptions="Center"
                                      Style="{StaticResource ImageButtonHelperVertical}"
                                      Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="LivingTreePredicted" />
+                                        CommandParameter="HeightToDiameterRatio" />
                     </VerticalStackLayout>
                     <VerticalStackLayout Grid.Column="6"
                                          Grid.Row="1">
@@ -339,10 +327,10 @@ Path=CurrentPlot.IsPlanted}">
                                         <behav:EntryFormBehaviour />
                                     </Entry.Behaviors>
                                 </Entry>
-                                <!-- Predicted Height (read-only) -->
+                            <!-- HeightToDiameterRatio (read-only) -->
                                 <Label Grid.Column="5"
-                                       Text="{Binding HeightPredicted_m, StringFormat='{0} m'}"
-                                       TextColor="Gray"
+                                   Text="{Binding HeightToDiameter, StringFormat='{}{0:F2}'}"
+                                   TextColor="Gray"
                                        FontAttributes="Italic"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
