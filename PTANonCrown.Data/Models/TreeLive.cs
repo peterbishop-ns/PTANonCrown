@@ -327,10 +327,6 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-
-
-
-
         [NotMapped]
         public ObservableCollection<TreeSpecies> TreeSpeciesFilteredList { get; set; } = new ObservableCollection<TreeSpecies>();
 

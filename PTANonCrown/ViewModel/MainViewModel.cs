@@ -86,9 +86,7 @@ namespace PTANonCrown.ViewModel
             );
 
             RefreshPlotWasTreated(UiPlotTreatments);
-
             OnPropertyChanged(nameof(UiPlotTreatments));
-
         }
 
 

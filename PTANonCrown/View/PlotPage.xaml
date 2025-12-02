@@ -91,40 +91,38 @@ Converter={StaticResource StringToVisibilityConverter}}" />
             </Grid>
             <!-- PLOT LOCATION -->
             <VerticalStackLayout>
-                <Label Text="Location"
-                       Style="{StaticResource LabelPlot}" />
-
-                <Border Padding="10,10,10,10">
-                    <VerticalStackLayout>
-                        <HorizontalStackLayout>
-                            <Label Text="Easting"
-                                   Style="{StaticResource LabelStand}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="PlotEasting" />
-                        </HorizontalStackLayout>
+                    <Label Text="Location"
+                           Style="{StaticResource LabelPlot}" />
+                    <Border Padding="10,10,10,10">
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Easting"
+                                       Style="{StaticResource LabelStand}" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="PlotEasting" />
+                            </HorizontalStackLayout>
                             <Entry Text="{Binding CurrentPlot.Easting, Converter={StaticResource ZeroToEmptyStringConverter}}"
-                               Placeholder="Easting"
-                               TextChanged="OnlyIntegerAllowed"
-                               Style="{StaticResource EntryPlot}" />
+                                   Placeholder="Easting"
+                                   TextChanged="OnlyIntegerAllowed"
+                                   Style="{StaticResource EntryPlot}" />
 
-                        <HorizontalStackLayout>
-                            <Label Text="Northing"
-                                   Style="{StaticResource LabelStand}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="PlotNorthing" />
-                        </HorizontalStackLayout>
-                        <Entry Text="{Binding CurrentPlot.Northing, Converter={StaticResource ZeroToEmptyStringConverter}}"
-                               Placeholder="Northing"
-                               TextChanged="OnlyIntegerAllowed"
-                               Style="{StaticResource EntryPlot}" />
-                    </VerticalStackLayout>
-                </Border>
-
-            </VerticalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Northing"
+                                       Style="{StaticResource LabelStand}" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="PlotNorthing" />
+                            </HorizontalStackLayout>
+                            <Entry Text="{Binding CurrentPlot.Northing, Converter={StaticResource ZeroToEmptyStringConverter}}"
+                                   Placeholder="Northing"
+                                   TextChanged="OnlyIntegerAllowed"
+                                   Style="{StaticResource EntryPlot}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
 
             <!-- PLOT HISTORY-->
 
