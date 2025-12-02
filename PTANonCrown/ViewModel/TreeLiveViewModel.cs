@@ -31,7 +31,6 @@ namespace PTANonCrown.ViewModel
             set
             {
                 SetProperty(ref _searchText, value);
-
                 UpdateDropDown(value);
             }
         }
@@ -86,14 +85,47 @@ namespace PTANonCrown.ViewModel
         // Expose the Name of the species directly
         public string TreeSpeciesName => TreeSpecies?.Name ?? "test";
 
-        // Example for TreeNumber
-        public int TreeNumber => Model.TreeNumber;
+        // --- TreeNumber Property ---
+        public int TreeNumber
+        {
+            get => Model.TreeNumber;
+            set
+            {
+                if (Model.TreeNumber != value)
+                {
+                    Model.TreeNumber = value;
+                    OnPropertyChanged(nameof(TreeNumber));
+                }
+            }
+        }
 
-        // Example for DBH
-        public float DBH => Model.DBH_cm;
+        // --- DBH Property (Diameter at Breast Height) ---
+        public int DBH
+        {
+            get => Model.DBH_cm;
+            set
+            {
+                if (Model.DBH_cm != value)
+                {
+                    Model.DBH_cm = value;
+                    OnPropertyChanged(nameof(DBH));
+                }
+            }
+        }
 
-        // Example for Height
-        public float Height => Model.Height_m;
+        // --- Height Property ---
+        public int Height
+        {
+            get => Model.Height_m;
+            set
+            {
+                if (Model.Height_m != value)
+                {
+                    Model.Height_m = value;
+                    OnPropertyChanged(nameof(Height));
+                }
+            }
+        }
     }
-
 }
+

@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
         <StackLayout Grid.Row="0"
                      Orientation="Vertical">
             <!-- Errors -->
@@ -73,8 +73,192 @@
 
             </Grid>
 
-                    <!-- CollectionView -->
-        <CollectionView Grid.Row="3"
+        
+        <!-- Collection View Column Names-->
+        <Grid Grid.Row="3"
+              ColumnDefinitions="30,70,350,80,100,100,60,60,60,60,80,80,80,200"
+              RowDefinitions="40,70"
+              Padding="5">
+            <BoxView Grid.Row="1"
+                     Grid.ColumnSpan="9"
+                     BackgroundColor="LightGray" />
+            <BoxView Grid.Row="0"
+                     Grid.Column="9"
+                     Grid.ColumnSpan="3"
+                     BackgroundColor="LightGray" />
+
+            <BoxView Grid.Row="1"
+                     Grid.Column="9"
+                     Grid.ColumnSpan="3"
+                     BackgroundColor="LightSkyBlue" />
+
+            <BoxView Grid.Row="1"
+                     Grid.Column="12"
+                     Grid.ColumnSpan="3"
+                     BackgroundColor="LightGreen" />
+
+            <VerticalStackLayout Grid.Column="1"
+                                 Grid.Row="1">
+                <Label Text="Tree #"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeNumber" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="2"
+                                 Grid.Row="1">
+                <Label Text="Species"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeSpecies" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="3"
+                                 Grid.Row="1">
+                <Label Text="DBH (cm)"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeDBH" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="4"
+                                 Grid.Row="1">
+                <Label Text="Height (m)"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeHeight" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="5"
+                                 Grid.Row="1">
+                <Label Text="Height:Diam (m/cm)"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="HeightToDiameterRatio" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="6"
+                                 Grid.Row="1">
+                <Label Text="AGS"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeAGS" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="7"
+                                 Grid.Row="1">
+                <Label Text="LIT"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeLIT" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="8"
+                                 Grid.Row="1">
+                <Label Text="LT"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeLT" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="9"
+                                 Grid.Row="1">
+                <Label Text="Cavity"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeCavity" />
+            </VerticalStackLayout>
+
+            <HorizontalStackLayout Grid.Column="9"
+                                   Grid.ColumnSpan="3"
+                                   Grid.Row="0"
+                                   HorizontalOptions="Center">
+                <Label Text="Include Biodiversity"
+                       FontAttributes="Bold"
+                       Grid.Row="0"
+                       VerticalOptions="Center"
+                       Grid.Column="0" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Style="{StaticResource ImageButtonHelper}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="IncludeBiodiversity" />
+                <CheckBox x:Name="IncludeBiodiversity"
+                          IsChecked="{Binding IsCheckedBiodiversity, Mode=TwoWay}"
+                          Grid.Row="0"
+                          Grid.Column="1" />
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Grid.Column="10"
+                                 Grid.Row="1">
+                <Label Text="Diversity"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeDiversity" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="11"
+                                 Grid.Row="1"
+                                 HorizontalOptions="Center">
+                <Label Text="Mast"
+                       FontAttributes="Bold" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeMast" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="12"
+                                 Grid.Row="1"
+                                 Grid.ColumnSpan="2"
+                                 HorizontalOptions="Center"
+                                 IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
+Path=CurrentPlot.IsPlanted}">
+                <Label Text="Planted"
+                       FontAttributes="Bold" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelper}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreePlantedType" />
+            </VerticalStackLayout>
+        </Grid>
+        <!-- CollectionView -->
+        <CollectionView Grid.Row="4"
                         x:Name="TreeCollectionView"
                         ItemsSource="{Binding TreeRows}"
                         
@@ -92,7 +276,9 @@
                         <Button Grid.Column="0"
                                 Text="x"
                                 TextColor="Red"
-                                FontSize="24" />
+                                FontSize="24"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=DeleteLiveTreeCommand}"
+                                CommandParameter="{Binding Model}" />
 
                         <!-- Tree Number -->
                         <Label Grid.Column="1"
@@ -136,7 +322,7 @@
             </CollectionView.ItemTemplate>
 
         </CollectionView>
-        <Button Grid.Row="4"
+        <Button Grid.Row="5"
                 Text="+"
                 TextColor="Green"
                 FontSize="24"

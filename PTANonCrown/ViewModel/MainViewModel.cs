@@ -560,6 +560,13 @@ namespace PTANonCrown.ViewModel
             //remove it
             CurrentPlot.PlotTreeLive.Remove(tree);
 
+            // Find the corresponding VM in TreeRows
+            var vmToRemove = TreeRows.FirstOrDefault(vm => vm.Model == tree);
+            if (vmToRemove != null)
+            {
+                TreeRows.Remove(vmToRemove);
+            }
+
             //Re-adjust the treenumbering (so as to not have a gap)
             int treeCount = 1;
             foreach (TreeLive treeLive in CurrentPlot.PlotTreeLive)
