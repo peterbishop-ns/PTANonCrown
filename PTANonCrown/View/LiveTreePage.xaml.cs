@@ -14,21 +14,26 @@ public partial class LiveTreePage : ContentPage
     private MainViewModel _mainViewModel;
     protected override void OnAppearing()
     {
+        base.OnAppearing();
+
+        // Unsubscribe before re-subscribing (in case OnAppearing gets called repeatedly)
+        if (_mainViewModel.CurrentPlot?.PlotTreeLive is ObservableCollection<TreeLive> treeCollection)
+        {
+            treeCollection.CollectionChanged -= TreeCollection_CollectionChanged;
+            treeCollection.CollectionChanged += TreeCollection_CollectionChanged;
+        }
+
         _mainViewModel.InitializeFirstTree(_mainViewModel.CurrentPlot);
+        _mainViewModel.RefreshTreeLookupsOnPlot(_mainViewModel.CurrentPlot);
     }
+
 
     public LiveTreePage(MainViewModel viewModel)//, DbContext dbContext)
     {
         InitializeComponent();
         BindingContext = viewModel;
         _mainViewModel = viewModel;
-        if (BindingContext is MainViewModel vm)
-        {
-            if (vm.CurrentPlot?.PlotTreeLive is ObservableCollection<TreeLive> treeCollection)
-            {
-                treeCollection.CollectionChanged += TreeCollection_CollectionChanged;
-            }
-        }
+
     }
 
     private void TreeCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -42,7 +47,7 @@ public partial class LiveTreePage : ContentPage
                 // MainThread lambda marked async
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    await Task.Delay(300); // give UI time to render
+                    await Task.Delay(1000); // give UI time to render
                     TreeCollectionView.ScrollTo(collection.Count-1, position: ScrollToPosition.End, animate: true);
                     // Find the Entry inside the last item's container
                     var entries = TreeCollectionView.FindDescendants<Entry>().ToList();
@@ -60,6 +65,12 @@ public partial class LiveTreePage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+
+        if (_mainViewModel.CurrentPlot?.PlotTreeLive is ObservableCollection<TreeLive> treeCollection)
+        {
+            treeCollection.CollectionChanged -= TreeCollection_CollectionChanged;
+        }
+
         _mainViewModel.RefreshErrors();
 
     }

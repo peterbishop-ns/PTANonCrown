@@ -800,12 +800,11 @@ namespace PTANonCrown.ViewModel
                 .FirstOrDefault(t => string.Equals(t.ShortCode, CurrentPlot.OGTreeSpeciesCode, StringComparison.OrdinalIgnoreCase));
             CurrentEcositeGroup = plot.EcositeGroup;
             RefreshEcosite(plot.Soil, plot.Vegetation, plot.EcositeGroup.ToString());
-            RefreshTreeLookupsOnPlot(plot);
             // Refresh LIT status of trees
             plot.UpdatePlotTreeLIT();
         }
         
-        private void RefreshTreeLookupsOnPlot(Plot plot)
+        public void RefreshTreeLookupsOnPlot(Plot plot)
         {
             // Need to populate each tree with the full LookupTreeSpecies to ensure dropdown bindings work
             foreach (TreeLive tree in plot.PlotTreeLive)
