@@ -16,72 +16,75 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
-
-        <!-- Errors -->
-        <VerticalStackLayout Grid.Row="0"
-                             Padding="5">
+        <StackLayout Grid.Row="0"
+                     Orientation="Vertical">
+            <!-- Errors -->
             <Label Text="{Binding AllStandAllsErrors}"
                    Background="Pink"
                    Padding="5"
                    IsVisible="{Binding AllStandAllsErrors, Converter={StaticResource StringToVisibilityConverter}}" />
-        </VerticalStackLayout>
 
-        <!-- CollectionView -->
+            <!-- STAND/PLOT -->
+            <Border BackgroundColor="LightGoldenrodYellow"
+                    StrokeShape="RoundRectangle 2,2,2,2"
+                    WidthRequest="200">
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Stand"
+                           FontAttributes="Bold"
+                           Margin="10,0,0,0" />
+                    <Label Text="{Binding CurrentStand.StandNumber}"
+                           Margin="3,0,0,0" />
+                    <Label Text="Plot"
+                           FontAttributes="Bold"
+                           Margin="10,0,0,0" />
+                    <Label Text="{Binding CurrentPlot.PlotNumber}"
+                           Margin="3,0,0,0" />
+                </HorizontalStackLayout>
+            </Border>
+        </StackLayout>
+
+                <Grid Grid.Row="2"
+                        RowDefinitions="Auto,Auto"
+                        ColumnSpacing="10"
+                        ColumnDefinitions="200,Auto,Auto,Auto">
+
+                    <HorizontalStackLayout Grid.Row="1"
+                                            Grid.Column="0">
+
+                        <Label Text="Number of Trees In Plot" />
+
+                    <ImageButton Source="info.png"
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource ImageButtonHelper}"
+                                    Command="{Binding ShowHelperTextCommand}"
+                                    CommandParameter="NumberOfTreesInPlot" />
+                </HorizontalStackLayout>
+                <Entry Text="{Binding CurrentPlot.TreeCount, Mode=TwoWay}"
+                        Style="{StaticResource EntryParent}"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        WidthRequest="50" />
+
+                <Button Text="Refresh"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Command="{Binding SpecifyTreeCountInPlotCommand}" />
+
+
+            </Grid>
+
+                    <!-- CollectionView -->
         <CollectionView Grid.Row="3"
                         x:Name="TreeCollectionView"
                         ItemsSource="{Binding TreeRows}"
+                        
                         ItemsUpdatingScrollMode="KeepLastItemInView"
                         VerticalOptions="FillAndExpand"
                         SelectionMode="None">
-            <CollectionView.Header>
-                <StackLayout Orientation="Vertical">
-                    <Border Grid.Row="1"
-                            BackgroundColor="LightGoldenrodYellow"
-                            StrokeShape="RoundRectangle 2,2,2,2"
-                            WidthRequest="200">
-                        <HorizontalStackLayout HorizontalOptions="Center"
-                                               Padding="5">
-                            <Label Text="Stand"
-                                   FontAttributes="Bold" />
-                            <Label Text="{Binding CurrentStand.StandNumber}"
-                                   Margin="5,0,0,0" />
-                            <Label Text="Plot"
-                                   FontAttributes="Bold"
-                                   Margin="10,0,0,0" />
-                            <Label Text="{Binding CurrentPlot.PlotNumber}"
-                                   Margin="5,0,0,0" />
-                        </HorizontalStackLayout>
-                    </Border>
-
-                   
-                        <HorizontalStackLayout Grid.Column="0">
-                            <Label Text="Number of Trees In Plot"
-                                   VerticalOptions="Center" />
-                            <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="NumberOfTreesInPlot" />
-                        </HorizontalStackLayout>
-
-                        <Entry Grid.Column="1"
-                               Text="{Binding CurrentPlot.TreeCount, Mode=TwoWay}"
-                               WidthRequest="50"
-                               HorizontalOptions="Start" />
-
-                        <Button Grid.Column="2"
-                                Text="Refresh"
-                                Command="{Binding SpecifyTreeCountInPlotCommand}" />
-                   
-                </StackLayout>
-                
-
-
-            </CollectionView.Header>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TreeLiveViewModel">
-                    <Grid ColumnDefinitions="30,70,350,80,100,100,60,60,60,60,80,80,270"
+                    <Grid ColumnDefinitions="45,70,350,80,100,100,60,60,60,60,80,80,270"
                           Padding="5"
                           BackgroundColor="WhiteSmoke">
 
@@ -131,9 +134,7 @@
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            <CollectionView.Footer>
-               
-            </CollectionView.Footer>
+
         </CollectionView>
         <Button Grid.Row="4"
                 Text="+"

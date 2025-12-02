@@ -72,6 +72,7 @@ namespace PTANonCrown.ViewModel
                 SearchText = value?.ShortCode ?? string.Empty;
 
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SearchText));
                 OnPropertyChanged(nameof(TreeSpeciesName));
             }
         }
