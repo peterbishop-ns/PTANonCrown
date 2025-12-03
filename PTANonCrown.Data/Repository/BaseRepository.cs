@@ -147,6 +147,10 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
             try
             {
+                foreach (var prop in entry.Properties)
+                {
+                    AppLoggerData.Log($"{prop.Metadata.Name}: Current={prop.CurrentValue}, Original={prop.OriginalValue}, IsModified={prop.IsModified}", "BaseRepository");
+                }
                 context.SaveChanges(); 
                 AppLoggerData.Log($"Saved entity ID: {entity.ID}", "BaseRepository");
             }

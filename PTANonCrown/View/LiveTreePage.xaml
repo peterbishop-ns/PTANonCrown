@@ -78,7 +78,7 @@
         
         <!-- Collection View Column Names-->
         <Grid Grid.Row="3"
-              ColumnDefinitions="30,70,350,80,100,100,60,60,60,60,80,80,80,200"
+              ColumnDefinitions="30,70,200,80,100,100,60,60,60,60,80,80,80,200"
               RowDefinitions="40,70"
               Padding="5">
             <BoxView Grid.Row="1"
@@ -263,14 +263,13 @@ Path=CurrentPlot.IsPlanted}">
         <CollectionView Grid.Row="4"
                         x:Name="TreeCollectionView"
                         ItemsSource="{Binding TreeRows}"
-                        
-                        ItemsUpdatingScrollMode="KeepLastItemInView"
+                        ItemsUpdatingScrollMode="KeepScrollOffset"
                         VerticalOptions="FillAndExpand"
                         SelectionMode="None">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="45,70,350,80,100,100,60,60,60,60,80,80,270"
+                    <Grid ColumnDefinitions="45,70,200,80,100,100,60,60,60,60,80,80,270"
                           Padding="5"
                           BackgroundColor="WhiteSmoke">
 
@@ -294,25 +293,28 @@ Path=CurrentPlot.IsPlanted}">
 
                         <!-- Species Entry + Picker -->
                         <VerticalStackLayout Grid.Column="2"
+                                             HeightRequest="50"
                                                Spacing="2">
                             <!-- Searchable Entry -->
                             <Entry Text="{Binding SpeciesSearchText}"
                                    x:Name="TreeSpeciesEntry"
                                    AutomationId="SpeciesEntry"
+                                   VerticalOptions="Center"
                                    Completed="SpeciesEntry_Completed">
                                 <Entry.Behaviors>
                                     <behav:FocusBehavior IsFocused="{Binding FocusSpecies}" />
+                                        <behav:EntryFormBehaviour />
                                 </Entry.Behaviors>
                             </Entry>
 
                             <!-- Auto-complete dropdown -->
                             <CollectionView ItemsSource="{Binding FilteredSpecies}"
+                                            HeightRequest="20"
                                             SelectionMode="Single">
 
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Text="{Binding}"
-                                               Padding="10">
+                                        <Label Text="{Binding}">
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding SelectSpeciesCommand,
                                   Source={RelativeSource AncestorType={x:Type viewModels:TreeLiveViewModel}}}"
@@ -360,7 +362,48 @@ Path=CurrentPlot.IsPlanted}">
                                TextColor="Gray"
                                FontAttributes="Italic" />
 
-                        <!-- Additional columns can go here -->
+
+
+                        <CheckBox IsChecked="{Binding AGS}"
+                                  Grid.Column="6"
+                                  VerticalOptions="Center" />  
+                        
+                        <CheckBox IsChecked="{Binding LT}"
+                                  Grid.Column="7"
+                                  VerticalOptions="Center" />
+
+                        <CheckBox IsChecked="{Binding LIT}"
+                                  Grid.Column="8"
+                                  VerticalOptions="Center" />
+
+                        <CheckBox IsChecked="{Binding Cavity}"
+                                  Grid.Column="9"
+                                  VerticalOptions="Center" />
+                      <CheckBox IsChecked="{Binding Diversity}"
+                                  Grid.Column="10"
+                                  VerticalOptions="Center" />               
+                        
+                        <CheckBox IsChecked="{Binding Mast}"
+                                  Grid.Column="11"
+                                  VerticalOptions="Center" />
+
+
+                        <HorizontalStackLayout Grid.Column="12">
+                            <RadioButton Content="Seeded"
+                                         Value="Seeded"
+                                         GroupName="{x:Reference TreeCollectionView}"
+                                         IsChecked="{Binding PlantedMethod, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Seeded}" />
+
+                            <RadioButton Content="Planted"
+                                         Value="Planted"
+                                         GroupName="{x:Reference TreeCollectionView}"
+                                         IsChecked="{Binding PlantedMethod, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Planted}" />
+
+                            <RadioButton Content="Natural"
+                                         Value="Natural"
+                                         GroupName="{x:Reference TreeCollectionView}"
+                                         IsChecked="{Binding PlantedMethod, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Natural}" />
+                        </HorizontalStackLayout>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

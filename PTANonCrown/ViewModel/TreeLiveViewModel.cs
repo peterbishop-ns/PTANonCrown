@@ -18,7 +18,10 @@ namespace PTANonCrown.ViewModel
         public bool FocusSpecies
         {
             get => _focusSpecies;
-            set => SetProperty(ref _focusSpecies, value);
+            set {
+                SetProperty(ref _focusSpecies, value);
+                OnPropertyChanged();
+            }
         }
         public TreeLiveViewModel(TreeLive model, IEnumerable<TreeSpecies> allSpecies)
         {
@@ -28,14 +31,13 @@ namespace PTANonCrown.ViewModel
             // filtered list is empty until user types
             FilteredSpecies = new ObservableCollection<TreeSpecies>();
 
+            // hydrate the species
             Model.TreeSpecies = _allSpecies.Where(t => t.ShortCode == Model.TreeSpeciesShortCode).FirstOrDefault();
 
             // Preselect the species if this tree already has one
             if (model.TreeSpeciesShortCode != null)
             {
-                SpeciesSearchText = Model.TreeSpeciesShortCode;
-                FilteredSpecies.Clear();
-                FilteredSpecies.Add(Model.TreeSpecies);
+                SpeciesSearchText = $"{model.TreeSpeciesShortCode} - {model.TreeSpecies.Name}";
             }
 
             SelectSpeciesCommand = new Command<TreeSpecies>(OnSpeciesSelected);
@@ -175,6 +177,72 @@ namespace PTANonCrown.ViewModel
                 }
             }
         }
+
+        // --- LT ---
+        public bool LT => Model.TreeSpecies.LT;
+
+
+        // --- LIT ---
+        public bool LIT => Model.LIT;
+
+
+
+        // --- Mast ---
+        public bool Mast
+        {
+            get => Model.Mast;
+            set
+            {
+                if (Model.Mast != value)
+                {
+                    Model.Mast = value;
+                    OnPropertyChanged(nameof(Mast));
+                }
+            }
+        }
+
+
+                // --- Cavity ---
+        public bool Cavity
+        {
+            get => Model.Cavity;
+            set
+            {
+                if (Model.Cavity != value)
+                {
+                    Model.Cavity = value;
+                    OnPropertyChanged(nameof(Cavity));
+                }
+            }
+        }
+
+
+        // --- Diversity ---
+        public bool Diversity
+        {
+            get => Model.Diversity;
+            set
+            {
+                if (Model.Diversity != value)
+                {
+                    Model.Diversity = value;
+                    OnPropertyChanged(nameof(Diversity));
+                }
+            }
+        }
+        public PlantedMethod PlantedMethod
+        {
+            get => Model.PlantedMethod;
+            set
+            {
+                if (Model.PlantedMethod != value)
+                {
+                    Model.PlantedMethod = value;
+                    OnPropertyChanged(nameof(PlantedMethod));
+                }
+            }
+        }
+
     }
 }
 

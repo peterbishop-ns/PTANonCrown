@@ -35,29 +35,15 @@ public partial class LiveTreePage : ContentPage
     }
     private void TreeCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
         {
-            // Scroll to the last item whenever new tree is added
-            if (sender is ObservableCollection<TreeLiveViewModel> collection && collection.Count > 0)
+            foreach (TreeLiveViewModel newTree in e.NewItems)
             {
-                var lastItem = collection.Last();
-                // MainThread lambda marked async
-                MainThread.BeginInvokeOnMainThread(async () =>
+                TreeCollectionView.ScrollTo(newTree, position: ScrollToPosition.MakeVisible, animate: true);
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    await Task.Delay(200); // give UI time to render
-
-                    // Find the Entry inside the last item's container
-                    var entries = TreeCollectionView.FindDescendants<Entry>()
-                        .Where(e => e.AutomationId == "SpeciesEntry")   // only the species Entry
-                        .OrderByDescending(e =>
-                        {
-                            // Try to parse TreeNumber to int, fallback to 0 if invalid
-                            return (int)(((TreeLiveViewModel)e.BindingContext).TreeNumber);
-                        })
-                        ;
-                    entries?.FirstOrDefault()?.Focus();
+                    newTree.FocusSpecies = true;
                 });
-
             }
         }
     }
