@@ -388,21 +388,21 @@ Path=CurrentPlot.IsPlanted}">
                                   VerticalOptions="Center" />
 
 
-                        <HorizontalStackLayout Grid.Column="12">
-                            <RadioButton Content="Seeded"
-                                         Value="Seeded"
-                                         GroupName="{x:Reference TreeCollectionView}"
-                                         IsChecked="{Binding PlantedMethod, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Seeded}" />
+                        <HorizontalStackLayout IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=CurrentPlot.IsPlanted}"
+                                               RadioButtonGroup.GroupName="{Binding TreeNumber}"
+                                               RadioButtonGroup.SelectedValue="{Binding PlantedMethod, Mode=TwoWay}"
+                                               Spacing="10"
+                                               HorizontalOptions="CenterAndExpand"
+                                               Grid.Column="12">
 
-                            <RadioButton Content="Planted"
-                                         Value="Planted"
-                                         GroupName="{x:Reference TreeCollectionView}"
-                                         IsChecked="{Binding PlantedMethod, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Planted}" />
+                            <RadioButton Content="n/a"
+                                         Value="{x:Static models:PlantedMethod.NotPlanted}" />
 
-                            <RadioButton Content="Natural"
-                                         Value="Natural"
-                                         GroupName="{x:Reference TreeCollectionView}"
-                                         IsChecked="{Binding PlantedMethod, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Natural}" />
+                            <RadioButton Content="In Situ"
+                                         Value="{x:Static models:PlantedMethod.InSitu}" />
+
+                            <RadioButton Content="Ex Situ"
+                                         Value="{x:Static models:PlantedMethod.ExSitu}" />
                         </HorizontalStackLayout>
                     </Grid>
                 </DataTemplate>
