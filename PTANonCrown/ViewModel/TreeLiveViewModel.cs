@@ -14,7 +14,12 @@ namespace PTANonCrown.ViewModel
     {
         public TreeLive Model { get; }
         public List<TreeSpecies> LookupTrees { get; }
-
+        private bool _focusSpecies;
+        public bool FocusSpecies
+        {
+            get => _focusSpecies;
+            set => SetProperty(ref _focusSpecies, value);
+        }
         public TreeLiveViewModel(TreeLive model, IEnumerable<TreeSpecies> allSpecies)
         {
             Model = model;

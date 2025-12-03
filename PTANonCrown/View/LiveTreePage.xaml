@@ -296,9 +296,15 @@ Path=CurrentPlot.IsPlanted}">
                         <VerticalStackLayout Grid.Column="2"
                                                Spacing="2">
                             <!-- Searchable Entry -->
-                                <Entry Text="{Binding SpeciesSearchText}"
-                                   Completed="SpeciesEntry_Completed" />
-                 
+                            <Entry Text="{Binding SpeciesSearchText}"
+                                   x:Name="TreeSpeciesEntry"
+                                   AutomationId="SpeciesEntry"
+                                   Completed="SpeciesEntry_Completed">
+                                <Entry.Behaviors>
+                                    <behav:FocusBehavior IsFocused="{Binding FocusSpecies}" />
+                                </Entry.Behaviors>
+                            </Entry>
+
                             <!-- Auto-complete dropdown -->
                             <CollectionView ItemsSource="{Binding FilteredSpecies}"
                                             SelectionMode="Single">
@@ -324,6 +330,7 @@ Path=CurrentPlot.IsPlanted}">
                                Text="{Binding DBH, Mode=TwoWay}"
                                MaximumHeightRequest="30"
                                Keyboard="Numeric"
+                               AutomationId="DBHEntry"
                                VerticalOptions="Start"
                                HorizontalOptions="Center">
                             <Entry.Behaviors>
@@ -336,6 +343,7 @@ Path=CurrentPlot.IsPlanted}">
                                Text="{Binding Height, Mode=TwoWay}"
                                MaximumHeightRequest="30"
                                Keyboard="Numeric"
+                               AutomationId="HeightEntry"
                                VerticalOptions="Start"
                                HorizontalOptions="Center">
                             <Entry.Behaviors>

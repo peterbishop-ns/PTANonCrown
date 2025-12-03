@@ -5,6 +5,7 @@ using PTANonCrown.Data.Models;
 using PTANonCrown.ViewModel;
 using System.Collections.ObjectModel;
 using System.Runtime.Intrinsics.X86;
+using System.Collections.Specialized;
 
 namespace PTANonCrown;
 
@@ -16,9 +17,15 @@ public partial class LiveTreePage : ContentPage
     {
         base.OnAppearing();
         _mainViewModel.InitializeFirstTree(_mainViewModel.CurrentPlot);
+        // Unsubscribe before re-subscribing (in case OnAppearing gets called repeatedly)
+        if (_mainViewModel.TreeRows is ObservableCollection<TreeLiveViewModel> treeCollection)
+        {
+            treeCollection.CollectionChanged -= TreeCollection_CollectionChanged;
+            treeCollection.CollectionChanged += TreeCollection_CollectionChanged;
+        }
 
 
-         _mainViewModel.TreeRows.Clear();
+        _mainViewModel.TreeRows.Clear();
 
         foreach (var tree in _mainViewModel.CurrentPlot.PlotTreeLive)
         {
@@ -26,6 +33,37 @@ public partial class LiveTreePage : ContentPage
         }
             
     }
+    private void TreeCollection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+        {
+            // Scroll to the last item whenever new tree is added
+            if (sender is ObservableCollection<TreeLiveViewModel> collection && collection.Count > 0)
+            {
+                var lastItem = collection.Last();
+                // MainThread lambda marked async
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(200); // give UI time to render
+
+                    // Find the Entry inside the last item's container
+                    var entries = TreeCollectionView.FindDescendants<Entry>()
+                        .Where(e => e.AutomationId == "SpeciesEntry")   // only the species Entry
+                        .OrderByDescending(e =>
+                        {
+                            // Try to parse TreeNumber to int, fallback to 0 if invalid
+                            return (int)(((TreeLiveViewModel)e.BindingContext).TreeNumber);
+                        })
+                        ;
+                    entries?.FirstOrDefault()?.Focus();
+                });
+
+            }
+        }
+    }
+
+
+
     private void SpeciesEntry_Completed(object sender, EventArgs e)
     {
         if (sender is Entry entry && entry.BindingContext is TreeLiveViewModel rowVm)
