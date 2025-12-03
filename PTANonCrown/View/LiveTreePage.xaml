@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:models="clr-namespace:PTANonCrown.Data.Models;assembly=PTANonCrown.Data"
              xmlns:converter="clr-namespace:PTANonCrown.Converter"
+             xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
              Title="Live Trees">
     
@@ -324,7 +325,11 @@ Path=CurrentPlot.IsPlanted}">
                                MaximumHeightRequest="30"
                                Keyboard="Numeric"
                                VerticalOptions="Start"
-                               HorizontalOptions="Center" />
+                               HorizontalOptions="Center">
+                            <Entry.Behaviors>
+                                <behav:EntryFormBehaviour />
+                            </Entry.Behaviors>
+                        </Entry>
 
                         <!-- Height -->
                         <Entry Grid.Column="4"
@@ -332,7 +337,11 @@ Path=CurrentPlot.IsPlanted}">
                                MaximumHeightRequest="30"
                                Keyboard="Numeric"
                                VerticalOptions="Start"
-                               HorizontalOptions="Center" />
+                               HorizontalOptions="Center">
+                            <Entry.Behaviors>
+                                <behav:EntryFormBehaviour />
+                            </Entry.Behaviors>
+                        </Entry>
 
                         <!-- Height-to-Diameter Ratio -->
                         <Label Grid.Column="5"

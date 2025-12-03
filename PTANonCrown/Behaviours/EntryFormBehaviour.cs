@@ -78,7 +78,7 @@ namespace PTANonCrown.Behaviours
             // SECOND CASE: tabbing over at the end of a row
             // Create a new tree
             else if (currentIndex == entries.Count - 1 &&
-                     parentCollection.ItemsSource is ObservableCollection<TreeLive> collection)
+                     parentCollection.ItemsSource is ObservableCollection<TreeLiveViewModel> collection)
             {
                 AddNewTree(collection, mainVM);
             }
@@ -89,18 +89,31 @@ namespace PTANonCrown.Behaviours
         {
             return collectionView
                     .FindDescendants<Entry>()
-                    .OrderBy(e => ((TreeLive)e.BindingContext).TreeNumber)
+                    .OrderBy(e => ((TreeLiveViewModel)e.BindingContext).TreeNumber)
                     .ToList();
         }
 
-        private void AddNewTree(ObservableCollection<TreeLive> collection, MainViewModel mainVM)
+        private async void AddNewTree(ObservableCollection<TreeLiveViewModel> collection, MainViewModel mainVM)
         {
             int maxTreeNumber = collection.Max(t => t.TreeNumber);
-            collection.Add(new TreeLive
-            {
+
+            TreeLive newTree = new TreeLive() {
                 TreeNumber = maxTreeNumber + 1,
                 Plot = mainVM.CurrentPlot
+            };
+
+            // Add to plot collection (non-UI)
+            mainVM.CurrentPlot.PlotTreeLive.Add(newTree);
+
+            // Add to TreeRows on the UI thread
+            await MainThread.InvokeOnMainThreadAsync(() =>
+            {
+                mainVM.TreeRows.Add(new TreeLiveViewModel(
+                    newTree,
+                   mainVM.LookupTreeSpecies
+                ));
             });
+
             mainVM.CurrentPlot.TreeCount = collection.Count;
 
             // Note: was having difficulty making it scroll down to the new tree.
