@@ -16,15 +16,46 @@ public partial class LiveTreePage : ContentPage
     {
         base.OnAppearing();
         _mainViewModel.InitializeFirstTree(_mainViewModel.CurrentPlot);
+
+
+         _mainViewModel.TreeRows.Clear();
+
+        foreach (var tree in _mainViewModel.CurrentPlot.PlotTreeLive)
+        {
+            _mainViewModel.TreeRows.Add(new TreeLiveViewModel(tree, _mainViewModel.LookupTreeSpecies));
+        }
+            
+    }
+    private void SpeciesEntry_Completed(object sender, EventArgs e)
+    {
+        if (sender is Entry entry && entry.BindingContext is TreeLiveViewModel rowVm)
+        {
+            // If there is at least one filtered species, select the first one
+            if (rowVm.FilteredSpecies.Any())
+            {
+                rowVm.SelectSpecies(rowVm.FilteredSpecies.First());
+            }
+
+            // Optionally dismiss the keyboard
+            entry.Unfocus();
+        }
     }
 
+    void OnSpeciesTapped(object sender, TappedEventArgs e)
+    {
+        var species = (TreeSpecies)e.Parameter;
 
-    public LiveTreePage(MainViewModel viewModel)//, DbContext dbContext)
+        // Find the TreeLiveViewModel for this row
+        var rowVm = (sender as BindableObject).BindingContext as TreeLiveViewModel;
+        rowVm?.SelectSpecies(species);
+    }
+
+    public LiveTreePage(MainViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
         _mainViewModel = viewModel;
-
+        //_treeLiveViewModel = treeLiveViewModel;
     }
 
     protected override void OnDisappearing()
@@ -34,7 +65,12 @@ public partial class LiveTreePage : ContentPage
         _mainViewModel.RefreshErrors();
 
     }
+    private Entry? _activeEntry;
 
+    private void SpeciesEntry_Focused(object sender, FocusEventArgs e)
+    {
+        _activeEntry = sender as Entry;
+    }
     private void Entry_Focused(object sender, FocusEventArgs e)
     {
         if (sender is Entry entry && !string.IsNullOrEmpty(entry.Text))
@@ -44,5 +80,5 @@ public partial class LiveTreePage : ContentPage
         }
     }
 
-   
+
 }

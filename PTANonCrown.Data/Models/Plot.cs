@@ -640,14 +640,6 @@ namespace PTANonCrown.Data.Models
 
         }
 
-        private void InitializeLiveTree()
-        {
-            PlotTreeLive = new ObservableCollection<TreeLive>();
-
-            //PlotTreeLive.Add(new TreeLive() { PlotID = ID });
-
-        }
-
         private void OnHasOldGrowthChanged(bool hasOldGrowth)
         {
             if (!hasOldGrowth)

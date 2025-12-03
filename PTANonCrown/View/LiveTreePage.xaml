@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.LiveTreePage"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
+             xmlns:models="clr-namespace:PTANonCrown.Data.Models;assembly=PTANonCrown.Data"
              xmlns:converter="clr-namespace:PTANonCrown.Converter"
              BackgroundColor="#F0F0F0"
              Title="Live Trees">
-
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:SpeciesConverter x:Key="SpeciesConverter" />
@@ -267,7 +268,7 @@ Path=CurrentPlot.IsPlanted}">
                         SelectionMode="None">
 
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:TreeLiveViewModel">
+                <DataTemplate>
                     <Grid ColumnDefinitions="45,70,350,80,100,100,60,60,60,60,80,80,270"
                           Padding="5"
                           BackgroundColor="WhiteSmoke">
@@ -275,44 +276,70 @@ Path=CurrentPlot.IsPlanted}">
                         <!-- Delete -->
                         <Button Grid.Column="0"
                                 Text="x"
+                                MaximumHeightRequest="50"
                                 TextColor="Red"
+                                VerticalOptions="Start"
                                 FontSize="24"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=DeleteLiveTreeCommand}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
+                                        Path=DeleteLiveTreeCommand}"
                                 CommandParameter="{Binding Model}" />
 
                         <!-- Tree Number -->
                         <Label Grid.Column="1"
                                Text="{Binding TreeNumber}"
                                HorizontalOptions="Center"
-                               VerticalOptions="Center" />
+                               Margin="0,10,0,0"
+                               VerticalOptions="Start" />
 
                         <!-- Species Entry + Picker -->
-                        <HorizontalStackLayout Grid.Column="2"
+                        <VerticalStackLayout Grid.Column="2"
                                                Spacing="2">
-                            <Entry Text="{Binding SearchText, Mode=TwoWay}"
-                                   WidthRequest="60" />
-                            <Picker ItemsSource="{Binding LookupTrees}"
-                                    SelectedItem="{Binding TreeSpecies, Mode=TwoWay}"
-                                    ItemDisplayBinding="{Binding Name}"
-                                    WidthRequest="250" />
-                        </HorizontalStackLayout>
+                            <!-- Searchable Entry -->
+                                <Entry Text="{Binding SpeciesSearchText}"
+                                   Completed="SpeciesEntry_Completed" />
+                 
+                            <!-- Auto-complete dropdown -->
+                            <CollectionView ItemsSource="{Binding FilteredSpecies}"
+                                            SelectionMode="Single">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding}"
+                                               Padding="10">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SelectSpeciesCommand,
+                                  Source={RelativeSource AncestorType={x:Type viewModels:TreeLiveViewModel}}}"
+                                                                      CommandParameter="{Binding .}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+
+                            </CollectionView>
+                        </VerticalStackLayout>
 
                         <!-- DBH -->
                         <Entry Grid.Column="3"
                                Text="{Binding DBH, Mode=TwoWay}"
+                               MaximumHeightRequest="30"
                                Keyboard="Numeric"
+                               VerticalOptions="Start"
                                HorizontalOptions="Center" />
 
                         <!-- Height -->
                         <Entry Grid.Column="4"
                                Text="{Binding Height, Mode=TwoWay}"
+                               MaximumHeightRequest="30"
                                Keyboard="Numeric"
+                               VerticalOptions="Start"
                                HorizontalOptions="Center" />
 
                         <!-- Height-to-Diameter Ratio -->
                         <Label Grid.Column="5"
                                Text="{Binding Model.HeightToDiameter, StringFormat='{}{0:F2}'}"
                                HorizontalOptions="Center"
+                               Margin="0,5,0,0"
+                               VerticalOptions="Start"
                                TextColor="Gray"
                                FontAttributes="Italic" />
 

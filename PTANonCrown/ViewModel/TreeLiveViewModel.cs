@@ -15,75 +15,119 @@ namespace PTANonCrown.ViewModel
         public TreeLive Model { get; }
         public List<TreeSpecies> LookupTrees { get; }
 
-        public TreeLiveViewModel(TreeLive model, List<TreeSpecies> lookupTrees)
+        public TreeLiveViewModel(TreeLive model, IEnumerable<TreeSpecies> allSpecies)
         {
             Model = model;
-            LookupTrees = lookupTrees;
-            SearchText = model.TreeSpeciesShortCode;
+            _allSpecies = allSpecies.Where(sp=> sp.ShortCode != "n/a").ToList();
+
+            // filtered list is empty until user types
+            FilteredSpecies = new ObservableCollection<TreeSpecies>();
+
+            Model.TreeSpecies = _allSpecies.Where(t => t.ShortCode == Model.TreeSpeciesShortCode).FirstOrDefault();
+
+            // Preselect the species if this tree already has one
+            if (model.TreeSpeciesShortCode != null)
+            {
+                SpeciesSearchText = Model.TreeSpeciesShortCode;
+                FilteredSpecies.Clear();
+                FilteredSpecies.Add(Model.TreeSpecies);
+            }
+
+            SelectSpeciesCommand = new Command<TreeSpecies>(OnSpeciesSelected);
 
         }
 
-        // UI state for the row
-        private string _searchText;
-        public string SearchText
+        public Action? RemoveFocusAction { get; set; }
+
+
+        public void SelectSpecies(TreeSpecies species)
         {
-            get => _searchText;
+            Model.TreeSpecies = species;
+            Model.TreeSpeciesShortCode = species.ShortCode;
+            SpeciesSearchText = $"{species.ShortCode} - {species.Name}";
+
+            FilteredSpecies.Clear();
+
+        }
+
+        public ICommand SelectSpeciesCommand { get; }
+
+        private void OnSpeciesSelected(TreeSpecies species)
+        {
+            if (species == null) return;
+
+            Model.TreeSpecies = species;
+            Model.TreeSpeciesShortCode = species.ShortCode;
+
+
+            SpeciesSearchText = $"{species.ShortCode} - {species.Name}";
+
+            // Collapse the dropdown list
+            FilteredSpecies.Clear();
+        }
+
+
+        public string SpeciesSearchText
+        {
+            get => _speciesSearchText;
             set
             {
-                SetProperty(ref _searchText, value);
-                UpdateDropDown(value);
+
+
+                if (SetProperty(ref _speciesSearchText, value))
+                {
+
+                        FilterSpecies();
+                }
+                OnPropertyChanged();
             }
         }
-
-        public void UpdateDropDown(string value)
+        private void FilterSpecies()
         {
-            var match = LookupTrees
-                .FirstOrDefault(t => !string.IsNullOrEmpty(t.ShortCode) &&
-                                     string.Equals(t.ShortCode, value ?? string.Empty, StringComparison.OrdinalIgnoreCase));
-
-            if (match == null)
+            if (string.IsNullOrWhiteSpace(SpeciesSearchText))
             {
-                // No species matches typed value → set TreeSpecies to null
-                TreeSpecies = null;
+                FilteredSpecies.Clear();
+                foreach (var s in _allSpecies)
+                    FilteredSpecies.Add(s);
                 return;
             }
 
-            // Only update if different
-            if (TreeSpecies == null || TreeSpecies.ShortCode != match.ShortCode)
-            {
-                TreeSpecies = match;
-            }
+            var query = SpeciesSearchText.ToLower();
+
+            var results = _allSpecies
+                .Where(s =>
+                    s.ShortCode.ToLower().Contains(query) ||
+                    s.Name.ToLower().Contains(query))
+                .Take(3) // take only top 3 filtered matches
+                .ToList();
+
+            FilteredSpecies.Clear();
+            foreach (var s in results)
+                FilteredSpecies.Add(s);
+
         }
 
+        private string _speciesSearchText = string.Empty;
+
+        public ObservableCollection<TreeSpecies> FilteredSpecies { get; set; }
+
+        private readonly List<TreeSpecies> _allSpecies;
 
 
-        public TreeSpecies? TreeSpecies
+        public TreeSpecies SelectedSpecies
         {
             get => Model.TreeSpecies;
             set
             {
-                if (Model.TreeSpecies == value)
-                    return;
-
-                Model.TreeSpecies = value;
-
-                // Prevent SearchText update from re-triggering UpdateDropDown
-                SearchText = value?.ShortCode ?? string.Empty;
-
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(SearchText));
-                OnPropertyChanged(nameof(TreeSpeciesName));
+                if (Model.TreeSpecies != value)
+                {
+                    Model.TreeSpecies = value;
+                    Model.TreeSpeciesShortCode = value?.ShortCode;
+                    SpeciesSearchText = $"{value?.ShortCode} - ${value?.Name}";
+                    OnPropertyChanged();
+                }
             }
         }
-
-        public ICommand SelectTreeCommand => new Command<TreeSpecies>(tree =>
-        {
-            TreeSpecies = tree;
-        });
-
-  
-        // Expose the Name of the species directly
-        public string TreeSpeciesName => TreeSpecies?.Name ?? "test";
 
         // --- TreeNumber Property ---
         public int TreeNumber

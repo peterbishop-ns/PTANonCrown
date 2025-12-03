@@ -568,13 +568,12 @@ namespace PTANonCrown.ViewModel
             }
 
             //Re-adjust the treenumbering (so as to not have a gap)
-            int treeCount = 1;
-            foreach (TreeLive treeLive in CurrentPlot.PlotTreeLive)
+            int treeCount = 1; //reset
+            foreach (TreeLiveViewModel tvm in TreeRows)
             {
-                treeLive.TreeNumber = treeCount;
+                tvm.TreeNumber = treeCount;
                 treeCount++;
             }
-
 
         }
 
@@ -1344,9 +1343,6 @@ namespace PTANonCrown.ViewModel
             }
            
 
-            TreeRows.Clear();
-            foreach (var tree in plot.PlotTreeLive)
-                TreeRows.Add(new TreeLiveViewModel(tree, LookupTreeSpecies));
 
             SetCurrentPlot(plot);
             return plot;
