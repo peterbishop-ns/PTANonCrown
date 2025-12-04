@@ -72,7 +72,6 @@ namespace PTANonCrown.Behaviours
                 // Focus on the next Entry
                 var nextEntry = entries[currentIndex + 1];
                 nextEntry.Focus();
-                nextEntry.SelectionLength = nextEntry.Text?.Length ?? 0;
             }
 
             // SECOND CASE: tabbing over at the end of a row

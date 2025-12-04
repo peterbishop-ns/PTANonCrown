@@ -272,43 +272,54 @@
                                Text="{Binding TreeNumber}"
                                HorizontalOptions="Center"
                                Margin="0,10,0,0" />
-
+                        
                         <!-- SPECIES ENTRY + AUTOCOMPLETE -->
-                        <VerticalStackLayout Grid.Column="2"
-                                             HeightRequest="55"
-                                             Spacing="2">
+                        <Grid Grid.Column="2"
+                              VerticalOptions="Start"
+                              HeightRequest="50">
                             <Entry Text="{Binding SpeciesSearchText}"
                                    Focused="Entry_Focused"
+                                   VerticalOptions="Start"
+                                   VerticalTextAlignment="Start"
+                                   HeightRequest="50"
                                    Completed="SpeciesEntry_Completed">
                                 <Entry.Behaviors>
-                                    <behav:FocusBehavior IsFocused="{Binding FocusSpecies}" />
                                     <behav:EntryFormBehaviour />
                                 </Entry.Behaviors>
                             </Entry>
 
+
                             <CollectionView ItemsSource="{Binding FilteredSpecies}"
                                             HeightRequest="25"
+                                            WidthRequest="150"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="End"
                                             SelectionMode="Single">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Text="{Binding}">
+                                        <Label Text="{Binding .}"
+                                               Margin="5,0,0,0"
+                                               VerticalTextAlignment="End"
+                                               TextColor="Grey">
+                                            <!-- or Name, or both -->
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding SelectSpeciesCommand,
-                                         Source={RelativeSource AncestorType={x:Type viewModels:TreeLiveViewModel}}}"
+      Source={RelativeSource AncestorType={x:Type viewModels:TreeLiveViewModel}}}"
                                                                       CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <!-- DBH / Height -->
                         <Entry Grid.Column="3"
                                Text="{Binding DBH, Mode=TwoWay}"
                                Keyboard="Numeric"
                                VerticalOptions="Start"
-                               MaximumHeightRequest="30">
+                               Focused="Entry_Focused"
+                               HeightRequest="50">
                             <Entry.Behaviors>
                                 <behav:EntryFormBehaviour />
                             </Entry.Behaviors>
@@ -316,8 +327,9 @@
                         <Entry Grid.Column="4"
                                Text="{Binding Height, Mode=TwoWay}"
                                Keyboard="Numeric"
+                               Focused="Entry_Focused"
                                VerticalOptions="Start"
-                               MaximumHeightRequest="30">
+                               HeightRequest="50">
                             <Entry.Behaviors>
                                 <behav:EntryFormBehaviour />
                             </Entry.Behaviors>
@@ -326,7 +338,10 @@
                         <!-- Height-to-Diameter -->
                         <Label Grid.Column="5"
                                Text="{Binding Model.HeightToDiameter, StringFormat='{}{0:F2}'}"
-                               HorizontalOptions="Start"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"
+                               HorizontalOptions="Center"
+                               HeightRequest="50"
                                TextColor="Gray"
                                FontAttributes="Italic" />
 

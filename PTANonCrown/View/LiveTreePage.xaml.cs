@@ -29,7 +29,9 @@ public partial class LiveTreePage : ContentPage
 
         foreach (var tree in _mainViewModel.CurrentPlot.PlotTreeLive)
         {
-            _mainViewModel.TreeRows.Add(new TreeLiveViewModel(tree, _mainViewModel.LookupTreeSpecies));
+            var newRow = new TreeLiveViewModel(tree, _mainViewModel.LookupTreeSpecies);
+            newRow.FilteredSpecies.Clear();
+            _mainViewModel.TreeRows.Add(newRow);
         }
             
     }
@@ -93,12 +95,16 @@ public partial class LiveTreePage : ContentPage
     private void SpeciesEntry_Focused(object sender, FocusEventArgs e)
     {
         _activeEntry = sender as Entry;
+
+
     }
     private void Entry_Focused(object sender, FocusEventArgs e)
     {
-
-        (sender as VisualElement)?.Focus();
-
+        if (sender is Entry entry && !string.IsNullOrEmpty(entry.Text))
+        {
+            entry.CursorPosition = 0;            // move cursor to start
+            entry.SelectionLength = entry.Text.Length;  // select all text
+        }
     }
 
 

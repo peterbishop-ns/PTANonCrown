@@ -182,7 +182,7 @@ namespace PTANonCrown.ViewModel
                     PopulatePlotFromUi(_currentPlot); // BEFORE Change: populate PREVIOUS plot with the CURRENT UI
                     _currentPlot = value; // CHANGE value
                     PopulateUiFromPlot(value); // AFTER Change: load the NEW plot's values into the UI
-
+                    SetSummaryPlot(value);  // refresh the Summary Report
                     OnPropertyChanged();
             }
         }

@@ -92,6 +92,15 @@ namespace PTANonCrown.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private void ResetSpecies()
+        {
+            Model.TreeSpecies = null;
+            Model.TreeSpeciesShortCode = string.Empty;
+            OnPropertyChanged(nameof(LT));
+            OnPropertyChanged(nameof(LIT));
+
+        }
         private void FilterSpecies()
         {
             if (string.IsNullOrWhiteSpace(SpeciesSearchText))
@@ -99,22 +108,31 @@ namespace PTANonCrown.ViewModel
                 FilteredSpecies.Clear();
                 foreach (var s in _allSpecies)
                     FilteredSpecies.Add(s);
+
+                ResetSpecies();
                 return;
             }
 
-            var query = SpeciesSearchText.ToLower();
+            var query = SpeciesSearchText.ToLowerInvariant();
 
-            var results = _allSpecies
+            // Find all matches first
+            var matches = _allSpecies
                 .Where(s =>
                     s.ShortCode.ToLower().Contains(query) ||
-                    s.Name.ToLower().Contains(query))
-                .Take(1) // take only top 1 filtered matches
+                    s.Name.ToLower().Contains(query) ||
+                    $"{s.ShortCode} - {s.Name}".ToLower().Contains(query)
+                )
                 .ToList();
-
+            // Clear & take only top 1 for the filtered list
             FilteredSpecies.Clear();
-            foreach (var s in results)
+            foreach (var s in matches.Take(1))
                 FilteredSpecies.Add(s);
 
+            // Reset species if zero or more than one match
+            if (matches.Count != 1)
+            {
+                ResetSpecies();
+            }
         }
 
         private string _speciesSearchText = string.Empty;
