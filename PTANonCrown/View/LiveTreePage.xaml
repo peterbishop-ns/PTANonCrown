@@ -265,13 +265,7 @@
                           Padding="5"
                           BackgroundColor="WhiteSmoke">
 
-                        <!-- DELETE -->
-                        <Button Grid.Column="0"
-                                Text="x"
-                                FontSize="24"
-                                TextColor="Red"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteLiveTreeCommand}"
-                                CommandParameter="{Binding Model}" />
+                      
 
                         <!-- TREE NUMBER -->
                         <Label Grid.Column="1"
@@ -281,9 +275,10 @@
 
                         <!-- SPECIES ENTRY + AUTOCOMPLETE -->
                         <VerticalStackLayout Grid.Column="2"
-                                             HeightRequest="50"
+                                             HeightRequest="55"
                                              Spacing="2">
                             <Entry Text="{Binding SpeciesSearchText}"
+                                   Focused="Entry_Focused"
                                    Completed="SpeciesEntry_Completed">
                                 <Entry.Behaviors>
                                     <behav:FocusBehavior IsFocused="{Binding FocusSpecies}" />
@@ -292,13 +287,14 @@
                             </Entry>
 
                             <CollectionView ItemsSource="{Binding FilteredSpecies}"
-                                            HeightRequest="20"
+                                            HeightRequest="25"
                                             SelectionMode="Single">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <Label Text="{Binding}">
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SelectSpeciesCommand}"
+                                                <TapGestureRecognizer Command="{Binding SelectSpeciesCommand,
+                                         Source={RelativeSource AncestorType={x:Type viewModels:TreeLiveViewModel}}}"
                                                                       CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
@@ -311,6 +307,7 @@
                         <Entry Grid.Column="3"
                                Text="{Binding DBH, Mode=TwoWay}"
                                Keyboard="Numeric"
+                               VerticalOptions="Start"
                                MaximumHeightRequest="30">
                             <Entry.Behaviors>
                                 <behav:EntryFormBehaviour />
@@ -319,6 +316,7 @@
                         <Entry Grid.Column="4"
                                Text="{Binding Height, Mode=TwoWay}"
                                Keyboard="Numeric"
+                               VerticalOptions="Start"
                                MaximumHeightRequest="30">
                             <Entry.Behaviors>
                                 <behav:EntryFormBehaviour />
@@ -328,35 +326,35 @@
                         <!-- Height-to-Diameter -->
                         <Label Grid.Column="5"
                                Text="{Binding Model.HeightToDiameter, StringFormat='{}{0:F2}'}"
-                               HorizontalOptions="Center"
+                               HorizontalOptions="Start"
                                TextColor="Gray"
                                FontAttributes="Italic" />
 
                         <!-- AGS / LIT / LT -->
                         <CheckBox Grid.Column="6"
                                   IsChecked="{Binding AGS}"
-                                  VerticalOptions="Center" />
+                                  VerticalOptions="Start" />
                         <CheckBox Grid.Column="7"
                                   IsChecked="{Binding LIT}"
                                   IsEnabled="False"
-                                  VerticalOptions="Center" />
+                                  VerticalOptions="Start" />
                         <CheckBox Grid.Column="8"
                                   IsChecked="{Binding LT}"
                                   IsEnabled="False"
-                                  VerticalOptions="Center" />
+                                  VerticalOptions="Start" />
 
                         <!-- Cavity / Diversity / Mast -->
                         <CheckBox Grid.Column="9"
                                   IsChecked="{Binding Cavity}"
-                                  VerticalOptions="Center"
+                                  VerticalOptions="Start"
                                   IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IsCheckedBiodiversity}" />
                         <CheckBox Grid.Column="10"
                                   IsChecked="{Binding Diversity}"
-                                  VerticalOptions="Center"
+                                  VerticalOptions="Start"
                                   IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IsCheckedBiodiversity}" />
                         <CheckBox Grid.Column="11"
                                   IsChecked="{Binding Mast}"
-                                  VerticalOptions="Center"
+                                  VerticalOptions="Start"
                                   IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IsCheckedBiodiversity}" />
 
                         <!-- PLANTED RADIO -->

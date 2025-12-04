@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Windows.Media.AppBroadcasting;
 
+
 namespace PTANonCrown.ViewModel
 {
     public class TreeLiveViewModel : BaseViewModel
@@ -107,7 +108,7 @@ namespace PTANonCrown.ViewModel
                 .Where(s =>
                     s.ShortCode.ToLower().Contains(query) ||
                     s.Name.ToLower().Contains(query))
-                .Take(3) // take only top 3 filtered matches
+                .Take(1) // take only top 1 filtered matches
                 .ToList();
 
             FilteredSpecies.Clear();
@@ -167,11 +168,11 @@ namespace PTANonCrown.ViewModel
         }
 
         // --- LT ---
-        public bool LT => Model.TreeSpecies.LT;
+        public bool LT => Model.TreeSpecies?.LT ?? false;
 
 
         // --- LIT ---
-        public bool LIT => Model.TreeSpecies.LIT;
+        public bool LIT => Model.TreeSpecies?.LIT ?? false;
 
 
         // --- AGS ---

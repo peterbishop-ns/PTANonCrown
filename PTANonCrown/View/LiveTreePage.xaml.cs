@@ -39,7 +39,7 @@ public partial class LiveTreePage : ContentPage
         {
             foreach (TreeLiveViewModel newTree in e.NewItems)
             {
-                TreeCollectionView.ScrollTo(newTree, position: ScrollToPosition.MakeVisible, animate: true);
+                TreeCollectionView.ScrollTo(newTree, position: ScrollToPosition.End, animate: true);
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     newTree.FocusSpecies = true;
@@ -48,7 +48,7 @@ public partial class LiveTreePage : ContentPage
         }
     }
 
-
+    
 
     private void SpeciesEntry_Completed(object sender, EventArgs e)
     {
@@ -96,12 +96,11 @@ public partial class LiveTreePage : ContentPage
     }
     private void Entry_Focused(object sender, FocusEventArgs e)
     {
-        if (sender is Entry entry && !string.IsNullOrEmpty(entry.Text))
-        {
-            entry.CursorPosition = 0;
-            entry.SelectionLength = entry.Text.Length;
-        }
+
+        (sender as VisualElement)?.Focus();
+
     }
+
 
 
 }
