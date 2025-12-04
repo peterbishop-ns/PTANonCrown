@@ -79,7 +79,6 @@ public partial class LiveTreePage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
         _mainViewModel = viewModel;
-        //_treeLiveViewModel = treeLiveViewModel;
     }
 
     protected override void OnDisappearing()

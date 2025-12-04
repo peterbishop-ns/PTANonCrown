@@ -50,6 +50,8 @@ namespace PTANonCrown.ViewModel
         public void SelectSpecies(TreeSpecies species)
         {
             Model.TreeSpecies = species;
+            OnPropertyChanged(nameof(LT));
+            OnPropertyChanged(nameof(LIT));
             Model.TreeSpeciesShortCode = species.ShortCode;
             SpeciesSearchText = $"{species.ShortCode} - {species.Name}";
 
@@ -121,20 +123,6 @@ namespace PTANonCrown.ViewModel
         private readonly List<TreeSpecies> _allSpecies;
 
 
-        public TreeSpecies SelectedSpecies
-        {
-            get => Model.TreeSpecies;
-            set
-            {
-                if (Model.TreeSpecies != value)
-                {
-                    Model.TreeSpecies = value;
-                    Model.TreeSpeciesShortCode = value?.ShortCode;
-                    SpeciesSearchText = $"{value?.ShortCode} - ${value?.Name}";
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         // --- TreeNumber Property ---
         public int TreeNumber
@@ -183,9 +171,22 @@ namespace PTANonCrown.ViewModel
 
 
         // --- LIT ---
-        public bool LIT => Model.LIT;
+        public bool LIT => Model.TreeSpecies.LIT;
 
 
+        // --- AGS ---
+        public bool AGS
+        {
+            get => Model.AGS;
+            set
+            {
+                if (Model.AGS != value)
+                {
+                    Model.AGS = value;
+                    OnPropertyChanged(nameof(AGS));
+                }
+            }
+        }
 
         // --- Mast ---
         public bool Mast

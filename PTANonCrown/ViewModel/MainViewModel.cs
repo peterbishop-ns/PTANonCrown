@@ -547,7 +547,7 @@ namespace PTANonCrown.ViewModel
                    LookupTreeSpecies
                 ));
             });
-
+            OnPropertyChanged(nameof(TreeRows));
             // Add to DB context (non-UI)
             _databaseService.GetContext().Add(tree);
 

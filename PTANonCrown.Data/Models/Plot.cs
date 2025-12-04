@@ -77,6 +77,21 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+
+        private bool _isCheckedBiodiversity;
+        public bool IsCheckedBiodiversity
+        {
+            get => _isCheckedBiodiversity;
+            set
+            {
+                if (_isCheckedBiodiversity != value)
+                {
+                    _isCheckedBiodiversity = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public int AGSPatches
         {
             get => _agsPatches;

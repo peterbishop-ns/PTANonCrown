@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PTANonCrown.LiveTreePage"
+             x:Name="LiveTreePageRoot"
              xmlns:viewModels="clr-namespace:PTANonCrown.ViewModel"
              xmlns:models="clr-namespace:PTANonCrown.Data.Models;assembly=PTANonCrown.Data"
              xmlns:converter="clr-namespace:PTANonCrown.Converter"
              xmlns:behav="clr-namespace:PTANonCrown.Behaviours"
              BackgroundColor="#F0F0F0"
              Title="Live Trees">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:SpeciesConverter x:Key="SpeciesConverter" />
@@ -18,15 +19,15 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+
+        <!-- HEADER: Errors + Stand/Plot -->
         <StackLayout Grid.Row="0"
                      Orientation="Vertical">
-            <!-- Errors -->
             <Label Text="{Binding AllStandAllsErrors}"
                    Background="Pink"
                    Padding="5"
                    IsVisible="{Binding AllStandAllsErrors, Converter={StaticResource StringToVisibilityConverter}}" />
 
-            <!-- STAND/PLOT -->
             <Border BackgroundColor="LightGoldenrodYellow"
                     StrokeShape="RoundRectangle 2,2,2,2"
                     WidthRequest="200">
@@ -45,42 +46,39 @@
             </Border>
         </StackLayout>
 
-                <Grid Grid.Row="2"
-                        RowDefinitions="Auto,Auto"
-                        ColumnSpacing="10"
-                        ColumnDefinitions="200,Auto,Auto,Auto">
+        <!-- TREE COUNT INPUT -->
+        <Grid Grid.Row="2"
+              RowDefinitions="Auto,Auto"
+              ColumnDefinitions="200,Auto,Auto,Auto"
+              ColumnSpacing="10">
+            <HorizontalStackLayout Grid.Row="1"
+                                   Grid.Column="0">
+                <Label Text="Number of Trees In Plot" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelper}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="NumberOfTreesInPlot" />
+            </HorizontalStackLayout>
 
-                    <HorizontalStackLayout Grid.Row="1"
-                                            Grid.Column="0">
+            <Entry Text="{Binding CurrentPlot.TreeCount, Mode=TwoWay}"
+                   Style="{StaticResource EntryParent}"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   WidthRequest="50" />
 
-                        <Label Text="Number of Trees In Plot" />
+            <Button Text="Refresh"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Command="{Binding SpecifyTreeCountInPlotCommand}" />
+        </Grid>
 
-                    <ImageButton Source="info.png"
-                                    HorizontalOptions="Center"
-                                    Style="{StaticResource ImageButtonHelper}"
-                                    Command="{Binding ShowHelperTextCommand}"
-                                    CommandParameter="NumberOfTreesInPlot" />
-                </HorizontalStackLayout>
-                <Entry Text="{Binding CurrentPlot.TreeCount, Mode=TwoWay}"
-                        Style="{StaticResource EntryParent}"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        WidthRequest="50" />
-
-                <Button Text="Refresh"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Command="{Binding SpecifyTreeCountInPlotCommand}" />
-
-
-            </Grid>
-
-        
-        <!-- Collection View Column Names-->
+        <!-- COLUMN HEADERS -->
         <Grid Grid.Row="3"
               ColumnDefinitions="30,70,200,80,100,100,60,60,60,60,80,80,80,200"
               RowDefinitions="40,70"
               Padding="5">
+            <!-- Background Boxes -->
             <BoxView Grid.Row="1"
                      Grid.ColumnSpan="9"
                      BackgroundColor="LightGray" />
@@ -88,17 +86,16 @@
                      Grid.Column="9"
                      Grid.ColumnSpan="3"
                      BackgroundColor="LightGray" />
-
             <BoxView Grid.Row="1"
                      Grid.Column="9"
                      Grid.ColumnSpan="3"
                      BackgroundColor="LightSkyBlue" />
-
             <BoxView Grid.Row="1"
                      Grid.Column="12"
                      Grid.ColumnSpan="3"
                      BackgroundColor="LightGreen" />
 
+            <!-- Individual Column Headers -->
             <VerticalStackLayout Grid.Column="1"
                                  Grid.Row="1">
                 <Label Text="Tree #"
@@ -110,6 +107,7 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="LivingTreeNumber" />
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="2"
                                  Grid.Row="1">
                 <Label Text="Species"
@@ -121,6 +119,7 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="LivingTreeSpecies" />
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="3"
                                  Grid.Row="1">
                 <Label Text="DBH (cm)"
@@ -132,6 +131,7 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="LivingTreeDBH" />
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="4"
                                  Grid.Row="1">
                 <Label Text="Height (m)"
@@ -143,6 +143,7 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="LivingTreeHeight" />
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="5"
                                  Grid.Row="1">
                 <Label Text="Height:Diam (m/cm)"
@@ -154,6 +155,8 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="HeightToDiameterRatio" />
             </VerticalStackLayout>
+
+            <!-- AGS / LIT / LT -->
             <VerticalStackLayout Grid.Column="6"
                                  Grid.Row="1">
                 <Label Text="AGS"
@@ -187,25 +190,14 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="LivingTreeLT" />
             </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="9"
-                                 Grid.Row="1">
-                <Label Text="Cavity"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center" />
-                <ImageButton Source="info.png"
-                             HorizontalOptions="Center"
-                             Style="{StaticResource ImageButtonHelperVertical}"
-                             Command="{Binding ShowHelperTextCommand}"
-                             CommandParameter="LivingTreeCavity" />
-            </VerticalStackLayout>
 
+            <!-- Include Biodiversity Header -->
             <HorizontalStackLayout Grid.Column="9"
                                    Grid.ColumnSpan="3"
                                    Grid.Row="0"
                                    HorizontalOptions="Center">
                 <Label Text="Include Biodiversity"
                        FontAttributes="Bold"
-                       Grid.Row="0"
                        VerticalOptions="Center"
                        Grid.Column="0" />
                 <ImageButton Source="info.png"
@@ -215,11 +207,12 @@
                              Command="{Binding ShowHelperTextCommand}"
                              CommandParameter="IncludeBiodiversity" />
                 <CheckBox x:Name="IncludeBiodiversity"
-                          IsChecked="{Binding IsCheckedBiodiversity, Mode=TwoWay}"
+                          IsChecked="{Binding IsCheckedBiodiversity}"
                           Grid.Row="0"
                           Grid.Column="1" />
             </HorizontalStackLayout>
 
+            <!-- Diversity / Mast / Planted -->
             <VerticalStackLayout Grid.Column="10"
                                  Grid.Row="1">
                 <Label Text="Diversity"
@@ -248,8 +241,7 @@
                                  Grid.Row="1"
                                  Grid.ColumnSpan="2"
                                  HorizontalOptions="Center"
-                                 IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
-Path=CurrentPlot.IsPlanted}">
+                                 IsVisible="{Binding CurrentPlot.IsPlanted}">
                 <Label Text="Planted"
                        FontAttributes="Bold" />
                 <ImageButton Source="info.png"
@@ -259,156 +251,135 @@ Path=CurrentPlot.IsPlanted}">
                              CommandParameter="LivingTreePlantedType" />
             </VerticalStackLayout>
         </Grid>
-        <!-- CollectionView -->
+
+        <!-- TREE COLLECTION -->
         <CollectionView Grid.Row="4"
                         x:Name="TreeCollectionView"
                         ItemsSource="{Binding TreeRows}"
                         ItemsUpdatingScrollMode="KeepScrollOffset"
                         VerticalOptions="FillAndExpand"
                         SelectionMode="None">
-
             <CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="viewModels:TreeLiveViewModel">
                     <Grid ColumnDefinitions="45,70,200,80,100,100,60,60,60,60,80,80,270"
                           Padding="5"
                           BackgroundColor="WhiteSmoke">
 
-                        <!-- Delete -->
+                        <!-- DELETE -->
                         <Button Grid.Column="0"
                                 Text="x"
-                                MaximumHeightRequest="50"
-                                TextColor="Red"
-                                VerticalOptions="Start"
                                 FontSize="24"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}},
-                                        Path=DeleteLiveTreeCommand}"
+                                TextColor="Red"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteLiveTreeCommand}"
                                 CommandParameter="{Binding Model}" />
 
-                        <!-- Tree Number -->
+                        <!-- TREE NUMBER -->
                         <Label Grid.Column="1"
                                Text="{Binding TreeNumber}"
                                HorizontalOptions="Center"
-                               Margin="0,10,0,0"
-                               VerticalOptions="Start" />
+                               Margin="0,10,0,0" />
 
-                        <!-- Species Entry + Picker -->
+                        <!-- SPECIES ENTRY + AUTOCOMPLETE -->
                         <VerticalStackLayout Grid.Column="2"
                                              HeightRequest="50"
-                                               Spacing="2">
-                            <!-- Searchable Entry -->
+                                             Spacing="2">
                             <Entry Text="{Binding SpeciesSearchText}"
-                                   x:Name="TreeSpeciesEntry"
-                                   AutomationId="SpeciesEntry"
-                                   VerticalOptions="Center"
                                    Completed="SpeciesEntry_Completed">
                                 <Entry.Behaviors>
                                     <behav:FocusBehavior IsFocused="{Binding FocusSpecies}" />
-                                        <behav:EntryFormBehaviour />
+                                    <behav:EntryFormBehaviour />
                                 </Entry.Behaviors>
                             </Entry>
 
-                            <!-- Auto-complete dropdown -->
                             <CollectionView ItemsSource="{Binding FilteredSpecies}"
                                             HeightRequest="20"
                                             SelectionMode="Single">
-
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <Label Text="{Binding}">
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SelectSpeciesCommand,
-                                  Source={RelativeSource AncestorType={x:Type viewModels:TreeLiveViewModel}}}"
+                                                <TapGestureRecognizer Command="{Binding SelectSpeciesCommand}"
                                                                       CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
-
                             </CollectionView>
                         </VerticalStackLayout>
 
-                        <!-- DBH -->
+                        <!-- DBH / Height -->
                         <Entry Grid.Column="3"
                                Text="{Binding DBH, Mode=TwoWay}"
-                               MaximumHeightRequest="30"
                                Keyboard="Numeric"
-                               AutomationId="DBHEntry"
-                               VerticalOptions="Start"
-                               HorizontalOptions="Center">
+                               MaximumHeightRequest="30">
                             <Entry.Behaviors>
                                 <behav:EntryFormBehaviour />
                             </Entry.Behaviors>
                         </Entry>
-
-                        <!-- Height -->
                         <Entry Grid.Column="4"
                                Text="{Binding Height, Mode=TwoWay}"
-                               MaximumHeightRequest="30"
                                Keyboard="Numeric"
-                               AutomationId="HeightEntry"
-                               VerticalOptions="Start"
-                               HorizontalOptions="Center">
+                               MaximumHeightRequest="30">
                             <Entry.Behaviors>
                                 <behav:EntryFormBehaviour />
                             </Entry.Behaviors>
                         </Entry>
 
-                        <!-- Height-to-Diameter Ratio -->
+                        <!-- Height-to-Diameter -->
                         <Label Grid.Column="5"
                                Text="{Binding Model.HeightToDiameter, StringFormat='{}{0:F2}'}"
                                HorizontalOptions="Center"
-                               Margin="0,5,0,0"
-                               VerticalOptions="Start"
                                TextColor="Gray"
                                FontAttributes="Italic" />
 
-
-
-                        <CheckBox IsChecked="{Binding AGS}"
-                                  Grid.Column="6"
-                                  VerticalOptions="Center" />  
-                        
-                        <CheckBox IsChecked="{Binding LT}"
-                                  Grid.Column="7"
+                        <!-- AGS / LIT / LT -->
+                        <CheckBox Grid.Column="6"
+                                  IsChecked="{Binding AGS}"
+                                  VerticalOptions="Center" />
+                        <CheckBox Grid.Column="7"
+                                  IsChecked="{Binding LIT}"
+                                  IsEnabled="False"
+                                  VerticalOptions="Center" />
+                        <CheckBox Grid.Column="8"
+                                  IsChecked="{Binding LT}"
+                                  IsEnabled="False"
                                   VerticalOptions="Center" />
 
-                        <CheckBox IsChecked="{Binding LIT}"
-                                  Grid.Column="8"
-                                  VerticalOptions="Center" />
+                        <!-- Cavity / Diversity / Mast -->
+                        <CheckBox Grid.Column="9"
+                                  IsChecked="{Binding Cavity}"
+                                  VerticalOptions="Center"
+                                  IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IsCheckedBiodiversity}" />
+                        <CheckBox Grid.Column="10"
+                                  IsChecked="{Binding Diversity}"
+                                  VerticalOptions="Center"
+                                  IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IsCheckedBiodiversity}" />
+                        <CheckBox Grid.Column="11"
+                                  IsChecked="{Binding Mast}"
+                                  VerticalOptions="Center"
+                                  IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IsCheckedBiodiversity}" />
 
-                        <CheckBox IsChecked="{Binding Cavity}"
-                                  Grid.Column="9"
-                                  VerticalOptions="Center" />
-                      <CheckBox IsChecked="{Binding Diversity}"
-                                  Grid.Column="10"
-                                  VerticalOptions="Center" />               
-                        
-                        <CheckBox IsChecked="{Binding Mast}"
-                                  Grid.Column="11"
-                                  VerticalOptions="Center" />
-
-
-                        <HorizontalStackLayout IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=CurrentPlot.IsPlanted}"
-                                               RadioButtonGroup.GroupName="{Binding TreeNumber}"
-                                               RadioButtonGroup.SelectedValue="{Binding PlantedMethod, Mode=TwoWay}"
+                        <!-- PLANTED RADIO -->
+                        <HorizontalStackLayout Grid.Column="12"
                                                Spacing="10"
                                                HorizontalOptions="CenterAndExpand"
-                                               Grid.Column="12">
-
+                                               IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CurrentPlot.IsPlanted}"
+                                               RadioButtonGroup.GroupName="{Binding TreeNumber}"
+                                               RadioButtonGroup.SelectedValue="{Binding PlantedMethod, Mode=TwoWay}">
                             <RadioButton Content="n/a"
                                          Value="{x:Static models:PlantedMethod.NotPlanted}" />
-
                             <RadioButton Content="In Situ"
                                          Value="{x:Static models:PlantedMethod.InSitu}" />
-
                             <RadioButton Content="Ex Situ"
                                          Value="{x:Static models:PlantedMethod.ExSitu}" />
                         </HorizontalStackLayout>
+
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-
         </CollectionView>
+
+        <!-- ADD TREE BUTTON -->
         <Button Grid.Row="5"
                 Text="+"
                 TextColor="Green"
@@ -416,9 +387,6 @@ Path=CurrentPlot.IsPlanted}">
                 WidthRequest="40"
                 HeightRequest="40"
                 HorizontalOptions="Start"
-                VerticalOptions="Center"
                 Command="{Binding AddTreeCommand}" />
-        <!-- Add Tree Button -->
-        
     </Grid>
 </ContentPage>
