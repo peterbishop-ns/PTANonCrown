@@ -30,7 +30,7 @@ public partial class LiveTreePage : ContentPage
         foreach (var tree in _mainViewModel.CurrentPlot.PlotTreeLive)
         {
             var newRow = new TreeLiveViewModel(tree, _mainViewModel.LookupTreeSpecies);
-            newRow.FilteredSpecies.Clear();
+            newRow.FilteredSpecies = null;
             _mainViewModel.TreeRows.Add(newRow);
         }
             
@@ -57,9 +57,9 @@ public partial class LiveTreePage : ContentPage
         if (sender is Entry entry && entry.BindingContext is TreeLiveViewModel rowVm)
         {
             // If there is at least one filtered species, select the first one
-            if (rowVm.FilteredSpecies.Any())
+            if (rowVm.FilteredSpecies is not null)
             {
-                rowVm.SelectSpecies(rowVm.FilteredSpecies.First());
+                rowVm.SelectSpecies(rowVm.FilteredSpecies);
             }
 
             // Optionally dismiss the keyboard

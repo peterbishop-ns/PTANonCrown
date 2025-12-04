@@ -30,7 +30,7 @@ namespace PTANonCrown.ViewModel
             _allSpecies = allSpecies.Where(sp=> sp.ShortCode != "n/a").ToList();
 
             // filtered list is empty until user types
-            FilteredSpecies = new ObservableCollection<TreeSpecies>();
+            FilteredSpecies = new TreeSpecies();
 
             // hydrate the species
             Model.TreeSpecies = _allSpecies.Where(t => t.ShortCode == Model.TreeSpeciesShortCode).FirstOrDefault();
@@ -56,7 +56,7 @@ namespace PTANonCrown.ViewModel
             Model.TreeSpeciesShortCode = species.ShortCode;
             SpeciesSearchText = $"{species.ShortCode} - {species.Name}";
 
-            FilteredSpecies.Clear();
+            FilteredSpecies = null;
 
         }
 
@@ -73,7 +73,7 @@ namespace PTANonCrown.ViewModel
             SpeciesSearchText = $"{species.ShortCode} - {species.Name}";
 
             // Collapse the dropdown list
-            FilteredSpecies.Clear();
+            FilteredSpecies = null;
         }
 
 
@@ -105,10 +105,7 @@ namespace PTANonCrown.ViewModel
         {
             if (string.IsNullOrWhiteSpace(SpeciesSearchText))
             {
-                FilteredSpecies.Clear();
-                foreach (var s in _allSpecies)
-                    FilteredSpecies.Add(s);
-
+                FilteredSpecies = null;
                 ResetSpecies();
                 return;
             }
@@ -124,9 +121,7 @@ namespace PTANonCrown.ViewModel
                 )
                 .ToList();
             // Clear & take only top 1 for the filtered list
-            FilteredSpecies.Clear();
-            foreach (var s in matches.Take(1))
-                FilteredSpecies.Add(s);
+            FilteredSpecies = matches.FirstOrDefault();
 
             // Reset species if zero or more than one match
             if (matches.Count != 1)
@@ -137,7 +132,21 @@ namespace PTANonCrown.ViewModel
 
         private string _speciesSearchText = string.Empty;
 
-        public ObservableCollection<TreeSpecies> FilteredSpecies { get; set; }
+        private TreeSpecies? _filteredSpecies;
+        public TreeSpecies? FilteredSpecies
+        {
+            get => _filteredSpecies;
+            set
+            {
+                if (_filteredSpecies != value)
+                {
+                    _filteredSpecies = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
 
         private readonly List<TreeSpecies> _allSpecies;
 
