@@ -121,13 +121,7 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        // Keeping LookupTrees list on the TreeLive itself is a workaround. 
-        // Was running into issues with the Picker list, where it wouldn't set SelectedItem Correctly
-        //  There were different binding contexts; LookupTrees was on the VM, whereas the selected tree species
-        // Was on the row of the picker. 
-        // Having LookupTrees as a prop of the TreeLive solved this issue. 
-        [NotMapped]
-        public List<TreeSpecies> LookupTrees { get; set; }
+
         public bool AGS { get; set; }
 
         private bool _cavity;
@@ -238,37 +232,6 @@ namespace PTANonCrown.Data.Models
         [Required(ErrorMessage = "Tree Species is required.")]
         public string TreeSpeciesShortCode { get; set; }
 
-        // -----------------------------
-        // Observable SearchSpecies
-        // -----------------------------
-
-        private string _searchSpecies;
-        public string SearchSpecies
-        {
-            get => _searchSpecies;
-            set
-            {
-                if (_searchSpecies != value)
-                {
-                    SetProperty(ref _searchSpecies, value, true);
-                    OnPropertyChanged();
-
-                    // Run any dependent logic
-                    OnSearchSpeciesChanged(_searchSpecies);
-                }
-            }
-        }
-        // Called automatically when SearchSpecies changes
-        private void OnSearchSpeciesChanged(string value)
-        {
-            // Only update TreeSpecies if different to avoid recursion
-            if (TreeSpecies?.ShortCode != value)
-            {
-                var result = LookupTrees
-                    .FirstOrDefault(t => string.Equals(t.ShortCode, value, StringComparison.OrdinalIgnoreCase));
-                TreeSpecies = result;
-            }
-        }
 
         // -----------------------------
         // Observable TreeSpecies
@@ -276,7 +239,7 @@ namespace PTANonCrown.Data.Models
         private TreeSpecies _treeSpecies;
         [NotMapped]
         [ForeignKey(nameof(TreeSpeciesShortCode))]
-        public TreeSpecies TreeSpecies
+        public TreeSpecies? TreeSpecies
         {
             get => _treeSpecies;
             set
@@ -286,11 +249,8 @@ namespace PTANonCrown.Data.Models
                     _treeSpecies = value;
                     OnPropertyChanged();
 
-                    // Only update SearchSpecies if different to avoid recursion
-                    if (SearchSpecies != _treeSpecies?.ShortCode)
-                        SearchSpecies = _treeSpecies?.ShortCode;
+                   
                     TreeSpeciesShortCode = _treeSpecies?.ShortCode;
-                    OnPropertyChanged(nameof(SearchSpecies));
                     // Any additional dependent logic
                     Height_m = PredictHeight() ?? 0;
 
@@ -327,13 +287,7 @@ namespace PTANonCrown.Data.Models
             }
         }
 
-
-
-
-
-        [NotMapped]
-        public ObservableCollection<TreeSpecies> TreeSpeciesFilteredList { get; set; } = new ObservableCollection<TreeSpecies>();
-
+       
         private int _treeNumber;
         public int TreeNumber
         {

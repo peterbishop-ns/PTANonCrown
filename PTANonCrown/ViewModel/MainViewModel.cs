@@ -86,9 +86,7 @@ namespace PTANonCrown.ViewModel
             );
 
             RefreshPlotWasTreated(UiPlotTreatments);
-
             OnPropertyChanged(nameof(UiPlotTreatments));
-
         }
 
 
@@ -154,7 +152,7 @@ namespace PTANonCrown.ViewModel
 
         public ObservableCollection<Stand> _allStands { get; set; }
 
-        public ICommand AddTreeCommand => new Command(_ => AddTrees(1));
+        public ICommand AddTreeCommand => new Command(async () => await AddTreesAsync(1));
 
 
 
@@ -184,7 +182,7 @@ namespace PTANonCrown.ViewModel
                     PopulatePlotFromUi(_currentPlot); // BEFORE Change: populate PREVIOUS plot with the CURRENT UI
                     _currentPlot = value; // CHANGE value
                     PopulateUiFromPlot(value); // AFTER Change: load the NEW plot's values into the UI
-
+                    SetSummaryPlot(value);  // refresh the Summary Report
                     OnPropertyChanged();
             }
         }
@@ -530,19 +528,31 @@ namespace PTANonCrown.ViewModel
         private Dictionary<string, List<string>> _phaseToSoilTypes { get; set; }
         private StandRepository _standRepository { get; set; }
 
-        public void AddNewTreeToPlot(Plot plot, int treeNumber)
+        public async Task AddNewTreeToPlotAsync(Plot plot, int treeNumber)
         {
             var tree = new TreeLive()
             {
                 TreeNumber = treeNumber,
-                LookupTrees = LookupTreeSpecies,
                 Plot = plot
             };
 
+            // Add to plot collection (non-UI)
             plot.PlotTreeLive.Add(tree);
 
+            // Add to TreeRows on the UI thread
+            await MainThread.InvokeOnMainThreadAsync(() =>
+            {
+                TreeRows.Add(new TreeLiveViewModel(
+                    tree,
+                   LookupTreeSpecies
+                ));
+            });
+            OnPropertyChanged(nameof(TreeRows));
+            // Add to DB context (non-UI)
             _databaseService.GetContext().Add(tree);
 
+            // Optional: yield to ensure UI has time to render the new row
+            await Task.Yield();
         }
 
         public void DeleteLiveTree(TreeLive tree)
@@ -550,14 +560,20 @@ namespace PTANonCrown.ViewModel
             //remove it
             CurrentPlot.PlotTreeLive.Remove(tree);
 
-            //Re-adjust the treenumbering (so as to not have a gap)
-            int treeCount = 1;
-            foreach (TreeLive treeLive in CurrentPlot.PlotTreeLive)
+            // Find the corresponding VM in TreeRows
+            var vmToRemove = TreeRows.FirstOrDefault(vm => vm.Model == tree);
+            if (vmToRemove != null)
             {
-                treeLive.TreeNumber = treeCount;
-                treeCount++;
+                TreeRows.Remove(vmToRemove);
             }
 
+            //Re-adjust the treenumbering (so as to not have a gap)
+            int treeCount = 1; //reset
+            foreach (TreeLiveViewModel tvm in TreeRows)
+            {
+                tvm.TreeNumber = treeCount;
+                treeCount++;
+            }
 
         }
 
@@ -668,28 +684,25 @@ namespace PTANonCrown.ViewModel
 
         }
 
-        /*
-        public void UsePredictedHeights()
+
+        private bool _addingTrees;
+        public async Task AddTreesAsync(int treesToAdd)
         {
-            foreach (TreeLive tree in CurrentPlot.PlotTreeLive)
+            if (_addingTrees) return;   // ignore if already adding
+            _addingTrees = true;
+
+            try
             {
-                tree.Height_m = tree.HeightPredicted_m;
+                int currentMaxTreeNumber = GetMaxTreeNumber();
+                for (int i = 0; i < treesToAdd; i++)
+                {
+                    await AddNewTreeToPlotAsync(CurrentPlot, currentMaxTreeNumber + 1);
+                    currentMaxTreeNumber++;
+                }
             }
-        }*/
-
-
-
-        private void AddTrees(int treesToAdd)
-        {
-
-            // Get max tree number
-            int currentMaxTreeNumber = GetMaxTreeNumber();
-
-            // Add the trees
-            for (int i = 0; i < treesToAdd; i++)
+            finally
             {
-                AddNewTreeToPlot(CurrentPlot, currentMaxTreeNumber + 1);
-                currentMaxTreeNumber++;
+                _addingTrees = false;   // allow new clicks after done
             }
         }
 
@@ -720,7 +733,7 @@ namespace PTANonCrown.ViewModel
         {
             if ((parentPlot?.PlotTreeLive == null) | (parentPlot?.PlotTreeLive.Count == 0))
             {
-                AddNewTreeToPlot(parentPlot, 1);
+                AddNewTreeToPlotAsync(parentPlot, 1);
             }
         }
 
@@ -802,27 +815,10 @@ namespace PTANonCrown.ViewModel
                 .FirstOrDefault(t => string.Equals(t.ShortCode, CurrentPlot.OGTreeSpeciesCode, StringComparison.OrdinalIgnoreCase));
             CurrentEcositeGroup = plot.EcositeGroup;
             RefreshEcosite(plot.Soil, plot.Vegetation, plot.EcositeGroup.ToString());
-            RefreshTreeLookupsOnPlot(plot);
             // Refresh LIT status of trees
             plot.UpdatePlotTreeLIT();
         }
         
-        private void RefreshTreeLookupsOnPlot(Plot plot)
-        {
-            // Need to populate each tree with the full LookupTreeSpecies to ensure dropdown bindings work
-            foreach (TreeLive tree in plot.PlotTreeLive)
-            {
-                tree.LookupTrees = LookupTreeSpecies.Where(t => t.ID != -1).ToList(); 
-                var match = tree.LookupTrees.Where(t => t.ShortCode == tree.TreeSpeciesShortCode).FirstOrDefault();
-                if (match is not null)
-                {
-                    tree.TreeSpecies = match;
-
-                }
-
-            }
-
-        }
 
         private Stand CreateNewStand()
         {
@@ -1345,14 +1341,14 @@ namespace PTANonCrown.ViewModel
             {
                 plot = CreateNewPlot(stand);
             }
-
-
+           
 
 
             SetCurrentPlot(plot);
             return plot;
 
         }
+        public ObservableCollection<TreeLiveViewModel> TreeRows { get; set; } = new();
 
         public async Task<Stand> GetOrCreateStandAsync()
         {
@@ -2099,7 +2095,7 @@ private async void OnIsCheckedBiodiversityChanged()
             {
                 int treesToAdd = CurrentPlot.TreeCount - currentTreeCount;
 
-                AddTrees(treesToAdd);
+                AddTreesAsync(treesToAdd);
             }
             // Remove Trees if necessary
             else if (CurrentPlot.TreeCount < currentTreeCount)

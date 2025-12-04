@@ -77,6 +77,21 @@ namespace PTANonCrown.Data.Models
             }
         }
 
+
+        private bool _isCheckedBiodiversity;
+        public bool IsCheckedBiodiversity
+        {
+            get => _isCheckedBiodiversity;
+            set
+            {
+                if (_isCheckedBiodiversity != value)
+                {
+                    _isCheckedBiodiversity = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public int AGSPatches
         {
             get => _agsPatches;
@@ -637,14 +652,6 @@ namespace PTANonCrown.Data.Models
             string forestGroup = match.Groups[1].Value;  // "MW"
 
             return forestGroup;
-
-        }
-
-        private void InitializeLiveTree()
-        {
-            PlotTreeLive = new ObservableCollection<TreeLive>();
-
-            //PlotTreeLive.Add(new TreeLive() { PlotID = ID });
 
         }
 
