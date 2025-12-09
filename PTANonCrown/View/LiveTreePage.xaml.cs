@@ -29,7 +29,7 @@ public partial class LiveTreePage : ContentPage
 
         foreach (var tree in _mainViewModel.CurrentPlot.PlotTreeLive)
         {
-            var newRow = new TreeLiveViewModel(tree, _mainViewModel.LookupTreeSpecies);
+            var newRow = new TreeLiveViewModel(tree, _mainViewModel);
             newRow.FilteredSpecies = null;
             _mainViewModel.TreeRows.Add(newRow);
         }

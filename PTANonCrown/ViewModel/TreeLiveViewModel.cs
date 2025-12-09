@@ -24,10 +24,20 @@ namespace PTANonCrown.ViewModel
                 OnPropertyChanged();
             }
         }
-        public TreeLiveViewModel(TreeLive model, IEnumerable<TreeSpecies> allSpecies)
+        private readonly MainViewModel _mainViewModel;
+        public ICommand DeleteLiveTreeCommand { get; }
+        private void DeleteTree()
+        {
+            // Call the method in the MainViewModel
+            _mainViewModel.DeleteLiveTree(Model);
+        }
+        public TreeLiveViewModel(TreeLive model, MainViewModel mainViewModel)
         {
             Model = model;
-            _allSpecies = allSpecies.Where(sp=> sp.ShortCode != "n/a").ToList();
+            _mainViewModel = mainViewModel;
+            _allSpecies = mainViewModel.LookupTreeSpecies.Where(sp=> sp.ShortCode != "n/a").ToList();
+
+            DeleteLiveTreeCommand = new Command(DeleteTree);
 
             // filtered list is empty until user types
             FilteredSpecies = new TreeSpecies();
@@ -195,12 +205,16 @@ namespace PTANonCrown.ViewModel
         }
 
         // --- LT ---
-        public bool LT => Model.TreeSpecies?.LT ?? false;
-
+        public bool LT
+        {
+            get => Model.TreeSpecies?.LT ?? false;
+        }
 
         // --- LIT ---
-        public bool LIT => Model.TreeSpecies?.LIT ?? false;
-
+        public bool LIT
+        {
+            get => Model.TreeSpecies?.LIT ?? false;
+        }
 
         // --- AGS ---
         public bool AGS

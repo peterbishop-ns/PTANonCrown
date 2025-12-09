@@ -542,10 +542,7 @@ namespace PTANonCrown.ViewModel
             // Add to TreeRows on the UI thread
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                TreeRows.Add(new TreeLiveViewModel(
-                    tree,
-                   LookupTreeSpecies
-                ));
+                TreeRows.Add(new TreeLiveViewModel(tree,this));
             });
             OnPropertyChanged(nameof(TreeRows));
             // Add to DB context (non-UI)

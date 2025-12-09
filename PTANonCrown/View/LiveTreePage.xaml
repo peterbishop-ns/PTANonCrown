@@ -95,6 +95,8 @@
                      Grid.ColumnSpan="3"
                      BackgroundColor="LightGreen" />
 
+
+            
             <!-- Individual Column Headers -->
             <VerticalStackLayout Grid.Column="1"
                                  Grid.Row="1">
@@ -265,8 +267,13 @@
                           Padding="5"
                           BackgroundColor="WhiteSmoke">
 
-                      
 
+                        <!-- Delete Tree Button-->
+                        <Button Text="x"
+                                Grid.Column="0"
+                                Command="{Binding DeleteLiveTreeCommand}"
+                                TextColor="Red"
+                                FontSize="24" />
                         <!-- TREE NUMBER -->
                         <Label Grid.Column="1"
                                Text="{Binding TreeNumber}"

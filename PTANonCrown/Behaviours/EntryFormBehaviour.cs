@@ -107,10 +107,7 @@ namespace PTANonCrown.Behaviours
             // Add to TreeRows on the UI thread
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                mainVM.TreeRows.Add(new TreeLiveViewModel(
-                    newTree,
-                   mainVM.LookupTreeSpecies
-                ));
+                mainVM.TreeRows.Add(new TreeLiveViewModel(newTree,mainVM));
             });
 
             mainVM.CurrentPlot.TreeCount = collection.Count;
