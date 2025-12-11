@@ -13,3 +13,7 @@ PTANonCrown.Data/obj/project.nuget.cache
 /PTANonCrown/Properties/PublishProfiles
 /PTANonCrown/MsixContent
 /PTANonCrown/publish
+PTANonCrown/PTANonCrown.pfx
+/publish
+out.xml
+log.binlog

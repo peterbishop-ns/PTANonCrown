@@ -215,6 +215,19 @@
             </HorizontalStackLayout>
 
             <!-- Diversity / Mast / Planted -->
+            <VerticalStackLayout Grid.Column="9"
+                                 Grid.Row="1">
+                <Label Text="Cavity"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <ImageButton Source="info.png"
+                             HorizontalOptions="Center"
+                             Style="{StaticResource ImageButtonHelperVertical}"
+                             Command="{Binding ShowHelperTextCommand}"
+                             CommandParameter="LivingTreeDiversity" />
+            </VerticalStackLayout>
+            
+            
             <VerticalStackLayout Grid.Column="10"
                                  Grid.Row="1">
                 <Label Text="Diversity"

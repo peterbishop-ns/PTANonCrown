@@ -188,19 +188,7 @@ namespace PTANonCrown.Data.Models
         }
 
 
-        /*
-        public int HeightPredicted_m
-        {
-            get => _heightPredicted_m;
-            set
-            {
-                if (_heightPredicted_m != value)
-                {
-                    _heightPredicted_m = value;
-                    OnPropertyChanged();
-                }
-            }
-        }*/
+
 
         public int ID { get; set; }
 
@@ -255,7 +243,6 @@ namespace PTANonCrown.Data.Models
                     Height_m = PredictHeight() ?? 0;
 
                     UpdateTreeLIT();
-                    PredictHeight();
                 }
             }
         }

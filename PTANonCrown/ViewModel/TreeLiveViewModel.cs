@@ -100,6 +100,7 @@ namespace PTANonCrown.ViewModel
                         FilterSpecies();
                 }
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Height));
             }
         }
 
@@ -186,6 +187,7 @@ namespace PTANonCrown.ViewModel
                 {
                     Model.DBH_cm = value;
                     OnPropertyChanged(nameof(DBH));
+                    OnPropertyChanged(nameof(Height));
                 }
             }
         }
