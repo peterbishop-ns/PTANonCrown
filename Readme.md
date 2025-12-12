@@ -43,4 +43,5 @@ Updating Lookups
 
 
 PUBLISHING FOR SETUP FILE: 
+dotnet publish -f net8.0-windows10.0.19041.0 -c Release /p:RuntimeIdentifierOverride=win10-x64
 dotnet publish PTANonCrown\PTANonCrown.csproj -f net8.0-windows10.0.19041.0 -c Release -r win-x64 --self-contained true -o publish

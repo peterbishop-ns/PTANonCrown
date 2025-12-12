@@ -11,8 +11,11 @@
 		<Platforms>x64</Platforms>
 		<Platform>x64</Platform>
 		<OutputType>Exe</OutputType>
-
+		<WindowsPackageType>MSIX</WindowsPackageType>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+
+		<GenerateTestArtifacts>True</GenerateTestArtifacts>
 	<!-- 	<UseRidGraph>true</UseRidGraph>-->
 
 	</PropertyGroup>
