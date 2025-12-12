@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+<PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <Platform>x64</Platform>
+	
+    <Platforms>AnyCPU;x64</Platforms>
+</PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\Soil.csv" />

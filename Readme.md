@@ -39,3 +39,8 @@ to the user like you are saving directly there.
 
 Updating Lookups
 - RefreshLookupsAsync is done in App.xaml.cs
+
+
+
+PUBLISHING FOR SETUP FILE: 
+dotnet publish PTANonCrown\PTANonCrown.csproj -f net8.0-windows10.0.19041.0 -c Release -r win-x64 --self-contained true -o publish

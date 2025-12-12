@@ -7,11 +7,16 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<PlatformTarget>x64</PlatformTarget>
+		<Platforms>x64</Platforms>
+		
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<!-- 	<UseRidGraph>true</UseRidGraph>-->
+
 	</PropertyGroup>
 
 	<!-- Windows Release-specific properties -->
 	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'">
-		<MauiXamlDebug>true</MauiXamlDebug>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>PTANonCrown</RootNamespace>
 
@@ -38,10 +43,6 @@
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	</PropertyGroup>
 
-	<!-- Runtime override for Windows -->
-	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(RuntimeIdentifierOverride)' != ''">
-		<RuntimeIdentifier>$(RuntimeIdentifierOverride)</RuntimeIdentifier>
-	</PropertyGroup>
 
 	<!-- Images, icons, splash screen, fonts, and assets -->
 	<ItemGroup>
@@ -55,6 +56,8 @@
 		<MauiFont Include="Resources\Fonts\*" />
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
+
+
 
 	<!-- NuGet packages -->
 	<ItemGroup>
@@ -135,6 +138,11 @@
 	<!-- Resource folders -->
 	<ItemGroup>
 		<Folder Include="Resources\Converters\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Resources\Splash\tree.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 
 </Project>
