@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <Platform>x64</Platform>
 	
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
 </PropertyGroup>
 
   <ItemGroup>

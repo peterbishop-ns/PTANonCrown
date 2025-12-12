@@ -9,6 +9,7 @@
 		<Nullable>enable</Nullable>
 		<PlatformTarget>x64</PlatformTarget>
 		<Platforms>x64</Platforms>
+		<Platform>x64</Platform>
 		<OutputType>Exe</OutputType>
 
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
