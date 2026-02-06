@@ -6,7 +6,7 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
-  <Identity Name="PTAPackageName" Publisher="CN=DNR Forestry" Version="0.0.29.0" />
+  <Identity Name="PTAPackageName" Publisher="CN=Province of Nova Scotia, OU=Forestry Division - Dept. Natural Resources, O=Province of Nova Scotia, L=Truro, S=Nova Scotia, C=CA" Version="0.0.29.0" />
 
   <mp:PhoneIdentity PhoneProductId="A224B65D-FB35-4E8C-B760-1FD7A90D4D65" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

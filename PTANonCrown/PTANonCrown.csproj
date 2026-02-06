@@ -16,7 +16,19 @@
 
 		<GenerateTestArtifacts>True</GenerateTestArtifacts>
 
-		<PackageCertificateThumbprint>6CB0737BDC4A007C940547EF061975057857E785</PackageCertificateThumbprint>
+		<PackageCertificateThumbprint>A20203586AC6020201B6666F15F8D3110FD894DA</PackageCertificateThumbprint>
+
+		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+
+		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+
+		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+
+		<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+
+		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+
+		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	<!-- 	<UseRidGraph>true</UseRidGraph>-->
 
 	</PropertyGroup>
