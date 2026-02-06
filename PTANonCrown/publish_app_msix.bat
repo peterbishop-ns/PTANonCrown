@@ -1,0 +1,1 @@
+dotnet publish PTANonCrown.csproj -f net8.0-windows10.0.19041.0 -c Release -p:Platform=x64 -p:AppxBundle=Always -p:UapAppxPackageBuildMode=StoreUpload
