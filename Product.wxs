@@ -5,10 +5,12 @@
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate />
-
 		<Feature Id="ProductFeature" Title="PTANonCrownWix" Level="1">
 			<ComponentGroupRef Id="ApplicationFiles" />
+			<ComponentRef Id="ApplicationExecutable" />
+			<ComponentRef Id="ApplicationStartMenuShortcut" />
 		</Feature>
+
 	</Product>
 
 
@@ -22,18 +24,22 @@
 			</Directory>
 			<Directory Id="ProgramMenuFolder">
 				<Directory Id="PTANonCrownWixStartMenu" Name="PTANonCrownWix" />
+				
 			</Directory>
 		</Directory>
-		<DirectoryRef Id="ProgramMenuFolder">
+		<DirectoryRef Id="PTANonCrownWixStartMenu">
 			<Component Id="ApplicationStartMenuShortcut" Guid="*">
 				<Shortcut Id="StartMenuShortcut"
 						  Name="PTA Menu Name"
 						  Description="Launch Your Application"
 						  Target="[#ApplicationEXE]"
-						  WorkingDirectory="INSTALLFOLDER" />
-				<RegistryValue Root="HKCU" Key="Software\Microsoft\YourCompanyName\YourApplicationName" Name="StartMenuShortcut" Value="1" Type="integer" KeyPath="yes" />
+						  WorkingDirectory="Win64Folder" />
+				<RemoveFolder Id="RemovePTANonCrownWixStartMenu" Directory="PTANonCrownWixStartMenu" On="uninstall"/>
+				<RegistryValue Root="HKCU" Key="Software\DNR\PTANonCrown" Name="StartMenuShortcut" Value="1" Type="integer" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
+
 	</Fragment>
+	
 
 </Wix>
