@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+	 xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+	<Bundle
+		Name="PTA Private Land"
+		Version="1.0.0.0"
+		Manufacturer="Department of Natural Resources"
+		UpgradeCode="a12528d1-9414-4eda-b5d5-7e874608ebce">
+
+		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+			<bal:WixStandardBootstrapperApplication 
+					LicenseFile="License.rtf"
+					ShowVersion="yes"/>
+				
+		</BootstrapperApplicationRef>
+
+
+
+		<Chain>
+
+			<!-- Install .NET 8 if missing -->
+			<ExePackage
+				Id="DotNetRuntime"
+				SourceFile="dotnet-runtime-8.0.23-win-x64.exe"
+				DetectCondition="DOTNET8"
+				InstallCommand="/install /quiet /norestart"
+				PerMachine="yes" />
+
+			<!-- Install your MSI -->
+			<MsiPackage
+				SourceFile="..\bin\Release\PTANonCrownWix.msi"
+				DisplayInternalUI="no" />
+
+		</Chain>
+
+	</Bundle>
+</Wix>

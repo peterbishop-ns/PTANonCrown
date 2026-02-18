@@ -20,3 +20,5 @@ log.binlog
 /PTAPrivateLandApp
 /bin
 /obj
+/PTANonCrownBootstrapper/obj
+/PTANonCrownBootstrapper/bin
