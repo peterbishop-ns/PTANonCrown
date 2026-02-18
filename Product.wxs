@@ -17,14 +17,17 @@
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="LocalAppDataFolder">
-				<Directory Id="INSTALLFOLDER" Name="PTANonCrownWix" />
-				<Component Id="ApplicationExecutable" Guid="*">
-					<File Id="ApplicationEXE" Source="PTANonCrown.exe" KeyPath="yes" Checksum="yes" />
-				</Component>
-			</Directory>
+				<Directory Id="INSTALLFOLDER" Name="PTANonCrownWix" >
+				<Directory Id="Win64Folder" Name="win-x64">
+					<Component Id="ApplicationExecutable" Guid="*">
+						<File Id="ApplicationEXE" Source="PTANonCrown\bin\Release\net8.0-windows10.0.19041.0\win-x64\PTANonCrown.exe" KeyPath="yes" />
+					</Component>
+				</Directory>
+				</Directory>
+		</Directory>
 			<Directory Id="ProgramMenuFolder">
 				<Directory Id="PTANonCrownWixStartMenu" Name="PTANonCrownWix" />
-				
+
 			</Directory>
 		</Directory>
 		<DirectoryRef Id="PTANonCrownWixStartMenu">
