@@ -18,3 +18,5 @@ PTANonCrown/PTANonCrown.pfx
 out.xml
 log.binlog
 /PTAPrivateLandApp
+/bin
+/obj

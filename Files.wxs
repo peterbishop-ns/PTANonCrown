@@ -1,0 +1,1649 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Directory Id="dir7010D484838F4AF0D6C8E1D5C3C04F3E" Name="win-x64">
+                <Component Id="cmp869BAFB5ECAA329D9D573ECF4B61BD56" Guid="*">
+                    <File Id="fil86D405546C6795714B0B9C74A93F4ED4" KeyPath="yes" Source="$(var.SourceDir)\AboutAssets.txt" />
+                </Component>
+                <Component Id="cmp0F817537442B71873425DE81D2EEC899" Guid="*">
+                    <File Id="fil35E136C14EEC58A98FF7B675E49B8C47" KeyPath="yes" Source="$(var.SourceDir)\AppxManifest.xml" />
+                </Component>
+                <Component Id="cmp30255E8B6FAE15D152D9001367BCD45D" Guid="*">
+                    <File Id="filB5AB3D2CFCD6D574371177AC17B98FE9" KeyPath="yes" Source="$(var.SourceDir)\ClosedXML.dll" />
+                </Component>
+                <Component Id="cmp5E7DC5C3A6B557F79C9C7BAC0D9CDC52" Guid="*">
+                    <File Id="fil65EC1356985983125010C018586912C9" KeyPath="yes" Source="$(var.SourceDir)\ClosedXML.Parser.dll" />
+                </Component>
+                <Component Id="cmp63AAB1E32F0A88D0FB6880270A813BEF" Guid="*">
+                    <File Id="filE4C1BA4C02F69BF1B172612FC942A9F0" KeyPath="yes" Source="$(var.SourceDir)\CommunityToolkit.Maui.Core.dll" />
+                </Component>
+                <Component Id="cmp4C078DE22248898B3E744AF8699F9164" Guid="*">
+                    <File Id="fil56956CA020220170549040643C8D0F01" KeyPath="yes" Source="$(var.SourceDir)\CommunityToolkit.Maui.dll" />
+                </Component>
+                <Component Id="cmpF849D2655F7DDE72E63C853450D8809F" Guid="*">
+                    <File Id="filE26C3DFF5CB10856018B51F4DBF6A0B7" KeyPath="yes" Source="$(var.SourceDir)\CommunityToolkit.Mvvm.dll" />
+                </Component>
+                <Component Id="cmpDCDCA5B60503A086217B2CB79756FEAC" Guid="*">
+                    <File Id="filCD9BB6567BA4C6E428F5501093910914" KeyPath="yes" Source="$(var.SourceDir)\CoreMessagingXP.dll" />
+                </Component>
+                <Component Id="cmp05D68CFDF45EA6B57BB71D021D1A4D52" Guid="*">
+                    <File Id="filF6B1D3B9CA939EC7269EB81E19B88B7C" KeyPath="yes" Source="$(var.SourceDir)\CsvHelper.dll" />
+                </Component>
+                <Component Id="cmpB77D8FE9CE80EE71DAAD7A6C0F74414F" Guid="*">
+                    <File Id="fil518F51E7DE8828FA5877E256C9C9570E" KeyPath="yes" Source="$(var.SourceDir)\DbhHeights.csv" />
+                </Component>
+                <Component Id="cmpF518D5D3D736C4859C535B01E197ECBA" Guid="*">
+                    <File Id="fil357117D65F466D66F04B6B705F25FEE4" KeyPath="yes" Source="$(var.SourceDir)\dcompi.dll" />
+                </Component>
+                <Component Id="cmp262537C136C26033FBA2C19CC2B064BA" Guid="*">
+                    <File Id="fil0D506BBA7CD2CE791CFE64A52F7DBF07" KeyPath="yes" Source="$(var.SourceDir)\DocumentFormat.OpenXml.dll" />
+                </Component>
+                <Component Id="cmp664958F34D3A11839E8620CEEEDA3FD9" Guid="*">
+                    <File Id="filF52A597A35967CC2D4A94DCD40036DCC" KeyPath="yes" Source="$(var.SourceDir)\DocumentFormat.OpenXml.Framework.dll" />
+                </Component>
+                <Component Id="cmp6C550D717581CE27C122323260A8F468" Guid="*">
+                    <File Id="fil585CC61F543685A7B470BC3E6F880392" KeyPath="yes" Source="$(var.SourceDir)\dwmcorei.dll" />
+                </Component>
+                <Component Id="cmpB561726990524924DF8BC73C9B8C3933" Guid="*">
+                    <File Id="filA87EF6951D4CAE4BD13BC540DC3D18DE" KeyPath="yes" Source="$(var.SourceDir)\DwmSceneI.dll" />
+                </Component>
+                <Component Id="cmp396DE5B3D2D0B98DF28AE83EED57BA35" Guid="*">
+                    <File Id="fil29F6E997BA2F7125178533764FEF4E9E" KeyPath="yes" Source="$(var.SourceDir)\DWriteCore.dll" />
+                </Component>
+                <Component Id="cmpC844B217ACEB229773D536E362F8C867" Guid="*">
+                    <File Id="fil5AC40123E42C1A9F9D20FF4DCDDBBBEA" KeyPath="yes" Source="$(var.SourceDir)\ExcelNumberFormat.dll" />
+                </Component>
+                <Component Id="cmp6FCB79E0BF8E208B262FDE88B84CAD27" Guid="*">
+                    <File Id="fil2EED413025B75709FB3DEA950A2A4EFE" KeyPath="yes" Source="$(var.SourceDir)\e_sqlite3.dll" />
+                </Component>
+                <Component Id="cmp934B36BB6847F699496B41ADE2B8A6BE" Guid="*">
+                    <File Id="fil1AF7BDCFE19C1693C7ECC3AB9EAF0E96" KeyPath="yes" Source="$(var.SourceDir)\marshal.dll" />
+                </Component>
+                <Component Id="cmp4C7C72A2B254EA3611981B8F20E1801D" Guid="*">
+                    <File Id="filFD71E58BEA45585CC1B6639AE0920D4C" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Data.Sqlite.dll" />
+                </Component>
+                <Component Id="cmp76AEDA29CB9F1E34A8B64526A9E08599" Guid="*">
+                    <File Id="filFC5A31A8965981EE6921468FABACF830" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.DirectManipulation.dll" />
+                </Component>
+                <Component Id="cmpE995E0F5813B1A362D725F09CB314819" Guid="*">
+                    <File Id="filF6750A383141CEED8C472011CE4D1BEB" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+                </Component>
+                <Component Id="cmp9D041F9ED7EC6266174B5F0C88A6CEB9" Guid="*">
+                    <File Id="fil7AEED22CC8B925B14276490D4ACCE792" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.EntityFrameworkCore.dll" />
+                </Component>
+                <Component Id="cmp7162EAD1FD5FCD57FB68DAEFEC5E41F2" Guid="*">
+                    <File Id="fil92615CA74DDFFFE536493587F3148740" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.EntityFrameworkCore.Relational.dll" />
+                </Component>
+                <Component Id="cmpF26A4B915BA1051BAABF24F760A385BC" Guid="*">
+                    <File Id="filB8D7EB14F7BBEA29A1F7CFBEC1645C7B" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.EntityFrameworkCore.Sqlite.dll" />
+                </Component>
+                <Component Id="cmpBB0C3C0964D481D82206B5744838A2D4" Guid="*">
+                    <File Id="filC37541C1FA7B1F085939278617DB570A" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Caching.Abstractions.dll" />
+                </Component>
+                <Component Id="cmp3AAE3354E93EC1735DA3CF3697D64E77" Guid="*">
+                    <File Id="fil2C6E20CE204F295677BCE41E5A9B1BAE" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Caching.Memory.dll" />
+                </Component>
+                <Component Id="cmp80D1075C3B4A99DB0CF3EA2DF723F4F2" Guid="*">
+                    <File Id="fil612797678F75F811FA712D9F0CD899A7" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Configuration.Abstractions.dll" />
+                </Component>
+                <Component Id="cmp383D25F17DE1EB6D09C4564081A3B8B3" Guid="*">
+                    <File Id="filEE2EE7FFC504835B932F55DF582E7641" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Configuration.dll" />
+                </Component>
+                <Component Id="cmp0A0BF64BEA72AA959116C8DAD7142019" Guid="*">
+                    <File Id="filCA52ED51ACE91946105D398D7E1B8190" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+                </Component>
+                <Component Id="cmp5874A56CD254DF2C24AE85B7B8C96975" Guid="*">
+                    <File Id="fil58025359866F63413D38EA5B6B5D0FAC" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.DependencyInjection.dll" />
+                </Component>
+                <Component Id="cmp2F852A0CA9D70B3B89BA8E7623094C19" Guid="*">
+                    <File Id="fil6B7B15366E67FF039A5B98AD86D0F694" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.DependencyModel.dll" />
+                </Component>
+                <Component Id="cmpEB158AC745ADADF13F2A3CCF5E5721AE" Guid="*">
+                    <File Id="filCFAEA64A0FADEB51EFF0DF04F77D2C78" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Logging.Abstractions.dll" />
+                </Component>
+                <Component Id="cmp0EB636A5E441EF950D0B923C38219181" Guid="*">
+                    <File Id="fil5D17D22411B03CC13E826E25949F2FC0" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Logging.Debug.dll" />
+                </Component>
+                <Component Id="cmp08314B7F9AA7FCA5963D86F13202C018" Guid="*">
+                    <File Id="fil631BEFCA10E35A261573334724334CED" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Logging.dll" />
+                </Component>
+                <Component Id="cmpBD5C1E33430E202922CA10C9DB32431B" Guid="*">
+                    <File Id="fil1801E8E7D359FD711AB8351504650FCF" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Options.dll" />
+                </Component>
+                <Component Id="cmp3B95764AC7AADE666EF4F6981E9F0475" Guid="*">
+                    <File Id="filCD14C0A5776BAA581F92EC5C7B5CA064" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Extensions.Primitives.dll" />
+                </Component>
+                <Component Id="cmp2868FC28BDCD255CD62FDC35216EB873" Guid="*">
+                    <File Id="filE2E8286A05D32FF0C67DC99D903FD7B9" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Foundation.winmd" />
+                </Component>
+                <Component Id="cmp87D14B4470657E31411A7DDBCF4B4613" Guid="*">
+                    <File Id="fil71D4064AD985B4D0A146591D94F3E6F0" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Graphics.Canvas.dll" />
+                </Component>
+                <Component Id="cmpE6EE9477F4DA70C3CDE7B182656B5EF7" Guid="*">
+                    <File Id="filFA6BEDC72C6D562F138204E8C64D8D49" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Graphics.Canvas.Interop.dll" />
+                </Component>
+                <Component Id="cmp3C6EAE4E7DE47AA3F55FAAF814F6849E" Guid="*">
+                    <File Id="filD9E9EC22AA9CB272C6D9463B758D2405" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Graphics.Display.dll" />
+                </Component>
+                <Component Id="cmpA744404C15F27A0513880183B43BCAA4" Guid="*">
+                    <File Id="filFCE0346B6B99CADC73573C5EC79D118F" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Graphics.winmd" />
+                </Component>
+                <Component Id="cmpE54171300DC53D9695FE3DA83FEE2303" Guid="*">
+                    <File Id="fil29AA7BB2307C7D51FC0128141217A673" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.InputStateManager.dll" />
+                </Component>
+                <Component Id="cmpFE134ADFF672099AB507A370DC32C22A" Guid="*">
+                    <File Id="fil4608DCAC415E18523F91258CC8C4B42E" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.InteractiveExperiences.Projection.dll" />
+                </Component>
+                <Component Id="cmpE7267C7DDB56460B9E04A538AE85FBE9" Guid="*">
+                    <File Id="filF5BEA726C053CE77B2BC62F34EA55309" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Internal.FrameworkUdk.dll" />
+                </Component>
+                <Component Id="cmp79D743893BBA96903DEDC0ED2D7FFA7D" Guid="*">
+                    <File Id="fil5E8C65DF6F2B52462EE0AB584A2431B9" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.IO.RecyclableMemoryStream.dll" />
+                </Component>
+                <Component Id="cmp02A8A505A4D8C95C15F933F12FD27CE8" Guid="*">
+                    <File Id="fil181EC780316D01ECFBA75B93B4B3E387" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Maui.Controls.Compatibility.dll" />
+                </Component>
+                <Component Id="cmpDB4FBDCEF7670D6ECC61ABA90A8FAD94" Guid="*">
+                    <File Id="filE092575410B72C26D58BB4EEFA7618D1" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Maui.Controls.dll" />
+                </Component>
+                <Component Id="cmp2D7EA9E965D5619D3234E4D1B106F87E" Guid="*">
+                    <File Id="filCC0403534BE15C9E6774CABAC90663D5" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Maui.Controls.Xaml.dll" />
+                </Component>
+                <Component Id="cmpBA4F38DFD54883C5997C5E96A80DB623" Guid="*">
+                    <File Id="fil2760249584E9F0CCAC1C1ED7E1C7CCDE" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Maui.dll" />
+                </Component>
+                <Component Id="cmpACE56351A74644A51BD797718E66F454" Guid="*">
+                    <File Id="fil66DE7A8675B8DA8D59ED5291B9E17262" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Maui.Essentials.dll" />
+                </Component>
+                <Component Id="cmp99E968270B0C1928F8DD469148116DF8" Guid="*">
+                    <File Id="fil675EFA58F9DEA9A623E5775FA7262FC3" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Maui.Graphics.dll" />
+                </Component>
+                <Component Id="cmp0018BAF24084A1D2255F52759D25A4AC" Guid="*">
+                    <File Id="filE7E5D21DA323E78163D99624C68E89B4" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Maui.Graphics.Win2D.WinUI.Desktop.dll" />
+                </Component>
+                <Component Id="cmpCA8EA219AB80DA48AC1610E1DC8596D6" Guid="*">
+                    <File Id="fil1425D443A3CC4ADEC7AC2559521C1071" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Composition.OSSupport.dll" />
+                </Component>
+                <Component Id="cmp518B815C045E01C3DD79AC14D832A99F" Guid="*">
+                    <File Id="filDAE42CA10359C5BA3C71A4AF3D028663" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.dll" />
+                </Component>
+                <Component Id="cmpB9723E1A243B563188BF5E25F29C56E0" Guid="*">
+                    <File Id="filDF4FEBF9D17E2BF402DC5873BF211750" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Input.dll" />
+                </Component>
+                <Component Id="cmp180AF5E1823ACAB5748AB153B65AC23C" Guid="*">
+                    <File Id="filC9CDAAE7F8F3EDF91FF2553DED119099" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Text.winmd" />
+                </Component>
+                <Component Id="cmp3A5C5733DE0CBEAA44F0BE493C971F4C" Guid="*">
+                    <File Id="fil8FF4A18D788F48ABEADCB70DBB99E9D6" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Windowing.Core.dll" />
+                </Component>
+                <Component Id="cmpF2DD9248F86940A086DAEB6BDB5C987A" Guid="*">
+                    <File Id="fil2365C25C385487B2416EAC5B3D0540AD" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Windowing.dll" />
+                </Component>
+                <Component Id="cmp5DAC6FA0EDD0B2E6E475CCE1E1CCA906" Guid="*">
+                    <File Id="fil021FCF15102095966896592BAF0F0E6E" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.winmd" />
+                </Component>
+                <Component Id="cmpDC8468C8452CC6E09CDAB7555668E3C1" Guid="*">
+                    <File Id="filE05AFF9D13889B031C548216424B2425" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Xaml.Controls.dll" />
+                </Component>
+                <Component Id="cmp6A110EE8DFDC5EFCD37ECFE0302BECF5" Guid="*">
+                    <File Id="fil13B0345898F22464744DF974C227E60D" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Xaml.Controls.pri" />
+                </Component>
+                <Component Id="cmpD15700F631918A296BCBEEBE1FE20C04" Guid="*">
+                    <File Id="filAF2AE163A4019EC087736571AECD0619" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.ui.xaml.dll" />
+                </Component>
+                <Component Id="cmp3483B9E825B553801ADC62945A3FC53F" Guid="*">
+                    <File Id="fil32CE90D91D72A0FF97E01F087F358BEE" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Xaml.Internal.dll" />
+                </Component>
+                <Component Id="cmpD35B5BB0BCFE3D561D3FF3FEA4F9693A" Guid="*">
+                    <File Id="fil6882DE735FBB30D81C5EC524D3263802" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Xaml.Phone.dll" />
+                </Component>
+                <Component Id="cmp9B9BA5E39708633DD32D08D74AC06921" Guid="*">
+                    <File Id="fil68DDC4D385488A6B9D1A70E1815A5D1A" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.ui.xaml.resources.19h1.dll" />
+                </Component>
+                <Component Id="cmp6156AEEB5C3043606829C097419D7858" Guid="*">
+                    <File Id="filEF600C40EFAA2902C646DD7003E57D36" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.ui.xaml.resources.common.dll" />
+                </Component>
+                <Component Id="cmpCBBC6340EBB8548104A2FA640D39BE77" Guid="*">
+                    <File Id="fil4E8C027D6AA36B7A41726AE68EF7524F" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Xaml.winmd" />
+                </Component>
+                <Component Id="cmp020BAFC1933350F65CF27D50BD58CBD1" Guid="*">
+                    <File Id="filD4939373FBC2B4BB8EDA0B7BE851289C" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Web.WebView2.Core.dll" />
+                </Component>
+                <Component Id="cmp8C665AA390B1CF67F0DBA1CCAF438B32" Guid="*">
+                    <File Id="filA6D360174E8C7D7123EB5EB7ADECE36D" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Web.WebView2.Core.winmd" />
+                </Component>
+                <Component Id="cmpE50E7843C9F54F334F7717397A93D40D" Guid="*">
+                    <File Id="filF01976FEF5B6CF26407B6F31DCE01908" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll" />
+                </Component>
+                <Component Id="cmpCA6B1A856966376CF5335067826849AF" Guid="*">
+                    <File Id="fil7565618F4611ADD09C136A8D4CEF9456" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.ApplicationModel.DynamicDependency.winmd" />
+                </Component>
+                <Component Id="cmp72A213B94ADD7DEB063FE6FBAB350801" Guid="*">
+                    <File Id="filC6C76B0C8458B142A4D0C886E92BF369" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.ApplicationModel.Resources.dll" />
+                </Component>
+                <Component Id="cmp246B8EBE8F471DCA0C3D07BE63AC76BB" Guid="*">
+                    <File Id="filE80842280BD968429C0546B6248B5757" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.ApplicationModel.Resources.Projection.dll" />
+                </Component>
+                <Component Id="cmp15B19B9157A9B9692CBF018BEF0818C8" Guid="*">
+                    <File Id="filCC7523D0F3F3F77D5A3E0257F07A7C07" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.ApplicationModel.Resources.winmd" />
+                </Component>
+                <Component Id="cmp5741A1F91F5196FD9D7584CED7BFEAFA" Guid="*">
+                    <File Id="fil59202BE7B8E74959EC620E245B1D5A8C" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll" />
+                </Component>
+                <Component Id="cmpD4AA0F71677A16ED7F9A6ABC604A5C29" Guid="*">
+                    <File Id="fil4CA74A59F0FFB54A6EA676E35B672245" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.winmd" />
+                </Component>
+                <Component Id="cmpDCD26F67B6684EF641671E659BEFFCF0" Guid="*">
+                    <File Id="fil268F770FA63B4D3759489F986181EEF4" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.AppLifecycle.Projection.dll" />
+                </Component>
+                <Component Id="cmp989DA3387FD5AF8A1A41089006633031" Guid="*">
+                    <File Id="fil47E63570C18051CF9EFC7DCF71EB030A" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.AppLifecycle.winmd" />
+                </Component>
+                <Component Id="cmpD9BF3DB72BD580193463A272F06CC8CF" Guid="*">
+                    <File Id="fil9ADED57B40AE34EB9B021349A0EDB75D" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.AppNotifications.Builder.Projection.dll" />
+                </Component>
+                <Component Id="cmp090EF91A47D4D53488AA9B50EF262511" Guid="*">
+                    <File Id="filCFECFD5329049A7C5D434E50B22EBFE4" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.AppNotifications.Builder.winmd" />
+                </Component>
+                <Component Id="cmp75244918CE810D265F30AFAAF9C26141" Guid="*">
+                    <File Id="fil715C65C6A2D7A7876D9F4B5CA18CD863" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.AppNotifications.Projection.dll" />
+                </Component>
+                <Component Id="cmp1F8ADF1BEC29656C7FC00F7BEDDB9E2E" Guid="*">
+                    <File Id="fil8ED45314B9189E5815A4E2C26333DF92" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.AppNotifications.winmd" />
+                </Component>
+                <Component Id="cmp7DC8EE4036376774DBE43F6FD6169C42" Guid="*">
+                    <File Id="fil3EF21BD540AA2C96225528452C796562" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.Management.Deployment.Projection.dll" />
+                </Component>
+                <Component Id="cmpB5BE034ACAE303FF23BF195F211CB579" Guid="*">
+                    <File Id="filCE50C6E31A41B87C5B89B459B9D84F23" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.Management.Deployment.winmd" />
+                </Component>
+                <Component Id="cmp690595C67FB63874F91644917B03814C" Guid="*">
+                    <File Id="filD7C379CC0D5C1D88E753549C2BFC8EC5" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.PushNotifications.Projection.dll" />
+                </Component>
+                <Component Id="cmp93E3284F792AEE3C1C6390815838AD18" Guid="*">
+                    <File Id="fil64FC74170A4BC0B13881DE749B975B1F" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.PushNotifications.winmd" />
+                </Component>
+                <Component Id="cmpBA53E630873B6297E6D086C100B85468" Guid="*">
+                    <File Id="filA998499B1F9F85D5122B7546DB39DE92" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.SDK.NET.dll" />
+                </Component>
+                <Component Id="cmp41BBB66B3D871BA7F8971DE1DCFBE2B2" Guid="*">
+                    <File Id="fil45B3D3F190E0135ECB15CEE5EC7A71F9" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.Security.AccessControl.Projection.dll" />
+                </Component>
+                <Component Id="cmp4041290BC4DB10437410EB01B3A81785" Guid="*">
+                    <File Id="fil60CA1583BB3991C026D4FD0DA12963F4" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.Security.AccessControl.winmd" />
+                </Component>
+                <Component Id="cmpA1C14DD51F8F8EA894CB893E3D20D666" Guid="*">
+                    <File Id="filEA803F43A43D799884B947FEB5F2C655" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.System.Power.Projection.dll" />
+                </Component>
+                <Component Id="cmp35AEFCA40E43152D0AB16B583833D16A" Guid="*">
+                    <File Id="fil5FD5BF44BB4079EE6F5DAE915DCAB16D" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.System.Power.winmd" />
+                </Component>
+                <Component Id="cmpAACF7F1EB44B6449878675FD827A6551" Guid="*">
+                    <File Id="fil6F50747300EBA13BD2EEEFF31F010B01" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.System.Projection.dll" />
+                </Component>
+                <Component Id="cmp111447844A1620F1708B67081280B9B9" Guid="*">
+                    <File Id="fil0F13D388B207BDED3FB438A72AD5B402" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.System.winmd" />
+                </Component>
+                <Component Id="cmpB10A630C95D15F0B01E6030EA2D46A81" Guid="*">
+                    <File Id="fil7742A421AF7AB02A14EBD80C1D2932F4" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.Widgets.dll" />
+                </Component>
+                <Component Id="cmpB502070A4833004B760D3A468E8FFD6B" Guid="*">
+                    <File Id="fil0ED90C99066EA846E5F644638FBD1EA3" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.Widgets.Projection.dll" />
+                </Component>
+                <Component Id="cmpCCBA66ACBF36852AC4C53C758C5B25CB" Guid="*">
+                    <File Id="filB0A01A9AEB2FF59EF572404E53A48F2B" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.Windows.Widgets.winmd" />
+                </Component>
+                <Component Id="cmp458E6F89FDEE862F5CB5513992FB0045" Guid="*">
+                    <File Id="fil5565EA1530A100AAE7490B5E002D0231" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.WindowsAppRuntime.Bootstrap.dll" />
+                </Component>
+                <Component Id="cmpB1472B48E7C853D46A3D77A88EB4D401" Guid="*">
+                    <File Id="filA60C2415FAC485672C26BAD59E7739F9" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll" />
+                </Component>
+                <Component Id="cmpA2BE067982C36F88E08BADB6196B46C6" Guid="*">
+                    <File Id="fil573EBF673EB486A5E620D7D882E3C0F8" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.WindowsAppRuntime.dll" />
+                </Component>
+                <Component Id="cmp37D03B45C6F3D4FF1CBB90CA01BD02DB" Guid="*">
+                    <File Id="filE3D7F760BE6CC6F21EF70F55778D5588" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.WindowsAppRuntime.Insights.Resource.dll" />
+                </Component>
+                <Component Id="cmp86D72E3FEAFF797FA050152CBD2AC82C" Guid="*">
+                    <File Id="fil067593EF5ACF69EC93F6F2DA95063A49" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.WinUI.dll" />
+                </Component>
+                <Component Id="cmpA5B8811FC90EA2A753A8AD6A4DC632A1" Guid="*">
+                    <File Id="filCCD1E02208404FFA6525FE763CEB801F" KeyPath="yes" Source="$(var.SourceDir)\MRM.dll" />
+                </Component>
+                <Component Id="cmpE101036A4D14ABD64515B186648CB44C" Guid="*">
+                    <File Id="fil04F39F09BD1AC0453F539EA83A394926" KeyPath="yes" Source="$(var.SourceDir)\PTANonCrown.build.appxrecipe" />
+                </Component>
+                <Component Id="cmpCE728A3DDF932BFCBEFB2F8673EE4439" Guid="*">
+                    <File Id="filF40F711BF295293FB565F4B1A369F521" KeyPath="yes" Source="$(var.SourceDir)\PTANonCrown.Data.dll" />
+                </Component>
+                <Component Id="cmp9312D70467358029765A1FFEEC3E9E1E" Guid="*">
+                    <File Id="filCEFAD957A0BE77A25F134C887D14834E" KeyPath="yes" Source="$(var.SourceDir)\PTANonCrown.Data.pdb" />
+                </Component>
+                <Component Id="cmp9CCD29F716D3F9C00B001B1C130CC49F" Guid="*">
+                    <File Id="filF2989AFEB08A3B7C2951C8D702A880ED" KeyPath="yes" Source="$(var.SourceDir)\PTANonCrown.deps.json" />
+                </Component>
+                <Component Id="cmpBF7B2C37BE7C8BEEE351D41E05CEEC23" Guid="*">
+                    <File Id="filE7DBF999B7FE304A35F485CE2C14FB6E" KeyPath="yes" Source="$(var.SourceDir)\PTANonCrown.dll" />
+                </Component>
+                <Component Id="cmp78A59E093586B2C0150167C4E5076B08" Guid="*">
+                    <File Id="fil39F1605A593467AB8C6C4BA3B7271A06" KeyPath="yes" Source="$(var.SourceDir)\PTANonCrown.exe" />
+                </Component>
+                <Component Id="cmp804526057D2F246487CFBB9D53D5B602" Guid="*">
+                    <File Id="fil544C1B50B6A1586CD177891EFF0E1063" KeyPath="yes" Source="$(var.SourceDir)\PTANonCrown.pdb" />
+                </Component>
+                <Component Id="cmp9ACD9AF09E7E19F6B97D38229A69D8C9" Guid="*">
+                    <File Id="fil486287760BF999D2F49504C3C362B232" KeyPath="yes" Source="$(var.SourceDir)\PTANonCrown.runtimeconfig.json" />
+                </Component>
+                <Component Id="cmpBBBA50F6F9AE2C0F9B9FFA57C0DC4EC0" Guid="*">
+                    <File Id="fil65A474A76E77009A767290FF46B01179" KeyPath="yes" Source="$(var.SourceDir)\PushNotificationsLongRunningTask.ProxyStub.dll" />
+                </Component>
+                <Component Id="cmpADB2C23345591AB7C60CBF2308768C15" Guid="*">
+                    <File Id="fil33A838D5F7B9907446C7EE656174759F" KeyPath="yes" Source="$(var.SourceDir)\RBush.dll" />
+                </Component>
+                <Component Id="cmp094F1744E2A82C12D5A88C0E42C63B47" Guid="*">
+                    <File Id="filD5DEE370C7C98F55A4E4A362676FD860" KeyPath="yes" Source="$(var.SourceDir)\resources.pri" />
+                </Component>
+                <Component Id="cmp710DD9CA20CEE34E23C7D48BB53F414D" Guid="*">
+                    <File Id="fil217474A550AEB838105BE7259D839A26" KeyPath="yes" Source="$(var.SourceDir)\RestartAgent.exe" />
+                </Component>
+                <Component Id="cmp0D85493FC09A1AEB59B2AB2D4D47DE12" Guid="*">
+                    <File Id="fil44D3282DF1E63AEFBFB9AE477F6F2D9B" KeyPath="yes" Source="$(var.SourceDir)\SixLabors.Fonts.dll" />
+                </Component>
+                <Component Id="cmpFDD4274F8C9CB78A0C9734CA8B461797" Guid="*">
+                    <File Id="fil18AEF387B3066CC1561D566E99A261DE" KeyPath="yes" Source="$(var.SourceDir)\SoilPhases.csv" />
+                </Component>
+                <Component Id="cmp8D737BFECAB6E13F5FC9FDDD178A2AF9" Guid="*">
+                    <File Id="fil81FE243DCABAE02D3B531F40D2425A11" KeyPath="yes" Source="$(var.SourceDir)\SQLitePCLRaw.batteries_v2.dll" />
+                </Component>
+                <Component Id="cmpF6F770615CBF6DFD1F8365994F076D08" Guid="*">
+                    <File Id="fil79AB1525BA26C2B5164138905059544A" KeyPath="yes" Source="$(var.SourceDir)\SQLitePCLRaw.core.dll" />
+                </Component>
+                <Component Id="cmp8DE5C52DCDD498617E2B58952827101C" Guid="*">
+                    <File Id="fil9E0131C214BB68162DA26698A40623FD" KeyPath="yes" Source="$(var.SourceDir)\SQLitePCLRaw.provider.e_sqlite3.dll" />
+                </Component>
+                <Component Id="cmp5EC9E2CEDCD99398115DCE1C9AC3BA69" Guid="*">
+                    <File Id="fil590354DC779BB8075BF7C9F73194B512" KeyPath="yes" Source="$(var.SourceDir)\System.Diagnostics.DiagnosticSource.dll" />
+                </Component>
+                <Component Id="cmp1063204FBB406C59F14BF1747AA3478D" Guid="*">
+                    <File Id="fil27BB8EE2865CD4216425DBEC0BCCE50F" KeyPath="yes" Source="$(var.SourceDir)\System.IO.Packaging.dll" />
+                </Component>
+                <Component Id="cmpA10899CC2677763AFBCCB681FCD619E9" Guid="*">
+                    <File Id="filFBF0999133A4C087D3F184D521E81F7A" KeyPath="yes" Source="$(var.SourceDir)\System.IO.Pipelines.dll" />
+                </Component>
+                <Component Id="cmp6F7AC051EB22E7000CF434106B763D06" Guid="*">
+                    <File Id="filAC1E99E905B90D24961EC285C0E383A6" KeyPath="yes" Source="$(var.SourceDir)\System.Speech.dll" />
+                </Component>
+                <Component Id="cmp8EFAAE1D5699B861AB05094B20152828" Guid="*">
+                    <File Id="filFDFEADC429B34D08EFED29003597FAA8" KeyPath="yes" Source="$(var.SourceDir)\System.Text.Encodings.Web.dll" />
+                </Component>
+                <Component Id="cmp80CE98EAA2E1B7AD77430FD389D35127" Guid="*">
+                    <File Id="filA938AF4F7D8A9E8231AA34EA176E1510" KeyPath="yes" Source="$(var.SourceDir)\System.Text.Json.dll" />
+                </Component>
+                <Component Id="cmpBB67FDFFC557C66ED54BB126E3067CDB" Guid="*">
+                    <File Id="fil19D9CC8DFF50C50C9CAAFA5BDA82AE97" KeyPath="yes" Source="$(var.SourceDir)\WindowsAppRuntime.png" />
+                </Component>
+                <Component Id="cmp34F560304297BA0DC15D54931C312848" Guid="*">
+                    <File Id="fil4E5CAE8CB5D074721211583EC63FE016" KeyPath="yes" Source="$(var.SourceDir)\WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll" />
+                </Component>
+                <Component Id="cmpA7921BBF6E4AEC503840C490DA790961" Guid="*">
+                    <File Id="fil1E7A8D5F4964B97682D4BCA75AA0DE8A" KeyPath="yes" Source="$(var.SourceDir)\WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll" />
+                </Component>
+                <Component Id="cmp4F53C2C1842FA53462C0319F655B8242" Guid="*">
+                    <File Id="filC82BCD504BF64F87207AB72CBE092BDD" KeyPath="yes" Source="$(var.SourceDir)\WinRT.Runtime.dll" />
+                </Component>
+                <Component Id="cmpDB054BA8A1FE48ABA26064699ADE43CD" Guid="*">
+                    <File Id="fil6A9779431090E02A373775922407D495" KeyPath="yes" Source="$(var.SourceDir)\WinUIEdit.dll" />
+                </Component>
+                <Component Id="cmp224CFD11F2C03DBFF34481677C421D30" Guid="*">
+                    <File Id="filC019A4A7FA1A724B07DFFE85FE00B48C" KeyPath="yes" Source="$(var.SourceDir)\wuceffectsi.dll" />
+                </Component>
+                <Directory Id="dirED60E74D721F8763D0C8541AD8CFEE9E" Name="af-ZA">
+                    <Component Id="cmp3550AA9EC130C32AD44A2A138E7A91FC" Guid="*">
+                        <File Id="fil7D17F6FD4B4412AA550DED60BE802A64" KeyPath="yes" Source="$(var.SourceDir)\af-ZA\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpC82402B463757E1A1AA8B49E4BDD8600" Guid="*">
+                        <File Id="fil7497D8E2DD66B805292A05D1FA1B8F4D" KeyPath="yes" Source="$(var.SourceDir)\af-ZA\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir313F6BFE1565AD9E5E1E9920271F8B13" Name="am-ET">
+                    <Component Id="cmp4E802FCFC9F2ABA154B864AEC1903CCF" Guid="*">
+                        <File Id="fil2E16E179FD5AFB0883FA6712CB7EB95E" KeyPath="yes" Source="$(var.SourceDir)\am-ET\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp07F863EFE15C197347E840D24F67CBC2" Guid="*">
+                        <File Id="filAEA3824302B7E401C74A585CE2631AEF" KeyPath="yes" Source="$(var.SourceDir)\am-ET\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirB78387F5135979863D0EAAEE47DB426E" Name="ar">
+                    <Component Id="cmp1EFE344C47E2BDE6D73A59C4A0CAFE68" Guid="*">
+                        <File Id="filB555C4373685EF3C7630D3F869DA9F5D" KeyPath="yes" Source="$(var.SourceDir)\ar\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirB731476F75D0CAA70D2054816D857F11" Name="ar-SA">
+                    <Component Id="cmp17DEFB93F39FB375676C6358F44A2F5E" Guid="*">
+                        <File Id="fil9454B90A837CA8E4405F7AFDC8EAA333" KeyPath="yes" Source="$(var.SourceDir)\ar-SA\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp3A5646897E9B72995B083B7086CD5472" Guid="*">
+                        <File Id="filAE64E580A73DA0EBE2DCF10C6F9D0F5B" KeyPath="yes" Source="$(var.SourceDir)\ar-SA\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirAE096C44814234330E755D71DEE7641E" Name="as-IN">
+                    <Component Id="cmp2FB3CF87D345970960439DB870A92C0C" Guid="*">
+                        <File Id="fil9FE1B1D9B76C19D2E71E892AD4D91A43" KeyPath="yes" Source="$(var.SourceDir)\as-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp2A2ED62C1704EEACAA42CEE92B17CC88" Guid="*">
+                        <File Id="filFDD936064B5C520B54E7EA7B1DA8AF96" KeyPath="yes" Source="$(var.SourceDir)\as-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir6AA170A219CA4852A3D637CA0321FF82" Name="az-Latn-AZ">
+                    <Component Id="cmp1BC6187E075AE6EB2DD49AFBEBB686EF" Guid="*">
+                        <File Id="fil41DD60385E3A72C443238BC3AD0E32E0" KeyPath="yes" Source="$(var.SourceDir)\az-Latn-AZ\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp1C6324F66BAF07A178CBFFC7833649D9" Guid="*">
+                        <File Id="fil02DA3817041E716E6F8698E23C4068CD" KeyPath="yes" Source="$(var.SourceDir)\az-Latn-AZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir190446F05666FE3CB4EB99A838EE69FE" Name="bg-BG">
+                    <Component Id="cmp16A6EC5E796674810B64BEBC3D9C1319" Guid="*">
+                        <File Id="fil81D098006F3BFFC286192C308402D8A7" KeyPath="yes" Source="$(var.SourceDir)\bg-BG\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpAB3FE63F3A7E6219BF87AA698D2019C0" Guid="*">
+                        <File Id="filD5DD14720EA1EA4760FF70F3BB4B4735" KeyPath="yes" Source="$(var.SourceDir)\bg-BG\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirB2527490A986D316C59743A92008B8F3" Name="bn-IN">
+                    <Component Id="cmpC858073749D27AD35FE50952740B1DAE" Guid="*">
+                        <File Id="fil676EC3D98B9F838E6BF609A5EB9B20C7" KeyPath="yes" Source="$(var.SourceDir)\bn-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpBFED891167C2131AF031FA7F6F76576E" Guid="*">
+                        <File Id="fil5F05F01E8D4F77CCAF74C824A7C04113" KeyPath="yes" Source="$(var.SourceDir)\bn-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir7B1053866840D4F13130D4916642386D" Name="bs-Latn-BA">
+                    <Component Id="cmpE41489D2BD7D710FBCC19A3E36F40A6A" Guid="*">
+                        <File Id="fil5D823F40149810A5C97E76707B72B11F" KeyPath="yes" Source="$(var.SourceDir)\bs-Latn-BA\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpF3FBDF2A6CBADE824C2FDDAB9A68F259" Guid="*">
+                        <File Id="fil973F93B4B59743CD1A94F08E00C84F39" KeyPath="yes" Source="$(var.SourceDir)\bs-Latn-BA\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir75C88EF52290FA9F02BAFE740DA978CA" Name="ca">
+                    <Component Id="cmp5663277229E9F078BF2F3C179F8F87F3" Guid="*">
+                        <File Id="fil9E1FCF857453433B97C4B7286859B80F" KeyPath="yes" Source="$(var.SourceDir)\ca\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirEE3E861036AD24C616CE1FFD451FFB4E" Name="ca-ES">
+                    <Component Id="cmp47B55D3443441A77CD9FEECC0257E3FE" Guid="*">
+                        <File Id="fil3B9B2CD050C3D54154B6E0B1E4125023" KeyPath="yes" Source="$(var.SourceDir)\ca-ES\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpF5CA8520CA07875771F0FE1EE8208DD4" Guid="*">
+                        <File Id="filD8366F2689B3AB9772B8B06EC8C6F7E2" KeyPath="yes" Source="$(var.SourceDir)\ca-ES\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir275A392C8852EE44A65EA249E90AD9D1" Name="ca-Es-VALENCIA">
+                    <Component Id="cmp0BF0FCA02A2D8ACD4F1A6D781C777A1C" Guid="*">
+                        <File Id="fil2D7907E7519459E9E16B6FC52BA69EAB" KeyPath="yes" Source="$(var.SourceDir)\ca-Es-VALENCIA\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpA3CA7FD7349874AF495755E57955B1C9" Guid="*">
+                        <File Id="filB37D79687CAFEEC5885208AACE12E1ED" KeyPath="yes" Source="$(var.SourceDir)\ca-Es-VALENCIA\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirD5ED1084765A4FD3719EF2FBB43DB278" Name="cs">
+                    <Component Id="cmpC4808787DBCDE4E5EB167244F81241CD" Guid="*">
+                        <File Id="fil93E92B58C3B1181FDBEE16878E11D271" KeyPath="yes" Source="$(var.SourceDir)\cs\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir035501EBC09DB02225FCD4DA59421043" Name="cs-CZ">
+                    <Component Id="cmpB41BF4753B09E5B658C2D130E8053E81" Guid="*">
+                        <File Id="fil5F810D1C9BCD1E051D5AAAB1109F7B70" KeyPath="yes" Source="$(var.SourceDir)\cs-CZ\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpF2DB2AF8C8557894C230F6886FE5B015" Guid="*">
+                        <File Id="filA8F621BB49BE85DCE07344EF3F8B445A" KeyPath="yes" Source="$(var.SourceDir)\cs-CZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir6F802768D91DB6AADA46DA27B8E20570" Name="cy-GB">
+                    <Component Id="cmpA6E426143BB8E83B7E319707A1B00084" Guid="*">
+                        <File Id="fil7ED175F10F2E23186E2D2E00E33B2FE6" KeyPath="yes" Source="$(var.SourceDir)\cy-GB\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp9F0410A8E1B4F52EB92F4B87D8616548" Guid="*">
+                        <File Id="filC483B0EE8F0DAAF08238E1449EE1C474" KeyPath="yes" Source="$(var.SourceDir)\cy-GB\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirDF31322E6AA8BFDC242DA5D5BCD28B48" Name="da">
+                    <Component Id="cmp56591B49DEAEFB67A99C4D09D78368F2" Guid="*">
+                        <File Id="fil480CA484ED606D26A94BBCE7B114FD81" KeyPath="yes" Source="$(var.SourceDir)\da\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir78F9BB12A9468E676382F2830087F3CC" Name="da-DK">
+                    <Component Id="cmpE7F96070B3D41C0E1D44F27B97F0418B" Guid="*">
+                        <File Id="filB191FD82E380B4A055BFCBF2E2D70BC0" KeyPath="yes" Source="$(var.SourceDir)\da-DK\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp68DBE53383254CC3B03448E8AE3435CE" Guid="*">
+                        <File Id="filFB89A6E52DA68ED7810B0F21F377E722" KeyPath="yes" Source="$(var.SourceDir)\da-DK\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir86065D55ABAAA029AEB7AA161514A2E1" Name="de">
+                    <Component Id="cmpCC5EE096061C46B79DC913A694F2F89C" Guid="*">
+                        <File Id="fil358DEFA6DEB3045AECFA9DD52D974E44" KeyPath="yes" Source="$(var.SourceDir)\de\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir50D5A4D58E63E98A029309AFC57A282B" Name="de-DE">
+                    <Component Id="cmp22CB2C0B34C5839860000A2AA4193D4A" Guid="*">
+                        <File Id="filE7A9147062715E7636E91F0CE88B8E28" KeyPath="yes" Source="$(var.SourceDir)\de-DE\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpC5B73AC4B04CF97CBE4C771D1AC0FC81" Guid="*">
+                        <File Id="filD7ADD007D83C9289B30F9DF1D192EB1F" KeyPath="yes" Source="$(var.SourceDir)\de-DE\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir1FC5A683EE4494A6827B334EE370F199" Name="el">
+                    <Component Id="cmpCC800DCDA763FF8B0C781C67328E743E" Guid="*">
+                        <File Id="fil314693E4725B723190F19755A379C556" KeyPath="yes" Source="$(var.SourceDir)\el\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir515CB3D8457DE357AD5ACA2FEAB330BF" Name="el-GR">
+                    <Component Id="cmpC18224459E9FB1EB4ABB535A6FC25B4E" Guid="*">
+                        <File Id="filB08C5E56C667B178CD8A56D7ECD0034B" KeyPath="yes" Source="$(var.SourceDir)\el-GR\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpDD34D82A36C6095D138F682DA17DD0B7" Guid="*">
+                        <File Id="fil9C517A692A11164A565179BE2BFFC40C" KeyPath="yes" Source="$(var.SourceDir)\el-GR\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir89CE6802D827B2440BFDB96A3878FA00" Name="en-GB">
+                    <Component Id="cmp005AAC812C2187124334F87E81212FA7" Guid="*">
+                        <File Id="fil371673CC6716FC453CB44BE2FC1EA0F9" KeyPath="yes" Source="$(var.SourceDir)\en-GB\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp891A3B46233AD1612DF5DB08CE579842" Guid="*">
+                        <File Id="fil23C1A74026A7BF8A44441550FB3A8B81" KeyPath="yes" Source="$(var.SourceDir)\en-GB\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirA2CB0746246F19150227CB82ABB3C9D5" Name="en-us">
+                    <Component Id="cmp58B5A25D3AAE9046656EDCA0FAC59011" Guid="*">
+                        <File Id="fil7BFE8C7BDC6DDAAB225981CBD018FAD5" KeyPath="yes" Source="$(var.SourceDir)\en-us\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpA849681F3ADA188ECB96232ABE8768D5" Guid="*">
+                        <File Id="filBAF6A3C2B82A70B06512285A88B589E4" KeyPath="yes" Source="$(var.SourceDir)\en-us\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir2DA65DDD9DE2C6D7345A80919BD41CE9" Name="es">
+                    <Component Id="cmp1F89619A818C974AB3DB8C25E9157F94" Guid="*">
+                        <File Id="fil22459149C0EC430823FBA4F9F46A8304" KeyPath="yes" Source="$(var.SourceDir)\es\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirE579B5D7B580E2EA9097FBF9AC12396E" Name="es-ES">
+                    <Component Id="cmpF1D803AC88ED7BF279E0D1C010F0EB7F" Guid="*">
+                        <File Id="filC56EBD3CE47DF3A16D88624B021365D5" KeyPath="yes" Source="$(var.SourceDir)\es-ES\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp1CC8BC029554A7E14CCED48C80CDC20D" Guid="*">
+                        <File Id="filB5EEADB174A563906626EAEC173F62D6" KeyPath="yes" Source="$(var.SourceDir)\es-ES\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir4C5BAAEA55E05AC47CD560BD51AB70A1" Name="es-MX">
+                    <Component Id="cmp8B918142A82FECF84652B58C419819A6" Guid="*">
+                        <File Id="fil5C642FB4616C9F2947F05C2B6920979A" KeyPath="yes" Source="$(var.SourceDir)\es-MX\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp685FC9D4F323268B337D2FCFD18E740C" Guid="*">
+                        <File Id="fil22CB4CD9891EF69C93855357276FCB0C" KeyPath="yes" Source="$(var.SourceDir)\es-MX\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir703334BF39DA0AA17618746613F30599" Name="et-EE">
+                    <Component Id="cmpA06E07BEE3C2B0A15E1DF4F6229A4F9B" Guid="*">
+                        <File Id="fil6032615B98582B468C7CA86261964FC1" KeyPath="yes" Source="$(var.SourceDir)\et-EE\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpF4AAADEA7D0D810E10368118E1B8F7B4" Guid="*">
+                        <File Id="fil51D84C99A94BD739C59D2A07AC32DCEC" KeyPath="yes" Source="$(var.SourceDir)\et-EE\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir110DAC7F411FA11F28F06F0129CD9DA2" Name="eu-ES">
+                    <Component Id="cmp6646504CD937817E6AD61B33AA46EA22" Guid="*">
+                        <File Id="fil21F04EC182225006A2F0A4E7173358F1" KeyPath="yes" Source="$(var.SourceDir)\eu-ES\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp13D7D9AC18B5E2F98009C0C4BDBB5A5A" Guid="*">
+                        <File Id="fil2F3C01ED379169C6E1DAFFB3A4CFA78D" KeyPath="yes" Source="$(var.SourceDir)\eu-ES\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir0CCDBE9D8525A8123ED8CD71DAEB522E" Name="fa-IR">
+                    <Component Id="cmp23BE16514B1DF64A79AC776953E2C6F2" Guid="*">
+                        <File Id="fil4F15C9B5CEEA381EB4073FB904323A66" KeyPath="yes" Source="$(var.SourceDir)\fa-IR\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpE03A8AC674149DE9F9DB128B7E802EB8" Guid="*">
+                        <File Id="filE4176264BFE17D067E6DFF78F044F2AB" KeyPath="yes" Source="$(var.SourceDir)\fa-IR\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir4C497BA4874745C925E964B6B50B974B" Name="fi">
+                    <Component Id="cmpC6066715EE467BC1161A1132869FD274" Guid="*">
+                        <File Id="filBD9BA103313F311B840B65A170A93CE1" KeyPath="yes" Source="$(var.SourceDir)\fi\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirDB68A9CB314E3949125AE4B360B7A6F8" Name="fi-FI">
+                    <Component Id="cmp804B2B030F332C7BBC7C47A108078BDE" Guid="*">
+                        <File Id="fil45EA208798012782154344F2E7869329" KeyPath="yes" Source="$(var.SourceDir)\fi-FI\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpCEE5D073BE0F0A4BEE4A096A31A9852D" Guid="*">
+                        <File Id="filE98A6022663FD58B767F200D3AF63AE4" KeyPath="yes" Source="$(var.SourceDir)\fi-FI\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir7D9E2F33487A0A7FE8CB3901D1CE1FB8" Name="fil-PH">
+                    <Component Id="cmp434D236B4703418DD60657B22FD15531" Guid="*">
+                        <File Id="filCB3EAA50525FD4D1494857F657D6350C" KeyPath="yes" Source="$(var.SourceDir)\fil-PH\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp40717B38DA4948385D585AA913B3F14A" Guid="*">
+                        <File Id="filCC6D5EAE1FF9890881C9071E60070EF8" KeyPath="yes" Source="$(var.SourceDir)\fil-PH\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir96B8982DA0B0232C725C822333D61B24" Name="fr">
+                    <Component Id="cmp555863D0087FD2C3AED9AB867863A77C" Guid="*">
+                        <File Id="fil51DBAC6A7548FD696F78321936005DB3" KeyPath="yes" Source="$(var.SourceDir)\fr\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirB15304859CC48B586E5D069BC5E95F5D" Name="fr-CA">
+                    <Component Id="cmp3F1964946154FCACBA4E3D782170783E" Guid="*">
+                        <File Id="filCF03555900A4DFB4D6B125C12157DE40" KeyPath="yes" Source="$(var.SourceDir)\fr-CA\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp8C8E5EDB919B582AE88126049D1491ED" Guid="*">
+                        <File Id="fil996F314C30DF6075506EF86302DBF8B6" KeyPath="yes" Source="$(var.SourceDir)\fr-CA\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirC577F69F96FB4246E329A8E385AFE4EF" Name="fr-FR">
+                    <Component Id="cmp17A86CEEB4D6F64B1B4A5964CD33B1D5" Guid="*">
+                        <File Id="filCF6A9BD4DDA32BD79B90CC667C219DB5" KeyPath="yes" Source="$(var.SourceDir)\fr-FR\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp7DBA8591DFBFB361FFD076B3D3C63F78" Guid="*">
+                        <File Id="fil828CB2CA01D7CFA0B468FE0F5E4142DF" KeyPath="yes" Source="$(var.SourceDir)\fr-FR\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir64044F5CC2EC6C61592D3B64592F67D8" Name="ga-IE">
+                    <Component Id="cmp0FCB51347D13F1D01B89402F1AE7309D" Guid="*">
+                        <File Id="fil14432337DD7C214F62A03AE4E26030AC" KeyPath="yes" Source="$(var.SourceDir)\ga-IE\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpCB4D26D6DD0FBA35BA13BA95FBFEA582" Guid="*">
+                        <File Id="fil87BA3555DAFF390A47DA1452E549EC10" KeyPath="yes" Source="$(var.SourceDir)\ga-IE\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirE499575011BEB113898E7DCEC4810E5D" Name="gd-gb">
+                    <Component Id="cmp15597B31849D5904C36804AE895B554A" Guid="*">
+                        <File Id="filF4F6BC8F6AB0292B7AC0111A556DEC02" KeyPath="yes" Source="$(var.SourceDir)\gd-gb\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp2F2221658541B83889D5686E31B5D7F8" Guid="*">
+                        <File Id="fil4C02A1BFEEDF66618C8D82B971763D30" KeyPath="yes" Source="$(var.SourceDir)\gd-gb\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir38BA2C1842FD87830ECAE9A847E652FB" Name="gl-ES">
+                    <Component Id="cmp95B256E9AD8742A17FB639A5C2115B50" Guid="*">
+                        <File Id="filF23F7753E7A384FFFD7D1BFED975B105" KeyPath="yes" Source="$(var.SourceDir)\gl-ES\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp3802A7124CC63096961C5348E25BEA73" Guid="*">
+                        <File Id="fil62EDD2023D4E560B9F8FA34BFED96EC7" KeyPath="yes" Source="$(var.SourceDir)\gl-ES\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir3F94D39D3CB9EFB45160A799DC8381D0" Name="gu-IN">
+                    <Component Id="cmpA56521C069891D24FA92DCBD9C113135" Guid="*">
+                        <File Id="fil3A544DA0E29F55D1E768E30DF56ADA21" KeyPath="yes" Source="$(var.SourceDir)\gu-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp85B65B124384B3616A33783A774C56FD" Guid="*">
+                        <File Id="filDA713C70344FA9453AF09D686DAACC9F" KeyPath="yes" Source="$(var.SourceDir)\gu-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir2054B856AA374E342DBC58C2C7222269" Name="he">
+                    <Component Id="cmp23CBA86245F87E52DA79F5C3EF9A6528" Guid="*">
+                        <File Id="fil0E0A0B905A37C49C04BEA4024FA6267E" KeyPath="yes" Source="$(var.SourceDir)\he\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir4AE6552487BA0ED6A2A6EC2CC07A0C4B" Name="he-IL">
+                    <Component Id="cmpD65A039D5E9D0B1F83DE7A858FE5D190" Guid="*">
+                        <File Id="fil2562F59E731D7CA918EDF65D954231D7" KeyPath="yes" Source="$(var.SourceDir)\he-IL\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp6F833C0E6A1FFA85E72550D9D08C2979" Guid="*">
+                        <File Id="fil8874DBDCA0D8C5CF70EA9C232F08665D" KeyPath="yes" Source="$(var.SourceDir)\he-IL\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirAEBC18D8B5B104B8E4C219D5C6732B41" Name="hi">
+                    <Component Id="cmpF823AF0F87CE076A31645CCEE701CC5E" Guid="*">
+                        <File Id="fil79246BAB729897D503EA599688B13AE5" KeyPath="yes" Source="$(var.SourceDir)\hi\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir7B95F00E3F5BB74BFCAF10BC294C174C" Name="hi-IN">
+                    <Component Id="cmpBE8C34AA584E864004F859138787DCF7" Guid="*">
+                        <File Id="fil6E78273E8C0E6CF813A76A2D3957A289" KeyPath="yes" Source="$(var.SourceDir)\hi-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp1B503FDA4A7721E87E59F76A82046A4C" Guid="*">
+                        <File Id="filCA442C98208B191A3B3087E855195C70" KeyPath="yes" Source="$(var.SourceDir)\hi-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirCFB7735D8B37ACCC447E4015788296CF" Name="hr">
+                    <Component Id="cmp51E2A6922AE5EC3CFABD2E58CE075297" Guid="*">
+                        <File Id="fil3F89F7F27E7BAF48C851FFC81BAF2914" KeyPath="yes" Source="$(var.SourceDir)\hr\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirA5315ADFB00F7F62BF55FB74AAE649E7" Name="hr-HR">
+                    <Component Id="cmp0C9D97FC9D9C098B4BCEBF5789EB5168" Guid="*">
+                        <File Id="filD8D68FE8CECADE2E90B413CD8511887A" KeyPath="yes" Source="$(var.SourceDir)\hr-HR\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp0F00F52D7AC0BF7C6AC91D903352CA62" Guid="*">
+                        <File Id="fil0D83FFAE76F6029829DF6DDD177286C8" KeyPath="yes" Source="$(var.SourceDir)\hr-HR\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirB6CC2829ECE448176E3035D52A31F19C" Name="hu">
+                    <Component Id="cmp68FCAA70DB07114070A3C244CF04D776" Guid="*">
+                        <File Id="fil70E095E99FC7991D3593ED57D425FFDE" KeyPath="yes" Source="$(var.SourceDir)\hu\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir01B6AF577127DF142EE992236EA3765A" Name="hu-HU">
+                    <Component Id="cmpEC110459B5C0CC16E0B7A184CE2C149D" Guid="*">
+                        <File Id="fil2C24C839494CF1BDD67DA3596E2DA389" KeyPath="yes" Source="$(var.SourceDir)\hu-HU\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp26F1C2310F87C9B949A156312CF412CA" Guid="*">
+                        <File Id="filA23D16560B95144CA03B105F266A4759" KeyPath="yes" Source="$(var.SourceDir)\hu-HU\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir38404076B8623BC4717C146A37208CD0" Name="hy-AM">
+                    <Component Id="cmp457DD821B5C3651BC021BA431D0C3D13" Guid="*">
+                        <File Id="fil714BFC39B2038E4B0FE99D23A895F349" KeyPath="yes" Source="$(var.SourceDir)\hy-AM\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp3EDA4080E03E108AD498741879FD644C" Guid="*">
+                        <File Id="filF0965C03AC53B14AD3763BDEFF4BCB17" KeyPath="yes" Source="$(var.SourceDir)\hy-AM\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir105788E75C6A95912B0911F059499542" Name="id">
+                    <Component Id="cmp278B09BD9463119BDD708C6BF0589346" Guid="*">
+                        <File Id="filDDC9BBECFC7EFD3AE8488388E7853824" KeyPath="yes" Source="$(var.SourceDir)\id\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir18AC2643FA90E8E42AF02C448A4CFF8D" Name="id-ID">
+                    <Component Id="cmpA9326A1AB81B480DC89615AA30C60536" Guid="*">
+                        <File Id="fil61EAEB89ADD8276F0AA7D66B9FFE1784" KeyPath="yes" Source="$(var.SourceDir)\id-ID\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp6A03CB5AADB13A90F3B73ACA6C843FF2" Guid="*">
+                        <File Id="fil6ACB632449BB58E140EB5AB3BA3E3559" KeyPath="yes" Source="$(var.SourceDir)\id-ID\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir44F365B6914E5127A3C5F137CBC3E4FB" Name="is-IS">
+                    <Component Id="cmp775E633E33536D43B8E24E32A82FEA85" Guid="*">
+                        <File Id="fil265BF47E808A42764C1B7D5FCFC1E60D" KeyPath="yes" Source="$(var.SourceDir)\is-IS\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp173EE59C031373C9296A92D57BDB91FA" Guid="*">
+                        <File Id="filFA9823B0BF188EA4471863240A09E1B7" KeyPath="yes" Source="$(var.SourceDir)\is-IS\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirE1F7B01F5D847D3B56593044E778FF8D" Name="it">
+                    <Component Id="cmpFCEC7E0703717830F0E246850964399C" Guid="*">
+                        <File Id="filBB74273CF684FCFB9CA83E216C85C72D" KeyPath="yes" Source="$(var.SourceDir)\it\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirBE698B3022F7FEE978DFCA0238AE5D13" Name="it-IT">
+                    <Component Id="cmpF416956C15769D3C1485227CE9F1AD1B" Guid="*">
+                        <File Id="filAFEDA990986AFDA5F95E0BBA2D78B487" KeyPath="yes" Source="$(var.SourceDir)\it-IT\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp6E7BDAE9B3739AD1E2120A5BE1775A71" Guid="*">
+                        <File Id="fil46B9572F3DAED80D2D4DE8DCE04E0ADB" KeyPath="yes" Source="$(var.SourceDir)\it-IT\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirE4584E7433F70AD1F157D5F491DE6AF0" Name="ja">
+                    <Component Id="cmpE8FB5609ADAB95A448A32531C4E7F785" Guid="*">
+                        <File Id="fil2C6FCF80016AF9034AA04FAA664BDD72" KeyPath="yes" Source="$(var.SourceDir)\ja\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir18CF45B421D9EF64591D52A168B38A54" Name="ja-JP">
+                    <Component Id="cmpBAD671A6736C5BB7C7A1B9C567DB19D4" Guid="*">
+                        <File Id="filDCA5C6801E7DC1C4CD37D6710FB86FFC" KeyPath="yes" Source="$(var.SourceDir)\ja-JP\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpF784B055B9EE4805FB4EE729E3A68311" Guid="*">
+                        <File Id="filFD263F115ECF4FA69D1743B3B86F77C3" KeyPath="yes" Source="$(var.SourceDir)\ja-JP\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir738295194B0A304CA579909E52AB2DBC" Name="ka-GE">
+                    <Component Id="cmpC7C6DE8F9A7CF38A1C13AFAE70F5DC1B" Guid="*">
+                        <File Id="fil31EBF027C98D01F4D8CF294394C795F4" KeyPath="yes" Source="$(var.SourceDir)\ka-GE\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpAD72E2280B7F2F67839D191ECACBAD42" Guid="*">
+                        <File Id="fil3BD483187C9B04465F8A207884A0FC0B" KeyPath="yes" Source="$(var.SourceDir)\ka-GE\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir22AD788D61A8F02F4E39AC74B889F33C" Name="kk-KZ">
+                    <Component Id="cmp454F34366B2720FC04CA45A63FA328EB" Guid="*">
+                        <File Id="fil63B546F561BAD451C1D1305978796469" KeyPath="yes" Source="$(var.SourceDir)\kk-KZ\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp6A5502366B0D870EF0EB3C8A6B524C69" Guid="*">
+                        <File Id="fil966364B49D881AB34CC6878F968D8110" KeyPath="yes" Source="$(var.SourceDir)\kk-KZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirC5C5F394C1608CF5F9E8028EF026719A" Name="km-KH">
+                    <Component Id="cmpD2A5CB9E79872DC37C5F50F27136A8A2" Guid="*">
+                        <File Id="filD47FB0381B10E5E1F5D107610A977F3C" KeyPath="yes" Source="$(var.SourceDir)\km-KH\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp0E6979BA08E22BE00C5D0827C27B2C5B" Guid="*">
+                        <File Id="fil5504AC69B2D9607E28313C2B8E3C124D" KeyPath="yes" Source="$(var.SourceDir)\km-KH\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir709A6E177BFC545DD29C6A875733045D" Name="kn-IN">
+                    <Component Id="cmp0A8B72900F6688E1C791D18373089EC7" Guid="*">
+                        <File Id="fil067AB33CCD65F257441376DC14D4B84D" KeyPath="yes" Source="$(var.SourceDir)\kn-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp0A1EBE0CB8B7AF78E2C92ECC323B36D9" Guid="*">
+                        <File Id="fil873F2AFCCF9515F5239A2315AE17113F" KeyPath="yes" Source="$(var.SourceDir)\kn-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir70E2BFB84B997D64DC898D6267271CF1" Name="ko">
+                    <Component Id="cmp1669A7D3AAD7053F49CC71AA4F5E2E7F" Guid="*">
+                        <File Id="fil45590F924EB43CD9584108C763AA7B45" KeyPath="yes" Source="$(var.SourceDir)\ko\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir3B901307639A69D3BCDCCC62D1960447" Name="ko-KR">
+                    <Component Id="cmp52D07B76CA078C19B63B5C8CEE8FBF74" Guid="*">
+                        <File Id="fil8284FBD49EB1386AC0B881C751696653" KeyPath="yes" Source="$(var.SourceDir)\ko-KR\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp66D2AA5515D3156D1F91EB74F8A1A23A" Guid="*">
+                        <File Id="filB2D7452BE4492DD8BEB076E84A62879F" KeyPath="yes" Source="$(var.SourceDir)\ko-KR\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir27BE5522B14ACDF9EA5B52315A4F8480" Name="kok-IN">
+                    <Component Id="cmpCB0C987C0A0D9A97135D5B30E2D223AD" Guid="*">
+                        <File Id="filCE1CDF78E8EFC06B773B84D5C260E187" KeyPath="yes" Source="$(var.SourceDir)\kok-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpDFB30ED3D45446E798F627C3B50DE21E" Guid="*">
+                        <File Id="fil4A724CFB5F4DD1B07535D00455BE0A5F" KeyPath="yes" Source="$(var.SourceDir)\kok-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir556BD3E8568DD400DC347C12FE207034" Name="lb-LU">
+                    <Component Id="cmpEA1E758331F346E18347714E9A77F69C" Guid="*">
+                        <File Id="filCCE038D895B947F8151E4133458B74DA" KeyPath="yes" Source="$(var.SourceDir)\lb-LU\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpF4FBAE7C788AE6867425281F1B560EEB" Guid="*">
+                        <File Id="fil5E917D9DFA878ED3C8CB0280B05CEF80" KeyPath="yes" Source="$(var.SourceDir)\lb-LU\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirE9A75B364AFAE2878ECB91CEF64BC176" Name="lo-LA">
+                    <Component Id="cmp556419172B05A0BC3C92FEE94CE7049B" Guid="*">
+                        <File Id="fil086499107D906B5A7959F686DBAE9652" KeyPath="yes" Source="$(var.SourceDir)\lo-LA\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp3D0227744710B85161991B900E32BD58" Guid="*">
+                        <File Id="fil677DC4985A04AA4F5166FB75920B6A87" KeyPath="yes" Source="$(var.SourceDir)\lo-LA\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir988E9CCF35217A37CBE43FD357B85FD6" Name="lt-LT">
+                    <Component Id="cmp5F5D41892B690690CBEC2F0469A33B90" Guid="*">
+                        <File Id="filFECDA536D81A18A2CAA43DD54AF28BAB" KeyPath="yes" Source="$(var.SourceDir)\lt-LT\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpE87842081EBB0E99D63482481C19DEBD" Guid="*">
+                        <File Id="fil02470979BAED96A2DC543A5DB241C4D5" KeyPath="yes" Source="$(var.SourceDir)\lt-LT\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir609B6ED9DBAC4B93031428FB7DA623AA" Name="lv-LV">
+                    <Component Id="cmp1E87BAE6EF5C903E9DBD2EF4A28DB252" Guid="*">
+                        <File Id="filF2803A4A3AA00E2160739E3FC84D99FD" KeyPath="yes" Source="$(var.SourceDir)\lv-LV\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp993EBCE0489E4B2C989B107C520FE9E2" Guid="*">
+                        <File Id="fil793252A4EA78351104838D2F9748DB7A" KeyPath="yes" Source="$(var.SourceDir)\lv-LV\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir4EA94EF1F3BE665C48E00F15A36D6E94" Name="mi-NZ">
+                    <Component Id="cmpEBAECAE0472B0A7FCD3CAC99DE0888EE" Guid="*">
+                        <File Id="fil5BBE8E19511620865FC23047E9059B34" KeyPath="yes" Source="$(var.SourceDir)\mi-NZ\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpE05FE7DE17207431EEE5DE1A247AACE7" Guid="*">
+                        <File Id="fil9B0A4E0DB9C26E10D04CF1E6B091D146" KeyPath="yes" Source="$(var.SourceDir)\mi-NZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir30202009D9919DC698B35B69993CBC9F" Name="Microsoft.UI.Xaml">
+                    <Directory Id="dirEBD94F59CFA30DAC4FC65288DBCF325A" Name="Assets">
+                        <Component Id="cmpE42B2CF394186EA49465CD4A3F773334" Guid="*">
+                            <File Id="filFF1565B8D356F6ABD9CFB4F3BB7E3F0D" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Xaml\Assets\map.html" />
+                        </Component>
+                        <Component Id="cmp054A5940DF7C49BBE35AB01A80EEB819" Guid="*">
+                            <File Id="fil9E912CE0DBFDDAC96244030D7336B3F9" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.UI.Xaml\Assets\NoiseAsset_256x256_PNG.png" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dir47677945FB929849D4253390FD32259D" Name="mk-MK">
+                    <Component Id="cmp75B1C52171F27EF3EC3736D3684C3308" Guid="*">
+                        <File Id="filE34CD7F679E99FA271C5CE9F2641E8E4" KeyPath="yes" Source="$(var.SourceDir)\mk-MK\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp251DBA63CDF36497AB57D6A81465F032" Guid="*">
+                        <File Id="filA2B7C1C22AF8ACCA12C18847CFB092B4" KeyPath="yes" Source="$(var.SourceDir)\mk-MK\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir48C541E7D3205EF4C8CABE7F803DA633" Name="ml-IN">
+                    <Component Id="cmp8EB7D9B2B46D5725DBD69B4581DAD00B" Guid="*">
+                        <File Id="fil35EBC6C8951A625775B674612CD3FA12" KeyPath="yes" Source="$(var.SourceDir)\ml-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpA0979205A89E7A92EF446D479F4D404D" Guid="*">
+                        <File Id="fil4314BD8AFD23149ACF5BFCEA124F40F7" KeyPath="yes" Source="$(var.SourceDir)\ml-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir58B97B79D286E1A9889D2AD0115D6430" Name="mr-IN">
+                    <Component Id="cmp7D408761914807896C2887740297C268" Guid="*">
+                        <File Id="filD76542551BC3DE89D11FC5541B37CF75" KeyPath="yes" Source="$(var.SourceDir)\mr-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp88146C5CCA01D88ED52A2428000CD0AC" Guid="*">
+                        <File Id="fil791B9966B32CF3133ADABEC40EB7B830" KeyPath="yes" Source="$(var.SourceDir)\mr-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir279071A813822CCC026F12A3D586C6B4" Name="ms">
+                    <Component Id="cmp49674CD94465BC553C1D85FE3403BBE1" Guid="*">
+                        <File Id="fil8099DE833E85801579F99152304432A1" KeyPath="yes" Source="$(var.SourceDir)\ms\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirF2D4C3DD35E21058BDB10B27740F938D" Name="ms-MY">
+                    <Component Id="cmp5A03BA1F2A8165A0B81704DDDA8130C3" Guid="*">
+                        <File Id="filD5B9135CE6A68496D4CCE1860D53E2C0" KeyPath="yes" Source="$(var.SourceDir)\ms-MY\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpEF7AE5D0490800693C00A23810FD6E93" Guid="*">
+                        <File Id="fil9C41E95492FD958EF8A441A9B08F535E" KeyPath="yes" Source="$(var.SourceDir)\ms-MY\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir1715D2B288D3680D7C5966CEC53B57C8" Name="mt-MT">
+                    <Component Id="cmp0BE3EE25321AD3D55A78FF9E59A6DB13" Guid="*">
+                        <File Id="fil3D93B4C06C81E335756588475C51B36C" KeyPath="yes" Source="$(var.SourceDir)\mt-MT\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp5493F94C5EB00C250CBBBEBFF36EB279" Guid="*">
+                        <File Id="fil568038008E4F3511B4466161D041D217" KeyPath="yes" Source="$(var.SourceDir)\mt-MT\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirC802CCD4528460B023CA578A87035122" Name="nb">
+                    <Component Id="cmp49734A59DAF9E6AEF3A5841690EB6F50" Guid="*">
+                        <File Id="filE41B0A7A3A14315383D708AE55200CC3" KeyPath="yes" Source="$(var.SourceDir)\nb\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir19EAFA39F5CC3A027150E7F96A70CB05" Name="nb-NO">
+                    <Component Id="cmpF9CC277B06953150350D6A1C8821D011" Guid="*">
+                        <File Id="fil6B8E6453E3DD83A399DF4C9426239FDF" KeyPath="yes" Source="$(var.SourceDir)\nb-NO\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp7292C1868EAB391670AA2E42E20389F7" Guid="*">
+                        <File Id="fil9CE72FA58D369FE8471A7407202F5D6E" KeyPath="yes" Source="$(var.SourceDir)\nb-NO\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirFC381AA2BCD12BC12C94B1AE9593DBD4" Name="ne-NP">
+                    <Component Id="cmp6E5EDB8F300B878E0C2A8130B250C136" Guid="*">
+                        <File Id="filCCAFC401DD9286089B05262EE7AC3807" KeyPath="yes" Source="$(var.SourceDir)\ne-NP\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp0AAD7C318F3D6A24629B0DD813F576B1" Guid="*">
+                        <File Id="fil846D9A5A2A15366E9DE7D8DB0EFCC3C1" KeyPath="yes" Source="$(var.SourceDir)\ne-NP\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir82594613356518E4CABB4FBD98BCB999" Name="nl">
+                    <Component Id="cmp2B3E4A661E2D2CF9C58C2266C5642ADB" Guid="*">
+                        <File Id="filC35C98C184123DA4292B5B81A804B906" KeyPath="yes" Source="$(var.SourceDir)\nl\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirDD9297CB836B95AD22AE924CA6B68CF4" Name="nl-NL">
+                    <Component Id="cmp0D2C5C57CDAF8E8675889537CBD45813" Guid="*">
+                        <File Id="fil66B7DF185DBF0264CAA032D4B9F9B000" KeyPath="yes" Source="$(var.SourceDir)\nl-NL\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp0ADF6CE6350AC4841A9BC1DCCD632621" Guid="*">
+                        <File Id="fil34D3EB251B81DF26B2E5F39AA95BB5D1" KeyPath="yes" Source="$(var.SourceDir)\nl-NL\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirA2B874C2E566361F0CEB5B6C01357197" Name="nn-NO">
+                    <Component Id="cmpB84002BEC944A2ABDE093F220CE668C1" Guid="*">
+                        <File Id="filE52CD38EC95ABB74DAA5C22E20ABB537" KeyPath="yes" Source="$(var.SourceDir)\nn-NO\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp4261BE83EF4D83648B1DB12E639A9219" Guid="*">
+                        <File Id="fil5693EE9C8DE541BDAC716E4DE84D2C4B" KeyPath="yes" Source="$(var.SourceDir)\nn-NO\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirB93E38906FF8D2314B62B08E0B84E441" Name="or-IN">
+                    <Component Id="cmpB9D09D5E9849BCFA25799E60F288B15E" Guid="*">
+                        <File Id="fil44438498C49EA306527E91014A36BB63" KeyPath="yes" Source="$(var.SourceDir)\or-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp1957ECAC1289EDC4995C3877F1A7CD52" Guid="*">
+                        <File Id="filED7984ED21EFB925DE6E936079C3FB57" KeyPath="yes" Source="$(var.SourceDir)\or-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir00513DA2D9BE6C96DF3C9B01370ACB85" Name="pa-IN">
+                    <Component Id="cmp7447D70AEC55F6F4859E5EE56264CF09" Guid="*">
+                        <File Id="fil287D9D2F2D4CF1B1D112A2EB5E93F59D" KeyPath="yes" Source="$(var.SourceDir)\pa-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp17628A75C35D35A7DBAFFCFA1C904AFD" Guid="*">
+                        <File Id="filFB6F2FB2F56B0E89AAA51E3A627EF785" KeyPath="yes" Source="$(var.SourceDir)\pa-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirD7E0378717F0BF7EFA06E0F2AD63637E" Name="pl">
+                    <Component Id="cmp4E235D04C999EE97C26E6B383C80EEE5" Guid="*">
+                        <File Id="fil48C9B86AE623FE16E7A5917D5051BDC7" KeyPath="yes" Source="$(var.SourceDir)\pl\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir8608EE195E876F19BFE68C9B836EC340" Name="pl-PL">
+                    <Component Id="cmpB32B2F0C2C9A70BC0C78444474D08E3D" Guid="*">
+                        <File Id="fil35D169F38F2804757A0E2BE23F926F21" KeyPath="yes" Source="$(var.SourceDir)\pl-PL\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpFA44513D4644659550FBE60E038FD1F0" Guid="*">
+                        <File Id="fil150047285044561B6FB782E97E387222" KeyPath="yes" Source="$(var.SourceDir)\pl-PL\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirE021512FDAC9BC083202AA0FD11045AB" Name="Platforms">
+                    <Directory Id="dirC3C6462C452357E57B359116F83523C3" Name="Windows">
+                        <Component Id="cmpF023299083895E960E8A418AE11F31BA" Guid="*">
+                            <File Id="fil37D64496EF4D23DE02208DED6A040C34" KeyPath="yes" Source="$(var.SourceDir)\Platforms\Windows\App.xbf" />
+                        </Component>
+                    </Directory>
+                </Directory>
+                <Directory Id="dirF5709C7057F7C65C8CB844D61D4DED67" Name="pt">
+                    <Component Id="cmp161617D39D003D243BB8B898C65BE30F" Guid="*">
+                        <File Id="fil36905E0D7DCBE4CD84D41BBBD04DF326" KeyPath="yes" Source="$(var.SourceDir)\pt\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir0616CDFCB6DA41C9BCFB0420632F369E" Name="pt-BR">
+                    <Component Id="cmp7D1F753B0F1D5DC378665E37049FDC52" Guid="*">
+                        <File Id="filC1386E8CE0702FFDC4BD589D1D9776C3" KeyPath="yes" Source="$(var.SourceDir)\pt-BR\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                    <Component Id="cmp792727A05721DA0DBB1F8A80CA899990" Guid="*">
+                        <File Id="filD0D1124FBC2C44D1ECE51DA7814B6918" KeyPath="yes" Source="$(var.SourceDir)\pt-BR\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp87AD88D61B554CCD247B048064077EEB" Guid="*">
+                        <File Id="fil0215BC8A87279C32827904F3C4A69C61" KeyPath="yes" Source="$(var.SourceDir)\pt-BR\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir15041262581C52603D2CFF5ECCCA6F99" Name="pt-PT">
+                    <Component Id="cmp7A979FADD7B4BA67F0889D6D91316308" Guid="*">
+                        <File Id="fil3DD6D7563F41AF47B8FE9991DBCDF6BD" KeyPath="yes" Source="$(var.SourceDir)\pt-PT\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp673C36B6D7DB96C7B538DCE43E9CFCB1" Guid="*">
+                        <File Id="fil01C83CE337E00CEECF389AE0B0BE9BEB" KeyPath="yes" Source="$(var.SourceDir)\pt-PT\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir066F6CD25859280876CE7CC1DBFFFCA8" Name="quz-PE">
+                    <Component Id="cmpBDD98919F97E8431BEA620704AC67A63" Guid="*">
+                        <File Id="fil54D435CF4A55E3A1E284BBB0716DAA24" KeyPath="yes" Source="$(var.SourceDir)\quz-PE\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp828B336A66938BD486D2B162EB36427C" Guid="*">
+                        <File Id="filAD58832638E67B4D74BC11FA1401D996" KeyPath="yes" Source="$(var.SourceDir)\quz-PE\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir623A7CBA6E4E2D46B13782EFBF1A252F" Name="Resources">
+                    <Component Id="cmp0F527380F7ECE71AA888C7D0C091A312" Guid="*">
+                        <File Id="fil8CF48A4A992DC3650A4EB17E2FC809CB" KeyPath="yes" Source="$(var.SourceDir)\Resources\Ecosite.csv" />
+                    </Component>
+                    <Component Id="cmpB2844373BDA081FA244F884BEB72FF1C" Guid="*">
+                        <File Id="filEF5A9BAF2E96C3F7BFE3564A7AA9B626" KeyPath="yes" Source="$(var.SourceDir)\Resources\EcositeSoilVeg.csv" />
+                    </Component>
+                    <Component Id="cmpC3E835B7B980FDE8984D2B0E7CCDA0AA" Guid="*">
+                        <File Id="fil5A49643498BB45348ACC5853E950F47B" KeyPath="yes" Source="$(var.SourceDir)\Resources\Soil.csv" />
+                    </Component>
+                    <Component Id="cmp3134B84F329EED5899AB45BFCE209625" Guid="*">
+                        <File Id="fil2BF56CE496C12FC489D5C7B30B1B27B9" KeyPath="yes" Source="$(var.SourceDir)\Resources\Treatments.csv" />
+                    </Component>
+                    <Component Id="cmpE9458A072AFE7ABC9C2A3DBB01A8D8EA" Guid="*">
+                        <File Id="filC3630E9089EBA9EA7A174467B6FCF353" KeyPath="yes" Source="$(var.SourceDir)\Resources\TreeSpecies.csv" />
+                    </Component>
+                    <Component Id="cmp94E42A7823ABBE6E502ABCB3127759CE" Guid="*">
+                        <File Id="fil0EDC2E5687C3F886C78E5523B8C2030A" KeyPath="yes" Source="$(var.SourceDir)\Resources\Vegetation.csv" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirE180D2FC5B64DE0B58984652A629998E" Name="ro">
+                    <Component Id="cmp12A33C02BC7A2726A559C7A3AB472711" Guid="*">
+                        <File Id="fil78AB01C5C4F2D8863A03D44EE16E99E4" KeyPath="yes" Source="$(var.SourceDir)\ro\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir180F894BDE9589569C66CCFCC2A9FEAD" Name="ro-RO">
+                    <Component Id="cmp79DE10A1E1E5A13AAB7C904249C1BD73" Guid="*">
+                        <File Id="fil1306E0B75B71D395C78B4967B41CA6CF" KeyPath="yes" Source="$(var.SourceDir)\ro-RO\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpFC43C2E6B95C1C35C6D89830BF3A2649" Guid="*">
+                        <File Id="filD1A00F8C9DE1C23A03E5648DD10BF619" KeyPath="yes" Source="$(var.SourceDir)\ro-RO\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir932F6D520452F0D22D7B22F837713431" Name="ru">
+                    <Component Id="cmpEB9A48F37F7817A0066E9CDE015D6575" Guid="*">
+                        <File Id="fil3764BFDB450E4A6A6DC3949FDC3BCCCA" KeyPath="yes" Source="$(var.SourceDir)\ru\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirA17B5760D220F12275255A0E4269DD55" Name="ru-RU">
+                    <Component Id="cmp378BF9A7C3D0AB93404BEFA58E0C774C" Guid="*">
+                        <File Id="fil5BA880BBA347D51326311A6A96107EE6" KeyPath="yes" Source="$(var.SourceDir)\ru-RU\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp0E54C58DE902F663F24920CDFA2C8C04" Guid="*">
+                        <File Id="filA40A57AFB6ED06BDD20AD6E46EC3EA43" KeyPath="yes" Source="$(var.SourceDir)\ru-RU\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirA85A5353E57D873E3CFC8192C4AE993A" Name="sk">
+                    <Component Id="cmp4A103FF2C3DF4F7D380B3F4CE7CD329B" Guid="*">
+                        <File Id="filEBEB26611EC04123A4E986BD80D2E4AC" KeyPath="yes" Source="$(var.SourceDir)\sk\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir08AC8D25F35E512130AD4BB3BC9D646A" Name="sk-SK">
+                    <Component Id="cmp06841D66C2A152BFF0769B03FC96EE4D" Guid="*">
+                        <File Id="filCDE7686AC4EA80CAF4F8F31E1E2490F8" KeyPath="yes" Source="$(var.SourceDir)\sk-SK\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp9FDC8981D153EE1922F96A34A8E7CA1E" Guid="*">
+                        <File Id="fil00F409B34568E1258D906F286BBD3197" KeyPath="yes" Source="$(var.SourceDir)\sk-SK\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirCA581B6756147E9B9EFE6D2782E2D987" Name="sl-SI">
+                    <Component Id="cmp3CA2056CCB0E266771C7CF3361EB9B16" Guid="*">
+                        <File Id="filC638FB82A1BAF9C1FA1D536C78007ED4" KeyPath="yes" Source="$(var.SourceDir)\sl-SI\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpEF9EF3826B76F677BE818F76018801F6" Guid="*">
+                        <File Id="filB1BCC5CF43C5E5D04716EC0F9B9C0A11" KeyPath="yes" Source="$(var.SourceDir)\sl-SI\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir58A89A10A046D6B0FFE8DCA831B5B435" Name="sq-AL">
+                    <Component Id="cmpFC087B543CEC4CBEA3DC126A867578B1" Guid="*">
+                        <File Id="fil7D103B4037294A1E6A9AEECBF3C660F2" KeyPath="yes" Source="$(var.SourceDir)\sq-AL\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp073B7DD4D56CE54F961F9137DE16C6DA" Guid="*">
+                        <File Id="fil79531F2C2E77FDDBE180FDF3283437DF" KeyPath="yes" Source="$(var.SourceDir)\sq-AL\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir5B58202F703A87102A381008300817F3" Name="sr-Cyrl-BA">
+                    <Component Id="cmpE2382FD237605B8EC2763C65EC2A0CC2" Guid="*">
+                        <File Id="filFBA9689424DDA4CA8661FC93089DA890" KeyPath="yes" Source="$(var.SourceDir)\sr-Cyrl-BA\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp7F6BD2CB28F16AD3F570DF0A666A9D04" Guid="*">
+                        <File Id="filAA0DE0407FAFFC1C51A26E54DC93CD32" KeyPath="yes" Source="$(var.SourceDir)\sr-Cyrl-BA\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir38F7C155B5A29DD5A3B6700E378BE71A" Name="sr-Cyrl-RS">
+                    <Component Id="cmpD3AEAAB6EAE6485B053843CB14B81FAA" Guid="*">
+                        <File Id="filEFD23913CFFE9F80713B5E9CCE58D39F" KeyPath="yes" Source="$(var.SourceDir)\sr-Cyrl-RS\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpCB6DD45BAC336396C384EDC0EE9F385A" Guid="*">
+                        <File Id="fil10504A64FD2DE345453BBFAFE8FD5D4B" KeyPath="yes" Source="$(var.SourceDir)\sr-Cyrl-RS\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir62E5D649ADB33FA8F2EFDA746DB0EA2B" Name="sr-Latn-RS">
+                    <Component Id="cmpC72AB245F503F4B6A86B212B53D8D659" Guid="*">
+                        <File Id="fil8CC7EA638BCA5C08DF2B3A7BBEC91664" KeyPath="yes" Source="$(var.SourceDir)\sr-Latn-RS\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp7C1B8A6E022CFEEC4260BF84DF2D7FFF" Guid="*">
+                        <File Id="fil8E09B60C07C6695D667EE94FC08E5756" KeyPath="yes" Source="$(var.SourceDir)\sr-Latn-RS\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirC934EB9ACD2E8D50C5C3C9A3474AB331" Name="sv">
+                    <Component Id="cmp10E84B09BF548F907050F30277049887" Guid="*">
+                        <File Id="fil005E94A6FB7F20041E6CE83886EDE5F8" KeyPath="yes" Source="$(var.SourceDir)\sv\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirADFA5DE8F7DEDC06A238B33AEB3B92FA" Name="sv-SE">
+                    <Component Id="cmpCEBD2BEF3EBAE10389FC8D471F35D2A4" Guid="*">
+                        <File Id="fil63B760ECA0CE720FEABB9EF02D97FB3A" KeyPath="yes" Source="$(var.SourceDir)\sv-SE\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp45FF8BADCEE6566B7C5A44893201F463" Guid="*">
+                        <File Id="fil8507B0CB6060C6362AC0D0A3A48FB8B4" KeyPath="yes" Source="$(var.SourceDir)\sv-SE\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirF38A100DC1EB22B8999377EF0A1BD388" Name="ta-IN">
+                    <Component Id="cmpF206686A9157710F210BA07BAEF27D54" Guid="*">
+                        <File Id="filEAC5285B3E321121B30E999AE0C0C1BE" KeyPath="yes" Source="$(var.SourceDir)\ta-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp29F0CD762C98287C71D9B42B8DFB2AC7" Guid="*">
+                        <File Id="fil34C55623561203CB46651F03D24D5C21" KeyPath="yes" Source="$(var.SourceDir)\ta-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir95F1CBAC85B4DED24C870EF6E3C1CF69" Name="te-IN">
+                    <Component Id="cmp417AF69464728A46F3E926255449A7B2" Guid="*">
+                        <File Id="filB1015FC09A61254987974685927FDA6E" KeyPath="yes" Source="$(var.SourceDir)\te-IN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp77974E3EAC76CB5762ED19FAF783F0D7" Guid="*">
+                        <File Id="filE047DF3C9DE13EB11C0376A3A38C642D" KeyPath="yes" Source="$(var.SourceDir)\te-IN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir1995FC36185A35BDE79C7F3C6D7A9BCE" Name="th">
+                    <Component Id="cmpCA0999B333ACB7C907D28DD38121E767" Guid="*">
+                        <File Id="fil8D34884F852CBD93F7D9D1BD3652F621" KeyPath="yes" Source="$(var.SourceDir)\th\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir3462B5350E5BE923008CB6C407EC2915" Name="th-TH">
+                    <Component Id="cmpC7F35531371610410F6A6084F21E188E" Guid="*">
+                        <File Id="fil45E4FDCADFE8C7869E33D76617895844" KeyPath="yes" Source="$(var.SourceDir)\th-TH\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp9902FBD544BBEF47896BD58623073166" Guid="*">
+                        <File Id="fil1D70DF4941CE3027C430A7C5F9E57737" KeyPath="yes" Source="$(var.SourceDir)\th-TH\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir9CCD1FA94CAC22B98A3836B894D3B8E1" Name="tr">
+                    <Component Id="cmp67AD3D63BB28FE7E361CCA6B39D35ED4" Guid="*">
+                        <File Id="fil7C73F1B66213D9DD53549337664A205C" KeyPath="yes" Source="$(var.SourceDir)\tr\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir6437F34787A189E26A63E10F70CF5BA1" Name="tr-TR">
+                    <Component Id="cmp86D1B657CFEDE5A8B9B7BA94C5CAA385" Guid="*">
+                        <File Id="filA159CF22F7E8449325BF6E3AB8F6D118" KeyPath="yes" Source="$(var.SourceDir)\tr-TR\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp077773B2F12F8F30DA33DFC29D2A34B1" Guid="*">
+                        <File Id="fil62C73FB212032353BB0D4FEA0002E594" KeyPath="yes" Source="$(var.SourceDir)\tr-TR\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir5D161F2535F94AB6789083B3A3FF3A75" Name="tt-RU">
+                    <Component Id="cmp77CBEDEAE0268E306686900F91BEC8AB" Guid="*">
+                        <File Id="fil643B647B222B3B03F89BFB0BDEDD4A93" KeyPath="yes" Source="$(var.SourceDir)\tt-RU\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp5297FFA78597F6473AF8A28755015F7C" Guid="*">
+                        <File Id="fil35D00CAEABC4888F5A5C5450DBDB57B3" KeyPath="yes" Source="$(var.SourceDir)\tt-RU\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirA2E2B9E49DECA0161FB8984ACDF37B88" Name="ug-CN">
+                    <Component Id="cmpA3C49A540FCCAF6D52220BB67615D13D" Guid="*">
+                        <File Id="fil505BCAB9E37F1F84653894BCA789E549" KeyPath="yes" Source="$(var.SourceDir)\ug-CN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp6DC08DC84D3F3FB6DA9096E08483E6A9" Guid="*">
+                        <File Id="filA4B6BF6C0EDF9BD93B2354CC991B6D1F" KeyPath="yes" Source="$(var.SourceDir)\ug-CN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir94EC12C85DBC043E02103288A5CEA08F" Name="uk">
+                    <Component Id="cmpBFBE9986966023AD9E4EA29195EA66E6" Guid="*">
+                        <File Id="fil3869B82B19FF6496BD3AA5EA5C2B5400" KeyPath="yes" Source="$(var.SourceDir)\uk\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir4B9987D30057DA197CD4ADA2E1B1C4C1" Name="uk-UA">
+                    <Component Id="cmp18EB3A766F25A71FFA90A08403042320" Guid="*">
+                        <File Id="fil2E4D07824919B4CD9131E8A01D950C98" KeyPath="yes" Source="$(var.SourceDir)\uk-UA\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp81F1618C1A147E7B4222CE4C22C1D35D" Guid="*">
+                        <File Id="fil293CABD2D1D07C052FDC399A0FF67FB4" KeyPath="yes" Source="$(var.SourceDir)\uk-UA\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir065AEFEF776CE7F0370CBF8686E0EA1C" Name="ur-PK">
+                    <Component Id="cmpB65FEC0E5DDA7FEE11F879EBA0FDDD61" Guid="*">
+                        <File Id="fil83B335B3C5DB22DC96B839C5006E7F10" KeyPath="yes" Source="$(var.SourceDir)\ur-PK\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpE0260DEE255B05CB4B490235CB8B99AF" Guid="*">
+                        <File Id="fil2CE2C7802F7C3088981E6DA397F7BC27" KeyPath="yes" Source="$(var.SourceDir)\ur-PK\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir7611604BF0F78AB72370916B01DCF863" Name="uz-Latn-UZ">
+                    <Component Id="cmpD89E4A897BCA84A2D1F6B5622CDB0FC4" Guid="*">
+                        <File Id="fil5D4CF2C52B0BE5456782F51CBBF6AD86" KeyPath="yes" Source="$(var.SourceDir)\uz-Latn-UZ\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmp77BB9039E42C03EDD996B9170718F8C4" Guid="*">
+                        <File Id="fil4CB2F108B84F609B81004508A0265C4C" KeyPath="yes" Source="$(var.SourceDir)\uz-Latn-UZ\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirBD315FEF346E8B072B90A0FFD3A53EB7" Name="vi">
+                    <Component Id="cmp1F1E3C95908CF05E1CB48318BA60DC86" Guid="*">
+                        <File Id="fil3E12F0CB65AD39013600FC4D24C34A08" KeyPath="yes" Source="$(var.SourceDir)\vi\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir023E1EF0F8D410BC83DB8AF9543AB7CF" Name="vi-VN">
+                    <Component Id="cmp7F401D439D2F089D00A1BAF03138ACAE" Guid="*">
+                        <File Id="filEDACF324EB7B97FEEA78CB2258837FC8" KeyPath="yes" Source="$(var.SourceDir)\vi-VN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpA0F634A07FFEAC936B286F2A338DA00F" Guid="*">
+                        <File Id="filBB93ED542E5445BC8F9C54AE79A1F5A5" KeyPath="yes" Source="$(var.SourceDir)\vi-VN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirA572861E60F333E953116A95CE852217" Name="zh-CN">
+                    <Component Id="cmp827F123B267384DA3C58CE50FF2DFE78" Guid="*">
+                        <File Id="fil92A17B82B5CDCD201CA83975B5B6689C" KeyPath="yes" Source="$(var.SourceDir)\zh-CN\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpC6DB60DBE2668D757E40557737C13809" Guid="*">
+                        <File Id="fil086FE0E4452EBC2C051833400D66AAB1" KeyPath="yes" Source="$(var.SourceDir)\zh-CN\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirF2E5E50731591A9EF701872285EB45BC" Name="zh-Hans">
+                    <Component Id="cmpC570156854D1DFC54275FCF982ABDDCA" Guid="*">
+                        <File Id="filBA8C512E0B67371549C065478ECA7936" KeyPath="yes" Source="$(var.SourceDir)\zh-Hans\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirB6EB1B5E9DC9F0DDF8B11E0CB319511A" Name="zh-Hant">
+                    <Component Id="cmp358E74748C979F3EF9E1624A5C0A8885" Guid="*">
+                        <File Id="fil9D0954236AD64D1E0AAAFAE4EDBD1E7B" KeyPath="yes" Source="$(var.SourceDir)\zh-Hant\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir554D7CAC964EECCA43B58DD8C9FBE05E" Name="zh-HK">
+                    <Component Id="cmp7A82B13AF3F9C53E03F2B28C0BAED42B" Guid="*">
+                        <File Id="filA5288B7BCE9DC9FB3DF7FEAF66F8E98B" KeyPath="yes" Source="$(var.SourceDir)\zh-HK\Microsoft.Maui.Controls.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir9E6BBCA18F3C7F3AEA8673AE85B29779" Name="zh-TW">
+                    <Component Id="cmp588A9C0C093E7B64D19E7DF47306EE3B" Guid="*">
+                        <File Id="fil3F94360DA6CA9090282C60B971A833AB" KeyPath="yes" Source="$(var.SourceDir)\zh-TW\Microsoft.ui.xaml.dll.mui" />
+                    </Component>
+                    <Component Id="cmpAADE9B7F9C72AE0DD87DFCA0D5033CE7" Guid="*">
+                        <File Id="fil246E069C9C6AF47D16EC707F59DAE094" KeyPath="yes" Source="$(var.SourceDir)\zh-TW\Microsoft.UI.Xaml.Phone.dll.mui" />
+                    </Component>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ApplicationFiles">
+            <ComponentRef Id="cmp869BAFB5ECAA329D9D573ECF4B61BD56" />
+            <ComponentRef Id="cmp0F817537442B71873425DE81D2EEC899" />
+            <ComponentRef Id="cmp30255E8B6FAE15D152D9001367BCD45D" />
+            <ComponentRef Id="cmp5E7DC5C3A6B557F79C9C7BAC0D9CDC52" />
+            <ComponentRef Id="cmp63AAB1E32F0A88D0FB6880270A813BEF" />
+            <ComponentRef Id="cmp4C078DE22248898B3E744AF8699F9164" />
+            <ComponentRef Id="cmpF849D2655F7DDE72E63C853450D8809F" />
+            <ComponentRef Id="cmpDCDCA5B60503A086217B2CB79756FEAC" />
+            <ComponentRef Id="cmp05D68CFDF45EA6B57BB71D021D1A4D52" />
+            <ComponentRef Id="cmpB77D8FE9CE80EE71DAAD7A6C0F74414F" />
+            <ComponentRef Id="cmpF518D5D3D736C4859C535B01E197ECBA" />
+            <ComponentRef Id="cmp262537C136C26033FBA2C19CC2B064BA" />
+            <ComponentRef Id="cmp664958F34D3A11839E8620CEEEDA3FD9" />
+            <ComponentRef Id="cmp6C550D717581CE27C122323260A8F468" />
+            <ComponentRef Id="cmpB561726990524924DF8BC73C9B8C3933" />
+            <ComponentRef Id="cmp396DE5B3D2D0B98DF28AE83EED57BA35" />
+            <ComponentRef Id="cmpC844B217ACEB229773D536E362F8C867" />
+            <ComponentRef Id="cmp6FCB79E0BF8E208B262FDE88B84CAD27" />
+            <ComponentRef Id="cmp934B36BB6847F699496B41ADE2B8A6BE" />
+            <ComponentRef Id="cmp4C7C72A2B254EA3611981B8F20E1801D" />
+            <ComponentRef Id="cmp76AEDA29CB9F1E34A8B64526A9E08599" />
+            <ComponentRef Id="cmpE995E0F5813B1A362D725F09CB314819" />
+            <ComponentRef Id="cmp9D041F9ED7EC6266174B5F0C88A6CEB9" />
+            <ComponentRef Id="cmp7162EAD1FD5FCD57FB68DAEFEC5E41F2" />
+            <ComponentRef Id="cmpF26A4B915BA1051BAABF24F760A385BC" />
+            <ComponentRef Id="cmpBB0C3C0964D481D82206B5744838A2D4" />
+            <ComponentRef Id="cmp3AAE3354E93EC1735DA3CF3697D64E77" />
+            <ComponentRef Id="cmp80D1075C3B4A99DB0CF3EA2DF723F4F2" />
+            <ComponentRef Id="cmp383D25F17DE1EB6D09C4564081A3B8B3" />
+            <ComponentRef Id="cmp0A0BF64BEA72AA959116C8DAD7142019" />
+            <ComponentRef Id="cmp5874A56CD254DF2C24AE85B7B8C96975" />
+            <ComponentRef Id="cmp2F852A0CA9D70B3B89BA8E7623094C19" />
+            <ComponentRef Id="cmpEB158AC745ADADF13F2A3CCF5E5721AE" />
+            <ComponentRef Id="cmp0EB636A5E441EF950D0B923C38219181" />
+            <ComponentRef Id="cmp08314B7F9AA7FCA5963D86F13202C018" />
+            <ComponentRef Id="cmpBD5C1E33430E202922CA10C9DB32431B" />
+            <ComponentRef Id="cmp3B95764AC7AADE666EF4F6981E9F0475" />
+            <ComponentRef Id="cmp2868FC28BDCD255CD62FDC35216EB873" />
+            <ComponentRef Id="cmp87D14B4470657E31411A7DDBCF4B4613" />
+            <ComponentRef Id="cmpE6EE9477F4DA70C3CDE7B182656B5EF7" />
+            <ComponentRef Id="cmp3C6EAE4E7DE47AA3F55FAAF814F6849E" />
+            <ComponentRef Id="cmpA744404C15F27A0513880183B43BCAA4" />
+            <ComponentRef Id="cmpE54171300DC53D9695FE3DA83FEE2303" />
+            <ComponentRef Id="cmpFE134ADFF672099AB507A370DC32C22A" />
+            <ComponentRef Id="cmpE7267C7DDB56460B9E04A538AE85FBE9" />
+            <ComponentRef Id="cmp79D743893BBA96903DEDC0ED2D7FFA7D" />
+            <ComponentRef Id="cmp02A8A505A4D8C95C15F933F12FD27CE8" />
+            <ComponentRef Id="cmpDB4FBDCEF7670D6ECC61ABA90A8FAD94" />
+            <ComponentRef Id="cmp2D7EA9E965D5619D3234E4D1B106F87E" />
+            <ComponentRef Id="cmpBA4F38DFD54883C5997C5E96A80DB623" />
+            <ComponentRef Id="cmpACE56351A74644A51BD797718E66F454" />
+            <ComponentRef Id="cmp99E968270B0C1928F8DD469148116DF8" />
+            <ComponentRef Id="cmp0018BAF24084A1D2255F52759D25A4AC" />
+            <ComponentRef Id="cmpCA8EA219AB80DA48AC1610E1DC8596D6" />
+            <ComponentRef Id="cmp518B815C045E01C3DD79AC14D832A99F" />
+            <ComponentRef Id="cmpB9723E1A243B563188BF5E25F29C56E0" />
+            <ComponentRef Id="cmp180AF5E1823ACAB5748AB153B65AC23C" />
+            <ComponentRef Id="cmp3A5C5733DE0CBEAA44F0BE493C971F4C" />
+            <ComponentRef Id="cmpF2DD9248F86940A086DAEB6BDB5C987A" />
+            <ComponentRef Id="cmp5DAC6FA0EDD0B2E6E475CCE1E1CCA906" />
+            <ComponentRef Id="cmpDC8468C8452CC6E09CDAB7555668E3C1" />
+            <ComponentRef Id="cmp6A110EE8DFDC5EFCD37ECFE0302BECF5" />
+            <ComponentRef Id="cmpD15700F631918A296BCBEEBE1FE20C04" />
+            <ComponentRef Id="cmp3483B9E825B553801ADC62945A3FC53F" />
+            <ComponentRef Id="cmpD35B5BB0BCFE3D561D3FF3FEA4F9693A" />
+            <ComponentRef Id="cmp9B9BA5E39708633DD32D08D74AC06921" />
+            <ComponentRef Id="cmp6156AEEB5C3043606829C097419D7858" />
+            <ComponentRef Id="cmpCBBC6340EBB8548104A2FA640D39BE77" />
+            <ComponentRef Id="cmp020BAFC1933350F65CF27D50BD58CBD1" />
+            <ComponentRef Id="cmp8C665AA390B1CF67F0DBA1CCAF438B32" />
+            <ComponentRef Id="cmpE50E7843C9F54F334F7717397A93D40D" />
+            <ComponentRef Id="cmpCA6B1A856966376CF5335067826849AF" />
+            <ComponentRef Id="cmp72A213B94ADD7DEB063FE6FBAB350801" />
+            <ComponentRef Id="cmp246B8EBE8F471DCA0C3D07BE63AC76BB" />
+            <ComponentRef Id="cmp15B19B9157A9B9692CBF018BEF0818C8" />
+            <ComponentRef Id="cmp5741A1F91F5196FD9D7584CED7BFEAFA" />
+            <ComponentRef Id="cmpD4AA0F71677A16ED7F9A6ABC604A5C29" />
+            <ComponentRef Id="cmpDCD26F67B6684EF641671E659BEFFCF0" />
+            <ComponentRef Id="cmp989DA3387FD5AF8A1A41089006633031" />
+            <ComponentRef Id="cmpD9BF3DB72BD580193463A272F06CC8CF" />
+            <ComponentRef Id="cmp090EF91A47D4D53488AA9B50EF262511" />
+            <ComponentRef Id="cmp75244918CE810D265F30AFAAF9C26141" />
+            <ComponentRef Id="cmp1F8ADF1BEC29656C7FC00F7BEDDB9E2E" />
+            <ComponentRef Id="cmp7DC8EE4036376774DBE43F6FD6169C42" />
+            <ComponentRef Id="cmpB5BE034ACAE303FF23BF195F211CB579" />
+            <ComponentRef Id="cmp690595C67FB63874F91644917B03814C" />
+            <ComponentRef Id="cmp93E3284F792AEE3C1C6390815838AD18" />
+            <ComponentRef Id="cmpBA53E630873B6297E6D086C100B85468" />
+            <ComponentRef Id="cmp41BBB66B3D871BA7F8971DE1DCFBE2B2" />
+            <ComponentRef Id="cmp4041290BC4DB10437410EB01B3A81785" />
+            <ComponentRef Id="cmpA1C14DD51F8F8EA894CB893E3D20D666" />
+            <ComponentRef Id="cmp35AEFCA40E43152D0AB16B583833D16A" />
+            <ComponentRef Id="cmpAACF7F1EB44B6449878675FD827A6551" />
+            <ComponentRef Id="cmp111447844A1620F1708B67081280B9B9" />
+            <ComponentRef Id="cmpB10A630C95D15F0B01E6030EA2D46A81" />
+            <ComponentRef Id="cmpB502070A4833004B760D3A468E8FFD6B" />
+            <ComponentRef Id="cmpCCBA66ACBF36852AC4C53C758C5B25CB" />
+            <ComponentRef Id="cmp458E6F89FDEE862F5CB5513992FB0045" />
+            <ComponentRef Id="cmpB1472B48E7C853D46A3D77A88EB4D401" />
+            <ComponentRef Id="cmpA2BE067982C36F88E08BADB6196B46C6" />
+            <ComponentRef Id="cmp37D03B45C6F3D4FF1CBB90CA01BD02DB" />
+            <ComponentRef Id="cmp86D72E3FEAFF797FA050152CBD2AC82C" />
+            <ComponentRef Id="cmpA5B8811FC90EA2A753A8AD6A4DC632A1" />
+            <ComponentRef Id="cmpE101036A4D14ABD64515B186648CB44C" />
+            <ComponentRef Id="cmpCE728A3DDF932BFCBEFB2F8673EE4439" />
+            <ComponentRef Id="cmp9312D70467358029765A1FFEEC3E9E1E" />
+            <ComponentRef Id="cmp9CCD29F716D3F9C00B001B1C130CC49F" />
+            <ComponentRef Id="cmpBF7B2C37BE7C8BEEE351D41E05CEEC23" />
+            <ComponentRef Id="cmp78A59E093586B2C0150167C4E5076B08" />
+            <ComponentRef Id="cmp804526057D2F246487CFBB9D53D5B602" />
+            <ComponentRef Id="cmp9ACD9AF09E7E19F6B97D38229A69D8C9" />
+            <ComponentRef Id="cmpBBBA50F6F9AE2C0F9B9FFA57C0DC4EC0" />
+            <ComponentRef Id="cmpADB2C23345591AB7C60CBF2308768C15" />
+            <ComponentRef Id="cmp094F1744E2A82C12D5A88C0E42C63B47" />
+            <ComponentRef Id="cmp710DD9CA20CEE34E23C7D48BB53F414D" />
+            <ComponentRef Id="cmp0D85493FC09A1AEB59B2AB2D4D47DE12" />
+            <ComponentRef Id="cmpFDD4274F8C9CB78A0C9734CA8B461797" />
+            <ComponentRef Id="cmp8D737BFECAB6E13F5FC9FDDD178A2AF9" />
+            <ComponentRef Id="cmpF6F770615CBF6DFD1F8365994F076D08" />
+            <ComponentRef Id="cmp8DE5C52DCDD498617E2B58952827101C" />
+            <ComponentRef Id="cmp5EC9E2CEDCD99398115DCE1C9AC3BA69" />
+            <ComponentRef Id="cmp1063204FBB406C59F14BF1747AA3478D" />
+            <ComponentRef Id="cmpA10899CC2677763AFBCCB681FCD619E9" />
+            <ComponentRef Id="cmp6F7AC051EB22E7000CF434106B763D06" />
+            <ComponentRef Id="cmp8EFAAE1D5699B861AB05094B20152828" />
+            <ComponentRef Id="cmp80CE98EAA2E1B7AD77430FD389D35127" />
+            <ComponentRef Id="cmpBB67FDFFC557C66ED54BB126E3067CDB" />
+            <ComponentRef Id="cmp34F560304297BA0DC15D54931C312848" />
+            <ComponentRef Id="cmpA7921BBF6E4AEC503840C490DA790961" />
+            <ComponentRef Id="cmp4F53C2C1842FA53462C0319F655B8242" />
+            <ComponentRef Id="cmpDB054BA8A1FE48ABA26064699ADE43CD" />
+            <ComponentRef Id="cmp224CFD11F2C03DBFF34481677C421D30" />
+            <ComponentRef Id="cmp3550AA9EC130C32AD44A2A138E7A91FC" />
+            <ComponentRef Id="cmpC82402B463757E1A1AA8B49E4BDD8600" />
+            <ComponentRef Id="cmp4E802FCFC9F2ABA154B864AEC1903CCF" />
+            <ComponentRef Id="cmp07F863EFE15C197347E840D24F67CBC2" />
+            <ComponentRef Id="cmp1EFE344C47E2BDE6D73A59C4A0CAFE68" />
+            <ComponentRef Id="cmp17DEFB93F39FB375676C6358F44A2F5E" />
+            <ComponentRef Id="cmp3A5646897E9B72995B083B7086CD5472" />
+            <ComponentRef Id="cmp2FB3CF87D345970960439DB870A92C0C" />
+            <ComponentRef Id="cmp2A2ED62C1704EEACAA42CEE92B17CC88" />
+            <ComponentRef Id="cmp1BC6187E075AE6EB2DD49AFBEBB686EF" />
+            <ComponentRef Id="cmp1C6324F66BAF07A178CBFFC7833649D9" />
+            <ComponentRef Id="cmp16A6EC5E796674810B64BEBC3D9C1319" />
+            <ComponentRef Id="cmpAB3FE63F3A7E6219BF87AA698D2019C0" />
+            <ComponentRef Id="cmpC858073749D27AD35FE50952740B1DAE" />
+            <ComponentRef Id="cmpBFED891167C2131AF031FA7F6F76576E" />
+            <ComponentRef Id="cmpE41489D2BD7D710FBCC19A3E36F40A6A" />
+            <ComponentRef Id="cmpF3FBDF2A6CBADE824C2FDDAB9A68F259" />
+            <ComponentRef Id="cmp5663277229E9F078BF2F3C179F8F87F3" />
+            <ComponentRef Id="cmp47B55D3443441A77CD9FEECC0257E3FE" />
+            <ComponentRef Id="cmpF5CA8520CA07875771F0FE1EE8208DD4" />
+            <ComponentRef Id="cmp0BF0FCA02A2D8ACD4F1A6D781C777A1C" />
+            <ComponentRef Id="cmpA3CA7FD7349874AF495755E57955B1C9" />
+            <ComponentRef Id="cmpC4808787DBCDE4E5EB167244F81241CD" />
+            <ComponentRef Id="cmpB41BF4753B09E5B658C2D130E8053E81" />
+            <ComponentRef Id="cmpF2DB2AF8C8557894C230F6886FE5B015" />
+            <ComponentRef Id="cmpA6E426143BB8E83B7E319707A1B00084" />
+            <ComponentRef Id="cmp9F0410A8E1B4F52EB92F4B87D8616548" />
+            <ComponentRef Id="cmp56591B49DEAEFB67A99C4D09D78368F2" />
+            <ComponentRef Id="cmpE7F96070B3D41C0E1D44F27B97F0418B" />
+            <ComponentRef Id="cmp68DBE53383254CC3B03448E8AE3435CE" />
+            <ComponentRef Id="cmpCC5EE096061C46B79DC913A694F2F89C" />
+            <ComponentRef Id="cmp22CB2C0B34C5839860000A2AA4193D4A" />
+            <ComponentRef Id="cmpC5B73AC4B04CF97CBE4C771D1AC0FC81" />
+            <ComponentRef Id="cmpCC800DCDA763FF8B0C781C67328E743E" />
+            <ComponentRef Id="cmpC18224459E9FB1EB4ABB535A6FC25B4E" />
+            <ComponentRef Id="cmpDD34D82A36C6095D138F682DA17DD0B7" />
+            <ComponentRef Id="cmp005AAC812C2187124334F87E81212FA7" />
+            <ComponentRef Id="cmp891A3B46233AD1612DF5DB08CE579842" />
+            <ComponentRef Id="cmp58B5A25D3AAE9046656EDCA0FAC59011" />
+            <ComponentRef Id="cmpA849681F3ADA188ECB96232ABE8768D5" />
+            <ComponentRef Id="cmp1F89619A818C974AB3DB8C25E9157F94" />
+            <ComponentRef Id="cmpF1D803AC88ED7BF279E0D1C010F0EB7F" />
+            <ComponentRef Id="cmp1CC8BC029554A7E14CCED48C80CDC20D" />
+            <ComponentRef Id="cmp8B918142A82FECF84652B58C419819A6" />
+            <ComponentRef Id="cmp685FC9D4F323268B337D2FCFD18E740C" />
+            <ComponentRef Id="cmpA06E07BEE3C2B0A15E1DF4F6229A4F9B" />
+            <ComponentRef Id="cmpF4AAADEA7D0D810E10368118E1B8F7B4" />
+            <ComponentRef Id="cmp6646504CD937817E6AD61B33AA46EA22" />
+            <ComponentRef Id="cmp13D7D9AC18B5E2F98009C0C4BDBB5A5A" />
+            <ComponentRef Id="cmp23BE16514B1DF64A79AC776953E2C6F2" />
+            <ComponentRef Id="cmpE03A8AC674149DE9F9DB128B7E802EB8" />
+            <ComponentRef Id="cmpC6066715EE467BC1161A1132869FD274" />
+            <ComponentRef Id="cmp804B2B030F332C7BBC7C47A108078BDE" />
+            <ComponentRef Id="cmpCEE5D073BE0F0A4BEE4A096A31A9852D" />
+            <ComponentRef Id="cmp434D236B4703418DD60657B22FD15531" />
+            <ComponentRef Id="cmp40717B38DA4948385D585AA913B3F14A" />
+            <ComponentRef Id="cmp555863D0087FD2C3AED9AB867863A77C" />
+            <ComponentRef Id="cmp3F1964946154FCACBA4E3D782170783E" />
+            <ComponentRef Id="cmp8C8E5EDB919B582AE88126049D1491ED" />
+            <ComponentRef Id="cmp17A86CEEB4D6F64B1B4A5964CD33B1D5" />
+            <ComponentRef Id="cmp7DBA8591DFBFB361FFD076B3D3C63F78" />
+            <ComponentRef Id="cmp0FCB51347D13F1D01B89402F1AE7309D" />
+            <ComponentRef Id="cmpCB4D26D6DD0FBA35BA13BA95FBFEA582" />
+            <ComponentRef Id="cmp15597B31849D5904C36804AE895B554A" />
+            <ComponentRef Id="cmp2F2221658541B83889D5686E31B5D7F8" />
+            <ComponentRef Id="cmp95B256E9AD8742A17FB639A5C2115B50" />
+            <ComponentRef Id="cmp3802A7124CC63096961C5348E25BEA73" />
+            <ComponentRef Id="cmpA56521C069891D24FA92DCBD9C113135" />
+            <ComponentRef Id="cmp85B65B124384B3616A33783A774C56FD" />
+            <ComponentRef Id="cmp23CBA86245F87E52DA79F5C3EF9A6528" />
+            <ComponentRef Id="cmpD65A039D5E9D0B1F83DE7A858FE5D190" />
+            <ComponentRef Id="cmp6F833C0E6A1FFA85E72550D9D08C2979" />
+            <ComponentRef Id="cmpF823AF0F87CE076A31645CCEE701CC5E" />
+            <ComponentRef Id="cmpBE8C34AA584E864004F859138787DCF7" />
+            <ComponentRef Id="cmp1B503FDA4A7721E87E59F76A82046A4C" />
+            <ComponentRef Id="cmp51E2A6922AE5EC3CFABD2E58CE075297" />
+            <ComponentRef Id="cmp0C9D97FC9D9C098B4BCEBF5789EB5168" />
+            <ComponentRef Id="cmp0F00F52D7AC0BF7C6AC91D903352CA62" />
+            <ComponentRef Id="cmp68FCAA70DB07114070A3C244CF04D776" />
+            <ComponentRef Id="cmpEC110459B5C0CC16E0B7A184CE2C149D" />
+            <ComponentRef Id="cmp26F1C2310F87C9B949A156312CF412CA" />
+            <ComponentRef Id="cmp457DD821B5C3651BC021BA431D0C3D13" />
+            <ComponentRef Id="cmp3EDA4080E03E108AD498741879FD644C" />
+            <ComponentRef Id="cmp278B09BD9463119BDD708C6BF0589346" />
+            <ComponentRef Id="cmpA9326A1AB81B480DC89615AA30C60536" />
+            <ComponentRef Id="cmp6A03CB5AADB13A90F3B73ACA6C843FF2" />
+            <ComponentRef Id="cmp775E633E33536D43B8E24E32A82FEA85" />
+            <ComponentRef Id="cmp173EE59C031373C9296A92D57BDB91FA" />
+            <ComponentRef Id="cmpFCEC7E0703717830F0E246850964399C" />
+            <ComponentRef Id="cmpF416956C15769D3C1485227CE9F1AD1B" />
+            <ComponentRef Id="cmp6E7BDAE9B3739AD1E2120A5BE1775A71" />
+            <ComponentRef Id="cmpE8FB5609ADAB95A448A32531C4E7F785" />
+            <ComponentRef Id="cmpBAD671A6736C5BB7C7A1B9C567DB19D4" />
+            <ComponentRef Id="cmpF784B055B9EE4805FB4EE729E3A68311" />
+            <ComponentRef Id="cmpC7C6DE8F9A7CF38A1C13AFAE70F5DC1B" />
+            <ComponentRef Id="cmpAD72E2280B7F2F67839D191ECACBAD42" />
+            <ComponentRef Id="cmp454F34366B2720FC04CA45A63FA328EB" />
+            <ComponentRef Id="cmp6A5502366B0D870EF0EB3C8A6B524C69" />
+            <ComponentRef Id="cmpD2A5CB9E79872DC37C5F50F27136A8A2" />
+            <ComponentRef Id="cmp0E6979BA08E22BE00C5D0827C27B2C5B" />
+            <ComponentRef Id="cmp0A8B72900F6688E1C791D18373089EC7" />
+            <ComponentRef Id="cmp0A1EBE0CB8B7AF78E2C92ECC323B36D9" />
+            <ComponentRef Id="cmp1669A7D3AAD7053F49CC71AA4F5E2E7F" />
+            <ComponentRef Id="cmp52D07B76CA078C19B63B5C8CEE8FBF74" />
+            <ComponentRef Id="cmp66D2AA5515D3156D1F91EB74F8A1A23A" />
+            <ComponentRef Id="cmpCB0C987C0A0D9A97135D5B30E2D223AD" />
+            <ComponentRef Id="cmpDFB30ED3D45446E798F627C3B50DE21E" />
+            <ComponentRef Id="cmpEA1E758331F346E18347714E9A77F69C" />
+            <ComponentRef Id="cmpF4FBAE7C788AE6867425281F1B560EEB" />
+            <ComponentRef Id="cmp556419172B05A0BC3C92FEE94CE7049B" />
+            <ComponentRef Id="cmp3D0227744710B85161991B900E32BD58" />
+            <ComponentRef Id="cmp5F5D41892B690690CBEC2F0469A33B90" />
+            <ComponentRef Id="cmpE87842081EBB0E99D63482481C19DEBD" />
+            <ComponentRef Id="cmp1E87BAE6EF5C903E9DBD2EF4A28DB252" />
+            <ComponentRef Id="cmp993EBCE0489E4B2C989B107C520FE9E2" />
+            <ComponentRef Id="cmpEBAECAE0472B0A7FCD3CAC99DE0888EE" />
+            <ComponentRef Id="cmpE05FE7DE17207431EEE5DE1A247AACE7" />
+            <ComponentRef Id="cmpE42B2CF394186EA49465CD4A3F773334" />
+            <ComponentRef Id="cmp054A5940DF7C49BBE35AB01A80EEB819" />
+            <ComponentRef Id="cmp75B1C52171F27EF3EC3736D3684C3308" />
+            <ComponentRef Id="cmp251DBA63CDF36497AB57D6A81465F032" />
+            <ComponentRef Id="cmp8EB7D9B2B46D5725DBD69B4581DAD00B" />
+            <ComponentRef Id="cmpA0979205A89E7A92EF446D479F4D404D" />
+            <ComponentRef Id="cmp7D408761914807896C2887740297C268" />
+            <ComponentRef Id="cmp88146C5CCA01D88ED52A2428000CD0AC" />
+            <ComponentRef Id="cmp49674CD94465BC553C1D85FE3403BBE1" />
+            <ComponentRef Id="cmp5A03BA1F2A8165A0B81704DDDA8130C3" />
+            <ComponentRef Id="cmpEF7AE5D0490800693C00A23810FD6E93" />
+            <ComponentRef Id="cmp0BE3EE25321AD3D55A78FF9E59A6DB13" />
+            <ComponentRef Id="cmp5493F94C5EB00C250CBBBEBFF36EB279" />
+            <ComponentRef Id="cmp49734A59DAF9E6AEF3A5841690EB6F50" />
+            <ComponentRef Id="cmpF9CC277B06953150350D6A1C8821D011" />
+            <ComponentRef Id="cmp7292C1868EAB391670AA2E42E20389F7" />
+            <ComponentRef Id="cmp6E5EDB8F300B878E0C2A8130B250C136" />
+            <ComponentRef Id="cmp0AAD7C318F3D6A24629B0DD813F576B1" />
+            <ComponentRef Id="cmp2B3E4A661E2D2CF9C58C2266C5642ADB" />
+            <ComponentRef Id="cmp0D2C5C57CDAF8E8675889537CBD45813" />
+            <ComponentRef Id="cmp0ADF6CE6350AC4841A9BC1DCCD632621" />
+            <ComponentRef Id="cmpB84002BEC944A2ABDE093F220CE668C1" />
+            <ComponentRef Id="cmp4261BE83EF4D83648B1DB12E639A9219" />
+            <ComponentRef Id="cmpB9D09D5E9849BCFA25799E60F288B15E" />
+            <ComponentRef Id="cmp1957ECAC1289EDC4995C3877F1A7CD52" />
+            <ComponentRef Id="cmp7447D70AEC55F6F4859E5EE56264CF09" />
+            <ComponentRef Id="cmp17628A75C35D35A7DBAFFCFA1C904AFD" />
+            <ComponentRef Id="cmp4E235D04C999EE97C26E6B383C80EEE5" />
+            <ComponentRef Id="cmpB32B2F0C2C9A70BC0C78444474D08E3D" />
+            <ComponentRef Id="cmpFA44513D4644659550FBE60E038FD1F0" />
+            <ComponentRef Id="cmpF023299083895E960E8A418AE11F31BA" />
+            <ComponentRef Id="cmp161617D39D003D243BB8B898C65BE30F" />
+            <ComponentRef Id="cmp7D1F753B0F1D5DC378665E37049FDC52" />
+            <ComponentRef Id="cmp792727A05721DA0DBB1F8A80CA899990" />
+            <ComponentRef Id="cmp87AD88D61B554CCD247B048064077EEB" />
+            <ComponentRef Id="cmp7A979FADD7B4BA67F0889D6D91316308" />
+            <ComponentRef Id="cmp673C36B6D7DB96C7B538DCE43E9CFCB1" />
+            <ComponentRef Id="cmpBDD98919F97E8431BEA620704AC67A63" />
+            <ComponentRef Id="cmp828B336A66938BD486D2B162EB36427C" />
+            <ComponentRef Id="cmp0F527380F7ECE71AA888C7D0C091A312" />
+            <ComponentRef Id="cmpB2844373BDA081FA244F884BEB72FF1C" />
+            <ComponentRef Id="cmpC3E835B7B980FDE8984D2B0E7CCDA0AA" />
+            <ComponentRef Id="cmp3134B84F329EED5899AB45BFCE209625" />
+            <ComponentRef Id="cmpE9458A072AFE7ABC9C2A3DBB01A8D8EA" />
+            <ComponentRef Id="cmp94E42A7823ABBE6E502ABCB3127759CE" />
+            <ComponentRef Id="cmp12A33C02BC7A2726A559C7A3AB472711" />
+            <ComponentRef Id="cmp79DE10A1E1E5A13AAB7C904249C1BD73" />
+            <ComponentRef Id="cmpFC43C2E6B95C1C35C6D89830BF3A2649" />
+            <ComponentRef Id="cmpEB9A48F37F7817A0066E9CDE015D6575" />
+            <ComponentRef Id="cmp378BF9A7C3D0AB93404BEFA58E0C774C" />
+            <ComponentRef Id="cmp0E54C58DE902F663F24920CDFA2C8C04" />
+            <ComponentRef Id="cmp4A103FF2C3DF4F7D380B3F4CE7CD329B" />
+            <ComponentRef Id="cmp06841D66C2A152BFF0769B03FC96EE4D" />
+            <ComponentRef Id="cmp9FDC8981D153EE1922F96A34A8E7CA1E" />
+            <ComponentRef Id="cmp3CA2056CCB0E266771C7CF3361EB9B16" />
+            <ComponentRef Id="cmpEF9EF3826B76F677BE818F76018801F6" />
+            <ComponentRef Id="cmpFC087B543CEC4CBEA3DC126A867578B1" />
+            <ComponentRef Id="cmp073B7DD4D56CE54F961F9137DE16C6DA" />
+            <ComponentRef Id="cmpE2382FD237605B8EC2763C65EC2A0CC2" />
+            <ComponentRef Id="cmp7F6BD2CB28F16AD3F570DF0A666A9D04" />
+            <ComponentRef Id="cmpD3AEAAB6EAE6485B053843CB14B81FAA" />
+            <ComponentRef Id="cmpCB6DD45BAC336396C384EDC0EE9F385A" />
+            <ComponentRef Id="cmpC72AB245F503F4B6A86B212B53D8D659" />
+            <ComponentRef Id="cmp7C1B8A6E022CFEEC4260BF84DF2D7FFF" />
+            <ComponentRef Id="cmp10E84B09BF548F907050F30277049887" />
+            <ComponentRef Id="cmpCEBD2BEF3EBAE10389FC8D471F35D2A4" />
+            <ComponentRef Id="cmp45FF8BADCEE6566B7C5A44893201F463" />
+            <ComponentRef Id="cmpF206686A9157710F210BA07BAEF27D54" />
+            <ComponentRef Id="cmp29F0CD762C98287C71D9B42B8DFB2AC7" />
+            <ComponentRef Id="cmp417AF69464728A46F3E926255449A7B2" />
+            <ComponentRef Id="cmp77974E3EAC76CB5762ED19FAF783F0D7" />
+            <ComponentRef Id="cmpCA0999B333ACB7C907D28DD38121E767" />
+            <ComponentRef Id="cmpC7F35531371610410F6A6084F21E188E" />
+            <ComponentRef Id="cmp9902FBD544BBEF47896BD58623073166" />
+            <ComponentRef Id="cmp67AD3D63BB28FE7E361CCA6B39D35ED4" />
+            <ComponentRef Id="cmp86D1B657CFEDE5A8B9B7BA94C5CAA385" />
+            <ComponentRef Id="cmp077773B2F12F8F30DA33DFC29D2A34B1" />
+            <ComponentRef Id="cmp77CBEDEAE0268E306686900F91BEC8AB" />
+            <ComponentRef Id="cmp5297FFA78597F6473AF8A28755015F7C" />
+            <ComponentRef Id="cmpA3C49A540FCCAF6D52220BB67615D13D" />
+            <ComponentRef Id="cmp6DC08DC84D3F3FB6DA9096E08483E6A9" />
+            <ComponentRef Id="cmpBFBE9986966023AD9E4EA29195EA66E6" />
+            <ComponentRef Id="cmp18EB3A766F25A71FFA90A08403042320" />
+            <ComponentRef Id="cmp81F1618C1A147E7B4222CE4C22C1D35D" />
+            <ComponentRef Id="cmpB65FEC0E5DDA7FEE11F879EBA0FDDD61" />
+            <ComponentRef Id="cmpE0260DEE255B05CB4B490235CB8B99AF" />
+            <ComponentRef Id="cmpD89E4A897BCA84A2D1F6B5622CDB0FC4" />
+            <ComponentRef Id="cmp77BB9039E42C03EDD996B9170718F8C4" />
+            <ComponentRef Id="cmp1F1E3C95908CF05E1CB48318BA60DC86" />
+            <ComponentRef Id="cmp7F401D439D2F089D00A1BAF03138ACAE" />
+            <ComponentRef Id="cmpA0F634A07FFEAC936B286F2A338DA00F" />
+            <ComponentRef Id="cmp827F123B267384DA3C58CE50FF2DFE78" />
+            <ComponentRef Id="cmpC6DB60DBE2668D757E40557737C13809" />
+            <ComponentRef Id="cmpC570156854D1DFC54275FCF982ABDDCA" />
+            <ComponentRef Id="cmp358E74748C979F3EF9E1624A5C0A8885" />
+            <ComponentRef Id="cmp7A82B13AF3F9C53E03F2B28C0BAED42B" />
+            <ComponentRef Id="cmp588A9C0C093E7B64D19E7DF47306EE3B" />
+            <ComponentRef Id="cmpAADE9B7F9C72AE0DD87DFCA0D5033CE7" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>
