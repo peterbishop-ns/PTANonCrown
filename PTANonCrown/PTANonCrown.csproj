@@ -47,8 +47,8 @@
 
 	<!-- Images, icons, splash screen, fonts, and assets -->
 	<ItemGroup>
-		<MauiIcon Include="Resources\AppIcon\pta_icon.svg" ForegroundFile="Resources\AppIcon\pta_icon.svg" Color="#512BD4" />
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128">
+		<MauiIcon Include="Resources\AppIcon\pta_icon.svg" ForegroundFile="Resources\AppIcon\pta_icon.svg" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" BaseSize="128,128">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</MauiSplashScreen>
 		<MauiImage Include="Resources\Images\*" />
