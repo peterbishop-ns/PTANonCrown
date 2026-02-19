@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="PTANonCrownWix" Language="1033" Version="1.0.0.0"
+			 Manufacturer="Dept Natural Resources"
+			 UpgradeCode="1bb81c85-3e7f-491b-9194-3d2dd72784c9">
+
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="PTANonCrownWix" Level="1">
+			<!-- Heat-generated files -->
+			<ComponentGroupRef Id="ApplicationFiles" />
+			<!-- Main executable -->
+			<!-- Start Menu shortcut -->
+			<ComponentRef Id="ApplicationStartMenuShortcut" />
+		</Feature>
+	</Product>
+
+	<!-- Folders & Components -->
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="LocalAppDataFolder">
+				<Directory Id="INSTALLFOLDER" Name="PTANonCrownWix">
+				</Directory>
+			</Directory>
+
+			<!-- Start Menu folder -->
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="PTANonCrownWixStartMenu" Name="PTANonCrownWix" />
+			</Directory>
+		</Directory>
+
+		<!-- Shortcut component -->
+		<DirectoryRef Id="PTANonCrownWixStartMenu">
+			<Component Id="ApplicationStartMenuShortcut" Guid="*">
+				<Shortcut Id="StartMenuShortcut"
+						  Name="PTA Menu Name"
+						  Description="Launch Your Application"
+						  Target="[#fil39F1605A593467AB8C6C4BA3B7271A06]"
+						  WorkingDirectory="INSTALLFOLDER" />
+				<RemoveFolder Id="RemovePTANonCrownWixStartMenu"
+							  Directory="PTANonCrownWixStartMenu"
+							  On="uninstall" />
+				<RegistryValue Root="HKCU"
+							   Key="Software\DNR\PTANonCrown"
+							   Name="StartMenuShortcut"
+							   Value="1"
+							   Type="integer"
+							   KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

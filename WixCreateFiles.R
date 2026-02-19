@@ -1,5 +1,5 @@
 # Set the folder where your MAUI app was published
-publish_folder <- r"(C:\Code\MAUI\PTANonCrown\PTANonCrown\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\publish)"  # replace with your path
+publish_folder <- r"(C:\code\PTANonCrown\PTANonCrown\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64)"  # replace with your path
 
 # Output file (inside the publish folder)
 output_file <- file.path(publish_folder, "PTANonCrownFiles.wxs")

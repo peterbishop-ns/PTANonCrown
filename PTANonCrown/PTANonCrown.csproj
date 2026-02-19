@@ -8,28 +8,20 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<PlatformTarget>x64</PlatformTarget>
-		<Platforms>x64</Platforms>
+		<Platforms>x64;AnyCPU</Platforms>
 		<Platform>x64</Platform>
 		<OutputType>Exe</OutputType>
 		<WindowsPackageType>MSIX</WindowsPackageType>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<GenerateTestArtifacts>True</GenerateTestArtifacts>
-
 		<PackageCertificateThumbprint>A20203586AC6020201B6666F15F8D3110FD894DA</PackageCertificateThumbprint>
-
 		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-
 		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-
 		<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	<!-- 	<UseRidGraph>true</UseRidGraph>-->
 
 	</PropertyGroup>
 
