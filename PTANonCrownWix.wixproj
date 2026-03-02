@@ -9,6 +9,9 @@
     <OutputName>PTANonCrownWix</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
+<PropertyGroup>
+	<SuppressIces>ICE38</SuppressIces>
+</PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
@@ -32,7 +35,7 @@
     <PostBuildEvent />
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>"C:\Program Files (x86)\WiX Toolset v3.14\bin\heat.exe" dir "$(ProjectDir)PTANonCrown\bin\Release\net8.0-windows10.0.19041.0\win-x64" -cg ApplicationFiles -dr INSTALLFOLDER -var var.SourceDir -sreg -scom -sfrag -ke -out "$(ProjectDir)Files.wxs"</PreBuildEvent>
+    <PreBuildEvent>"C:\Program Files (x86)\WiX Toolset v3.14\bin\heat.exe" dir "$(ProjectDir)PTANonCrown\bin\Release\net8.0-windows10.0.19041.0\win-x64" -cg ApplicationFiles -dr INSTALLFOLDER -var var.SourceDir -sreg -scom -sfrag -ag -out "$(ProjectDir)Files.wxs"</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

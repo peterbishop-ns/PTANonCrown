@@ -21,13 +21,15 @@
 		<Chain>
 
 			<!-- Install .NET 8 if missing -->
-			<ExePackage
-				Id="DotNetRuntime"
-				SourceFile="dotnet-runtime-8.0.23-win-x64.exe"
-				DetectCondition="DOTNET8"
-				InstallCommand="/install /quiet /norestart"
-				PerMachine="yes" />
-
+<ExePackage
+    Id="DotNetRuntime"
+    SourceFile="dotnet-runtime-8.0.23-win-x64.exe"
+    DetectCondition="DOTNET8"
+    InstallCommand="/install /quiet /norestart /installuser"
+    RepairCommand="/repair /quiet /norestart /installuser"
+    UninstallCommand="/uninstall /quiet /norestart /installuser"
+    PerMachine="no"
+    Vital="yes" />
 			<!-- Install your MSI -->
 			<MsiPackage
 				SourceFile="..\bin\Release\PTANonCrownWix.msi"
