@@ -7,6 +7,8 @@ using PTANonCrown.Data.Repository;
 using PTANonCrown.Data.Services;
 using PTANonCrown.Services;
 using PTANonCrown.ViewModel;
+using Microsoft.Maui.Platform;
+
 #if WINDOWS
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -95,11 +97,17 @@ namespace PTANonCrown
 #if WINDOWS
                 events.AddWindows(windows =>
                 {
+       
+
                     windows.OnWindowCreated(window =>
                     {
+                      
                         IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
                         WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hwnd);
                         AppWindow appWindow = AppWindow.GetFromWindowId(windowId);
+
+                        appWindow.SetPresenter(AppWindowPresenterKind.Default);
+                        appWindow.Resize(new Windows.Graphics.SizeInt32(1280, 720));
 
                         appWindow.Closing += async (sender, args) =>
                         {

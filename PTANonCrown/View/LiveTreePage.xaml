@@ -112,9 +112,17 @@
 
             <VerticalStackLayout Grid.Column="2"
                                  Grid.Row="1">
-                <Label Text="Species"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center" />
+
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Species"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                    <Label Text="*"
+                           Margin="5,0,5,0"
+                           TextColor="Red" />
+                </HorizontalStackLayout>
+
+
                 <ImageButton Source="info.png"
                              HorizontalOptions="Center"
                              Style="{StaticResource ImageButtonHelperVertical}"
@@ -124,9 +132,17 @@
 
             <VerticalStackLayout Grid.Column="3"
                                  Grid.Row="1">
-                <Label Text="DBH (cm)"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center" />
+                <HorizontalStackLayout>
+                    <Label Text="DBH (cm)"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                    <Label Text="*"
+                           Margin="5,0,5,0"
+                           TextColor="Red" />
+                </HorizontalStackLayout>
+       
+                
+                
                 <ImageButton Source="info.png"
                              HorizontalOptions="Center"
                              Style="{StaticResource ImageButtonHelperVertical}"
@@ -136,9 +152,14 @@
 
             <VerticalStackLayout Grid.Column="4"
                                  Grid.Row="1">
-                <Label Text="Height (m)"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center" />
+                <HorizontalStackLayout>
+                    <Label Text="Height (m)"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                    <Label Text="*"
+                           Margin="5,0,5,0"
+                           TextColor="Red" />
+                </HorizontalStackLayout>
                 <ImageButton Source="info.png"
                              HorizontalOptions="Center"
                              Style="{StaticResource ImageButtonHelperVertical}"

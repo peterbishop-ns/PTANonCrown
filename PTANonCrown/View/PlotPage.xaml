@@ -455,73 +455,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                 <Label Text="Uneven Aged"
                        Style="{StaticResource SubHeadline}" />
                 <Border>
-                    <Grid ColumnDefinitions="250,Auto"
-                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                          RowSpacing="5"
-                          ColumnSpacing="20">
-
-                        <HorizontalStackLayout Grid.Row="0">
-                            <Label Text="Uneven Aged"
-                                   Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="UnevenAged" />
-                        </HorizontalStackLayout>
-
-
-                        <CheckBox Grid.Row="0"
-                                  Grid.Column="1"
-                                  IsChecked="{Binding CurrentPlot.UnevenAged}" />
-
-                        <HorizontalStackLayout Grid.Row="1"
-                                               IsVisible="{Binding CurrentPlot.UnevenAged,
-                                        Converter={StaticResource BoolToVisibilityConverter},
-                            ConverterParameter=collapsed}">
-                            <Label Text="AGS / Patches AGS (m²/ha)"
-                                   Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="AGSPatches" />
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout Grid.Row="2"
-                                               IsVisible="{Binding CurrentPlot.UnevenAged,
-            Converter={StaticResource BoolToVisibilityConverter},
-ConverterParameter=collapsed}">
-                            <Label Text="One Cohort Senescent"
-                                   Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="OneCohortSenescent" />
-                        </HorizontalStackLayout>
-
-
-                        <CheckBox Grid.Row="2"
-                                  Grid.Column="1"
-                                  IsChecked="{Binding CurrentPlot.OneCohortSenescent}"
-                                  IsVisible="{Binding CurrentPlot.UnevenAged,
-            Converter={StaticResource BoolToVisibilityConverter},
-ConverterParameter=collapsed}" />
-
-                        <Entry Grid.Row="1"
-                               Grid.Column="1"
-                               WidthRequest="70"
-                               IsVisible="{Binding CurrentPlot.UnevenAged,
-            Converter={StaticResource BoolToVisibilityConverter},
-ConverterParameter=collapsed}"
-                               HorizontalOptions="CenterAndExpand"
-                               Text="{Binding CurrentPlot.AGSPatches}"
-                               TextChanged="OnlyIntegerAllowed"
-                               Style="{StaticResource EntryParent}" />
-
-
-                    </Grid>
+                   
 
                 </Border>
             </VerticalStackLayout>
@@ -533,7 +467,7 @@ ConverterParameter=collapsed}"
                        Style="{StaticResource SubHeadline}" />
                 <Border>
                         <Grid ColumnDefinitions="250,Auto"
-                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               RowSpacing="5"
                               ColumnSpacing="20">
                             <!--- LEFT HAND SIDE -->
@@ -660,6 +594,70 @@ ConverterParameter=collapsed}"
 
                                 </VerticalStackLayout>
                             </VerticalStackLayout>
+                   
+
+
+                            <HorizontalStackLayout Grid.Row="10">
+                                <Label Text="Uneven Aged"
+                                       Style="{StaticResource LabelSubheading}" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="UnevenAged" />
+                            </HorizontalStackLayout>
+
+
+                            <CheckBox Grid.Row="10"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding CurrentPlot.UnevenAged}" />
+
+                            <HorizontalStackLayout Grid.Row="11"
+                                                   IsVisible="{Binding CurrentPlot.UnevenAged,
+                                        Converter={StaticResource BoolToVisibilityConverter},
+                            ConverterParameter=collapsed}">
+                                <Label Text="AGS / Patches AGS (m²/ha)"
+                                       Style="{StaticResource LabelSubheading}" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="AGSPatches" />
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="12"
+                                                   IsVisible="{Binding CurrentPlot.UnevenAged,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}">
+                                <Label Text="One Cohort Senescent"
+                                       Style="{StaticResource LabelSubheading}" />
+                                <ImageButton Source="info.png"
+                                             Style="{StaticResource ImageButtonHelper}"
+                                             Margin="10,0,0,0"
+                                             Command="{Binding ShowHelperTextCommand}"
+                                             CommandParameter="OneCohortSenescent" />
+                            </HorizontalStackLayout>
+
+
+                            <CheckBox Grid.Row="11"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding CurrentPlot.OneCohortSenescent}"
+                                      IsVisible="{Binding CurrentPlot.UnevenAged,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}" />
+
+                            <Entry Grid.Row="12"
+                                   Grid.Column="1"
+                                   WidthRequest="70"
+                                   IsVisible="{Binding CurrentPlot.UnevenAged,
+            Converter={StaticResource BoolToVisibilityConverter},
+ConverterParameter=collapsed}"
+                                   HorizontalOptions="CenterAndExpand"
+                                   Text="{Binding CurrentPlot.AGSPatches}"
+                                   TextChanged="OnlyIntegerAllowed"
+                                   Style="{StaticResource EntryParent}" />
+
+
                         </Grid>
                     </Border>
             </VerticalStackLayout>
