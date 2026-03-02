@@ -57,7 +57,7 @@
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</MauiImage>
 		<MauiImage Update="Resources\Images\new_icon.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</MauiImage>
 		<MauiFont Include="Resources\Fonts\*" />
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />

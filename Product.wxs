@@ -36,7 +36,7 @@
 		<DirectoryRef Id="PTANonCrownWixStartMenu">
 			<Component Id="ApplicationStartMenuShortcut" Guid="*">
 				<Shortcut Id="StartMenuShortcut"
-						  Name="PTA Menu Name"
+						  Name="Private Land Pre-Treatment Assessment"
 						  Description="Launch Your Application"
 						  Target="[#fil39F1605A593467AB8C6C4BA3B7271A06]"
 						  WorkingDirectory="INSTALLFOLDER" />

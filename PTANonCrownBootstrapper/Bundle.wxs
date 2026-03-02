@@ -15,11 +15,7 @@
 					ShowVersion="yes"/>
 				
 		</BootstrapperApplicationRef>
-
-
-
 		<Chain>
-
 			<!-- Install .NET 8 if missing -->
 <ExePackage
     Id="DotNetRuntime"
@@ -34,7 +30,6 @@
 			<MsiPackage
 				SourceFile="..\bin\Release\PTANonCrownWix.msi"
 				DisplayInternalUI="no" />
-
 		</Chain>
 
 	</Bundle>
