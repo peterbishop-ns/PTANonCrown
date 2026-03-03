@@ -8,16 +8,35 @@
                 Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
     <Style x:Key="HelpButtonStyle" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="CornflowerBlue" />
-        <Setter Property="TextColor" Value="White" />
+
+        <Setter Property="BackgroundColor"
+                Value="LightGray" />
+        <Setter Property="TextColor"
+                Value="#0078D7" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="Margin" Value="2" />
-        <Setter Property="CornerRadius" Value="15" />
+        <Setter Property="FontAttributes" Value="Italic" />
+        <Setter Property="FontFamily"
+                Value="Merriweather" />
+        <Setter Property="Padding"
+                Value="-2" />
         <Setter Property="WidthRequest" Value="30" />
         <Setter Property="HeightRequest" Value="30" />
+        <Setter Property="Margin" 
+                Value="10,0,0,2" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="HelpInfoLabelBelowStyle"
+           TargetType="Label"
+           BasedOn="{StaticResource HelpButtonStyle}">
+        <Setter Property="Margin"
+                Value="0,1,0,0" />
+        <Setter Property="MaximumWidthRequest"
+                Value="30" />
+        <Setter Property="MaximumHeightRequest"
+                Value="30" />
     </Style>
     <Style TargetType="IndicatorView">
         <Setter Property="IndicatorColor"

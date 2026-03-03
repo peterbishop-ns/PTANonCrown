@@ -51,10 +51,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <Button Text="Stand Summary"
                                 Style="{StaticResource ButtonGreen}"
                                 Command="{Binding SetStandOnlyCommand}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandSummary" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="StandSummary" />
                     </HorizontalStackLayout>
 
 
@@ -75,10 +75,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 Style="{StaticResource ButtonGreen}"
                                 Command="{Binding SetPlotSummaryCommand}"
                                 CommandParameter="{Binding CurrentPlot}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="PlotSummary" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="PlotSummary" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout Grid.Column="3"
@@ -86,10 +86,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <Button Text="Export All"
                                 Style="{StaticResource ButtonGreen}"
                                 Command="{Binding PickFolderCommand}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="ExportAll" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="ExportAll" />
                     </HorizontalStackLayout>
 
 

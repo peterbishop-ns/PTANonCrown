@@ -44,11 +44,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <Label Text="Transect Length (m)"
                            Style="{StaticResource LabelPlot}"
                            WidthRequest="150" />
-                    <ImageButton Source="info.png"
-                                 HorizontalOptions="Center"
-                                 Style="{StaticResource ImageButtonHelper}"
-                                 Command="{Binding ShowHelperTextCommand}"
-                                 CommandParameter="CWMTransectLength" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="CWMTransectLength" />
                     <Entry Text="{Binding CurrentPlot.TransectLength}"
                            Keyboard="Numeric"
                            Margin="20,0,0,0"
@@ -59,11 +58,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <Label Text="Transect Direction"
                            Style="{StaticResource LabelPlot}"
                            WidthRequest="150" />
-                    <ImageButton Source="info.png"
-                                 HorizontalOptions="Center"
-                                 Style="{StaticResource ImageButtonHelper}"
-                                 Command="{Binding ShowHelperTextCommand}"
-                                 CommandParameter="CWMTransectDirection" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="CWMTransectDirection" />
                     <Picker WidthRequest="100"
                             Margin="20,0,0,0"
                             ItemsSource="{Binding TransectDirections}"
@@ -73,11 +71,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
             <HorizontalStackLayout>
                 <Label Text="Coarse Woody Material (CWM) Tally"
                        Style="{StaticResource Headline}" />
-                <ImageButton Source="info.png"
-                             HorizontalOptions="Center"
-                             Style="{StaticResource ImageButtonHelper}"
-                             Command="{Binding ShowHelperTextCommand}"
-                             CommandParameter="CWMGeneral" />
+                    <Button Style="{StaticResource HelpButtonStyle}"
+                            Text="i"
+                            Command="{Binding ShowHelperTextCommand}"
+                            CommandParameter="CWMGeneral" />
             </HorizontalStackLayout>
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotCoarseWoody}"
                             BackgroundColor="LightGrey"
@@ -91,11 +88,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                  Grid.Column="0">
                             <Label Text="DBH (cm)"
                                    Style="{StaticResource GridHeader}" />
-                            <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="CWMDBH" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="CWMDBH" />
                         </HorizontalStackLayout>
 
                         <HorizontalStackLayout Grid.Row="0"
@@ -104,11 +100,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                HorizontalOptions="CenterAndExpand">
                             <Label Text="Species Group"
                                    Style="{StaticResource GridHeader}" />
-                            <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="CWMSpeciesGroup" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="CWMSpeciesGroup" />
                         </HorizontalStackLayout>
 
                         <Label Text="Softwood"
@@ -127,11 +122,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                 Grid.Column="4">
                             <Label Text="Cavity"
                                    Style="{StaticResource GridHeader}" />
-                            <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="CWMCavity" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="CWMCavity" />
                         </HorizontalStackLayout>
 
                     </Grid>

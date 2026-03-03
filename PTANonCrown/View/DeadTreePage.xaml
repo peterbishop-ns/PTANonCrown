@@ -42,11 +42,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
             <HorizontalStackLayout>
                 <Label Text="Deadwood Tally"
                        Style="{StaticResource Headline}"></Label>
-                <ImageButton Source="info.png"
-                             HorizontalOptions="Center"
-                             Style="{StaticResource ImageButtonHelper}"
-                             Command="{Binding ShowHelperTextCommand}"
-                             CommandParameter="DeadwoodGeneral" />
+                    <Button Style="{StaticResource HelpButtonStyle}"
+                            Text="i"
+                            Command="{Binding ShowHelperTextCommand}"
+                            CommandParameter="DeadwoodGeneral" />
             </HorizontalStackLayout>
             <CollectionView ItemsSource="{Binding CurrentPlot.PlotTreeDead}"
                             BackgroundColor="LightGrey"
@@ -62,11 +61,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                Grid.RowSpan="2">
                             <Label Text="DBH (cm)"
                                    Style="{StaticResource GridHeader}" />
-                            <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="SnagDBH" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="SnagDBH" />
                         </HorizontalStackLayout>
 
                         <HorizontalStackLayout  Grid.Column="1"
@@ -76,11 +74,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             <Label Text="Species Group"
                                    Style="{StaticResource GridHeader}" />
 
-                            <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="SnagSpecisGroup" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="SnagSpecisGroup" />
 
                         </HorizontalStackLayout>
 
@@ -109,11 +106,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                Grid.RowSpan="2">
                             <Label Text="Cavity"
                                    Style="{StaticResource GridHeader}" />
-                            <ImageButton Source="info.png"
-                                         HorizontalOptions="Center"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="SnagCavity" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="SnagCavity" />
                         </HorizontalStackLayout>
 
                     </Grid>

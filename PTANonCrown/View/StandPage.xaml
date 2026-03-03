@@ -39,10 +39,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <HorizontalStackLayout>
                         <Label Text="Select Stand"
                                Style="{StaticResource LabelStand}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandNumber" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="StandNumber" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Spacing="20">
                         <Picker ItemsSource="{Binding AllStands, Mode=TwoWay}"
@@ -95,10 +95,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <Label Text="*"
                                Margin="5,0,5,0"
                                TextColor="Red" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="CruiseID" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="CruiseID" />
                     </HorizontalStackLayout>
 
                     <Entry Text="{Binding CurrentStand.CruiseID}"
@@ -113,10 +113,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <Label Text="*"
                                Margin="5,0,5,0"
                                TextColor="Red" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="PlannerID" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="PlannerID" />
                     </HorizontalStackLayout>
                     <Entry Text="{Binding CurrentStand.PlannerID}"
                            Placeholder="Planner ID"
@@ -130,10 +130,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <Label Text="*"
                                Margin="5,0,5,0"
                                TextColor="Red" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="Location" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="Location" />
                     </HorizontalStackLayout>
 
                     <Entry Text="{Binding CurrentStand.Location}"
@@ -146,10 +146,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <HorizontalStackLayout>
                         <Label Text="Organization"
                                Style="{StaticResource LabelStand}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="Organization" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="Organization" />
                     </HorizontalStackLayout>
                     <Entry Text="{Binding CurrentStand.Organization}"
                            Placeholder="Organization"
@@ -160,10 +160,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <HorizontalStackLayout>
                         <Label Text="Area (ha)"
                                Style="{StaticResource LabelStand}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandArea" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="StandArea" />
                     </HorizontalStackLayout>
                     <Entry Text="{Binding CurrentStand.Area_ha}"
                            Placeholder="Area (ha)"
@@ -173,10 +173,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <HorizontalStackLayout>
                         <Label Text="Comment"
                                Style="{StaticResource LabelStand}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="StandComment" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="StandComment" />
                     </HorizontalStackLayout>
                    
                     <Editor Placeholder="Comment"

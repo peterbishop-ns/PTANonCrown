@@ -36,10 +36,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <HorizontalStackLayout>
                         <Label Text="Select Plot"
                                Style="{StaticResource LabelPlot}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="PlotNumber" />
+                            <Button Style="{StaticResource HelpButtonStyle}"
+                                    Text="i"
+                                    Command="{Binding ShowHelperTextCommand}"
+                                    CommandParameter="PlotNumber" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Spacing="20">
                         <Picker ItemsSource="{Binding CurrentStand.Plots, Mode=TwoWay}"
@@ -63,10 +63,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <HorizontalStackLayout>
                         <Label Text="Edit Plot Number"
                                Style="{StaticResource LabelPlot}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="PlotNumberEdit" />
+                            <Button Style="{StaticResource HelpButtonStyle}"
+                                    Text="i"
+                                    Command="{Binding ShowHelperTextCommand}"
+                                    CommandParameter="PlotNumberEdit" />
                     </HorizontalStackLayout>
                         <Entry Text="{Binding CurrentPlot.PlotNumber, 
                             Converter={StaticResource ZeroToEmptyStringConverter}, Mode=TwoWay}"
@@ -78,10 +78,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     <HorizontalStackLayout>
                         <Label Text="Comments"
                                Style="{StaticResource LabelPlot}" />
-                        <ImageButton Source="info.png"
-                                     Style="{StaticResource ImageButtonHelper}"
-                                     Command="{Binding ShowHelperTextCommand}"
-                                     CommandParameter="PlotComments" />
+                            <Button Style="{StaticResource HelpButtonStyle}"
+                                    Text="i"
+                                    Command="{Binding ShowHelperTextCommand}"
+                                    CommandParameter="PlotComments" />
                     </HorizontalStackLayout>
 
                     <Editor Placeholder="Comment"
@@ -98,10 +98,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             <HorizontalStackLayout>
                                 <Label Text="Easting"
                                        Style="{StaticResource LabelStand}" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="PlotEasting" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="PlotEasting" />
                             </HorizontalStackLayout>
                             <Entry Text="{Binding CurrentPlot.Easting, Converter={StaticResource ZeroToEmptyStringConverter}}"
                                    Placeholder="Easting"
@@ -111,10 +111,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             <HorizontalStackLayout>
                                 <Label Text="Northing"
                                        Style="{StaticResource LabelStand}" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="PlotNorthing" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="PlotNorthing" />
                             </HorizontalStackLayout>
                             <Entry Text="{Binding CurrentPlot.Northing, Converter={StaticResource ZeroToEmptyStringConverter}}"
                                    Placeholder="Northing"
@@ -142,10 +142,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 <Label Text="Treated"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
+                                    <Button Style="{StaticResource HelpButtonStyle}"
+                                            Text="i"
+                                            Command="{Binding ShowHelperTextCommand}"
+                                            Margin="10,0,0,0"
                                              CommandParameter="TreatedGeneral" />
                             </HorizontalStackLayout>
                             <CollectionView HorizontalOptions="StartAndExpand"
@@ -175,10 +175,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                 <Label Text="Planted"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
+                                    <Button Style="{StaticResource HelpButtonStyle}"
+                                            Text="i"
+                                            Command="{Binding ShowHelperTextCommand}"
+                                            Margin="10,0,0,0"
                                              CommandParameter="PlantedGeneral" />
                             </HorizontalStackLayout>
                             <VerticalStackLayout  IsVisible="{Binding Source={x:Reference WasPlanted}, Path=IsChecked}"
@@ -218,10 +218,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <HorizontalStackLayout Grid.Row="0">
                             <Label Text="Ecosite Group"
                                    Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        Margin="10,0,0,0"
                                          CommandParameter="EcositeGroup" />
                         </HorizontalStackLayout>
 
@@ -255,10 +255,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                Grid.Column="0">
                             <Label Text="Soil"
                                    Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        Margin="10,0,0,0"
                                          CommandParameter="FECSoil" />
                         </HorizontalStackLayout>
 
@@ -273,10 +273,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                Grid.Column="0">
                             <Label Text="Vegetation"
                                    Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        Margin="10,0,0,0"
                                          CommandParameter="FECVeg" />
                         </HorizontalStackLayout>
                         <Picker Grid.Row="7"
@@ -289,10 +289,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                Grid.Column="0">
                             <Label Text="Ecodistrict"
                                    Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        Margin="10,0,0,0"
                                          CommandParameter="Ecosite" />
                         </HorizontalStackLayout>
 
@@ -312,10 +312,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                Grid.Column="0">
                             <Label Text="Ecosite"
                                    Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        Margin="10,0,0,0"
                                          CommandParameter="Ecosite" />
                         </HorizontalStackLayout>
                         <Label  Grid.Row="11"
@@ -331,10 +331,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                                                Grid.Column="0">
                             <Label Text="Exposure"
                                    Style="{StaticResource LabelPlot}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        Margin="10,0,0,0"
                                          CommandParameter="Exposure" />
                         </HorizontalStackLayout>
                         <Picker  Grid.Row="13"
@@ -357,31 +357,28 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <HorizontalStackLayout Grid.Row="0">
                             <Label Text="Softwood  LIT Regen Height (2 - 6 m)"
                                    Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="SWLITRegen" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="SWLITRegen" />
                         </HorizontalStackLayout>
 
                         <HorizontalStackLayout Grid.Row="1">
                             <Label Text="Hardwood  LIT Regen Height (6 - 9 m)"
                                    Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="HWLITRegen" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="HWLITRegen" />
                         </HorizontalStackLayout>
 
                         <HorizontalStackLayout Grid.Row="2">
                             <Label Text="Beech Regeneration Stocking &gt;25%"
                                    Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="StockingBeechRegeneration" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="StockingBeechRegeneration" />
                         </HorizontalStackLayout>
 
                         <CheckBox Grid.Row="0"
@@ -410,22 +407,20 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                         <HorizontalStackLayout Grid.Row="0">
                             <Label Text="All Commercial Species (%)"
                                    Style="{StaticResource LabelSubheading}" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="StockingRegenCommercialSpecies" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="StockingRegenCommercialSpecies" />
                         </HorizontalStackLayout>
 
                         <HorizontalStackLayout Grid.Row="1">
                             <Label Text="LIT Species (%)"
                                    Style="{StaticResource LabelSubheading}"
                                    Grid.Row="5" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="StockingRegenLITSpecies" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="StockingRegenLITSpecies" />
                         </HorizontalStackLayout>
 
                         <Picker Grid.Row="0"
@@ -474,52 +469,47 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             <HorizontalStackLayout Grid.Row="0">
                                 <Label Text="LIT Seed Tree Stocking (%)"
                                        Style="{StaticResource LabelSubheading}" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="StockingLITSeedTree" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="StockingLITSeedTree" />
                             </HorizontalStackLayout>
 
                             <HorizontalStackLayout Grid.Row="1">
                                 <Label Text="Blowdown (%)"
                                        Style="{StaticResource LabelSubheading}"
                                        Grid.Row="6" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="Blowdown" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="Blowdown" />
                             </HorizontalStackLayout>
 
                             <HorizontalStackLayout Grid.Row="5">
                                 <Label Text="Understory Strata (%)"
                                        Style="{StaticResource LabelSubheading}" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="UnderstoryStrata" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="UnderstoryStrata" />
                             </HorizontalStackLayout>
 
 
                             <HorizontalStackLayout Grid.Row="6">
 
                                 <Label Text="Understory Dominated By" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="UnderStoryDominatedBy" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="UnderStoryDominatedBy" />
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Grid.Row="8">
 
                                 <Label Text="Horizontal Structure" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="HorizontalStructure" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="HorizontalStructure" />
                             </HorizontalStackLayout>
 
                             <!--- RIGHT HAND SIDE -->
@@ -600,11 +590,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             <HorizontalStackLayout Grid.Row="10">
                                 <Label Text="Uneven Aged"
                                        Style="{StaticResource LabelSubheading}" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="UnevenAged" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="UnevenAged" />
                             </HorizontalStackLayout>
 
 
@@ -618,11 +607,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                             ConverterParameter=collapsed}">
                                 <Label Text="AGS / Patches AGS (m²/ha)"
                                        Style="{StaticResource LabelSubheading}" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="AGSPatches" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="AGSPatches" />
                             </HorizontalStackLayout>
 
                             <HorizontalStackLayout Grid.Row="12"
@@ -631,11 +619,10 @@ Converter={StaticResource StringToVisibilityConverter}}" />
 ConverterParameter=collapsed}">
                                 <Label Text="One Cohort Senescent"
                                        Style="{StaticResource LabelSubheading}" />
-                                <ImageButton Source="info.png"
-                                             Style="{StaticResource ImageButtonHelper}"
-                                             Margin="10,0,0,0"
-                                             Command="{Binding ShowHelperTextCommand}"
-                                             CommandParameter="OneCohortSenescent" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="OneCohortSenescent" />
                             </HorizontalStackLayout>
 
 
@@ -668,11 +655,10 @@ ConverterParameter=collapsed}"
 
                     <Label Text="Age Tree"
                            Style="{StaticResource LabelPlot}" />
-                    <ImageButton Source="info.png"
-                                 Style="{StaticResource ImageButtonHelper}"
-                                 Margin="10,0,0,0"
-                                 Command="{Binding ShowHelperTextCommand}"
-                                 CommandParameter="AgeGeneral" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="AgeGeneral" />
                 </HorizontalStackLayout>
 
                 <Border>
@@ -683,11 +669,10 @@ ConverterParameter=collapsed}"
                             <Label Grid.Row="0"
                                    Grid.Column="0"
                                    Text="Species" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="AgeTreeSpecies" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="AgeTreeSpecies" />
                         </HorizontalStackLayout>
 
                         <Picker Grid.Row="0"
@@ -700,11 +685,10 @@ ConverterParameter=collapsed}"
                         <HorizontalStackLayout Grid.Row="1"
                                                Grid.Column="0">
                             <Label  Text="Age" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="AgeTreeAge" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="AgeTreeAge" />
 
                         </HorizontalStackLayout>
 
@@ -718,11 +702,10 @@ ConverterParameter=collapsed}"
                         <HorizontalStackLayout Grid.Row="2"
                                                Grid.Column="0">
                             <Label Text="DBH (cm)" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="AgeDBH" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="AgeDBH" />
                         </HorizontalStackLayout>
 
                         <Entry Grid.Row="2"
@@ -742,11 +725,10 @@ ConverterParameter=collapsed}"
 
                     <Label Text="Age Tree : Old Growth"
                            Style="{StaticResource LabelPlot}" />
-                    <ImageButton Source="info.png"
-                                 Style="{StaticResource ImageButtonHelper}"
-                                 Margin="10,0,0,0"
-                                 Command="{Binding ShowHelperTextCommand}"
-                                 CommandParameter="AgeGeneral" />
+                        <Button Style="{StaticResource HelpButtonStyle}"
+                                Text="i"
+                                Command="{Binding ShowHelperTextCommand}"
+                                CommandParameter="AgeGeneral" />
                 </HorizontalStackLayout>
 
                 <Border>
@@ -757,11 +739,10 @@ ConverterParameter=collapsed}"
                         <HorizontalStackLayout Grid.Row="0"
                                                Grid.Column="0">
                             <Label  Text="Present?" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="AgeTreeSpecies" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="AgeTreeSpecies" />
                         </HorizontalStackLayout>
                         <CheckBox Grid.Row="0"
                                   Grid.Column="1"
@@ -774,11 +755,10 @@ ConverterParameter=collapsed}"
             Converter={StaticResource BoolToVisibilityConverter},
 ConverterParameter=collapsed}">
                             <Label Text="Species" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="OldGrowthSpecies" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="OldGrowthSpecies" />
                         </HorizontalStackLayout>
 
                         <Picker Grid.Row="1"
@@ -797,11 +777,10 @@ ConverterParameter=collapsed}"
             Converter={StaticResource BoolToVisibilityConverter},
 ConverterParameter=collapsed}">
                             <Label  Text="Age" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="OldGrowthAge" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="OldGrowthAge" />
 
                         </HorizontalStackLayout>
 
@@ -821,11 +800,10 @@ ConverterParameter=collapsed}"
             Converter={StaticResource BoolToVisibilityConverter},
 ConverterParameter=collapsed}">
                             <Label Text="DBH (cm)" />
-                            <ImageButton Source="info.png"
-                                         Style="{StaticResource ImageButtonHelper}"
-                                         Margin="10,0,0,0"
-                                         Command="{Binding ShowHelperTextCommand}"
-                                         CommandParameter="OldGrowthDBH" />
+                                <Button Style="{StaticResource HelpButtonStyle}"
+                                        Text="i"
+                                        Command="{Binding ShowHelperTextCommand}"
+                                        CommandParameter="OldGrowthDBH" />
                         </HorizontalStackLayout>
 
                         <Entry Grid.Row="3"
