@@ -445,15 +445,7 @@ Converter={StaticResource StringToVisibilityConverter}}" />
                     </Grid>
                 </Border>
             </VerticalStackLayout>
-            <!-- Uneven Aged -->
-            <VerticalStackLayout>
-                <Label Text="Uneven Aged"
-                       Style="{StaticResource SubHeadline}" />
-                <Border>
-                   
 
-                </Border>
-            </VerticalStackLayout>
 
 
             <!-- FOREST STRUCTURE -->
