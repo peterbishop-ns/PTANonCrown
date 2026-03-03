@@ -7,7 +7,18 @@
         <Setter Property="Color"
                 Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
-
+    <Style x:Key="HelpButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="CornflowerBlue" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="CornerRadius" Value="15" />
+        <Setter Property="WidthRequest" Value="30" />
+        <Setter Property="HeightRequest" Value="30" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
     <Style TargetType="IndicatorView">
         <Setter Property="IndicatorColor"
                 Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
